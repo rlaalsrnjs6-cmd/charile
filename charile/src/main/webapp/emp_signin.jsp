@@ -14,12 +14,12 @@
 <body>
 	<form method="post" action="emp">
 		<input type="hidden" name="mod" value="add">
-		<input type="hidden" id="empno" name="empno">
+		<input type="text" name="empno" value="0"><br>
 		<input type="text" id="id" onblur="check_id()" name="id" value="rlaalsrnjs1">
 		<span type="text" id="sid" style="color:red"></span><br>
 		<input type="text" id="pw" onblur="check_pw()" name="pw" value="Rlaalsrnjs1@">
 		<span type="text" id="spw" style="color:red"></span><br>
-		<input type="text" id="rpw" onblur="check_rpw()" name="rpw" value="rlaalsrnjs1">
+		<input type="text" id="rpw" onblur="check_rpw()" name="rpw" value="Rlaalsrnjs1@">
 		<span type="text" id="srpw" style="color:red"></span><br>
 		<input type="text" id="ename" name="ename" value="김민권"><br>
 		<input type="text" id="tel" name="tel" value="01067077558"><br>
@@ -27,13 +27,13 @@
 		<input type="text" id="email" onblur="check_email()" name="email" value="rlaalsrnjs1">
 		<span type="text" id="semail" style="color:red"></span>
 		<input type="hidden" name="email2" value="@">@
-		<input type="text" name="email3">
+		<input type="text" name="email3" value="naver.com">
 		<select name="domain">
 			<option name="gg">직접입력</option>
 			<option name="naver" value="naver.com">naver.com</option>
 			<option name="google" value="google.com">google.com</option>
 		</select><br>
-		생년월일<input type="date"><br>
+		생년월일<input type="date" name="birthday"><br>
 		<input type="submit" value="회원가입">
 	</form>
 	

@@ -11,7 +11,14 @@ public class EmpService {
 
 	int insert(EmpDTO dto){
 		EmpDAO dao = new EmpDAO();
-		int list = dao.insert(dto);
-		return list;
+		List list = null;
+		if("add".equals(dto.getMod())) {
+		list = dao.select(dto);
+		}
+		int insert = -1;
+		if(list.size()<1) {
+			insert = dao.insert(dto);
+		}
+		return insert;
 	}
 }

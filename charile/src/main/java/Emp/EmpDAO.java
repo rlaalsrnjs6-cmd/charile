@@ -25,17 +25,19 @@ public class EmpDAO {
 			Context ctx = new InitialContext();
 
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/oracle");
-
+			System.out.println("DAOMOD:"+dto.getMod());
 			conn = dataFactory.getConnection();
 			String query = "select * from emp ";
-			if(dto.getEmpno() != -1) {
-				query += "where empno= ?";
+			if("add".equals(dto.getMod())) {
+				query += "where empno = ? or id = ? or email = ? ";
 			}
 			
 			ps = conn.prepareStatement(query);
 			
-			if(dto.getEmpno() != -1) {
+			if("add".equals(dto.getMod())) {
 				ps.setInt(1,dto.getEmpno());
+				ps.setString(2,dto.getId());
+				ps.setString(3,dto.getEmail());
 			}
 			
 			rs = ps.executeQuery();
@@ -46,6 +48,7 @@ public class EmpDAO {
 				String ename = rs.getString("ename");
 				String id = rs.getString("id");
 				String pw = rs.getString("pw");
+				System.out.println("DAO:"+rs.getInt("level"));
 				int level = rs.getInt("level");
 				String tel = rs.getString("tel");
 				int sal = rs.getInt("sal");
@@ -107,6 +110,7 @@ public class EmpDAO {
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/oracle");
 			String query ="";
 			conn = dataFactory.getConnection();
+			System.out.println("DAOinsertMod:"+dto.getMod());
 			if("add".equals(dto.getMod())) {
 			query = "insert into emp (empno, ename, id, pw, "
 				 + "tel, sal, addr, birthday, email) "
@@ -123,9 +127,11 @@ public class EmpDAO {
 				ps.setString(7,dto.getAddr());
 				ps.setDate(8,dto.getBirthday());
 				ps.setString(9,dto.getEmail());
+				System.out.println("insertps");
 			}
 			
 			result = ps.executeUpdate();
+			System.out.println("DAOinsertResult:"+result);
 			
 			
 		} catch (Exception e) {
