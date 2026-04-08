@@ -9,9 +9,9 @@ public class EmpService {
 		return list;
 	}
 
-		int insert(EmpDTO dto){
-			EmpDAO dao = new EmpDAO();
-			int list = dao.insert(dto);
-			return list;
-		}
+	int insert(EmpDTO dto){
+		EmpDAO dao = new EmpDAO();
+		int list = dao.insert(dto);
+		return list;
+	}
 }

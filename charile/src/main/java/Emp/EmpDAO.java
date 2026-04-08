@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 
 public class EmpDAO {
 	
-	public List<EmpDTO> select(EmpDTO productDTO) {
+	public List<EmpDTO> select(EmpDTO dto) {
 		List<EmpDTO> list = new ArrayList();
 		
 		Connection conn = null;
@@ -28,14 +28,14 @@ public class EmpDAO {
 
 			conn = dataFactory.getConnection();
 			String query = "select * from emp ";
-			if(productDTO.getEmpno() != -1) {
+			if(dto.getEmpno() != -1) {
 				query += "where empno= ?";
 			}
 			
 			ps = conn.prepareStatement(query);
 			
-			if(productDTO.getEmpno() != -1) {
-				ps.setInt(1,productDTO.getEmpno());
+			if(dto.getEmpno() != -1) {
+				ps.setInt(1,dto.getEmpno());
 			}
 			
 			rs = ps.executeQuery();
@@ -94,7 +94,7 @@ public class EmpDAO {
 		return list;
 	}
 	
-	public int insert(EmpDTO productDTO) {
+	public int insert(EmpDTO dto) {
 		int result = -1;
 		
 		Connection conn = null;
@@ -105,24 +105,25 @@ public class EmpDAO {
 			Context ctx = new InitialContext();
 
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/oracle");
-
+			String query ="";
 			conn = dataFactory.getConnection();
-			String query = "insert into emp (empno, ename, id, pw, "
-						 + "tel, sal, addr, birthday, email) "
-						 + "values (?, ?, ?, ?, ?, ?, ?, ?, ? )";
-			
+			if("add".equals(dto.getMod())) {
+			query = "insert into emp (empno, ename, id, pw, "
+				 + "tel, sal, addr, birthday, email) "
+				 + "values (?, ?, ?, ?, ?, ?, ?, ?, ? )";
+			}
 			ps = conn.prepareStatement(query);
-			
-				ps.setInt(1,productDTO.getEmpno());
-				ps.setString(2,productDTO.getEname());
-				ps.setString(3,productDTO.getId());
-				ps.setString(4,productDTO.getPw());
-				ps.setString(5,productDTO.getTel());
-				ps.setInt(6,productDTO.getSal());
-				ps.setString(7,productDTO.getAddr());
-				ps.setDate(8,productDTO.getBirthday());
-				ps.setString(9,productDTO.getEmail());
-			
+			if("add".equals(dto.getMod())) {
+				ps.setInt(1,dto.getEmpno());
+				ps.setString(2,dto.getEname());
+				ps.setString(3,dto.getId());
+				ps.setString(4,dto.getPw());
+				ps.setString(5,dto.getTel());
+				ps.setInt(6,dto.getSal());
+				ps.setString(7,dto.getAddr());
+				ps.setDate(8,dto.getBirthday());
+				ps.setString(9,dto.getEmail());
+			}
 			
 			result = ps.executeUpdate();
 			

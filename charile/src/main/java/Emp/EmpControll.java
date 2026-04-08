@@ -32,6 +32,7 @@ public class EmpControll extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
+			String mod = request.getParameter("mod");
 			String sempno = request.getParameter("empno");
 			String ename = request.getParameter("ename");
 			String id = request.getParameter("id");
@@ -63,6 +64,7 @@ public class EmpControll extends HttpServlet {
 			dto.setAddr(addr);
 			dto.setBirthday(birthday);
 			dto.setEmail(email);
+			dto.setMod(mod);
 			
 			EmpService service = new EmpService();
 			service.insert(dto);

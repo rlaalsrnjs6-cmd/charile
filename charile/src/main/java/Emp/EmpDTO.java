@@ -13,6 +13,7 @@ public class EmpDTO {
 	String addr;
 	Date birthday;
 	String email;
+	String mod;
 	
 	public int getEmpno() {
 		return empno;
@@ -74,11 +75,18 @@ public class EmpDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getMod() {
+		return mod;
+	}
+	public void setMod(String mod) {
+		this.mod = mod;
+	}
 	
 	@Override
 	public String toString() {
 		return "EmpDTO [empno=" + empno + ", ename=" + ename + ", id=" + id + ", pw=" + pw + ", level=" + level
 				+ ", tel=" + tel + ", sal=" + sal + ", addr=" + addr + ", birthday=" + birthday + ", email=" + email
-				+ "]";
+				+ ", mod=" + mod + "]";
 	}
+
 }
