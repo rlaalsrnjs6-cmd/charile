@@ -1,6 +1,7 @@
 package Mdm;
 
 public class MdmDTO {
+	int mdm_num;
 	String code;
 	String name;
 	String unit;
@@ -12,6 +13,12 @@ public class MdmDTO {
 	}
 	public void setCode(String code) {
 		this.code = code;
+	}
+	public int getMdm_num() {
+		return mdm_num;
+	}
+	public void setMdm_num(int mdm_num) {
+		this.mdm_num = mdm_num;
 	}
 	public String getName() {
 		return name;
@@ -40,8 +47,8 @@ public class MdmDTO {
 	
 	@Override
 	public String toString() {
-		return "MdmDTO [code=" + code + ", name=" + name + ", unit=" + unit + ", type=" + type + ", price=" + price
-				+ "]";
+		return "MdmDTO [mdm_num=" + mdm_num + ", code=" + code + ", name=" + name + ", unit=" + unit + ", type=" + type
+				+ ", price=" + price + "]";
 	}
 	
 }
