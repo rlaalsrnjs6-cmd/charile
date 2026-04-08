@@ -26,7 +26,7 @@ public class EmpControll extends HttpServlet {
 		List list = service.select(DTO);
 		System.out.println("sadsadsad"); 
 		request.setAttribute("emp", list);
-		request.getRequestDispatcher("").forward(request, response);
+		request.getRequestDispatcher("charlie/WEB-INF/views/Emp.jsp").forward(request, response);
 		
 	}
 
@@ -43,17 +43,18 @@ public class EmpControll extends HttpServlet {
 			String addr = request.getParameter("addr");
 			String sbirthday = request.getParameter("birthday");
 			String email = request.getParameter("email");
-			int empno;
-			int level;
-			int sal;
-			Date birthday;
-			
+			int empno = -1;
+			int level = -1;
+			int sal = 3;
+			Date birthday = null;
+			if("add".equals(mod)){
 			birthday = Date.valueOf(sbirthday);
 			empno = Integer.parseInt(sempno);
 			level = Integer.parseInt(slevel);
 			sal = Integer.parseInt(ssal);
-			
+			}
 			EmpDTO dto = new EmpDTO();
+			if("add".equals(mod)){
 			dto.setEmpno(empno);
 			dto.setEname(ename);
 			dto.setId(id);
@@ -65,7 +66,7 @@ public class EmpControll extends HttpServlet {
 			dto.setBirthday(birthday);
 			dto.setEmail(email);
 			dto.setMod(mod);
-			
+			}
 			EmpService service = new EmpService();
 			service.insert(dto);
 			
