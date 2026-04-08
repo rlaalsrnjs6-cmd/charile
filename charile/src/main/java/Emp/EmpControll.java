@@ -24,7 +24,7 @@ public class EmpControll extends HttpServlet {
 		EmpDTO DTO = new EmpDTO();
 		DTO.setEmpno(empno);
 		List list = service.select(DTO);
-		
+		System.out.println("sadsadsad"); 
 		request.setAttribute("emp", list);
 		request.getRequestDispatcher("").forward(request, response);
 		
