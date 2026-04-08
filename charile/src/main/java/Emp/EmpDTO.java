@@ -7,14 +7,13 @@ public class EmpDTO {
 	String ename;
 	String id;
 	String pw;
-	int level;
+	int emp_level;
 	String tel;
 	int sal;
 	String addr;
 	Date birthday;
 	String email;
 	String mod;
-	
 	public int getEmpno() {
 		return empno;
 	}
@@ -39,11 +38,11 @@ public class EmpDTO {
 	public void setPw(String pw) {
 		this.pw = pw;
 	}
-	public int getLevel() {
-		return level;
+	public int getEmp_level() {
+		return emp_level;
 	}
-	public void setLevel(int level) {
-		this.level = level;
+	public void setEmp_level(int emp_level) {
+		this.emp_level = emp_level;
 	}
 	public String getTel() {
 		return tel;
@@ -81,12 +80,13 @@ public class EmpDTO {
 	public void setMod(String mod) {
 		this.mod = mod;
 	}
-	
 	@Override
 	public String toString() {
-		return "EmpDTO [empno=" + empno + ", ename=" + ename + ", id=" + id + ", pw=" + pw + ", level=" + level
+		return "EmpDTO [empno=" + empno + ", ename=" + ename + ", id=" + id + ", pw=" + pw + ", emp_level=" + emp_level
 				+ ", tel=" + tel + ", sal=" + sal + ", addr=" + addr + ", birthday=" + birthday + ", email=" + email
 				+ ", mod=" + mod + "]";
 	}
+	
+	
 
 }

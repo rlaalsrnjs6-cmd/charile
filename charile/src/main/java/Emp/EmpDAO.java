@@ -25,19 +25,28 @@ public class EmpDAO {
 			Context ctx = new InitialContext();
 
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/oracle");
-			System.out.println("DAOMOD:"+dto.getMod());
+			System.out.println("DAOMODselect:"+dto.getMod());
 			conn = dataFactory.getConnection();
 			String query = "select * from emp ";
+			// 회원가입
 			if("add".equals(dto.getMod())) {
 				query += "where empno = ? or id = ? or email = ? ";
 			}
-			
+			// 로그인
+			if("login".equals(dto.getMod())) {
+				query += "where id = ? and pw = ? ";
+			}
 			ps = conn.prepareStatement(query);
-			
+			// 회원가입
 			if("add".equals(dto.getMod())) {
 				ps.setInt(1,dto.getEmpno());
 				ps.setString(2,dto.getId());
 				ps.setString(3,dto.getEmail());
+			}
+			// 로그인
+			if("login".equals(dto.getMod())) {
+				ps.setString(1,dto.getId());
+				ps.setString(2,dto.getPw());
 			}
 			
 			rs = ps.executeQuery();
@@ -48,8 +57,8 @@ public class EmpDAO {
 				String ename = rs.getString("ename");
 				String id = rs.getString("id");
 				String pw = rs.getString("pw");
-				System.out.println("DAO:"+rs.getInt("level"));
-				int level = rs.getInt("level");
+				System.out.println("DAO:"+rs.getInt("emp_level"));
+				int level = rs.getInt("emp_level");
 				String tel = rs.getString("tel");
 				int sal = rs.getInt("sal");
 				String addr = rs.getString("addr");
@@ -60,7 +69,7 @@ public class EmpDAO {
 				DTO.setEname(ename);
 				DTO.setId(id);
 				DTO.setPw(pw);
-				DTO.setLevel(level);
+				DTO.setEmp_level(level);
 				DTO.setTel(tel);
 				DTO.setSal(sal);
 				DTO.setAddr(addr);
@@ -68,7 +77,7 @@ public class EmpDAO {
 				DTO.setEmail(email);
 				list.add(DTO);
 			}
-			
+			System.out.println("DAOlist:"+list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

@@ -24,7 +24,7 @@
 		<input type="text" id="ename" name="ename" value="김민권"><br>
 		<input type="text" id="tel" name="tel" value="01067077558"><br>
 		<input type="text" id="addr" name="addr" value="경상남도 창원시 성산구 삼동로 128번길 49"><br>
-		<input type="text" id="email" onblur="check_email()" name="email" value="rlaalsrnjs1">
+		<input type="text" id="email" onblur="check_id()" name="email" value="rlaalsrnjs1">
 		<span type="text" id="semail" style="color:red"></span>
 		<input type="hidden" name="email2" value="@">@
 		<input type="text" name="email3" value="naver.com">
