@@ -18,14 +18,11 @@ public abstract class ParentDAO<T> {
 	protected abstract String selectQuery(String selector, T dto);
 	protected abstract T setDTO(ResultSet rs); // DTO �꽭�똿
 
+	protected abstract PreparedStatement setPs(PreparedStatement ps, T dto, String selector); 
 	protected abstract String insertQuery();
-	protected abstract PreparedStatement setInsertPs(PreparedStatement ps, T dto); 
-
 	protected abstract String modifyQuery();
-	protected abstract PreparedStatement setModifyPs(PreparedStatement ps, T dto); // set ps �빀移� �닔 �엳�뒗吏� �솗�씤 �븘�슂
 
 	protected abstract String deleteQuery(T dto); // ps �뾾�쓬
-
 
 	// 二쇱슂 硫붿냼�뱶 濡쒖쭅 (DTO �닔�젙�빐�꽌 �궗�슜 �궗�슜 怨좎젙)
 	// select
@@ -61,7 +58,7 @@ public abstract class ParentDAO<T> {
 		try (Connection conn = getConn(); PreparedStatement ps = conn.prepareStatement(insertQuery())) {
 
 			// set ? 荑쇰━ 梨꾩슦湲�
-			setInsertPs(ps, dto).executeUpdate();
+			setPs(ps, dto, "insert").executeUpdate();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -76,7 +73,7 @@ public abstract class ParentDAO<T> {
 		try ( Connection conn = getConn(); 
 				PreparedStatement ps = new LoggableStatement(conn, modifyQuery()); ) {
 			
-			setModifyPs(ps, dto).executeUpdate();
+			setPs(ps, dto, "update").executeUpdate();
 
 			ps.executeUpdate();
 

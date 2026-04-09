@@ -69,22 +69,22 @@ public class EmpControll extends HttpServlet {
 				empno = Integer.parseInt(sempno);
 
 				if (id == null || !id.matches("^[a-z][a-z0-9]{4,14}$")) {
-					System.out.println("id재확인");
+					System.out.println("컨트롤: member_id오류");
 					return;
 				}
 				if (pw == null
 						|| !pw.trim().matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}$")) {
-					System.out.println("비번재확인");
+					System.out.println("컨트롤: member_pw오류");
 					return;
 				}
 				if (email == null || !email.trim().matches("^[a-z][a-z0-9]{4,14}$")) {
-					System.out.println("이메일 재확인");
+					System.out.println("컨트롤: member_email오류");
 					return;
 				}
 			}
 			
 			EmpDTO dto = new EmpDTO();
-			// ȸ������
+			// 회원가입
 			dto.setMod(mod);
 			EmpService service = new EmpService();
 			if ("add".equals(mod)) {
@@ -99,7 +99,7 @@ public class EmpControll extends HttpServlet {
 				if (service.insert(dto) == -1) {
 					PrintWriter out = response.getWriter();
 					out.println("<script>");
-					out.println("alert('중복된 id입니다')");
+					out.println("alert('중복된 id입니다');");
 					out.println("history.back();");
 					out.println("</script>");
 					out.close();
