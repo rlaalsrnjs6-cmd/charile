@@ -37,6 +37,6 @@
 	<input type="submit" value="등록">
 	
 </form>
-
+	<a href="mdm?cmd=list">리스트페이지</a>
 </body>
 </html>

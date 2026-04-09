@@ -14,6 +14,8 @@
 <body>
 
 <h1>mdm 리스트</h1>
+<hr>
+<a href="mdm?cmd=insertPage">등록페이지로</a>
 <table border="1px">
 		<thead>
 			<tr>
@@ -31,8 +33,10 @@
 				<td>${ row.mdm_num }</td>
 				<td>${ row.code }</td>
 				<td>
-					<a href="mdm?cmd=detail&num=${ row.mdm_num }">
-						${ row.name }
+				
+					<a href="mdm?cmd=detail&mdm_num=${ row.mdm_num }">
+						<c:if test="${ empty row.name }"> Null </c:if>
+						<c:if test="${ not empty row.name }"> ${ row.name } </c:if>
 					</a>
 				</td>
 				<td>${ row.unit }</td>

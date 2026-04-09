@@ -1,7 +1,6 @@
 package Mdm;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -22,25 +21,18 @@ public class MdmControll extends HttpServlet {
 
 		String cmd = request.getParameter("cmd");
 
-		if ("".equals(cmd) || cmd == null) { // null
-			request.getRequestDispatcher("WEB-INF/views/mdm/mdm_insert.jsp").forward(request, response);
-			return;
-		}
+		if ("".equals(cmd) || cmd == null) { list(request, response); return; }
 
 		switch (cmd) {
 
-		case "insert": insert(request, response); break;
-
-		case "list": list(request, response); break;
-
-		case "detail": detail(request, response, "detail"); break;
-			
-		case "modify": detail(request, response, "modify"); break;
+		case "insertPage": request.getRequestDispatcher("WEB-INF/views/mdm/mdm_insert.jsp").forward(request, response); return;
+		case "insert": insert(request, response); return;
+		case "list": list(request, response); return;
+		case "detail": detail(request, response, "detail"); return;
+		case "modify": detail(request, response, "modify"); return;
+		case "delete": delete(request, response); return;
 		
-		case "delete": delete(request, response); break;
-		
-
-		default: System.out.println("잘못된 접근입니다");
+		default: System.out.println("잘못된 접근입니다"); return;
 		
 		}
 
@@ -52,11 +44,12 @@ public class MdmControll extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
 
-		// Service > DAO
+		// setDTO > Service > DAO
 		MdmService service = new MdmService();
 		service.insertDB(setDTO(request));
 
-		request.getRequestDispatcher("mdm?cmd=list").forward(request, response);
+		// list page
+		response.sendRedirect("mdm?cmd=list");
 	}
 
 	// list
@@ -78,14 +71,13 @@ public class MdmControll extends HttpServlet {
 
 	}
 	
-	asdfasdfasdfsdfjkls;j
 	// delete
 	protected void delete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		
 		MdmService service = new MdmService();
 		service.deleteDB(setDTO(request));
-		
 		request.getRequestDispatcher("mdm?cmd=list").forward(request, response);
 
 	}
@@ -132,15 +124,15 @@ public class MdmControll extends HttpServlet {
 		
 		MdmDTO mdmDTO = new MdmDTO();
 		
-		int num = -1; String code = null; String name = null; 
+		int mdm_num = -1; String code = null; String name = null; 
 		String unit=null; String type=null; int price= -1;
 		
-		if (request.getParameter("num") != null 
-				&& !("".equals(request.getParameter("num")))) {
+		if (request.getParameter("mdm_num") != null 
+				&& !("".equals(request.getParameter("mdm_num")))) {
 			
-			num = Integer.parseInt(request.getParameter("num"));
+			mdm_num = Integer.parseInt(request.getParameter("mdm_num"));
 		
-			System.out.println( "/set mdm Num : " + num );
+			System.out.println( "/set mdm mdm_num : " + mdm_num );
 		} 
 		
 		if (request.getParameter("code") != null 
@@ -177,7 +169,7 @@ public class MdmControll extends HttpServlet {
 			System.out.println( "/set mdm price : " + price );
 		} 
 		
-		mdmDTO.setMdm_num(num);
+		mdmDTO.setMdm_num(mdm_num);
 		mdmDTO.setCode(code);
 		mdmDTO.setName(name);
 		mdmDTO.setUnit(unit);
