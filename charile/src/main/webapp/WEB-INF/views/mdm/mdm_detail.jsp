@@ -16,6 +16,7 @@
 	<h1>detail page</h1>
 	<hr>
 	<a href="mdm?cmd=list">뒤로</a> <br>
+	<hr>
 	<c:forEach var="row" items="${ mdmInfo }">
 	
 		관리번호 : ${ row.mdm_num } <br>
@@ -27,10 +28,9 @@
 		
 	</c:forEach>
 	
-	
 	<hr>
-	<a href="mdm?cmd=modify" + ${ mdmInfo.get(0).mdm_num }>수정</a>
-	<a href="mdm?cmd=delete&num=" + ${ mdmInfo.get(0).mdm_num }>삭제</a>
+	<a href="mdm?cmd=modify&mdm_num=${ mdmInfo.get(0).mdm_num }">수정</a>
+	<a href="mdm?cmd=delete&mdm_num=${ mdmInfo.get(0).mdm_num }">삭제</a>
 	
 </body>
 </html>
