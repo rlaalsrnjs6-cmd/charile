@@ -16,8 +16,6 @@
 <h1>mdm 리스트</h1>
 <hr>
 
-
-
 <form action="mdm?cmd=search" method="post">
 
 <select name="search_select">

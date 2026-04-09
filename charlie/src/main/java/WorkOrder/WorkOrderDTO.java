@@ -3,11 +3,14 @@ package WorkOrder;
 import java.sql.Date;
 
 public class WorkOrderDTO {
-	int order_num;
+	int order_num = -1;
 	Date work_date;
 	int prod_num;
 	int target_quantity;
 	int empno;
+	String work_order_title;
+	String ename;
+	String status;
 	
 	public int getOrder_num() {
 		return order_num;
@@ -39,11 +42,30 @@ public class WorkOrderDTO {
 	public void setEmpno(int empno) {
 		this.empno = empno;
 	}
+	public String getWork_order_title() {
+		return work_order_title;
+	}
+	public void setWork_order_title(String work_order_title) {
+		this.work_order_title = work_order_title;
+	}
+	public String getEname() {
+		return ename;
+	}
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	
 	@Override
 	public String toString() {
 		return "WorkOrderDTO [order_num=" + order_num + ", work_date=" + work_date + ", prod_num=" + prod_num
-				+ ", target_quantity=" + target_quantity + ", empno=" + empno + "]";
+				+ ", target_quantity=" + target_quantity + ", empno=" + empno + ", work_order_title=" + work_order_title
+				+ ", ename=" + ename + ", status=" + status + "]";
 	}
 	
 }
