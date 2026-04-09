@@ -2,6 +2,7 @@ package ProductionManagement;
 
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+
 
 
 
@@ -26,34 +28,35 @@ public class ProductionManagementDAO {
 	}//생성자 닫음
 	
 	
-	//목록 페이지에 DB에 있는 데이터 불러와서 넘김
-	public List<ProductionManagementDTO> selectPM() { 
-		
-		List<ProductionManagementDTO> list = new ArrayList();
-		String query = "select * from production_management";
-		
-		try(Connection conn = dataFactory.getConnection();
-				PreparedStatement ps = conn.prepareStatement(query);
-				ResultSet rs = ps.executeQuery())
-		{
-			while(rs.next()) {
-				ProductionManagementDTO dto = new ProductionManagementDTO();
-				dto.setCode(rs.getString("code"));
-				dto.setContent(rs.getString("content"));
-				dto.setEmpno(rs.getInt("empno"));
-				dto.setProd_num(rs.getInt("prod_num"));
-				dto.setTarget_quantity(rs.getInt("target_quantity"));
-				dto.setTitle(rs.getString("title"));
-				dto.setWork_end(rs.getDate("work_end"));
-				dto.setWork_start(rs.getDate("work_start"));
-				list.add(dto);
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
+	//목록 페이지에 DB에 있는 데이터 불러와서 넘김(페이징 하며필요 없어져서 삭제)
+//	public List<ProductionManagementDTO> selectPM() { 
+//		
+//		List<ProductionManagementDTO> list = new ArrayList();
+//		String query = "select * from production_management";
+//		
+//		try(Connection conn = dataFactory.getConnection();
+//				PreparedStatement ps = conn.prepareStatement(query);
+//				ResultSet rs = ps.executeQuery())
+//		{
+//			while(rs.next()) {
+//				ProductionManagementDTO dto = new ProductionManagementDTO();
+//				dto.setCode(rs.getString("code"));
+//				dto.setContent(rs.getString("content"));
+//				dto.setEmpno(rs.getInt("empno"));
+//				dto.setProd_num(rs.getInt("prod_num"));
+//				dto.setTarget_quantity(rs.getInt("target_quantity"));
+//				dto.setTitle(rs.getString("title"));
+//				dto.setWork_end(rs.getDate("work_end"));
+//				dto.setWork_start(rs.getDate("work_start"));
+//				list.add(dto);
+//			}
+//		}catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return list;
+//	}
 	
+	//	남은수량 , 만든 총합 출력
 	public List<ProductionManagementDTO> selectData() {
 		String query = "SELECT "
 				+ "    P.prod_num, "
@@ -117,5 +120,49 @@ public class ProductionManagementDAO {
 		return total;
 	}
 	
+	public List<ProductionManagementDTO> selectPage(ProductionManagementDTO dto) {
+		List list = new ArrayList();
+		
+		String query = "SELECT * FROM ("
+                + "  SELECT rownum AS rnum, a.* FROM ("
+                + "    SELECT "
+                + "        P.prod_num, "
+                + "        P.title, " 
+                + "        P.target_quantity AS \"전체목표\", "
+                + "        SUM(L.lot_count) AS \"현재까지_만든_총합\", "
+                + "        (P.target_quantity - SUM(L.lot_count)) AS \"남은목표_수량\" "
+                + "    FROM production_management P "
+                + "    JOIN work_order W ON P.prod_num = W.prod_num "
+                + "    JOIN lot L ON W.order_num = L.order_num "
+                + "    GROUP BY P.prod_num, P.title, P.target_quantity " 
+                + "    ORDER BY P.prod_num ASC"
+                + "  ) a"
+                + ") WHERE rnum >= ? AND rnum <= ?";
+		
+		try (Connection conn = dataFactory.getConnection(); 
+				PreparedStatement ps =  conn.prepareStatement(query)) {
+				
+				ps.setInt(1, dto.getStart());
+				ps.setInt(2, dto.getEnd());
+				
+				
+
+				try (ResultSet rs = ps.executeQuery()) {
+					while (rs.next()) {
+						ProductionManagementDTO dto2 = new ProductionManagementDTO();
+						dto2.setProd_num(rs.getInt("prod_num"));
+		                dto2.setTitle(rs.getString("title"));
+		                dto2.setTarget_quantity(rs.getInt("전체목표"));
+		                dto2.setCurrentCount(rs.getInt("현재까지_만든_총합"));
+		                dto2.setRemainCount(rs.getInt("남은목표_수량"));
+						list.add(dto2);
+					}
+				}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
 }///클래스 닫음
