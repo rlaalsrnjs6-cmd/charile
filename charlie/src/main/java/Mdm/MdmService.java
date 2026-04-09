@@ -11,7 +11,10 @@ public class MdmService extends ParentService<MdmDTO>{
 	@Override
 	public List selectDB(MdmDTO dto, String cmd) {
 		System.out.println("service dto : " + dto);
-		return mdmDAO.selectDB(dto, cmd);
+		List list = mdmDAO.selectDB(dto, cmd);
+		if(list.size() > 0) {
+			return list;
+		} else { return mdmDAO.selectDB(dto, "all"); } 
 	}
 
 	@Override
@@ -25,7 +28,7 @@ public class MdmService extends ParentService<MdmDTO>{
 		System.out.println("service dto : " + dto);
 		return mdmDAO.modifyDB(dto);
 	}
-
+ 
 	@Override
 	public int deleteDB(MdmDTO dto) {
 		System.out.println("service dto : " + dto);

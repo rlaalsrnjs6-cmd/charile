@@ -30,7 +30,10 @@ public class MdmControll extends HttpServlet {
 		case "list": list(request, response); return;
 		case "detail": detail(request, response, "detail"); return;
 		case "modify": detail(request, response, "modify"); return;
+		case "update": update(request, response); return;
 		case "delete": delete(request, response); return;
+		
+		case "search": search(request, response); return;
 		
 		default: System.out.println("잘못된 접근입니다"); return;
 		
@@ -75,12 +78,22 @@ public class MdmControll extends HttpServlet {
 	protected void delete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		
 		MdmService service = new MdmService();
 		service.deleteDB(setDTO(request));
-		request.getRequestDispatcher("mdm?cmd=list").forward(request, response);
-
+		
+		response.sendRedirect("mdm?cmd=list");
 	}
+	
+	// update
+	protected void update(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		MdmService service = new MdmService();
+		service.modifyDB(setDTO(request));
+		
+		response.sendRedirect("mdm?cmd=list");
+	}
+	
 
 	// detail
 	protected void detail(HttpServletRequest request, HttpServletResponse response
@@ -111,7 +124,23 @@ public class MdmControll extends HttpServlet {
 	}
 	
 	
+	////////////
 	
+	// search
+	protected void search(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		
+		MdmService service = new MdmService();
+		String search_select = request.getParameter("search_select");
+		List list = service.selectDB(setDTO(request), search_select);
+
+		request.setAttribute("list", list);
+		request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list.jsp").forward(request, response);
+
+	}
+	
+	////////////
 	
 	
 	
@@ -125,7 +154,7 @@ public class MdmControll extends HttpServlet {
 		MdmDTO mdmDTO = new MdmDTO();
 		
 		int mdm_num = -1; String code = null; String name = null; 
-		String unit=null; String type=null; int price= -1;
+		String unit=null; String type=null; int price= -1; String search_content = null;
 		
 		if (request.getParameter("mdm_num") != null 
 				&& !("".equals(request.getParameter("mdm_num")))) {
@@ -175,6 +204,17 @@ public class MdmControll extends HttpServlet {
 		mdmDTO.setUnit(unit);
 		mdmDTO.setType(type);
 		mdmDTO.setPrice(price);
+		
+		// 검색 기능
+		if (request.getParameter("search_content") != null 
+				&& !("".equals(request.getParameter("search_content")))) {
+			
+				search_content = request.getParameter("search_content");
+		} else {
+			System.out.println("검색어를 입력하세요");
+		}
+		
+		mdmDTO.setSearch(search_content);
 		
 		return mdmDTO;
 		
