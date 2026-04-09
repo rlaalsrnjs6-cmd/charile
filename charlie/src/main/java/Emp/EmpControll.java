@@ -20,8 +20,7 @@ public class EmpControll extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
-		HttpSession session = request.getSession();
-		Boolean login = (Boolean) session.getAttribute("login");
+		System.out.println("emp");
 		
 		String sempno = request.getParameter("empno");
 		String mod = request.getParameter("mod");
@@ -37,13 +36,7 @@ public class EmpControll extends HttpServlet {
 		List list = service.select(DTO);
 
 		request.setAttribute("emp", list);
-		
-		if(login!=null && login==true) { //로그인되어있으면 메인으로 
-			request.getRequestDispatcher("/WEB-INF/views/emp/main.jsp").forward(request, response);
-			return;
-		} 
-//		 안되어있으면 로그인으로
-		request.getRequestDispatcher("/WEB-INF/views/emp/login.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/views/emp/main.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

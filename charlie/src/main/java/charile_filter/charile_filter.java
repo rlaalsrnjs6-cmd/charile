@@ -49,7 +49,7 @@ public class charile_filter implements Filter {
 //		//로그인x들어갈수있음
 //		if(isExclude(path)) {
 //			
-//			chain.doFilter(request, response);
+			chain.doFilter(request, response);
 //		} else {//로그인 해야 들어갈수있음
 //			HttpSession session = req.getSession();
 //			String mod = req.getParameter("mod");
