@@ -17,6 +17,7 @@ public class EmpService {
 		}
 		int insert = -1;
 		if(list.size()<1) {
+			System.out.println("인서트 시작");
 			insert = dao.insert(dto);
 		}
 		return insert;

@@ -42,7 +42,6 @@ public class EmpControll extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-
 			String mod = request.getParameter("mod");
 			String sempno = request.getParameter("empno");
 			String ename = request.getParameter("ename");
@@ -53,6 +52,16 @@ public class EmpControll extends HttpServlet {
 			String addr = request.getParameter("addr");
 			String sbirthday = request.getParameter("birthday");
 			String email = request.getParameter("email");
+			System.out.println("ìƒë…„ì›”ì¼"+sbirthday);
+			if(sbirthday==null || sbirthday.trim().isEmpty()) {
+				PrintWriter out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('ìƒë…„ì›”ì¼ì„ ì…ë ¥í•˜ì„¸ìš”')");
+				out.println("history.back();");
+				out.println("</script>");
+				out.close();
+				return;
+			}
 			int empno = -1;
 			Date birthday = null;
 			if ("add".equals(mod)) {
@@ -60,22 +69,22 @@ public class EmpControll extends HttpServlet {
 				empno = Integer.parseInt(sempno);
 
 				if (id == null || !id.matches("^[a-z][a-z0-9]{4,14}$")) {
-					System.out.println("ÄÁÆ®·Ñ: member_id¿À·ù");
+					System.out.println("idì¬í™•ì¸");
 					return;
 				}
 				if (pw == null
 						|| !pw.trim().matches("^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*()_+=-]).{8,20}$")) {
-					System.out.println("ÄÁÆ®·Ñ: member_pw¿À·ù");
+					System.out.println("ë¹„ë²ˆì¬í™•ì¸");
 					return;
 				}
 				if (email == null || !email.trim().matches("^[a-z][a-z0-9]{4,14}$")) {
-					System.out.println("ÄÁÆ®·Ñ: member_email¿À·ù");
+					System.out.println("ì´ë©”ì¼ ì¬í™•ì¸");
 					return;
 				}
 			}
 			
 			EmpDTO dto = new EmpDTO();
-			// È¸¿ø°¡ÀÔ
+			// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			dto.setMod(mod);
 			EmpService service = new EmpService();
 			if ("add".equals(mod)) {
@@ -88,38 +97,16 @@ public class EmpControll extends HttpServlet {
 				dto.setBirthday(birthday);
 				dto.setEmail(email);
 				if (service.insert(dto) == -1) {
-					System.out.println("Áßº¹µÈ idÀÔ´Ï´Ù");
 					PrintWriter out = response.getWriter();
 					out.println("<script>");
-					out.println("alert('Áßº¹µÈ idÀÔ´Ï´Ù');");
+					out.println("alert('ì¤‘ë³µëœ idì…ë‹ˆë‹¤')");
 					out.println("history.back();");
 					out.println("</script>");
 					out.close();
 					return;
 				}
 			}
-			// ·Î±×ÀÎ
-			if ("login".equals(mod)) {
-				dto.setId(id);
-				dto.setPw(pw);
-				List<EmpDTO> list = service.select(dto);
-				System.out.println("¸¶Áö¸·¸®½ºÆ®È®ÀÎ"+list);
-				if (list.size() == 0) {
-					PrintWriter out = response.getWriter();
-					out.println("<script>");
-					out.println("alert('Á¸ÀçÇÏÁö¾Ê´Â È¸¿øÀÔ´Ï´Ù');");
-					out.println("history.back();");
-					out.println("</script>");
-					out.close();
-					return;
-				}else {
-					HttpSession session = request.getSession();
-					session.setAttribute("login", true);
-					session.setAttribute("name", list.get(0).getEname());
-					session.setAttribute("level", list.get(0).getEmp_level());
-				}
-			} 
-			response.sendRedirect("emp");
+			response.sendRedirect("charlie");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

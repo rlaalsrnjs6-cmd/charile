@@ -13,6 +13,9 @@
 		<input type="text" name="pw" placeholder="pw를 입력하세요" value="Rlaalsrnjs1@"><br>
 		<input type="submit" value="로그인">		
 	</form>
-	<a href="emp_signin.jsp">회원가입</a>
+	<form method="get" action="charlie">
+		<input type="hidden" name="mod" value="signin">
+		<input type="submit" value="회원가입">	
+	</form>
 </body>
 </html>
