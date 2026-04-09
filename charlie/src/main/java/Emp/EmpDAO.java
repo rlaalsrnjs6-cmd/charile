@@ -24,26 +24,26 @@ public class EmpDAO {
 		try {
 			Context ctx = new InitialContext();
 
-			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/oracle");
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 //			System.out.println("DAOMODselect:"+dto.getMod());
 			conn = dataFactory.getConnection();
 			String query = "select * from emp ";
-			// È¸¿ø°¡ÀÔ
+			// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if("add".equals(dto.getMod())) {
 				query += "where empno = ? or id = ? or email = ? ";
 			}
-			// ·Î±×ÀÎ
+			// ï¿½Î±ï¿½ï¿½ï¿½
 			if("login".equals(dto.getMod())) {
 				query += "where id = ? and pw = ? ";
 			}
 			ps = conn.prepareStatement(query);
-			// È¸¿ø°¡ÀÔ
+			// È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			if("add".equals(dto.getMod())) {
 				ps.setInt(1,dto.getEmpno());
 				ps.setString(2,dto.getId());
 				ps.setString(3,dto.getEmail());
 			}
-			// ·Î±×ÀÎ
+			// ï¿½Î±ï¿½ï¿½ï¿½
 			if("login".equals(dto.getMod())) {
 				ps.setString(1,dto.getId());
 				ps.setString(2,dto.getPw());

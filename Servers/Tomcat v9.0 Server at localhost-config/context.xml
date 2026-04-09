@@ -25,8 +25,22 @@
     <!-- Uncomment this to disable session persistence across Tomcat restarts -->
   
     <Manager pathname="" />
-    <Resource 
-        name="jdbc/oracle" 
+<!--     <Resource  -->
+<!--         name="jdbc/oracle"  -->
+<!--         auth="container" -->
+
+<!--         type="javax.sql.DataSource" -->
+
+<!--         driverClassName="oracle.jdbc.driver.OracleDriver" -->
+<!--         url="jdbc:oracle:thin:@125.181.132.133:51521:xe" -->
+<!--         username="ckffl1"  -->
+<!--         password="qwe123456789"  -->
+<!--         maxTotal="50" -->
+<!--         maxWaitMillis="-1"  -->
+<!--         /> -->
+        
+        <Resource 
+        name="jdbc/charlie" 
         auth="container"
 
         type="javax.sql.DataSource"
