@@ -61,7 +61,7 @@ public class charile_filter implements Filter {
 //			}
 			if(login == null || login != true) {
 				System.out.println("로그인 후 이용하세요");
-				request.getRequestDispatcher("check").forward(request, response);
+				resp.sendRedirect("charlie");
 			}else {
 				chain.doFilter(request, response);
 			}
@@ -82,7 +82,7 @@ public class charile_filter implements Filter {
 			path.equals("/WEB-INF/views/emp/login.jsp") ||
 			path.equals("/charlie") ||
 			path.equals("/check") ||
-			path.equals("/emp") ||
+//			path.equals("/emp") ||
 			path.equals("/WEB-INF/views/emp/emp_signin.jsp")
 			) {
 			result = true;
