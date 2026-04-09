@@ -33,7 +33,7 @@ public class EmpControll extends HttpServlet {
 
 		DTO.setMod(mod);
 		List list = service.select(DTO);
-
+		System.out.println(list);
 		request.setAttribute("emp", list);
 		request.getRequestDispatcher("/WEB-INF/views/emp/main.jsp").forward(request, response);
 	}
