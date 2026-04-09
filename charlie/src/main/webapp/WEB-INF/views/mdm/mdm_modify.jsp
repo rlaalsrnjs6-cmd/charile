@@ -13,7 +13,6 @@
 <body>
 	<h1>mdm modify</h1>
 	<hr>
-	${ mdmInfo.get(0).mdm_num }	
 	<a href="mdm?cmd=list">뒤로</a> <br>
 	<hr>
 	

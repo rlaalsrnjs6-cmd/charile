@@ -9,7 +9,8 @@
 <body>
 <h1>기준관리 insert</h1>
 <hr>
-<form method="post" action="">
+
+<form method="post" action="mdm">
 
 	name: <input type="text" name="name" value="카카오빈 (250g)"> <br>
 	
