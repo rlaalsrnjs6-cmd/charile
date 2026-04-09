@@ -19,8 +19,8 @@ public class ProductionManagementService {
 		//페이지에서 보여줄 항목 몇개인지 개수 리턴
 		int pageCount = dao.getTotalCount();
 		
-		map.put("list1", list1);
-		map.put("list2", list2);
+		map.put("List1", list1);
+		map.put("List2", list2);
 		map.put("page", pageCount);
 		return map;
 	}

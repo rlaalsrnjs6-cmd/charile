@@ -25,7 +25,7 @@
 	<th>제목</th>
 	<th>진행 현황</th>
 	</tr>
-	<c:forEach var="i" items="${map.List1}" varStatus="loop">
+	<c:forEach var="i" items="${sessionScope.map.List1}" varStatus="loop">
 	<tr>
 		<td><c:if test="${i.target_quantity - map.List2[loop.index].currentCount ==0 }">완료</c:if>
 		<c:if test="${i.target_quantity - map.List2[loop.index].currentCount != 0 }">진행중</c:if></td></td>
