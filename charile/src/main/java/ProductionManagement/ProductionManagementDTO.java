@@ -3,6 +3,8 @@ package ProductionManagement;
 import java.sql.Date;
 
 public class ProductionManagementDTO {
+	private int currentCount; //현재까지 만든 개수
+	private int remainCount; //남은 개수
 	int prod_num;
 	int target_quantity;
 	Date work_start;
@@ -60,14 +62,30 @@ public class ProductionManagementDTO {
 	public void setEmpno(int empno) {
 		this.empno = empno;
 	}
+	public int getCurrentCount() {
+		return currentCount;
+	}
+	public void setCurrentCount(int currentCount) {
+		this.currentCount = currentCount;
+	}
+	public int getRemainCount() {
+		return remainCount;
+	}
+	public void setRemainCount(int remainCount) {
+		this.remainCount = remainCount;
+	}
 	
-
 	@Override
 	public String toString() {
-		return "ProductionManagementDTO [prod_num=" + prod_num + ", target_quantity=" + target_quantity
-				+ ", work_start=" + work_start + ", work_end=" + work_end + ", title=" + title + ", content=" + content
-				+ ", code=" + code + ", empno=" + empno + "]";
+		return "ProductionManagementDTO [currentCount=" + currentCount + ", remainCount=" + remainCount + ", prod_num="
+				+ prod_num + ", target_quantity=" + target_quantity + ", work_start=" + work_start + ", work_end="
+				+ work_end + ", title=" + title + ", content=" + content + ", code=" + code + ", empno=" + empno + "]";
 	}
+	
+
+	
+
+
 	
 	
 }

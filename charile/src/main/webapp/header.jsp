@@ -72,6 +72,7 @@
     gap: 50px;
     list-style: none;
     font-size: 2rem;
+    margin-left: 100px;
 }
 
 .header-ul a{
@@ -94,7 +95,7 @@
         <div class="header-bar">
             <h1 class="logo">
                 <a class="logo-a" href="/">
-                    <img src="./asset/로고-배경제거.png" alt="찰리 MES">
+                    <img src="${pageContext.request.contextPath}/assets/img/로고-배경제거.png" alt="찰리 MES">
                 </a>
             </h1>
             <ul class="header-ul">
