@@ -24,16 +24,12 @@ public class ProductionManagementControll extends HttpServlet {
 		
 		ProductionManagementService sv = new ProductionManagementService();
 		
-		//생산관리에 있는 기존 데이터 select
-		List list = sv.loadPM(); 
-		
+		//생산관리에 있는 기존 DB만 select
 		// 전체목표, 만든 개수, 남은 수량 select
-		List list2 = sv.loadData();
-		System.out.println(list2);
+		//페이지에서 보여줄 항목 몇개인지 개수 리턴
+		//을 담은 map
+		Map map = sv.loadPM(); 
 		
-		Map map = new HashMap();
-		map.put("List1", list);
-		map.put("List2", list2);
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("map", map);
