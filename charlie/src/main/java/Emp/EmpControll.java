@@ -42,7 +42,6 @@ public class EmpControll extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			
 			String mod = request.getParameter("mod");
 			String sempno = request.getParameter("empno");
 			String ename = request.getParameter("ename");
@@ -53,11 +52,19 @@ public class EmpControll extends HttpServlet {
 			String addr = request.getParameter("addr");
 			String sbirthday = request.getParameter("birthday");
 			String email = request.getParameter("email");
-			System.out.println("회원가입들어옴2:"+mod);
+			System.out.println("생년월일"+sbirthday);
+			if(sbirthday==null || sbirthday.trim().isEmpty()) {
+				PrintWriter out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('생년월일을 입력하세요')");
+				out.println("history.back();");
+				out.println("</script>");
+				out.close();
+				return;
+			}
 			int empno = -1;
 			Date birthday = null;
 			if ("add".equals(mod)) {
-				System.out.println("회원가입들어옴3:"+mod);
 				birthday = Date.valueOf(sbirthday);
 				empno = Integer.parseInt(sempno);
 
@@ -81,7 +88,6 @@ public class EmpControll extends HttpServlet {
 			dto.setMod(mod);
 			EmpService service = new EmpService();
 			if ("add".equals(mod)) {
-				System.out.println("회원가입들어옴4:"+mod);
 				dto.setEmpno(empno);
 				dto.setEname(ename);
 				dto.setId(id);
@@ -91,7 +97,6 @@ public class EmpControll extends HttpServlet {
 				dto.setBirthday(birthday);
 				dto.setEmail(email);
 				if (service.insert(dto) == -1) {
-					System.out.println("회원가입들어옴5:"+mod);
 					PrintWriter out = response.getWriter();
 					out.println("<script>");
 					out.println("alert('중복된 id입니다')");

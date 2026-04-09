@@ -27,9 +27,9 @@
 		<input type="text" id="email" onblur="check_id()" name="email" value="rlaalsrnjs1">
 		<span type="text" id="semail" style="color:red"></span>
 		<input type="hidden" name="email2" value="@">@
-		<input type="text" name="email3" value="naver.com">
-		<select name="domain">
-			<option name="gg">직접입력</option>
+		<input type="text" id="domain" name="email3">
+		<select name="domain" id="domain_list" onchange="setDomain()">
+			<option name="gg" value="">직접입력</option>
 			<option name="naver" value="naver.com">naver.com</option>
 			<option name="google" value="google.com">google.com</option>
 		</select><br>
@@ -86,7 +86,19 @@
 		} else {
 			semail.innerText = ""
 		}
+		
 	}
+		function setDomain(){
+			let domain_list = document.querySelector('#domain_list');
+			let option = domain_list.options[domain_list.selectedIndex].value;
+			
+			let domain = document.querySelector('#domain');
+				domain.value = option;
+			if(option==''){
+				console.log('집접입력');
+				domain.value='';
+			}
+		}
 	
 </script>
 </body>
