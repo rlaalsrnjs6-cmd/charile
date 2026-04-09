@@ -14,6 +14,36 @@ public class ProductionManagementDTO {
 	String code;
 	int empno;
 	
+	private int size = 5;
+	private int page = 1;
+	
+	private int start = 0;
+	private int end = 0;
+	
+	public int getSize() {
+		return size;
+	}
+	public void setSize(int size) {
+		this.size = size;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getStart() {
+		return start;
+	}
+	public void setStart(int start) {
+		this.start = start;
+	}
+	public int getEnd() {
+		return end;
+	}
+	public void setEnd(int end) {
+		this.end = end;
+	}
 	public int getProd_num() {
 		return prod_num;
 	}
@@ -79,7 +109,8 @@ public class ProductionManagementDTO {
 	public String toString() {
 		return "ProductionManagementDTO [currentCount=" + currentCount + ", remainCount=" + remainCount + ", prod_num="
 				+ prod_num + ", target_quantity=" + target_quantity + ", work_start=" + work_start + ", work_end="
-				+ work_end + ", title=" + title + ", content=" + content + ", code=" + code + ", empno=" + empno + "]";
+				+ work_end + ", title=" + title + ", content=" + content + ", code=" + code + ", empno=" + empno
+				+ ", size=" + size + ", page=" + page + ", start=" + start + ", end=" + end + "]";
 	}
 	
 

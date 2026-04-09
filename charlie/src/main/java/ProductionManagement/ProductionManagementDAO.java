@@ -85,6 +85,37 @@ public class ProductionManagementDAO {
 		return list;
 	}
 	
+	//페이지에서 보여줄 항목 몇개인지 개수 리턴
+	public int getTotalCount() {
+		
+		int total = 0;
+		
+		try {
+			//자원을 가지러 가기 위해 문을 열고
+			Context ctx = new InitialContext();
+			//열어둔 문을 통해 어디로 갈지 경로를 정함
+	        DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+	        
+	        String query ="select count(*) from production_management"; 
+	        
+	        try(Connection conn = dataFactory.getConnection();
+	        	PreparedStatement ps = conn.prepareStatement(query);	
+	        		ResultSet rs = ps.executeQuery()){
+	        	
+	        	if(rs.next()) {
+	        		 // COUNT(*)가 emp 테이블에 사원이 몇명 있는지 검사해서 숫자를 리턴 해주기 때문에
+	        		//while을 돌릴 필요 없이 if로 해당 숫자만 돌려받음
+	        		
+	        		//rs.getInt(1);을 한 이유:
+	        		//count(*)을 하면 사원 수를 count컬럼 한 줄에 찍어서 돌려주니까 한 줄만 받겠다
+	        		total = rs.getInt(1);
+	        	}
+	        }
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return total;
+	}
 	
 	
 }///클래스 닫음
