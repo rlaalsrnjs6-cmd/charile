@@ -39,7 +39,7 @@ public class EmpControll extends HttpServlet {
 		request.setAttribute("emp", list);
 		
 		if(login!=null && login==true) { //로그인되어있으면 메인으로 
-			request.getRequestDispatcher("/WEB-INF/views/main.jsp").forward(request, response);
+			request.getRequestDispatcher("/WEB-INF/views/emp/main.jsp").forward(request, response);
 			return;
 		} 
 //		 안되어있으면 로그인으로
@@ -49,9 +49,6 @@ public class EmpControll extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-
-			request.setCharacterEncoding("utf-8");
-			response.setContentType("text/html; charset=utf-8;");
 
 			String mod = request.getParameter("mod");
 			String sempno = request.getParameter("empno");
@@ -135,5 +132,6 @@ public class EmpControll extends HttpServlet {
 		}
 
 	}
+	
 
 }

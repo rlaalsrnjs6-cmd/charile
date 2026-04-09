@@ -37,33 +37,40 @@ public class charile_filter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest) request;
-		HttpServletResponse resp = (HttpServletResponse) response;
-		String path = req.getServletPath();
-		System.out.println(path);
-		//로그인x들어갈수있음
-		if(isExclude(path)) {
-			
-			chain.doFilter(request, response);
-		} else {//로그인 해야 들어갈수있음
-			HttpSession session = req.getSession();
-			Boolean login = (Boolean) session.getAttribute("login");
-			String name = (String) session.getAttribute("name");
-			Integer level = (Integer) session.getAttribute("level");
-			System.out.println(login);
-//			if(login!=null && login==true && "/emp".equals(path) ) { 
-//				request.getRequestDispatcher("main.jsp").forward(request, response);
+		
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8;");
+		
+//		HttpServletRequest req = (HttpServletRequest) request;
+//		HttpServletResponse resp = (HttpServletResponse) response;
+//		
+//		String path = req.getServletPath();
+//		System.out.println(path);
+//		//로그인x들어갈수있음
+//		if(isExclude(path)) {
+//			
+//			chain.doFilter(request, response);
+//		} else {//로그인 해야 들어갈수있음
+//			HttpSession session = req.getSession();
+//			String mod = req.getParameter("mod");
+//			Boolean login = (Boolean) session.getAttribute("login");
+//			String name = (String) session.getAttribute("name");
+//			Integer level = (Integer) session.getAttribute("level");
+//			System.out.println(login);
+////			if((login!=null && login==true) || "login".equals(mod) || "add".equals(mod)) { 
+////				chain.doFilter(request, response);
+////			}
+//			if(login == null || login != true) {
+//				System.out.println("로그인 후 이용하세요");
+////				resp.sendRedirect("emp");
+//				request.getRequestDispatcher("/WEB-INF/views/emp/login.jsp").forward(request, response);
+//			}else {
+//				chain.doFilter(request, response);
 //			}
-			if(login == null || login != true) {
-				System.out.println("로그인 후 이용하세요");
-				resp.sendRedirect("/WEB-INF/views/emp//login.jsp");
-			}else {
-				chain.doFilter(request, response);
-			}
-//			if() {
-				
-//			}
-		}
+////			if() {
+//				
+////			}
+//		}
 		
 	}
 
@@ -71,17 +78,17 @@ public class charile_filter implements Filter {
 		// TODO Auto-generated method stub
 	}
 	
-	private boolean isExclude(String path) {
-		boolean result = false;
-		if(
-			path.equals("/WEB-INF/views/emp//login.jsp") ||
-			path.equals("/emp") ||
-			path.equals("/WEB-INF/views/emp/emp_signin.jsp")
-			) {
-			result = true;
-		}
-		return result;
-	}
+//	private boolean isExclude(String path) {
+//		boolean result = false;
+//		if(
+//			path.equals("/WEB-INF/views/emp/login.jsp") ||
+////			path.equals("/emp") ||
+//			path.equals("/WEB-INF/views/emp/emp_signin.jsp")
+//			) {
+//			result = true;
+//		}
+//		return result;
+//	}
 	
 	
 }
