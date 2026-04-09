@@ -47,9 +47,10 @@ public class MdmDAO extends ParentDAO<MdmDTO> {
 		case "search3" : query += " where name = '" +  dto.getSearch() + "'"; return query;
 		case "search4" : query += " where unit = '" +  dto.getSearch() + "'"; return query;
 		case "search5" : query += " where type = '" +  dto.getSearch() + "'"; return query;
-		default : break ;
+		default : break;
 		}
 			
+			query += " order by mdm_num ";
 	return query;
 		
 	}
