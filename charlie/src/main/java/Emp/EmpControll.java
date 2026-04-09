@@ -20,7 +20,6 @@ public class EmpControll extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
-		System.out.println("emp");
 		
 		String sempno = request.getParameter("empno");
 		String mod = request.getParameter("mod");
