@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class charile_filter
  */
-@WebFilter("*")
+//@WebFilter("*")
 public class charile_filter implements Filter {
 
     /**
