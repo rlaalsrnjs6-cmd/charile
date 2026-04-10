@@ -9,11 +9,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>list page</title>
+<title>mdm list</title>
 </head>
 <body>
 
-<h1>mdm 리스트</h1>
+<h1>mdm list</h1>
 <hr>
 
 <form action="mdm?cmd=search" method="post">

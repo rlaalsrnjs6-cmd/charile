@@ -35,10 +35,7 @@ public class MdmDAO extends ParentDAO<MdmDTO> {
 		
 	}
 	
-	@Override
-	protected String selectAllQuery(MdmDTO dto) {
-		return " SELECT * FROM Mdm ORDER BY Mdm_num ";
-	}
+
 
 	@Override
 	protected String insertQuery() {
@@ -96,13 +93,28 @@ public class MdmDAO extends ParentDAO<MdmDTO> {
 		return dto;
 	}
 
+
 	@Override
-	protected String deleteQuery(MdmDTO dto) {
-		return "DELETE FROM mdm WHERE mdm_num = " + dto.getMdm_num();
+	protected String tableName() {
+		return "mdm";
 	}
 
 
 
+	@Override
+	protected String pk_Coulum_Name() {
+		return "mdm_num";
+	}
+
+	@Override
+	protected int setDTONum(MdmDTO dto) {
+		return dto.getMdm_num();
+	}
+	
+	@Override
+	protected String deleteQuery(MdmDTO dto) {
+		return "DELETE FROM " + tableName() + " WHERE " + pk_Coulum_Name() + " =  '" + setDTONum(dto) + "'";
+	}; 
 
 
 

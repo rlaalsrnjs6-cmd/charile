@@ -5,7 +5,7 @@ public class ProcessDTO {
 	String process_content;
 	int flow;
 	String img_url;
-	String code;
+	int mdm_num;
 	
 	public int getProcess_num() {
 		return process_num;
@@ -31,17 +31,18 @@ public class ProcessDTO {
 	public void setImg_url(String img_url) {
 		this.img_url = img_url;
 	}
-	public String getCode() {
-		return code;
+	public int getMdm_num() {
+		return mdm_num;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setMdm_num(int mdm_num) {
+		this.mdm_num = mdm_num;
 	}
 	
 	@Override
 	public String toString() {
 		return "ProcessDTO [process_num=" + process_num + ", process_content=" + process_content + ", flow=" + flow
-				+ ", img_url=" + img_url + ", code=" + code + "]";
+				+ ", img_url=" + img_url + ", mdm_num=" + mdm_num + "]";
 	}
+	
 	
 }

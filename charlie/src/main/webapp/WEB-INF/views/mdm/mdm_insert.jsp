@@ -7,7 +7,7 @@
 <title>Insert page</title>
 </head>
 <body>
-<h1>기준관리 insert</h1>
+<h1>mdm insert</h1>
 <hr>
 
 <form method="post" action="mdm">
