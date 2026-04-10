@@ -1,10 +1,10 @@
-package MaterialManagement;
+package Material;
 
-public class MaterialManagementDTO {
+public class MaterialDTO {
 	int material_num;
 	int total_quantity;
 	int warehouse_num;
-	String code;
+	int mdm_num;
 	
 	public int getMaterial_num() {
 		return material_num;
@@ -24,17 +24,17 @@ public class MaterialManagementDTO {
 	public void setWarehouse_num(int warehouse_num) {
 		this.warehouse_num = warehouse_num;
 	}
-	public String getCode() {
-		return code;
+	public int getMdm_num() {
+		return mdm_num;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setMdm_num(int mdm_num) {
+		this.mdm_num = mdm_num;
 	}
-	
 	@Override
 	public String toString() {
 		return "MaterialManagementDTO [material_num=" + material_num + ", total_quantity=" + total_quantity
-				+ ", warehouse_num=" + warehouse_num + ", code=" + code + "]";
+				+ ", warehouse_num=" + warehouse_num + ", mdm_num=" + mdm_num + "]";
 	}
+
 	
 }

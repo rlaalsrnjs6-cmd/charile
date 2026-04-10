@@ -1,4 +1,4 @@
-package Process;
+package Material;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,30 +6,30 @@ import java.sql.SQLException;
 
 import fileLibrary.ParentDAO;
 
-public class ProcessDAO extends ParentDAO<ProcessDTO> {
+public class MaterialDAO extends ParentDAO<MaterialDTO> {
 
 	@Override
 	protected String tableName() {
-		return "process";
+		return "material";
 	}
 
 	@Override
 	protected String pk_Coulum_Name() {
-		return "process_num";
+		return "material_num";
 	}
 
 	@Override
-	protected int setDTONum(ProcessDTO dto) {
-		return dto.getProcess_num();
+	protected int setDTONum(MaterialDTO dto) {
+		return dto.getMaterial_num();
 	}
 
 	@Override
-	protected String deleteQuery(ProcessDTO dto) {
+	protected String deleteQuery(MaterialDTO dto) {
 		return "DELETE FROM " + tableName() + " WHERE " + pk_Coulum_Name() + " =  '" + setDTONum(dto) + "'";
 	}
 
 	@Override
-	protected String selectQuery(ProcessDTO dto, String selector) {
+	protected String selectQuery(MaterialDTO dto, String selector) {
 		String query = " select * from " + tableName();
 
 		if ("".equals(selector) || selector == null || dto == null)
@@ -50,15 +50,14 @@ public class ProcessDAO extends ParentDAO<ProcessDTO> {
 	}
 
 	@Override
-	protected ProcessDTO setDTO(ResultSet rs) {
-		ProcessDTO dto = new ProcessDTO();
+	protected MaterialDTO setDTO(ResultSet rs) {
+		MaterialDTO dto = new MaterialDTO();
 
 		try {
 
-			dto.setProcess_num(rs.getInt("Process_num"));
-			dto.setProcess_content(rs.getString("process_content"));
-			dto.setFlow(rs.getInt("flow"));
-			dto.setImg_url(rs.getString("img_url"));
+			dto.setMaterial_num(rs.getInt("Material_num"));
+			dto.setTotal_quantity(rs.getInt("total_quantity"));
+			dto.setWarehouse_num(rs.getInt("warehouse_num"));
 			dto.setMdm_num(rs.getInt("mdm_num"));
 
 		} catch (SQLException e) {
@@ -68,13 +67,12 @@ public class ProcessDAO extends ParentDAO<ProcessDTO> {
 	}
 
 	@Override
-	protected PreparedStatement setPs(PreparedStatement ps, ProcessDTO dto, String selector) {
+	protected PreparedStatement setPs(PreparedStatement ps, MaterialDTO dto, String selector) {
 		try {
-			ps.setString(1, dto.getProcess_content());
-			ps.setInt(2, dto.getFlow());
-			ps.setString(3, dto.getImg_url());
-			ps.setInt(4, dto.getMdm_num());
-			if ("update".equals(selector)) { ps.setInt(5, dto.getProcess_num()); }
+			ps.setInt(1, dto.getTotal_quantity());
+			ps.setInt(2, dto.getWarehouse_num());
+			ps.setInt(3, dto.getMdm_num());
+			if ("update".equals(selector)) { ps.setInt(4, dto.getMaterial_num()); }
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -84,17 +82,16 @@ public class ProcessDAO extends ParentDAO<ProcessDTO> {
 	@Override
 	protected String insertQuery() {
 		return "INSERT INTO " + tableName() + " ( " + pk_Coulum_Name() 
-		+ ", process_content, flow, img_url, Mdm_num) " 
-				+ " VALUES ( process_seq.nextval, ?, ?, ?, ?)";
+		+ ", total_quantity, warehouse_num, Mdm_num) " 
+				+ " VALUES ( material_seq.nextval, ?, ?, ?)";
 	}
 
 	@Override
 	protected String modifyQuery() {
 		return
 				"UPDATE " + tableName() + " SET "
-				+ " process_content = ?, "
-				+ "	flow = ?, "
-				+ "	img_url = ?, "
+				+ "	total_quantity = ?, "
+				+ "	warehouse_num = ?, "
 				+ "	mdm_num = ? "
 				+ " where " + pk_Coulum_Name() + " = ? "
 			;
