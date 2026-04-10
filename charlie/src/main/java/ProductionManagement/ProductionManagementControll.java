@@ -58,7 +58,7 @@ public class ProductionManagementControll extends HttpServlet {
 		// 페이지에서 보여줄 항목 몇개인지 개수 리턴
 		// 을 담은 map
 		Map map = sv.loadPM(dto);
-		
+		System.out.println("들어온 map: " + map);
 		request.setAttribute("map", map);
 		request.getRequestDispatcher("/ProductionManagement.jsp").forward(request, response);
 	}
