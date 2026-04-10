@@ -14,7 +14,14 @@
 </head>
 <body>
 	
-	${order}
+	<SELECT>
+		<option name="total" value="전체">전체</option>
+		<option name="am" value="오전">오전</option>
+		<option name="pm" value="오후">오후</option>
+	</SELECT>
+	
+	<input type="text" name="search" placeholder="제목/날짜/작성자 검색">
+	
 	<table border=1>
 		<tr>
 			<th>no</th>
@@ -33,7 +40,10 @@
 			</tr>
 		</c:forEach>
 	</table>
-
+	<form method="post" action="order">
+		<input type="hidden" name="mod" value="write">
+		<input type="submit" value="작성">
+	</form>
 
 </body>
 </html>
