@@ -162,6 +162,7 @@ public class ProductionManagementDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("DAO의 list: " + list);
 		return list;
 	}
 	

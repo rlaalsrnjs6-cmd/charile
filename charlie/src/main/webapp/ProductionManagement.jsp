@@ -41,11 +41,11 @@
 	<tr>
 		<td><c:if test="${i.target_quantity - i.currentCount == 0 }">완료</c:if>
 		<c:if test="${i.target_quantity - i.currentCount != 0 }">진행중</c:if></td></td>
-		<td>${i.title }</td>
+		<td><a href="../../PMDetailServlet?prod_num=${i.prod_num }">${i.title }</a></td>
 		<td>목표: ${i.target_quantity}<br>
 		실적: ${i.currentCount }
 		/ 달성률: 
-    <fmt:formatNumber value="${(i.currentCount * 100.0) / i.target_quantity}" pattern="0.0" />%
+    <fmt:formatNumber value='${(i.currentCount * 100.0) / i.target_quantity}' pattern='0.0' />%
 	</tr>
 	</c:forEach>
 	

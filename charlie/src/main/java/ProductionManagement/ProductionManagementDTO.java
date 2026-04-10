@@ -5,6 +5,11 @@ import java.sql.Date;
 public class ProductionManagementDTO {
 	private int currentCount; //현재까지 만든 개수
 	private int remainCount; //남은 개수
+	private int mdmNum;
+	private String mdmName;
+	
+
+
 	int prod_num;
 	int target_quantity;
 	Date work_start;
@@ -20,6 +25,19 @@ public class ProductionManagementDTO {
 	private int start = 0;
 	private int end = 0;
 	
+	
+	public int getMdmNum() {
+		return mdmNum;
+	}
+	public void setMdmNum(int mdmNum) {
+		this.mdmNum = mdmNum;
+	}
+	public String getMdmName() {
+		return mdmName;
+	}
+	public void setMdmName(String mdmName) {
+		this.mdmName = mdmName;
+	}
 	public int getSize() {
 		return size;
 	}
@@ -107,10 +125,11 @@ public class ProductionManagementDTO {
 	
 	@Override
 	public String toString() {
-		return "ProductionManagementDTO [currentCount=" + currentCount + ", remainCount=" + remainCount + ", prod_num="
-				+ prod_num + ", target_quantity=" + target_quantity + ", work_start=" + work_start + ", work_end="
-				+ work_end + ", title=" + title + ", content=" + content + ", code=" + code + ", empno=" + empno
-				+ ", size=" + size + ", page=" + page + ", start=" + start + ", end=" + end + "]";
+		return "ProductionManagementDTO [currentCount=" + currentCount + ", remainCount=" + remainCount + ", mdmNum="
+				+ mdmNum + ", mdmName=" + mdmName + ", prod_num=" + prod_num + ", target_quantity=" + target_quantity
+				+ ", work_start=" + work_start + ", work_end=" + work_end + ", title=" + title + ", content=" + content
+				+ ", code=" + code + ", empno=" + empno + ", size=" + size + ", page=" + page + ", start=" + start
+				+ ", end=" + end + "]";
 	}
 	
 

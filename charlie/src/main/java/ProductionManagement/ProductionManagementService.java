@@ -48,6 +48,7 @@ public class ProductionManagementService {
 				Map map = new HashMap();
 				//생산관리에 있는 기존 DB만 select
 				List list1 = dao.selectPage(dto);
+				System.out.println("서비스의 list1: " + list1);
 				
 				// 전체목표, 만든 개수, 남은 수량 select
 //				List list2 = dao.selectData();
