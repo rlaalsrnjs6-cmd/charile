@@ -56,9 +56,9 @@ public class charile_filter implements Filter {
 			String name = (String) session.getAttribute("name");
 			Integer level = (Integer) session.getAttribute("level");
 			System.out.println("필터로그인"+login);
-//			if((login!=null && login==true) || "login".equals(mod) || "add".equals(mod)) { 
-//				chain.doFilter(request, response);
-//			}
+			if((login!=null && login==true) || "login".equals(mod) || "add".equals(mod)) { 
+				chain.doFilter(request, response);
+			}
 			if(login == null || login != true) {
 				System.out.println("로그인 후 이용하세요");
 				resp.sendRedirect("charlie");
@@ -82,7 +82,7 @@ public class charile_filter implements Filter {
 			path.equals("/WEB-INF/views/emp/login.jsp") ||
 			path.equals("/charlie") ||
 			path.equals("/check") ||
-//			path.equals("/emp") ||
+			path.equals("/emp") ||
 			path.equals("/WEB-INF/views/emp/emp_signin.jsp")
 			) {
 			result = true;
