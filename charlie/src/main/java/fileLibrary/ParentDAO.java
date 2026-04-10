@@ -14,8 +14,13 @@ import javax.sql.DataSource;
 public abstract class ParentDAO<T> {
 
 	// 援ы쁽�빐�꽌 �궗�슜�븷 硫붿냼�뱶
+	protected abstract String tableName();
+	protected abstract String pk_Coulum_Name();
+	protected abstract int setDTONum(T dto);
+	protected abstract String deleteQuery(T dto); 
 	// set Query / set DTO(rs)
-	protected abstract String selectAllQuery(T dto);
+
+
 	protected abstract String selectQuery(T dto, String selector);
 	
 	protected abstract T setDTO(ResultSet rs); // DTO �꽭�똿
@@ -24,7 +29,7 @@ public abstract class ParentDAO<T> {
 	protected abstract String insertQuery();
 	protected abstract String modifyQuery();
 
-	protected abstract String deleteQuery(T dto); // ps �뾾�쓬
+
 
 	// 二쇱슂 硫붿냼�뱶 濡쒖쭅 (DTO �닔�젙�빐�꽌 �궗�슜 �궗�슜 怨좎젙)
 	// select
@@ -51,36 +56,14 @@ public abstract class ParentDAO<T> {
 		System.out.println("/select list : " + list);
 		return list;
 	}
-	public List selectAll(T dto) {
-		
-		List list = new ArrayList();
-		
-		try ( Connection conn = getConn(); ) {
-			
-			try (PreparedStatement ps = conn.prepareStatement(selectAllQuery(dto)); // �삤�씪�겢�슜�쑝濡� 而댄뙆�씪
-					// SQL �떎�뻾 諛� 寃곌낵 �솗蹂�
-					ResultSet rs = ps.executeQuery(); // �뜲�씠�꽣 媛��졇�샂
-					) { // 寃곌낵 �솢�슜
-				while (rs.next()) {
-					
-					list.add(setDTO(rs));
-					
-				}
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println("/select list : " + list);
-		return list;
-	}
+
 	public List selectDB(T dto) {
 
 		List list = new ArrayList();
 
 		try ( Connection conn = getConn(); ) {
 
-			try (PreparedStatement ps = conn.prepareStatement(selectAllQuery(dto)); // �삤�씪�겢�슜�쑝濡� 而댄뙆�씪
+			try (PreparedStatement ps = conn.prepareStatement(selectAllQuery()); // �삤�씪�겢�슜�쑝濡� 而댄뙆�씪
 					// SQL �떎�뻾 諛� 寃곌낵 �솗蹂�
 					ResultSet rs = ps.executeQuery(); // �뜲�씠�꽣 媛��졇�샂
 			) { // 寃곌낵 �솢�슜
@@ -134,6 +117,31 @@ public abstract class ParentDAO<T> {
 		return dto;
 	}
 	
+	// select all 고정 사용
+	public List selectAll() {
+		
+		List list = new ArrayList();
+		
+		try ( Connection conn = getConn(); ) {
+			
+			try (PreparedStatement ps = conn.prepareStatement(selectAllQuery()); // �삤�씪�겢�슜�쑝濡� 而댄뙆�씪
+					// SQL �떎�뻾 諛� 寃곌낵 �솗蹂�
+					ResultSet rs = ps.executeQuery(); // �뜲�씠�꽣 媛��졇�샂
+					) { // 寃곌낵 �솢�슜
+				while (rs.next()) {
+					
+					list.add(setDTO(rs));
+					
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("/select list : " + list);
+		return list;
+	}
+	
 	//delete
 	public int deleteDB(T dto) {
 
@@ -157,17 +165,20 @@ public abstract class ParentDAO<T> {
 	private Connection getConn() {
 		Connection conn = null;
 		try {
-			// JNDI 諛⑹떇
-			// context.xml�뿉 �엳�뒗 DB �젙蹂대줈 而ㅻ꽖�뀡 ���쓣 媛��졇�삩�떎
 			Context ctx = new InitialContext();
-			// DataSource : 而ㅻ꽖�뀡 �� 愿�由ъ옄
 			DataSource dataFactory = (DataSource) ctx.lookup("java:comp/env/jdbc/charlie");
-
-			// DB �젒�냽(洹몃윴�뜲 �씠�젣 而ㅻ꽖�뀡 ��濡�)
 			conn = dataFactory.getConnection();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return conn;
 	}
+	
+	protected String selectAllQuery() {
+		return " SELECT * FROM " + tableName() + " ORDER BY " +  pk_Coulum_Name() ; 
+	};
+	
+	
+	
+	
 }

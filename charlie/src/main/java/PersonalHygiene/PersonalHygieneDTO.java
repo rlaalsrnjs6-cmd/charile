@@ -3,23 +3,24 @@ package PersonalHygiene;
 import java.sql.Date;
 
 public class PersonalHygieneDTO {
-	int ph_num;
-	int body_temper;
+	int ph_num = -1;
+	double body_temper;
 	Date regist_time;
 	String washed;
 	String memo;
 	String supervisor_chk;
 	int empno;
+	String mod;
 	public int getPh_num() {
 		return ph_num;
 	}
 	public void setPh_num(int ph_num) {
 		this.ph_num = ph_num;
 	}
-	public int getBody_temper() {
+	public double getBody_temper() {
 		return body_temper;
 	}
-	public void setBody_temper(int body_temper) {
+	public void setBody_temper(double body_temper) {
 		this.body_temper = body_temper;
 	}
 	public Date getRegist_time() {
@@ -52,12 +53,19 @@ public class PersonalHygieneDTO {
 	public void setEmpno(int empno) {
 		this.empno = empno;
 	}
+	public String getMod() {
+		return mod;
+	}
+	public void setMod(String mod) {
+		this.mod = mod;
+	}
 	@Override
 	public String toString() {
 		return "PersonalHygieneDTO [ph_num=" + ph_num + ", body_temper=" + body_temper + ", regist_time=" + regist_time
 				+ ", washed=" + washed + ", memo=" + memo + ", supervisor_chk=" + supervisor_chk + ", empno=" + empno
-				+ "]";
+				+ ", mod=" + mod + "]";
 	}
+	
 	
 	
 }

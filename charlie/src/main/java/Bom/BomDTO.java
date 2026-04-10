@@ -3,7 +3,7 @@ package Bom;
 public class BomDTO {
 	int bom_num;
 	int required_weight;
-	String code;
+	int mdm_num;
 	
 	public int getBom_num() {
 		return bom_num;
@@ -17,16 +17,15 @@ public class BomDTO {
 	public void setRequired_weight(int required_weight) {
 		this.required_weight = required_weight;
 	}
-	public String getCode() {
-		return code;
+	public int getMdm_num() {
+		return mdm_num;
 	}
-	public void setCode(String code) {
-		this.code = code;
+	public void setMdm_num(int mdm_num) {
+		this.mdm_num = mdm_num;
 	}
-	
 	@Override
 	public String toString() {
-		return "BomDTO [bom_num=" + bom_num + ", required_weight=" + required_weight + ", code=" + code + "]";
+		return "BomDTO [bom_num=" + bom_num + ", required_weight=" + required_weight + ", mdm_num=" + mdm_num + "]";
 	}
 	
 }

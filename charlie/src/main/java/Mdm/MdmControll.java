@@ -65,7 +65,7 @@ public class MdmControll extends HttpServlet {
 		MdmService service = new MdmService();
 
 		MdmDTO mdmDTO = null;
-		List list = (List) service.selectAll(mdmDTO);
+		List list = (List) service.selectAll();
 
 		System.out.println("/ctrl list : " + list);
 		

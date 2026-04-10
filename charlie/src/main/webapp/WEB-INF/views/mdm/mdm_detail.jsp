@@ -13,7 +13,7 @@
 </head>
 <body>
 
-	<h1>detail page</h1>
+	<h1>mdm detail</h1>
 	<hr>
 	<a href="mdm?cmd=list">뒤로</a> <br>
 	<hr>

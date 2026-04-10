@@ -14,13 +14,12 @@ public class MdmService extends ParentService<MdmDTO>{
 		List list = mdmDAO.selectDB(dto, cmd);
 		if(list.size() > 0) {
 			return list;
-		} else { return mdmDAO.selectAll(dto); } 
+		} else { return mdmDAO.selectAll(); } 
 	}
 	
 	@Override
-	public List selectAll(MdmDTO dto) {
-		System.out.println("service dto : " + dto);
-		return mdmDAO.selectAll(dto);
+	public List selectAll() {
+		return mdmDAO.selectAll();
 	}
 
 	@Override

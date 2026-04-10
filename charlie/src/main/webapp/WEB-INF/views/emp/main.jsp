@@ -12,6 +12,31 @@
 <title>Insert title here</title>
 </head>
 <body>
-메인jsp
+<table border=1>
+		<tr>
+			<th>사원번호</th>
+			<th>이름</th>
+			<th>id</th>
+			<th>pw</th>
+			<th>사원등급</th>
+			<th>전화번호</th>
+			<th>급여</th>
+			<th>주소</th>
+		</tr>
+		
+		<c:forEach var="e" items="${emp}">
+			<tr>
+				<td>${e.empno}</td>
+				<td>${e.ename}</td>
+				<td>${e.id}</td>
+				<td>${e.pw}</td>
+				<td>${e.emp_level}</td>
+				<td>${e.tel}</td>
+				<td>${e.sal}</td>
+				<td>${e.addr}</td>
+			</tr>
+		</c:forEach>
+		
+	</table>
 </body>
 </html>
