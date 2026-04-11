@@ -48,7 +48,7 @@ public class PMDetailUpdateServlet extends HttpServlet {
 		 int result = sv.update(dto);
 		System.out.println("dao 다녀옴");
 		 if(result > 0) {
-			 response.sendRedirect(request.getContextPath() + "c/PMDetailServlet?prod_num=" + dto.getProd_num());
+			 response.sendRedirect(request.getContextPath() + "/PMDetailServlet?prod_num=" + dto.getProd_num());
 
 		 }else {
 			 response.getWriter().println("<script>alert('Fail'); history.back();</script>");

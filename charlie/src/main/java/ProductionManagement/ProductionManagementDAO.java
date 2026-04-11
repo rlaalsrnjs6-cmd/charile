@@ -28,65 +28,38 @@ public class ProductionManagementDAO {
 	}//생성자 닫음
 	
 	
-	//목록 페이지에 DB에 있는 데이터 불러와서 넘김(페이징 하며필요 없어져서 삭제)
-//	public List<ProductionManagementDTO> selectPM() { 
-//		
-//		List<ProductionManagementDTO> list = new ArrayList();
-//		String query = "select * from production_management";
-//		
+	
+	//	남은수량 , 만든 총합 출력
+//	public List<ProductionManagementDTO> selectData() {
+//		String query = "SELECT "
+//				+ "    P.prod_num, "
+//				+ "    P.target_quantity AS \"전체목표\", "
+//				+ "    SUM(L.lot_count) AS \"현재까지_만든_총합\", "
+//				+ "    (P.target_quantity - SUM(L.lot_count)) AS \"남은목표_수량\" "
+//				+ "FROM production_management P\r\n"
+//				+ "JOIN work_order W ON P.prod_num = W.prod_num  "
+//				+ "JOIN lot L ON W.order_num = L.order_num "
+//				+ "GROUP BY P.prod_num, P.target_quantity "
+//				+ "ORDER BY p.prod_num ASC";
+//				List<ProductionManagementDTO> list = new ArrayList();
 //		try(Connection conn = dataFactory.getConnection();
 //				PreparedStatement ps = conn.prepareStatement(query);
-//				ResultSet rs = ps.executeQuery())
+//				ResultSet rs = ps.executeQuery();)
 //		{
 //			while(rs.next()) {
 //				ProductionManagementDTO dto = new ProductionManagementDTO();
-//				dto.setCode(rs.getString("code"));
-//				dto.setContent(rs.getString("content"));
-//				dto.setEmpno(rs.getInt("empno"));
+//				
+//				dto.setCurrentCount(rs.getInt("현재까지_만든_총합"));
+//				dto.setRemainCount(rs.getInt("남은목표_수량"));
 //				dto.setProd_num(rs.getInt("prod_num"));
-//				dto.setTarget_quantity(rs.getInt("target_quantity"));
-//				dto.setTitle(rs.getString("title"));
-//				dto.setWork_end(rs.getDate("work_end"));
-//				dto.setWork_start(rs.getDate("work_start"));
+//				dto.setTarget_quantity(rs.getInt("전체목표"));
 //				list.add(dto);
 //			}
-//		}catch (Exception e) {
+//		}catch(Exception e) {
 //			e.printStackTrace();
 //		}
 //		return list;
 //	}
-	
-	//	남은수량 , 만든 총합 출력
-	public List<ProductionManagementDTO> selectData() {
-		String query = "SELECT "
-				+ "    P.prod_num, "
-				+ "    P.target_quantity AS \"전체목표\", "
-				+ "    SUM(L.lot_count) AS \"현재까지_만든_총합\", "
-				+ "    (P.target_quantity - SUM(L.lot_count)) AS \"남은목표_수량\" "
-				+ "FROM production_management P\r\n"
-				+ "JOIN work_order W ON P.prod_num = W.prod_num  "
-				+ "JOIN lot L ON W.order_num = L.order_num "
-				+ "GROUP BY P.prod_num, P.target_quantity "
-				+ "ORDER BY p.prod_num ASC";
-				List<ProductionManagementDTO> list = new ArrayList();
-		try(Connection conn = dataFactory.getConnection();
-				PreparedStatement ps = conn.prepareStatement(query);
-				ResultSet rs = ps.executeQuery();)
-		{
-			while(rs.next()) {
-				ProductionManagementDTO dto = new ProductionManagementDTO();
-				
-				dto.setCurrentCount(rs.getInt("현재까지_만든_총합"));
-				dto.setRemainCount(rs.getInt("남은목표_수량"));
-				dto.setProd_num(rs.getInt("prod_num"));
-				dto.setTarget_quantity(rs.getInt("전체목표"));
-				list.add(dto);
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return list;
-	}
 	
 	//페이지에서 보여줄 항목 몇개인지 개수 리턴
 	public int getTotalCount() {
@@ -132,10 +105,10 @@ public class ProductionManagementDAO {
                 + "        SUM(L.lot_count) AS \"현재까지_만든_총합\", "
                 + "        (P.target_quantity - SUM(L.lot_count)) AS \"남은목표_수량\" "
                 + "    FROM production_management P "
-                + "    JOIN work_order W ON P.prod_num = W.prod_num "
-                + "    JOIN lot L ON W.order_num = L.order_num "
+                + "    LEFT JOIN work_order W ON P.prod_num = W.prod_num "
+                + "    LEFT JOIN lot L ON W.order_num = L.order_num "
                 + "    GROUP BY P.prod_num, P.title, P.target_quantity " 
-                + "    ORDER BY P.prod_num ASC"
+                + "    ORDER BY P.prod_num DESC"
                 + "  ) a"
                 + ") WHERE rnum >= ? AND rnum <= ?";
 		
@@ -165,5 +138,29 @@ public class ProductionManagementDAO {
 		System.out.println("DAO의 list: " + list);
 		return list;
 	}
+
+	//insert하는 메서드
+	public int insertData(ProductionManagementDTO dto) {
+		String query = "insert into production_management (prod_num, target_quantity, work_start, work_end, title, mdm_num, content, empno)"
+				+ " values(production_mgmt_seq.nextval, ?, ?, ?, ?, ?, '비고', ?)";
+		
+		try(Connection conn = dataFactory.getConnection();
+				PreparedStatement ps = conn.prepareStatement(query);)
+			{
+				//inser into다음 values에 들어갈 ?에 해당하는 값을 순서대로 넣음
+				ps.setInt(1, dto.getTarget_quantity());
+				ps.setDate(2, dto.getWork_start());
+				ps.setDate(3, dto.getWork_end());
+				ps.setString(4, dto.getTitle());
+				ps.setInt(5, dto.getMdmNum());
+				ps.setInt(6, dto.getEmpno());
+
+				return ps.executeUpdate();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		System.out.println("insertDAO 예외 발생");
+			return 0;
+		}
 	
 }///클래스 닫음
