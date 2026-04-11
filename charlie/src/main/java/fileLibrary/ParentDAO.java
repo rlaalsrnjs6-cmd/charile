@@ -53,7 +53,7 @@ public abstract class ParentDAO<T> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("/select list : " + list);
+		System.out.println("/DAO select list : " + list);
 		return list;
 	}
 
@@ -77,7 +77,7 @@ public abstract class ParentDAO<T> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("/select list : " + list);
+		System.out.println("/DAO select list : " + list);
 		return list;
 	}
 
@@ -94,7 +94,7 @@ public abstract class ParentDAO<T> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("/insert result : " + result);
+		System.out.println("/DAO insert result : " + result);
 		return result;
 	}
 
@@ -113,7 +113,7 @@ public abstract class ParentDAO<T> {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("/modify result : " + dto);
+		System.out.println("/DAO modify result : " + dto);
 		return dto;
 	}
 	
@@ -138,7 +138,7 @@ public abstract class ParentDAO<T> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("/select list : " + list);
+		System.out.println("/DAO select list : " + list);
 		return list;
 	}
 	
@@ -156,7 +156,7 @@ public abstract class ParentDAO<T> {
 		 catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("/delete result : " + result);
+		System.out.println("/DAO delete result : " + result);
 		return result;
 
 	}

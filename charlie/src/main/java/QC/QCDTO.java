@@ -3,10 +3,11 @@ package QC;
 import java.sql.Date;
 
 public class QCDTO {
-	int qc_num;
+	int qc_num = -1;
 	int lot_num;
 	Date qc_date;
 	int empno;
+	String mod;
 	
 	public int getQc_num() {
 		return qc_num;
@@ -32,9 +33,18 @@ public class QCDTO {
 	public void setEmpno(int empno) {
 		this.empno = empno;
 	}
+	public String getMod() {
+		return mod;
+	}
+	public void setMod(String mod) {
+		this.mod = mod;
+	}
 	
 	@Override
 	public String toString() {
-		return "QCDTO [qc_num=" + qc_num + ", lot_num=" + lot_num + ", qc_date=" + qc_date + ", empno=" + empno + "]";
+		return "QCDTO [qc_num=" + qc_num + ", lot_num=" + lot_num + ", qc_date=" + qc_date + ", empno=" + empno
+				+ ", mod=" + mod + "]";
 	}
+	
+	
 }
