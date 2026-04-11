@@ -27,6 +27,10 @@
 	<span>시작일</span> <span>${result[0].work_start}</span><br>
 	<span>마감일</span> <span>${result[0].work_end}</span><br>
 	<button type="button" class="PMD-btn-update">수정하기</button>
+	<form method="post" action="/charlie/PMDelete">
+	<input type="hidden" name="prod_num" value="${result[0].prod_num }">
+	<button type="submit">삭제</button>
+	</form>
 	</div>
 
 
@@ -45,6 +49,7 @@
 	<button type="button" class="PMD-btn-cancel">취소</button>
 	<button type="submit" class="PMD-btn-save">저장하기</button>
 	</form>
+
 	</div>
 	
 	

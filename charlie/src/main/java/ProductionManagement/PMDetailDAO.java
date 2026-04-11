@@ -90,4 +90,23 @@ public class PMDetailDAO {
 		}//updatePM()닫음
 	
 	
+	//delete 메서드
+	public int deletePM(ProductionManagementDTO dto) {
+		
+		String query = "delete from production_management"
+				+ " where prod_num=?";
+
+		try(Connection conn = dataFactory.getConnection();
+				PreparedStatement ps = conn.prepareStatement(query);){
+						ps.setInt(1, dto.getProd_num());
+						int result = ps.executeUpdate();
+						return result ;
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+		System.out.println("디테일DAO updatePM 오류남");
+			return 0;
+		}//updatePM()닫음
+	
+	
 }/////////////////////////////// 클래스 닫음

@@ -65,4 +65,13 @@ public class ProductionManagementService {
 		return map;
 	}
 	
+	// insert
+	public int insert(ProductionManagementDTO dto) {
+		
+		System.out.println("servlet의 insert진입");
+		int result = dao.insertData(dto);
+		
+		return result;
+	}
+	
 }

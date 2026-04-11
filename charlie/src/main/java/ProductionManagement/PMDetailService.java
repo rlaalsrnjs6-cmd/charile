@@ -22,4 +22,12 @@ public class PMDetailService {
 		return result;
 	}
 	
+	public int delete(ProductionManagementDTO dto) {
+		
+		int result = dao.deletePM(dto);
+		
+		return result;
+		
+	}
+	
 }

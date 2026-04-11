@@ -17,7 +17,7 @@ public class ProductionManagementDTO {
 	String title;
 	String content;
 	String code;
-	int empno;
+	int empno = 1;
 	
 	private int size = 5;
 	private int page = 1;
