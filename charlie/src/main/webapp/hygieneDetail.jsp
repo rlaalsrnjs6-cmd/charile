@@ -19,11 +19,8 @@
 위생체크 : ${hygiene[0].washed}<br>
 책임자체크 : ${hygiene[0].supervisor_chk}<br>
 메모 : ${hygiene[0].memo}<br>
-<a href="http://localhost:8080/charlie/hygiene?ph_num=${hygiene[0].ph_num}&up=1">수정</a>
-<form method="post" action="hygiene">
-	<input type="hidden" name="mod" value="delete">
-	<input type="hidden" name="ph_num" value="${hygiene[0].ph_num}">
-	<input type="submit" value="삭제">
-</form>
+<a href="http://localhost:8080/charlie/hygiene?ph_num=${hygiene[0].ph_num}&mod=up">수정</a>
+<a href="http://localhost:8080/charlie/hygiene?ph_num=${hygiene[0].ph_num}&mod=delete">삭제</a>
+
 </body>
 </html>

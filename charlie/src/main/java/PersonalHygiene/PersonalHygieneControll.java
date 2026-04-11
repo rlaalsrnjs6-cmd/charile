@@ -19,7 +19,7 @@ public class PersonalHygieneControll extends HttpServlet {
 			throws ServletException, IOException {
 		String sph_num = request.getParameter("ph_num");
 		String detail = request.getParameter("detail");
-		String up = request.getParameter("up");
+		String mod = request.getParameter("mod");
 		System.out.println("hygiene:"+sph_num);
 		int ph_num = -1;
 		if (sph_num != null) {
@@ -34,8 +34,10 @@ public class PersonalHygieneControll extends HttpServlet {
 		request.setAttribute("hygiene", list);
 		if(detail!=null) {
 			request.getRequestDispatcher("hygieneDetail.jsp").forward(request, response);
-		}else if(up!=null){
+		}else if("up".equals(mod)){
 			request.getRequestDispatcher("hygieneUp.jsp").forward(request, response);
+		}else if("delete".equals(mod)){
+			HygieneDelete(request, response);
 		}else {
 			request.getRequestDispatcher("hygiene.jsp").forward(request, response);
 		}
@@ -131,6 +133,8 @@ public class PersonalHygieneControll extends HttpServlet {
 		String sph_num = request.getParameter("ph_num");
 		String mod = request.getParameter("mod");
 		int ph_num = Integer.parseInt(sph_num);
+		System.out.println("딜리트"+ph_num);
+		System.out.println("딜리트"+mod);
 		PersonalHygieneDTO hygieneDTO = new PersonalHygieneDTO();
 		hygieneDTO.setPh_num(ph_num);
 		hygieneDTO.setMod(mod);

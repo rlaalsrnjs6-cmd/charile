@@ -25,7 +25,7 @@
 		<c:forEach var="dto" items="${hygiene}">
 			<tr>
 				<td>${dto.ph_num}</td>
-				<td><a href="http://localhost:8080/charlie/hygiene?ph_num=${dto.ph_num}&detail=1">${dto.empno}</a></td>
+				<td><a href="http://localhost:8080/charlie/hygiene?ph_num=${dto.ph_num}&mod=detail">${dto.empno}</a></td>
 				<td>${dto.body_temper}</td>
 				<td>${dto.regist_time}</td>
 				<td>${dto.washed}</td>
