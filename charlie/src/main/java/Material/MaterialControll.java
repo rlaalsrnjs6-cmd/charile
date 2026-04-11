@@ -1,4 +1,4 @@
-package Process;
+package Material;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,15 +9,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Process.ProcessDTO;
-import Process.ProcessService;
+import Material.MaterialDTO;
+import Material.MaterialService;
 
-@WebServlet("/process")
-public class ProcessControll extends HttpServlet {
+@WebServlet("/material")
+public class MaterialControll extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		System.out.println("/process [doGet] 실행");
+		System.out.println("/material [doGet] 실행");
 
 		response.setContentType("text/html; charset=utf-8;");
 
@@ -27,7 +27,7 @@ public class ProcessControll extends HttpServlet {
 
 		switch (cmd) { // get cmd > method
 
-		case "insertPage": request.getRequestDispatcher("WEB-INF/views/process/process_insert.jsp").forward(request, response); return;
+		case "insertPage": request.getRequestDispatcher("WEB-INF/views/material/material_insert.jsp").forward(request, response); return;
 		case "insert": insert(request, response); return;
 		case "list": list(request, response); return;
 		case "detail": detail(request, response, "detail"); return;
@@ -48,11 +48,11 @@ public class ProcessControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 
 		// setDTO > Service > DAO
-		ProcessService service = new ProcessService();
+		MaterialService service = new MaterialService();
 		service.insertDB(setDTO(request));
 
 		// list page
-		response.sendRedirect("process?cmd=list");
+		response.sendRedirect("material?cmd=list");
 	}
 
 	// list
@@ -61,13 +61,13 @@ public class ProcessControll extends HttpServlet {
 		
 		response.setContentType("text/html; charset=utf-8;");
 
-		ProcessService service = new ProcessService();
+		MaterialService service = new MaterialService();
 		List list = (List) service.selectAll();
 
 		System.out.println( "/ctrl list : " + list );
 		
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("WEB-INF/views/process/process_list.jsp").forward(request, response);
+		request.getRequestDispatcher("WEB-INF/views/material/material_list.jsp").forward(request, response);
 
 	}
 	
@@ -75,20 +75,20 @@ public class ProcessControll extends HttpServlet {
 	protected void delete(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		ProcessService service = new ProcessService();
+		MaterialService service = new MaterialService();
 		service.deleteDB(setDTO(request));
 		
-		response.sendRedirect("process?cmd=list");
+		response.sendRedirect("material?cmd=list");
 	}
 	
 	// update
 	protected void update(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		ProcessService service = new ProcessService();
+		MaterialService service = new MaterialService();
 		service.modifyDB(setDTO(request));
 		
-		response.sendRedirect("process?cmd=list");
+		response.sendRedirect("material?cmd=list");
 	}
 	
 
@@ -99,20 +99,20 @@ public class ProcessControll extends HttpServlet {
 		System.out.println("/detail 실행");
 
 		// Service > DAO - selectOne
-		ProcessService service = new ProcessService();
-		List processInfo = service.selectDB(setDTO(request), "num");
+		MaterialService service = new MaterialService();
+		List materialInfo = service.selectDB(setDTO(request), "num");
 
 		// Forward > DTO
-		request.setAttribute("processInfo", processInfo);
+		request.setAttribute("materialInfo", materialInfo);
 		
 		if("detail".equals(selector)) { // 상세 페이지
 			
-			request.getRequestDispatcher("WEB-INF/views/process/process_detail.jsp")
+			request.getRequestDispatcher("WEB-INF/views/material/material_detail.jsp")
 				.forward(request, response);
 		
 		} else { // 수정 페이지
 			
-			request.getRequestDispatcher("WEB-INF/views/process/process_modify.jsp")
+			request.getRequestDispatcher("WEB-INF/views/material/material_modify.jsp")
 				.forward(request, response);
 			
 		}
@@ -122,43 +122,36 @@ public class ProcessControll extends HttpServlet {
 	// 거의 고정해서 사용
 	
 	// set primarykey & return DTO 
-	protected ProcessDTO setDTO(HttpServletRequest request) throws ServletException, IOException {
+	protected MaterialDTO setDTO(HttpServletRequest request) throws ServletException, IOException {
 		
-		ProcessDTO processDTO = new ProcessDTO();
+		MaterialDTO materialDTO = new MaterialDTO();
 		
-		int process_num = -1; String process_content = null; int flow= -1; 
-		int mdm_num = -1; String img_url = null;
+		int material_num = -1;  int total_quantity= -1; 
+		int mdm_num = -1; int warehouse_num = -1;
 		
-		if (request.getParameter("process_num") != null 
-				&& !("".equals(request.getParameter("process_num")))) {
+		if (request.getParameter("material_num") != null 
+				&& !("".equals(request.getParameter("material_num")))) {
 			
-			process_num = Integer.parseInt(request.getParameter("process_num"));
+			material_num = Integer.parseInt(request.getParameter("material_num"));
 		
-			System.out.println( "/set process process_num : " + process_num );
+			System.out.println( "/set material material_num : " + material_num );
 		} 
 		
-		if (request.getParameter("process_content") != null 
-				&& !("".equals(request.getParameter("process_content")))) {
+		
+		if (request.getParameter("total_quantity") != null 
+				&& !("".equals(request.getParameter("total_quantity")))) {
 			
-			process_content = request.getParameter("process_content");
+			total_quantity = Integer.parseInt(request.getParameter("total_quantity"));
 			
-			System.out.println( "/set process process_content : " + process_content );
+			System.out.println( "/set material total_quantity : " + total_quantity );
 		} 
 		
-		if (request.getParameter("flow") != null 
-				&& !("".equals(request.getParameter("flow")))) {
+		if (request.getParameter("warehouse_num") != null 
+				&& !("".equals(request.getParameter("warehouse_num")))) {
 			
-			flow = Integer.parseInt(request.getParameter("flow"));
+			warehouse_num = Integer.parseInt(request.getParameter("warehouse_num"));
 			
-			System.out.println( "/set process flow : " + flow );
-		} 
-		
-		if (request.getParameter("img_url") != null 
-				&& !("".equals(request.getParameter("img_url")))) {
-			
-			img_url = request.getParameter("img_url");
-			
-			System.out.println( "/set process img_url : " + img_url );
+			System.out.println( "/set material warehouse_num : " + warehouse_num );
 		} 
 		
 		if (request.getParameter("mdm_num") != null 
@@ -166,21 +159,21 @@ public class ProcessControll extends HttpServlet {
 			
 			mdm_num = Integer.parseInt(request.getParameter("mdm_num"));
 			
-			System.out.println( "/set process mdm_num : " + mdm_num );
+			System.out.println( "/set material mdm_num : " + mdm_num );
 		} 
 	
 		
-		processDTO.setProcess_num(process_num);
-		processDTO.setProcess_content(process_content);
-		processDTO.setFlow(flow);
-		processDTO.setImg_url(img_url);
-		processDTO.setMdm_num(mdm_num);
+		materialDTO.setMaterial_num(material_num);
+		materialDTO.setTotal_quantity(total_quantity);
+		materialDTO.setWarehouse_num(warehouse_num);
+		materialDTO.setMdm_num(mdm_num);
 		
-		return processDTO;
+		return materialDTO;
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
+
 }

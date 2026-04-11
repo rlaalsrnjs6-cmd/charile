@@ -12,25 +12,33 @@ public class MdmDAO extends ParentDAO<MdmDTO> {
 	@Override
 	protected String selectQuery(MdmDTO dto, String selector) {
 		
-		String query = " select * from mdm ";
+		String query = " select * from ( "
+					 + "	 select rownum as rnum, subqry.* from ( "
+					 + "	 select " + tableName() + ".* from " + tableName() ;
+		String where = "";
 		
-		if ( "".equals(selector) || selector == null || dto == null ) return query;
+		if ( dto != null ) {
 		
-		switch(selector) {
+			switch(selector) {
 		
-		case "all": return query;
-		case "num": query += " where mdm_num = '" + dto.getMdm_num() + "'"; return query;
+				case "all": return query;
+				case "num": where = " where " + pk_Coulum_Name() + " = '" + dto.getMdm_num() + "'"; break;
 		
-		case "search1": query += " where code = '" +  dto.getSearch() + "' or name = '" + dto.getSearch() 
-		+ "' or unit = '" + dto.getSearch() + "' or type = '" + dto.getSearch() + "'"; return query;	
-		case "search2" : query += " where code = '" +  dto.getSearch() + "'"; return query;
-		case "search3" : query += " where name = '" +  dto.getSearch() + "'"; return query;
-		case "search4" : query += " where unit = '" +  dto.getSearch() + "'"; return query;
-		case "search5" : query += " where type = '" +  dto.getSearch() + "'"; return query;
-		default : break;
+				case "search1": where = " where code = "
+										+ "'" + dto.getSearch() + "'"
+										+ " or name = '" + dto.getSearch() + "'" 
+										+ " or unit = '" + dto.getSearch() + "'"
+										+ " or type = '" + dto.getSearch() + "'"; break;	
+				case "search2" : where = " where code = '" +  dto.getSearch() + "'"; break;
+				case "search3" : where = " where name = '" +  dto.getSearch() + "'"; break;
+				case "search4" : where = " where unit = '" +  dto.getSearch() + "'"; break;
+				case "search5" : where = " where type = '" +  dto.getSearch() + "'"; break;
+				default : break;
+			}
 		}
-		
-		query += " order by mdm_num ";
+		// order by 조건 함수로
+		query += where;
+		query += " order by " + pk_Coulum_Name() + " ) subqry )";
 		return query;
 		
 	}
