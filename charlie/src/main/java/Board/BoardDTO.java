@@ -11,6 +11,36 @@ public class BoardDTO {
 	Date write_time;
 	int file_num;
 	
+	private int size = 5;
+	private int page = 1;
+	
+	private int start = 0;
+	private int end = 0;
+	
+	public int getSize() {
+		return size;
+	}
+	public void setSize(int size) {
+		this.size = size;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getStart() {
+		return start;
+	}
+	public void setStart(int start) {
+		this.start = start;
+	}
+	public int getEnd() {
+		return end;
+	}
+	public void setEnd(int end) {
+		this.end = end;
+	}
 	public int getEmpno() {
 		return empno;
 	}
@@ -57,7 +87,8 @@ public class BoardDTO {
 	@Override
 	public String toString() {
 		return "BoardDTO [empno=" + empno + ", post_num=" + post_num + ", category=" + category + ", title=" + title
-				+ ", content=" + content + ", write_time=" + write_time + ", file_num=" + file_num + "]";
+				+ ", content=" + content + ", write_time=" + write_time + ", file_num=" + file_num + ", size=" + size
+				+ ", page=" + page + ", start=" + start + ", end=" + end + "]";
 	}
 	
 	

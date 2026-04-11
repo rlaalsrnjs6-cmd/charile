@@ -54,7 +54,7 @@ public class ProductionManagementService {
 //				List list2 = dao.selectData();
 				
 				map.put("List1", list1);
-//				map.put("List2", list2);
+
 				map.put("page", pageCount);
 				
 				map.put("startPage", startPage); // 시작 페이지 몇번인지

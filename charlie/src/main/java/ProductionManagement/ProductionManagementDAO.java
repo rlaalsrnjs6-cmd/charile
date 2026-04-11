@@ -29,37 +29,7 @@ public class ProductionManagementDAO {
 	
 	
 	
-	//	남은수량 , 만든 총합 출력
-//	public List<ProductionManagementDTO> selectData() {
-//		String query = "SELECT "
-//				+ "    P.prod_num, "
-//				+ "    P.target_quantity AS \"전체목표\", "
-//				+ "    SUM(L.lot_count) AS \"현재까지_만든_총합\", "
-//				+ "    (P.target_quantity - SUM(L.lot_count)) AS \"남은목표_수량\" "
-//				+ "FROM production_management P\r\n"
-//				+ "JOIN work_order W ON P.prod_num = W.prod_num  "
-//				+ "JOIN lot L ON W.order_num = L.order_num "
-//				+ "GROUP BY P.prod_num, P.target_quantity "
-//				+ "ORDER BY p.prod_num ASC";
-//				List<ProductionManagementDTO> list = new ArrayList();
-//		try(Connection conn = dataFactory.getConnection();
-//				PreparedStatement ps = conn.prepareStatement(query);
-//				ResultSet rs = ps.executeQuery();)
-//		{
-//			while(rs.next()) {
-//				ProductionManagementDTO dto = new ProductionManagementDTO();
-//				
-//				dto.setCurrentCount(rs.getInt("현재까지_만든_총합"));
-//				dto.setRemainCount(rs.getInt("남은목표_수량"));
-//				dto.setProd_num(rs.getInt("prod_num"));
-//				dto.setTarget_quantity(rs.getInt("전체목표"));
-//				list.add(dto);
-//			}
-//		}catch(Exception e) {
-//			e.printStackTrace();
-//		}
-//		return list;
-//	}
+
 	
 	//페이지에서 보여줄 항목 몇개인지 개수 리턴
 	public int getTotalCount() {
@@ -141,6 +111,7 @@ public class ProductionManagementDAO {
 
 	//insert하는 메서드
 	public int insertData(ProductionManagementDTO dto) {
+	
 		String query = "insert into production_management (prod_num, target_quantity, work_start, work_end, title, mdm_num, content, empno)"
 				+ " values(production_mgmt_seq.nextval, ?, ?, ?, ?, ?, '비고', ?)";
 		
