@@ -114,14 +114,13 @@ public int qcDAO(QCDTO dto) {
 			// 인서트
 			if("add".equals(dto.getMod())) {
 				 query = "INSERT INTO qc "//아직안만듬
-					   + "(ph_num, empno, body_temper, regist_time, "
-					   + "washed, supervisor_chk, memo) "
-					   + "VALUES (?, ?, ?, SYSDATE, ?, ?, ?)";
+					   + "(qc_num, lot_num, qc_date, empno) "
+					   + "VALUES (?, ?, SYSDATE, ?)";
 			}
 			// 딜리트
 			if("delete".equals(dto.getMod())) { //만드는중
-				query = "DELETE FROM personal_hygiene "
-					  + "WHERE ph_num = ?";
+				query = "DELETE FROM qc "
+					  + "WHERE qc_num = ?";
 			}
 			ps = conn.prepareStatement(query);
 			
@@ -137,9 +136,8 @@ public int qcDAO(QCDTO dto) {
 			if("add".equals(dto.getMod())) {
 				System.out.println("addps");
 				ps.setInt(1, dto.getQc_num());
-				ps.setInt(2, dto.getEmpno());
-				ps.setInt(3, dto.getLot_num());
-				ps.setDate(4, dto.getQc_date());
+				ps.setInt(2, dto.getLot_num());
+				ps.setInt(3, dto.getEmpno());
 				
 			}
 			
@@ -150,7 +148,7 @@ public int qcDAO(QCDTO dto) {
 			
 			result = ps.executeUpdate();
 			
-			System.out.println("qcDAO:"+result);
+			System.out.println("qcDAO리솔트:"+result);
 			
 			
 		} catch (Exception e) {

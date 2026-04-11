@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import PersonalHygiene.PersonalHygieneDTO;
+import PersonalHygiene.PersonalHygieneService;
 
 @WebServlet("/qc")
 public class QCControll extends HttpServlet {
@@ -40,7 +41,7 @@ public class QCControll extends HttpServlet {
 			request.getRequestDispatcher("qcUp.jsp").forward(request, response);
 			return;
 		}else if("delete".equals(mod)) {
-			request.getRequestDispatcher("qcDelete.jsp").forward(request, response);
+			qcDelete(request,response);
 			return;
 		}
 		System.out.println("리스트로 고고씽");
@@ -52,8 +53,7 @@ public class QCControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 		String mod = request.getParameter("mod");
 		if("add".equals(mod)) {
-			request.getRequestDispatcher("qcDetail.jsp").forward(request, response);
-			return;
+			qcAdd(request,response);
 		}else if("up".equals(mod)) {
 			qcUP(request,response);
 		}else if("delete".equals(mod)) {
@@ -84,8 +84,44 @@ public class QCControll extends HttpServlet {
 		response.sendRedirect("qc");
 		
 	}
+	
+	protected void qcAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8;");
+		
+		String sqc_num = request.getParameter("qc_num");
+		String slot_num = request.getParameter("lot_num");
+		String sempno = request.getParameter("empno");
+		String mod = request.getParameter("mod");
+		System.out.println("up:" + mod);
+		int qc_num = Integer.parseInt(sqc_num);
+		int lot_num = Integer.parseInt(slot_num);
+		int empno = Integer.parseInt(sempno);
+		
+		QCDTO qcDTO = new QCDTO();
+		qcDTO.setQc_num(qc_num);
+		qcDTO.setLot_num(lot_num);
+		qcDTO.setEmpno(empno);
+		qcDTO.setMod(mod);
+		
+		QCService service = new QCService();
+		
+		System.out.println("qcAdd마지막: "+service.qcService(qcDTO));
+		
+		response.sendRedirect("qc");
+	}
+	
 	protected void qcDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
+		String sqc_num = request.getParameter("qc_num");
+		String mod = request.getParameter("mod");
+		int qc_num = Integer.parseInt(sqc_num);
+		QCDTO qcDTO = new QCDTO();
+		qcDTO.setQc_num(qc_num);
+		qcDTO.setMod(mod);
+		QCService service = new QCService();
+		System.out.println("qcAdd마지막: "+service.qcService(qcDTO));
+		response.sendRedirect("qc");
 	}
 }

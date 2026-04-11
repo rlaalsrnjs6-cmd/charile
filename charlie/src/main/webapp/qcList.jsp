@@ -29,6 +29,7 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<a href = "http://localhost:8080/charlie/qcAdd.jsp">작성</a>
 	
 </body>
 </html>
