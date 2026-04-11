@@ -2,11 +2,22 @@ package fileLibrary;
 
 public class TestDTO {
 	
-	String search_content; // 검색어 내용
-	String orderBy; // 기준 정렬
-	String selector; // select cmd
+	// select list 
+	String search_content; // 검색어 내용 
+	String orderBy; // set column Name
+	String selector; // set select cmd
+	
+	// 아직 구상만 하는중
 	String whereCul; // where 조건 컬럼
 	String whereVal; // where 조건 벨류
+	
+	// paging
+	int size; // page당 보여줄 컬럼 개수
+	int page; // 해당 page 
+	
+	int start; // start page number
+	int end; // end page number
+	
 	
 	public String getSelector() {
 		return selector;
@@ -37,6 +48,33 @@ public class TestDTO {
 	}
 	public void setOrderBy(String orderBy) {
 		this.orderBy = orderBy;
+	}
+	
+	
+	
+	public int getSize() {
+		return size;
+	}
+	public void setSize(int size) {
+		this.size = size;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getStart() {
+		return start;
+	}
+	public void setStart(int start) {
+		this.start = start;
+	}
+	public int getEnd() {
+		return end;
+	}
+	public void setEnd(int end) {
+		this.end = end;
 	}
 	
 	@Override
