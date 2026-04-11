@@ -4,12 +4,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import fileLibrary.ParentDAO;
+import fileLibrary.ParentDAO2;
+import fileLibrary.TestDTO;
 
-public class MdmDAO extends ParentDAO<MdmDTO> {
+public class MdmDAOtest extends ParentDAO2<MdmDTO, TestDTO> {
 	
 	@Override
-	protected String selectQuery(MdmDTO dto, String selector) {
+	protected String selectQuery(MdmDTO dto, TestDTO testDTO) {
 		
 		String query = " select * from ( "
 					 + "	 select rownum as rnum, subqry.* from ( "
@@ -18,7 +19,7 @@ public class MdmDAO extends ParentDAO<MdmDTO> {
 		
 		if ( dto != null ) {
 		
-			switch(selector) {
+			switch(testDTO.getSelector()) {
 		
 				// 단일 선택
 				case "num": where = " where " + pk_Coulum_Name() + " = '" + dto.getMdm_num() + "'"; break;
