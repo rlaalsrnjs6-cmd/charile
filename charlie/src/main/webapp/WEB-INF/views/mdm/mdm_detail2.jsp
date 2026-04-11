@@ -12,7 +12,6 @@
 <title>detail page</title>
 </head>
 <body>
-	${mdmInfo.list1}
 
 	<h1>mdm detail</h1>
 	<hr>

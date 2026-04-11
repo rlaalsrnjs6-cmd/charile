@@ -2,6 +2,7 @@ package Mdm;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +28,7 @@ public class MdmControll2 extends HttpServlet {
 
 		switch (cmd) {
 
-		case "insertPage": request.getRequestDispatcher("WEB-INF/views/mdm/mdm_insert.jsp").forward(request, response); return;
+		case "insertPage": request.getRequestDispatcher("WEB-INF/views/mdm/mdm_insert2.jsp").forward(request, response); return;
 		case "insert": insert(request, response); return;
 		case "list": list(request, response); return;
 		case "detail": detail(request, response, "detail"); return;
@@ -54,7 +55,7 @@ public class MdmControll2 extends HttpServlet {
 		service.insertDB(setDTO(request));
 
 		// list page
-		response.sendRedirect("mdm?cmd=list");
+		response.sendRedirect("mdm2?cmd=list");
 	}
 
 	// list
@@ -72,7 +73,7 @@ public class MdmControll2 extends HttpServlet {
 		System.out.println("/ctrl list : " + list);
 		
 		request.setAttribute("list", list);
-		request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list.jsp").forward(request, response);
+		request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list2.jsp").forward(request, response);
 
 	}
 	
@@ -83,7 +84,7 @@ public class MdmControll2 extends HttpServlet {
 		MdmServiceTest service = new MdmServiceTest();
 		service.deleteDB(setDTO(request));
 		
-		response.sendRedirect("mdm?cmd=list");
+		response.sendRedirect("mdm2?cmd=list");
 	}
 	
 	// update
@@ -93,7 +94,7 @@ public class MdmControll2 extends HttpServlet {
 		MdmServiceTest service = new MdmServiceTest();
 		service.modifyDB(setDTO(request));
 		
-		response.sendRedirect("mdm?cmd=list");
+		response.sendRedirect("mdm2?cmd=list");
 	}
 	
 
@@ -103,22 +104,21 @@ public class MdmControll2 extends HttpServlet {
 			throws ServletException, IOException {
 
 		System.out.println("/detail 실행");
-
 		// Service > DAO - selectOne
 		MdmServiceTest service = new MdmServiceTest();
-		List mdmInfo = service.selectDB(setDTO(request), setTestDTO(request, "num"));
-
+		Map mdmInfo = service.selectDB(setDTO(request), setTestDTO(request, "num"));
+		//!!!!!!!!!!!!!!!!!!!!
 		// Forward > DTO
 		request.setAttribute("mdmInfo", mdmInfo);
 		
 		if("detail".equals(selector)) {
 			
-			request.getRequestDispatcher("WEB-INF/views/mdm/mdm_detail.jsp")
+			request.getRequestDispatcher("WEB-INF/views/mdm/mdm_detail2.jsp")
 				.forward(request, response);
 		
 		} else {
 			
-			request.getRequestDispatcher("WEB-INF/views/mdm/mdm_modify.jsp")
+			request.getRequestDispatcher("WEB-INF/views/mdm/mdm_modify2.jsp")
 				.forward(request, response);
 			
 		}
@@ -127,7 +127,7 @@ public class MdmControll2 extends HttpServlet {
 	
 	
 	////////////
-	
+	//!!!!!!!!!!!!!!!!
 	// search
 	protected void search(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -135,10 +135,10 @@ public class MdmControll2 extends HttpServlet {
 		
 		MdmServiceTest service = new MdmServiceTest();
 		String search_select = request.getParameter("search_select");
-		List list = service.selectDB(setDTO(request), setTestDTO(request, search_select));
+		Map map = service.selectDB(setDTO(request), setTestDTO(request, search_select));
 
-		request.setAttribute("list", list);
-		request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list.jsp").forward(request, response);
+		request.setAttribute("map", map);
+		request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list2.jsp").forward(request, response);
 
 	}
 	

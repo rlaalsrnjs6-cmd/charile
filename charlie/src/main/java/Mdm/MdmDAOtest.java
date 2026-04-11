@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import ProductionManagement.ProductionManagementDTO;
 import fileLibrary.ParentDAO2;
 import fileLibrary.TestDTO;
 
@@ -79,7 +78,6 @@ public class MdmDAOtest extends ParentDAO2<MdmDTO, TestDTO> {
 	@Override
 	protected PreparedStatement setPs(PreparedStatement ps, MdmDTO dto, String selector) throws SQLException {
 
-		
 			ps.setString(1, dto.getCode());
 			ps.setString(2, dto.getName());
 			ps.setString(3, dto.getUnit());
@@ -118,13 +116,12 @@ public class MdmDAOtest extends ParentDAO2<MdmDTO, TestDTO> {
 		return dto;
 	}
 
-
-
-
-	
 	@Override // 고정
 	protected PreparedStatement selectPs(PreparedStatement ps, MdmDTO dto, TestDTO testDTO) throws SQLException {
-		ps.setString(1, dto.getType());
+		String orderBy = pk_Coulum_Name();
+		if ( testDTO.getOrderBy() != null ) orderBy = testDTO.getOrderBy();
+		
+		ps.setString(1, orderBy);
 		ps.setInt(2, testDTO.getStart());
 		ps.setInt(3, testDTO.getEnd());
 		return ps;

@@ -12,9 +12,9 @@ public class MdmServiceTest extends ParentService2<MdmDTO, TestDTO>{
 	MdmDAOtest mdmDAO = new MdmDAOtest();
 
 	@Override
-	public List selectDB(MdmDTO dto, TestDTO testDTO) {
-		System.out.println("service dto : " + dto);
-		List list = mdmDAO.selectDB(dto, testDTO);
+	public Map selectDB(MdmDTO dto, TestDTO testDTO) {
+		//System.out.println("service dto : " + dto);
+		//List list = mdmDAO.selectDB(dto, testDTO);
 		
 		//페이지에서 보여줄 항목 몇개인지 개수 리턴
 		int pageCount = mdmDAO.getTotalCount();
@@ -47,7 +47,7 @@ public class MdmServiceTest extends ParentService2<MdmDTO, TestDTO>{
 		
 		Map map = new HashMap();
 		//생산관리에 있는 기존 DB만 select
-		List list1 = mdmDAO.selectPage(testDTO);
+		List list1 = mdmDAO.selectDB(dto, testDTO);
 		System.out.println("서비스의 list1: " + list1);
 		
 		// 전체목표, 만든 개수, 남은 수량 select
@@ -62,7 +62,7 @@ public class MdmServiceTest extends ParentService2<MdmDTO, TestDTO>{
 		map.put("totalPage", totalPage); //전체 페이지 개수
 		map.put("currentPage", page); //현재 페이지가 데이터
 		
-return map;
+		return map;
 	}
 	
 	@Override
