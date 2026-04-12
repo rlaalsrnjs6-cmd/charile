@@ -1,11 +1,13 @@
 package Lot;
 
 public class LotDTO {
-	int lot_num;
+	int lot_num = -1;
 	int lot_count;
 	int order_num;
 	String qc_chk;
 	int material_num;
+	int mdm_num;
+	String mod;
 	public int getLot_num() {
 		return lot_num;
 	}
@@ -36,13 +38,23 @@ public class LotDTO {
 	public void setMaterial_num(int material_num) {
 		this.material_num = material_num;
 	}
-	
+	public int getMdm_num() {
+		return mdm_num;
+	}
+	public void setMdm_num(int mdm_num) {
+		this.mdm_num = mdm_num;
+	}
+	public String getMod() {
+		return mod;
+	}
+	public void setMod(String mod) {
+		this.mod = mod;
+	}
 	@Override
 	public String toString() {
 		return "LotDTO [lot_num=" + lot_num + ", lot_count=" + lot_count + ", order_num=" + order_num + ", qc_chk="
-				+ qc_chk + ", material_num=" + material_num + "]";
+				+ qc_chk + ", material_num=" + material_num + ", mdm_num=" + mdm_num + ", mod=" + mod + "]";
 	}
-	
 	
 	
 	
