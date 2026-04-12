@@ -41,7 +41,7 @@ public class PersonalHygieneControll extends HttpServlet {
 		}else if("delete".equals(mod)){
 			HygieneDelete(request, response);
 		}else {
-			request.getRequestDispatcher("WEB-INF/views/hygiene/hygiene.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/views/hygiene/hygieneList.jsp").forward(request, response);
 		}
 	}
 

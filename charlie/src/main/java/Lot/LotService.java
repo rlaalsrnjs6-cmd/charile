@@ -2,38 +2,22 @@ package Lot;
 
 import java.util.List;
 
+import Defective.DefectiveDAO;
+import Defective.DefectiveDTO;
 import fileLibrary.ParentService;
 
-public class LotService  extends ParentService<LotDTO>{
+public class LotService{
 
-	@Override
-	public List selectDB(LotDTO dto, String cmd) {
-		// TODO Auto-generated method stub
-		return null;
+	List<LotDTO> select(LotDTO dto){
+		LotDAO dao = new LotDAO();
+		List list = dao.select(dto);
+		return list;
 	}
-
-	@Override
-	public List selectAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public LotDTO insertDB(LotDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public LotDTO modifyDB(LotDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int deleteDB(LotDTO dto) {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	int lotService(LotDTO dto){
+		LotDAO dao = new LotDAO();
+		int list = dao.lotDAO(dto);
+		return list ;
 	}
 
 }
