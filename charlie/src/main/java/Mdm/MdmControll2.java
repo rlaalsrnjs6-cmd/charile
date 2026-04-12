@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fileLibrary.TestDTO;
 
@@ -67,12 +68,14 @@ public class MdmControll2 extends HttpServlet {
 
 		MdmServiceTest service = new MdmServiceTest();
 
-		MdmDTO mdmDTO = null;
-		List list = (List) service.selectAll();
-
-		System.out.println("/ctrl list : " + list);
+		Map map = service.selectDB(setDTO(request), setTestDTO(request, "all"));
+		System.out.println("/ctrl map : " + map);
 		
-		request.setAttribute("list", list);
+		HttpSession session = request.getSession();
+		request.setAttribute("map", map);
+		session.setAttribute("servletName", "mdm2");
+		
+		
 		request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list2.jsp").forward(request, response);
 
 	}
@@ -106,10 +109,10 @@ public class MdmControll2 extends HttpServlet {
 		System.out.println("/detail 실행");
 		// Service > DAO - selectOne
 		MdmServiceTest service = new MdmServiceTest();
-		Map mdmInfo = service.selectDB(setDTO(request), setTestDTO(request, "num"));
-		//!!!!!!!!!!!!!!!!!!!!
+		Map map = service.selectDB(setDTO(request), setTestDTO(request, "num"));
+		// !!!!!!!!!!!!!!!!!!!!
 		// Forward > DTO
-		request.setAttribute("mdmInfo", mdmInfo);
+		request.setAttribute("map", map);
 		
 		if("detail".equals(selector)) {
 			
@@ -190,19 +193,36 @@ public class MdmControll2 extends HttpServlet {
 		
 	}
 	
+	// 공통 변수
 	protected TestDTO setTestDTO(HttpServletRequest request, String cmd)
 			throws ServletException, IOException {
 		
 		TestDTO testDTO = new TestDTO();
 		
-		// 검색 기능
+		// 검색 기능 [ search_content ]
 		String search_content = request.getParameter("search_content");
 		testDTO.setSearch_content(search_content);
 		
+		// orderBy [ column ]
 		String orderBy = request.getParameter("orderBy");
 		testDTO.setOrderBy(orderBy);
 		
+		// all / or / num
 		testDTO.setSelector(cmd);
+		
+		
+		// paging 
+		int size= 10, page= 1;
+		
+		try {
+			size = Integer.parseInt(request.getParameter("size"));
+		} catch(Exception e) { }
+		try {
+			page = Integer.parseInt(request.getParameter("page"));
+		} catch(Exception e) { }
+		
+		testDTO.setSize(size);
+		testDTO.setPage(page);
 		
 		return testDTO;
 	}

@@ -32,20 +32,25 @@ public class MdmDAOtest extends ParentDAO2<MdmDTO, TestDTO> {
 	@Override
 	protected String selectQuery(MdmDTO dto, TestDTO testDTO) {
 		
+		// SET QUERY
 		String query = " select * from ( "
 					 + "	 select rownum as rnum, subqry.* from ( "
 					 + "	 select " + tableName() + ".* from " + tableName() ;
 		
+		// SET WHERE
 		String where = "";
-		
-		String orderBy = "" + dto.getMdm_num();
+		// SET ORDERBY
+		String orderBy = pk_Coulum_Name();
 		if ( testDTO.getOrderBy() != null ) orderBy = testDTO.getOrderBy();
 		
+		// 가변 조건
 		if ( dto != null ) {
 		
 			switch(testDTO.getSelector()) {
 		
-				// 단일 선택
+				// 전체 선택
+				case "all" : break;
+				// 조건 선택
 				case "num": where = " where " + pk_Coulum_Name() + " = '" + dto.getMdm_num() + "'"; break;
 				// 전체 검색
 				case "search1": where = " where code = " 
@@ -60,9 +65,9 @@ public class MdmDAOtest extends ParentDAO2<MdmDTO, TestDTO> {
 				default : break;
 			}
 		}
-		// order by 조건 함수로
+		// 추가 내용
 		query += where;
-		query += " order by ? ) subqry )";
+		query += " order by "+ orderBy +" ) subqry )";
 		query += " WHERE rnum >= ? AND rnum <= ?" ;
 		return query;
 		
@@ -116,14 +121,11 @@ public class MdmDAOtest extends ParentDAO2<MdmDTO, TestDTO> {
 		return dto;
 	}
 
-	@Override // 고정
-	protected PreparedStatement selectPs(PreparedStatement ps, MdmDTO dto, TestDTO testDTO) throws SQLException {
-		String orderBy = pk_Coulum_Name();
-		if ( testDTO.getOrderBy() != null ) orderBy = testDTO.getOrderBy();
+	@Override // 고정 사용 CONST
+	protected PreparedStatement selectPs(PreparedStatement ps, TestDTO testDTO) throws SQLException {
 		
-		ps.setString(1, orderBy);
-		ps.setInt(2, testDTO.getStart());
-		ps.setInt(3, testDTO.getEnd());
+		ps.setInt(1, testDTO.getStart());
+		ps.setInt(2, testDTO.getEnd());
 		return ps;
 	}
 
