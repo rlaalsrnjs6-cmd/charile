@@ -34,10 +34,7 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<form method="post" action="hygiene">
-		<input type="hidden" name="mod" value="write">
-		<input type="submit" value="작성">
-	</form>
+	<a href="http://localhost:8080/charlie/hygiene?mod=add">작성</a>
 <!-- 	<form method="post" action="hygiene"> -->
 <!-- 		<input type="hidden" name="mod" value="detele.jsp"> -->
 <!-- 		<input type="submit" value="삭제"> -->
