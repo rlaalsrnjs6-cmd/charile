@@ -73,7 +73,7 @@ public class NoticeDAO {
 				//열어둔 문을 통해 어디로 갈지 경로를 정함
 		        DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 		        
-		        String query ="select count(*) from post"; 
+		        String query ="select count(*) from post where category='공지사항'"; 
 		        
 		        try(Connection conn = dataFactory.getConnection();
 		        	PreparedStatement ps = conn.prepareStatement(query);	
