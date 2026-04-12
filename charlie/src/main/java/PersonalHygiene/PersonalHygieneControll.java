@@ -32,14 +32,16 @@ public class PersonalHygieneControll extends HttpServlet {
 		System.out.println("hygieneCon: " + list);
 		System.out.println(list.get(0).getPh_num());
 		request.setAttribute("hygiene", list);
-		if(detail!=null) {
-			request.getRequestDispatcher("hygieneDetail.jsp").forward(request, response);
+		if("detail".equals(mod)) {
+			request.getRequestDispatcher("WEB-INF/views/hygiene/hygieneDetail.jsp").forward(request, response);
+		}else if("add".equals(mod)){
+			request.getRequestDispatcher("WEB-INF/views/hygiene/hygieneAdd.jsp").forward(request, response);
 		}else if("up".equals(mod)){
-			request.getRequestDispatcher("hygieneUp.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/views/hygiene/hygieneUp.jsp").forward(request, response);
 		}else if("delete".equals(mod)){
 			HygieneDelete(request, response);
 		}else {
-			request.getRequestDispatcher("hygiene.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/views/hygiene/hygiene.jsp").forward(request, response);
 		}
 	}
 
@@ -49,21 +51,13 @@ public class PersonalHygieneControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 		String mod = request.getParameter("mod");
 
-		if ("write".equals(mod)) {
-			Write(request, response);
-		} else if ("up".equals(mod)) {
+		if ("up".equals(mod)) {
 			HygieneUp(request, response);
 		}else if ("add".equals(mod)) {
 			HygieneUp(request, response);
 		}else if ("delete".equals(mod)) {
 			HygieneDelete(request, response);
 		}
-	}
-
-	protected void Write(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		response.sendRedirect("hygieneAdd.jsp");
-
 	}
 
 	protected void HygieneUp(HttpServletRequest request, HttpServletResponse response)

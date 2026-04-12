@@ -35,17 +35,20 @@ public class QCControll extends HttpServlet {
 		request.setAttribute("qc",list);
 		if("detail".equals(mod)) {
 			System.out.println("디테일로고고씽");
-			request.getRequestDispatcher("qcDetail.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/views/qc/qcDetail.jsp").forward(request, response);
 			return;
 		}else if("up".equals(mod)) {
-			request.getRequestDispatcher("qcUp.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/views/qc/qcUp.jsp").forward(request, response);
+			return;
+		}else if("add".equals(mod)) {
+			request.getRequestDispatcher("WEB-INF/views/qc/qcAdd.jsp").forward(request, response);
 			return;
 		}else if("delete".equals(mod)) {
 			qcDelete(request,response);
 			return;
 		}
 		System.out.println("리스트로 고고씽");
-		request.getRequestDispatcher("qcList.jsp").forward(request, response);
+		request.getRequestDispatcher("WEB-INF/views/qc/qcList.jsp").forward(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

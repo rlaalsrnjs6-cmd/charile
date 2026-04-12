@@ -33,17 +33,20 @@ public class DefectiveControll extends HttpServlet {
 		request.setAttribute("defective", list);
 		if ("detail".equals(mod)) {
 			System.out.println("디테일로고고씽");
-			request.getRequestDispatcher("defectiveDetail.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/views/defective/defectiveDetail.jsp").forward(request, response);
 			return;
 		} else if ("up".equals(mod)) {
-			request.getRequestDispatcher("defectiveUp.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/views/defective/defectiveUp.jsp").forward(request, response);
+			return;
+		} else if ("add".equals(mod)) {
+			request.getRequestDispatcher("WEB-INF/views/defective/defectiveAdd.jsp").forward(request, response);
 			return;
 		} else if ("delete".equals(mod)) {
 			defectiveDelete(request, response);
 			return;
 		}
 		System.out.println("리스트로 고고씽");
-		request.getRequestDispatcher("defectiveList.jsp").forward(request, response);
+		request.getRequestDispatcher("WEB-INF/views/defective/defectiveList.jsp").forward(request, response);
 	}
 
 	
