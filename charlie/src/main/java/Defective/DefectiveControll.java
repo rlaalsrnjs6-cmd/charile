@@ -97,6 +97,8 @@ public class DefectiveControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 
 		String sdefective_num = request.getParameter("defective_num");
+		String sqc_num = request.getParameter("qc_num");
+		String smdm_num = request.getParameter("mdm_num");
 		String category = request.getParameter("category");
 		String scount = request.getParameter("count");
 		String action = request.getParameter("action");
@@ -104,12 +106,16 @@ public class DefectiveControll extends HttpServlet {
 		System.out.println("up:" + mod);
 		int defective_num = Integer.parseInt(sdefective_num);
 		int count = Integer.parseInt(scount);
+		int mdm_num = Integer.parseInt(smdm_num);
+		int qc_num = Integer.parseInt(sqc_num);
 
 		DefectiveDTO defectiveDTO = new DefectiveDTO();
 		defectiveDTO.setDefective_num(defective_num);
 		defectiveDTO.setCategory(category);
 		defectiveDTO.setCount(count);
 		defectiveDTO.setAction(action);
+		defectiveDTO.setMdm_num(mdm_num);
+		defectiveDTO.setQc_num(qc_num);
 		defectiveDTO.setMod(mod);
 
 		DefectiveService service = new DefectiveService();

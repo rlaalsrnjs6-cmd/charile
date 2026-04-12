@@ -117,14 +117,14 @@ public class DefectiveDAO {
 				}
 				// 인서트
 				if("add".equals(dto.getMod())) {
-					 query = "INSERT INTO qc "//아직안만듬
-						   + "(qc_num, lot_num, qc_date, empno) "
-						   + "VALUES (?, ?, SYSDATE, ?)";
+					 query = "INSERT INTO defective "//아직안만듬
+						   + "(defective_num, category, count, qc_num, action, mdm_num) "
+						   + "VALUES (?, ?, ?, ?, ?, ?)";
 				}
 				// 딜리트
 				if("delete".equals(dto.getMod())) { //만드는중
-					query = "DELETE FROM qc "
-						  + "WHERE qc_num = ?";
+					query = "DELETE FROM defective "
+						  + "WHERE defective_num = ?";
 				}
 				ps = conn.prepareStatement(query);
 				
@@ -143,6 +143,11 @@ public class DefectiveDAO {
 				if("add".equals(dto.getMod())) {
 					System.out.println("addps");
 					ps.setInt(1, dto.getDefective_num());
+					ps.setString(2, dto.getCategory());
+					ps.setInt(3, dto.getCount());
+					ps.setInt(4, dto.getQc_num());
+					ps.setString(5, dto.getAction());
+					ps.setInt(6, dto.getMdm_num());
 					
 				}
 				
