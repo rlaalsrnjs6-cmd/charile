@@ -24,26 +24,22 @@
 	
 	<table border=1>
 		<tr>
-			<th>no</th>
+			<th>No.</th>
 			<th>제목</th>
 			<th>날짜</th>
-			<th>작성자</th>
+			<th>작성자 사원번호</th>
 			<th>상태</th>
 		</tr>
-		<c:forEach var="order" items="${order}">
+		<c:forEach var="o" items="${order}">
 			<tr>
-				<td>${order.order_num}</td>
-				<td>${order.work_order_title}</td>
-				<td>${order.work_date}</td>
-				<td>${order.ename}</td>
-				<td>${order.status}</td>
+				<td>${o.order_num}</td>
+				<td><a href="http://localhost:8080/charlie/order?order_num=${o.order_num}&mod=detail">${o.title}</td>
+				<td>${o.work_date}</td>
+				<td>${o.empno}</td>
+				<td>${o.status}</td>
 			</tr>
 		</c:forEach>
 	</table>
-	<form method="post" action="order">
-		<input type="hidden" name="mod" value="write">
-		<input type="submit" value="작성">
-	</form>
-
+	<a href = "http://localhost:8080/charlie/order?mod=add">작성</a>
 </body>
 </html>
