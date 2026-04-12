@@ -14,8 +14,10 @@
 <body>
 
 	<h1>mdm detail</h1>
+	
+	${ mdmInfo.list1 }
 	<hr>
-	<a href="mdm?cmd=list">뒤로</a> <br>
+	<a href="mdm2?cmd=list">뒤로</a> <br>
 	<hr>
 	<c:forEach var="row" items="${ mdmInfo.list1 }">
 	
@@ -29,8 +31,8 @@
 	</c:forEach>
 	
 	<hr>
-	<a href="mdm?cmd=modify&mdm_num=${ mdmInfo.get(0).mdm_num }">수정</a>
-	<a href="mdm?cmd=delete&mdm_num=${ mdmInfo.get(0).mdm_num }">삭제</a>
+	<a href="mdm2?cmd=modify&mdm_num=${ mdmInfo.get(0).mdm_num }">수정</a>
+	<a href="mdm2?cmd=delete&mdm_num=${ mdmInfo.get(0).mdm_num }">삭제</a>
 	
 </body>
 </html>

@@ -12,13 +12,13 @@
 <title>detail page</title>
 </head>
 <body>
-	${mdmInfo.list1}
+	${mdmInfo.list}
 
 	<h1>mdm detail</h1>
 	<hr>
 	<a href="mdm?cmd=list">뒤로</a> <br>
 	<hr>
-	<c:forEach var="row" items="${ mdmInfo.list1 }">
+	<c:forEach var="row" items="${ mdmInfo.list }">
 	
 		관리번호 : ${ row.mdm_num } <br>
 		코드 : ${ row.code } <br>
