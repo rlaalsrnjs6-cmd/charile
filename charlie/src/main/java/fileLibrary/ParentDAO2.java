@@ -21,7 +21,7 @@ public abstract class ParentDAO2<T, TestDTO> {
 	// set Query / set DTO(rs)
 
 
-	protected abstract PreparedStatement selectPs(PreparedStatement ps, T dto, TestDTO testDTO) throws SQLException; 
+	protected abstract PreparedStatement selectPs(PreparedStatement ps, TestDTO testDTO) throws SQLException; 
 	protected abstract String selectQuery(T dto, TestDTO testDTO);
 	
 	protected abstract T setDTO(ResultSet rs) throws SQLException; // DTO �꽭�똿
@@ -38,7 +38,7 @@ public abstract class ParentDAO2<T, TestDTO> {
 		try ( Connection conn = getConn();
 			  PreparedStatement ps = conn.prepareStatement(selectQuery(dto, testDTO));) 
 		
-		{ selectPs(ps, dto, testDTO);
+		{ selectPs(ps, testDTO);
 		
 			try ( ResultSet rs = ps.executeQuery(); ) 
 		
@@ -52,7 +52,7 @@ public abstract class ParentDAO2<T, TestDTO> {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace();					
 		}
 		System.out.println("/DAO select list : " + list);
 		return list;

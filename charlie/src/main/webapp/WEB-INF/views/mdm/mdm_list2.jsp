@@ -4,6 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*"%>
 <%@ page import="Mdm.MdmDTO"%> 
+<%@ page import="fileLibrary.TestDTO"%> 
+<%@ page import="javax.servlet.http.HttpSession"%> 
     
 <!DOCTYPE html>
 <html>
@@ -15,7 +17,6 @@
 
 <h1>mdm list</h1>
 <hr>
-
 <form action="mdm2?cmd=search" method="post">
 
 <select name="search_select">
@@ -43,7 +44,7 @@
 			</tr>
 		</thead>
 
-		<c:forEach var="row" items="${ list }">
+		<c:forEach var="row" items="${ map.list }">
 			<tr>
 				<td>${ row.mdm_num }</td>
 				<td>${ row.code }</td>
@@ -62,7 +63,10 @@
 		
 		</table>
 		
-		<hr>
-	<a href="mdm2?cmd=insertPage">등록페이지로</a>
+	<jsp:include page="/WEB-INF/views/paging.jsp" />
+	
+	<hr>
+	<a href="${servletName}?cmd=insertPage">등록페이지로</a>
+	
 </body>
 </html>
