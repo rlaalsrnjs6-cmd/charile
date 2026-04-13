@@ -33,7 +33,7 @@ public class LoginCheck extends HttpServlet {
 				out.println("</script>");
 				out.close();
 				return;
-			} else if("N".equals(status) || status == null) {
+			} else if("N".equals(check.get(0).status) || check.get(0).status == null) {
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('퇴사한 사원입니다');");
@@ -47,8 +47,8 @@ public class LoginCheck extends HttpServlet {
 				session.setAttribute("login", true);
 				session.setAttribute("name", check.get(0).getEname());
 				session.setAttribute("level", check.get(0).getEmp_level());
+				response.sendRedirect("emp");
 			}
-			response.sendRedirect("emp");
 		} 
 			
 	
