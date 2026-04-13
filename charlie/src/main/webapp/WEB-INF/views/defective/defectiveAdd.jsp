@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"
+    import = ""
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +9,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@ include file="header.jsp" %>
 <form method="post" action="defective">
 	<table border=1>
 		<tr>
@@ -30,5 +33,6 @@
 		<input type="submit" value="작성">
 	</table>
 </form>
+<%@ include file="footer.jsp" %>
 </body>
 </html>
