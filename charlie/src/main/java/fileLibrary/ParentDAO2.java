@@ -57,6 +57,29 @@ public abstract class ParentDAO2<T, TestDTO> {
 		System.out.println("/DAO select list : " + list);
 		return list;
 	}
+	
+	// selectOne
+	public T selectOne(T dto, TestDTO testDTO) {
+		
+		try ( Connection conn = getConn();
+				PreparedStatement ps = conn.prepareStatement(selectQuery(dto, testDTO));) 
+		
+		{ selectPs(ps, testDTO);
+		
+			try ( ResultSet rs = ps.executeQuery(); ) 
+		
+				{  if (rs.next()) {
+			
+					dto = setDTO(rs);
+				}
+		}
+		
+		} catch (Exception e) {
+			e.printStackTrace();					
+		}
+		System.out.println("/DAO select ONE : " + dto);
+		return dto;
+	}
 
 
 
