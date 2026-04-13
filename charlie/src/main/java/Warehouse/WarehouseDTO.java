@@ -1,12 +1,14 @@
 package Warehouse;
 
 public class WarehouseDTO {
-	int warehouse_num;
+	int warehouse_num = -1;
 	String section;
 	String floor_level;
 	int temperature;
 	String humidity;
 	String wh_status_chk;
+	String mod;
+	
 	public int getWarehouse_num() {
 		return warehouse_num;
 	}
@@ -43,13 +45,18 @@ public class WarehouseDTO {
 	public void setWh_status_chk(String wh_status_chk) {
 		this.wh_status_chk = wh_status_chk;
 	}
+	public String getMod() {
+		return mod;
+	}
+	public void setMod(String mod) {
+		this.mod = mod;
+	}
 	
 	@Override
 	public String toString() {
 		return "WarehouseDTO [warehouse_num=" + warehouse_num + ", section=" + section + ", floor_level=" + floor_level
-				+ ", temperature=" + temperature + ", humidity=" + humidity + ", wh_status_chk=" + wh_status_chk + "]";
+				+ ", temperature=" + temperature + ", humidity=" + humidity + ", wh_status_chk=" + wh_status_chk
+				+ ", mod=" + mod + "]";
 	}
-	
-	
 	
 }

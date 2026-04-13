@@ -10,14 +10,12 @@
 <form method="post" action="defective">
 	<table border=1>
 		<tr>
-			<tr>
 			<th>불량번호</th>
 			<th>불량카테고리</th>
 			<th>개수</th>
 			<th>qc번호</th>
 			<th>불량조치방법</th>
 			<th>mdm번호</th>
-		</tr>
 		</tr>
 		
 		<tr>
