@@ -18,30 +18,30 @@
 	
 	<form method="post" action="mdm">
 	
-		<input type="hidden" name="mdm_num" value="${ mdmInfo.get(0).mdm_num }">
+		<input type="hidden" name="mdm_num" value="${ mdmDTO.mdm_num }">
 		<input type="hidden" name="cmd" value="update">
 		
-		관리번호 : ${ mdmInfo.get(0).mdm_num } <br>
-		코드 : <input name="code" value="${ mdmInfo.get(0).code }"> <br>
-		이름 : <input name="name" value="${ mdmInfo.get(0).name }"> <br>
+		관리번호 : ${ mdmDTO.mdm_num } <br>
+		코드 : <input name="code" value="${ mdmDTO.code }"> <br>
+		이름 : <input name="name" value="${ mdmDTO.name }"> <br>
 		단위 : <select name="unit">
 					<option value="g" >g</option>
-					<c:if test="${ mdmInfo.get(0).mdm_num eq g}"> 
+					<c:if test="${ mdmDTO.mdm_num eq g}"> 
 						<option value="g" selected>g</option> 
 					</c:if>
 					
 					<option value="L" >L</option>
-					<c:if test="${ mdmInfo.get(0).mdm_num eq L}"> 
+					<c:if test="${ mdmDTO.mdm_num eq L}"> 
 						<option value="L" selected>L</option> 
 					</c:if>
 					
 					<option value="ea">정</option>
-					<c:if test="${ mdmInfo.get(0).mdm_num eq ea}"> 
+					<c:if test="${ mdmDTO.mdm_num eq ea}"> 
 						<option value="정" selected>ea</option> 
 					</c:if>
 				</select> <br>
-		타입 : <input name="type" value="${ mdmInfo.get(0).type }"> <br>
-		가격 : <input name="price" value="${ mdmInfo.get(0).price }"> <br>
+		타입 : <input name="type" value="${ mdmDTO.type }"> <br>
+		가격 : <input name="price" value="${ mdmDTO.price }"> <br>
 		<hr>
 		 <input type="submit" value="수정"> <br>
 		

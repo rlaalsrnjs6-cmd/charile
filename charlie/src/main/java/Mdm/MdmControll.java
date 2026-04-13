@@ -2,14 +2,16 @@ package Mdm;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import fileLibrary.TestDTO;
+import fileLibrary.CommonDTO;
 
 @WebServlet("/mdm")
 public class MdmControll extends HttpServlet {
@@ -66,12 +68,13 @@ public class MdmControll extends HttpServlet {
 
 		MdmService service = new MdmService();
 
-		MdmDTO mdmDTO = null;
-		List list = (List) service.selectAll();
-
-		System.out.println("/ctrl list : " + list);
+		Map map = service.selectDB(setDTO(request), setTestDTO(request, ""));
+		System.out.println("/ctrl map : " + map);
 		
-		request.setAttribute("list", list);
+		request.setAttribute("map", map);
+		request.setAttribute("servletName", "mdm");
+		
+		
 		request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list.jsp").forward(request, response);
 
 	}
@@ -103,13 +106,11 @@ public class MdmControll extends HttpServlet {
 			throws ServletException, IOException {
 
 		System.out.println("/detail 실행");
-
 		// Service > DAO - selectOne
 		MdmService service = new MdmService();
-		List mdmInfo = service.selectDB(setDTO(request), "num");
-
+		MdmDTO mdmDTO = service.selectOne(setDTO(request), setTestDTO(request, "num"));
 		// Forward > DTO
-		request.setAttribute("mdmInfo", mdmInfo);
+		request.setAttribute("mdmDTO", mdmDTO);
 		
 		if("detail".equals(selector)) {
 			
@@ -127,17 +128,18 @@ public class MdmControll extends HttpServlet {
 	
 	
 	////////////
-	
+	//!!!!!!!!!!!!!!!!
 	// search
 	protected void search(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		
 		MdmService service = new MdmService();
-		String search_select = request.getParameter("search_select");
-		List list = service.selectDB(setDTO(request), search_select);
+		// 검색 내용받음
+		
+		Map map = service.selectDB(setDTO(request), setTestDTO(request, "search"));
 
-		request.setAttribute("list", list);
+		request.setAttribute("map", map);
 		request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list.jsp").forward(request, response);
 
 	}
@@ -154,10 +156,9 @@ public class MdmControll extends HttpServlet {
 	protected MdmDTO setDTO(HttpServletRequest request) throws ServletException, IOException {
 		
 		MdmDTO mdmDTO = new MdmDTO();
-		TestDTO testDTO = new TestDTO();
 		
-		int mdm_num = -1; String code = null; String name = null; 
-		String unit=null; String type=null; int price= -1; String search_content = null;
+		
+		int mdm_num = -1; int price= -1; 
 		
 		if (request.getParameter("mdm_num") != null 
 				&& !("".equals(request.getParameter("mdm_num")))) {
@@ -167,32 +168,6 @@ public class MdmControll extends HttpServlet {
 			System.out.println( "/set mdm mdm_num : " + mdm_num );
 		} 
 		
-		if (request.getParameter("code") != null 
-				&& !("".equals(request.getParameter("code")))){
-			
-			code = request.getParameter("code");
-		}
-		
-		if (request.getParameter("name") != null 
-				&& !("".equals(request.getParameter("name")))){
-			
-			name = request.getParameter("name");
-		}
-		
-		if (request.getParameter("unit") != null 
-				&& !("".equals(request.getParameter("unit")))){
-			
-			unit = request.getParameter("unit");
-		}
-		
-		if (request.getParameter("type") != null 
-				&& !("".equals(request.getParameter("type")))){
-			
-			type = request.getParameter("type");
-			
-			System.out.println( "/set mdm type : " + type );
-		}
-		
 		if (request.getParameter("price") != null 
 				&& !("".equals(request.getParameter("price")))) {
 			
@@ -201,6 +176,11 @@ public class MdmControll extends HttpServlet {
 			System.out.println( "/set mdm price : " + price );
 		} 
 		
+		String code = request.getParameter("code");
+		String name = request.getParameter("name");
+		String unit = request.getParameter("unit");
+		String type = request.getParameter("type");
+		
 		mdmDTO.setMdm_num(mdm_num);
 		mdmDTO.setCode(code);
 		mdmDTO.setName(name);
@@ -208,19 +188,43 @@ public class MdmControll extends HttpServlet {
 		mdmDTO.setType(type);
 		mdmDTO.setPrice(price);
 		
-		// 검색 기능
-		if (request.getParameter("search_content") != null 
-				&& !("".equals(request.getParameter("search_content")))) {
-			
-				search_content = request.getParameter("search_content");
-		} else {
-			System.out.println("검색어를 입력하세요");
-		}
-		
-		mdmDTO.setSearch(search_content);
-		
 		return mdmDTO;
 		
+	}
+	
+	// 공통 변수
+	protected CommonDTO setTestDTO(HttpServletRequest request, String cmd)
+			throws ServletException, IOException {
+		
+		CommonDTO commonDTO = new CommonDTO();
+		
+		// 검색 기능 [ search_content ]
+		if("search".equals(cmd)) {
+			commonDTO.setSelector(request.getParameter("search_select"));
+			commonDTO.setSearch(request.getParameter("search_content"));
+			System.out.println(commonDTO.getSelector());
+			System.out.println(commonDTO.getSearch());
+		}
+		
+		// orderBy [ column ]
+		String orderBy = request.getParameter("orderBy");
+		commonDTO.setOrderBy(orderBy);
+		
+		
+		// paging 
+		int size= 10, page= 1;
+		
+		try {
+			size = Integer.parseInt(request.getParameter("size"));
+		} catch(Exception e) { }
+		try {
+			page = Integer.parseInt(request.getParameter("page"));
+		} catch(Exception e) { }
+		
+		commonDTO.setSize(size);
+		commonDTO.setPage(page);
+		
+		return commonDTO;
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
