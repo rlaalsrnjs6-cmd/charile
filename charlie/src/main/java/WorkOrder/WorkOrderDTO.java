@@ -8,10 +8,10 @@ public class WorkOrderDTO {
 	int prod_num;
 	int target_quantity;
 	int empno;
-	String work_order_title;
-	String ename;
+	String title;
 	String status;
-	
+	int mdm_num;
+	String mod;
 	public int getOrder_num() {
 		return order_num;
 	}
@@ -42,17 +42,11 @@ public class WorkOrderDTO {
 	public void setEmpno(int empno) {
 		this.empno = empno;
 	}
-	public String getWork_order_title() {
-		return work_order_title;
+	public String getTitle() {
+		return title;
 	}
-	public void setWork_order_title(String work_order_title) {
-		this.work_order_title = work_order_title;
-	}
-	public String getEname() {
-		return ename;
-	}
-	public void setEname(String ename) {
-		this.ename = ename;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public String getStatus() {
 		return status;
@@ -60,12 +54,23 @@ public class WorkOrderDTO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
+	public int getMdm_num() {
+		return mdm_num;
+	}
+	public void setMdm_num(int mdm_num) {
+		this.mdm_num = mdm_num;
+	}
+	public String getMod() {
+		return mod;
+	}
+	public void setMod(String mod) {
+		this.mod = mod;
+	}
 	@Override
 	public String toString() {
 		return "WorkOrderDTO [order_num=" + order_num + ", work_date=" + work_date + ", prod_num=" + prod_num
-				+ ", target_quantity=" + target_quantity + ", empno=" + empno + ", work_order_title=" + work_order_title
-				+ ", ename=" + ename + ", status=" + status + "]";
+				+ ", target_quantity=" + target_quantity + ", empno=" + empno + ", title=" + title + ", status="
+				+ status + ", mdm_num=" + mdm_num + ", mod=" + mod + "]";
 	}
 	
 }

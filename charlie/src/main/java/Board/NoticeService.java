@@ -10,12 +10,9 @@ public class NoticeService {
 	
 	NoticeDAO dao = new NoticeDAO();
 	
+	
+	//페이징 및 select
 	public Map loadNotice(BoardDTO dto) {
-		
-//		System.out.println("noticeService의 loadNotice() 실행");
-//		List list = noticeDAO.selectNotice();
-//		
-//		return list;
 		
 		
 		//페이지에서 보여줄 항목 몇개인지 개수 리턴
@@ -69,5 +66,32 @@ public class NoticeService {
 						
 				return map;
 			}
+	
+	//공지사항 insert 하는 메서드
+	public boolean insertNotice(BoardDTO dto) {
+		System.out.println("insertNotice 실행");
+		boolean result = dao.noticeInsert(dto);
+		return result;
+	}
+	
+	//공지사항 detail 보여주는 메서드
+	public List noticeDetail(BoardDTO dto) {
+		List list = dao.detailSelect(dto);
+		
+		return list;
+		
+	}
+	
+	//공지사항 내용 update하는 메서드
+	public int noticeUpdate(BoardDTO dto) {
+		
+		int result = dao.update(dto);
+		return result;
+	}
 			
+	//공지사항 delete 메서드
+	public int delete(BoardDTO dto) {
+		int result = dao.noticeDelete(dto);
+		return result ;
+	}
 }

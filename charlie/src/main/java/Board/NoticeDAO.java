@@ -10,6 +10,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import ProductionManagement.ProductionManagementDTO;
+
 public class NoticeDAO {
 	private DataSource dataFactory;
 	
@@ -71,7 +73,7 @@ public class NoticeDAO {
 				//열어둔 문을 통해 어디로 갈지 경로를 정함
 		        DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 		        
-		        String query ="select count(*) from post"; 
+		        String query ="select count(*) from post where category='공지사항'"; 
 		        
 		        try(Connection conn = dataFactory.getConnection();
 		        	PreparedStatement ps = conn.prepareStatement(query);	
@@ -92,6 +94,92 @@ public class NoticeDAO {
 			return total;
 		}
 	
+
+		//공지사항(notice)insert 메서드 
+		public boolean noticeInsert(BoardDTO dto) {
+			String query = "insert into post (post_num, category, title, content, write_time, empno, file_num)"
+					+ " values(SEQ_POST_NO.nextval, '공지사항', ?, ?, sysdate, 1, 0 )";
+				
+			try(Connection conn = dataFactory.getConnection();
+					PreparedStatement ps = conn.prepareStatement(query);)
+				{
+					//inser into다음 values에 들어갈 ?에 해당하는 값을 순서대로 넣음
+					ps.setString(1, dto.getTitle());
+					ps.setString(2, dto.getContent());
+
+					int result = ps.executeUpdate();
+					return result > 0; 
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+			System.out.println("Notice insertDAO 예외 발생");
+				return false;	
+		}
 		
+		//디테일 select 메서드
+		public List detailSelect(BoardDTO dto) {
+			List list = new ArrayList();
+			String query = "select * from post where post_num=?";
+			
+			try (Connection conn = dataFactory.getConnection(); 
+					PreparedStatement ps =  conn.prepareStatement(query)) {
+				
+					ps.setInt(1, dto.getPost_num());
+					
+					try (ResultSet rs = ps.executeQuery()) {
+						if(rs.next()) {
+							BoardDTO dto2 = new BoardDTO();
+							dto2.setPost_num(rs.getInt("post_num"));
+			                dto2.setTitle(rs.getString("title"));
+			                dto2.setCategory(rs.getString("category"));
+			                dto2.setContent(rs.getString("content"));
+			                dto2.setWrite_time(rs.getDate("write_time"));
+							list.add(dto2);
+						}
+					}
+					return list;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println("noticeDAO에서 detailSelect()의 예외 발생");
+			return null;
+			
+		}
+
 		
+		public int update(BoardDTO dto) {
+			String query = "update post set title=?, content=?"
+					+ " where post_num=?";
+			
+			try(Connection conn = dataFactory.getConnection();
+					PreparedStatement ps = conn.prepareStatement(query);){
+							ps.setString(1, dto.getTitle());
+							ps.setString(2, dto.getContent());
+							ps.setInt(3, dto.getPost_num());
+
+					int result = ps.executeUpdate();
+							return result  ;
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+			System.out.println("DAO의 update 예외 발생");
+				return 0;
+		}
+		
+		//공지사항 delete메서드
+		public int noticeDelete(BoardDTO dto) {
+			
+			String query = "delete from post where post_num=?";
+			
+			try(Connection conn = dataFactory.getConnection();
+					PreparedStatement ps = conn.prepareStatement(query);){
+							ps.setInt(1, dto.getPost_num());
+							int result = ps.executeUpdate();
+							return result ;
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+			System.out.println("DAO에서 delete메서드 오류남");
+				return 0;
+		}
 }//클래스 닫음

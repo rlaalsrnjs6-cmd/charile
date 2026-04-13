@@ -18,6 +18,7 @@ response.setContentType("text/html; charset=utf-8;"); %>
 <body>
 <h1>공지사항 페이지</h1>
 
+<div class="notice-all" >
 <table border="1">
 	<tr>
 		<th>NO</th>
@@ -29,14 +30,19 @@ response.setContentType("text/html; charset=utf-8;"); %>
 	<c:forEach var="i" items="${map.list }">
 	<tr>
 		<td>${i.post_num }</td>
-		<td><a href="">${i.title }</a></td>
+		
+		<td>
+		<a href="${pageContext.request.contextPath}/NoticedetailServlet?post_num=${i.post_num }">${i.title }</a>
+		</td>
+		
 		<td>관리자</td>
 		<td>${i.write_time }</td>
 	</tr>
 	</c:forEach>
-	
-
 </table>
+<a href="/charlie/noticeInsert.jsp">작성하기</a>
+</div>
+
 	<div>
 	<c:if test="${map.startPage > 1}">
 		<a href="./controller?page=${map.startPage - 1}">[이전]</a>
