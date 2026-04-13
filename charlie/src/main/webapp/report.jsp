@@ -16,10 +16,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-	
 
 </head>
 <body>
+
 <h1>리포트 페이지</h1>
 
 <table border="1">
@@ -35,7 +35,7 @@
 		<td>${i.post_num }</td>
 		
 		<td>
-		<a href="${pageContext.request.contextPath}/NoticedetailServlet?post_num=${i.post_num }">${i.title }</a>
+		<a href="${pageContext.request.contextPath}/detail.report?post_num=${i.post_num}">${i.title }</a>
 		</td>
 		
 		<td>관리자</td>
@@ -43,7 +43,7 @@
 	</tr>
 	</c:forEach>
 </table>
-<a href="/charlie/noticeInsert.jsp">작성하기</a>
+<a href="${pageContext.request.contextPath}/reportInsert.jsp">작성하기</a>
 </div>
 
 	<div>

@@ -15,6 +15,7 @@ public class ReportController extends HttpServlet {
 		System.out.println("reportController 실행!!");
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
+		BoardDTO dto = new BoardDTO();
 		
 		String uri = request.getRequestURI();
         String com = uri.substring(uri.lastIndexOf("/") + 1);
@@ -23,12 +24,14 @@ public class ReportController extends HttpServlet {
         String path = null;
 		
      // 2. 명령어 판독기
-        if (com.equals("select.report")) {
-            // 리스트 조회 일꾼 소환
+        if (com.equals("select.report")) {		//리스트 조회
+        	
             action = new ReportSelectAction();
-        } else if (com.equals("insert.report")) {
-            // 등록 일꾼 소환
+        } else if (com.equals("insert.report")) {        	//insert
+        	
             action = new ReportInsertAction();
+        }else if(com.equals("detail.report")) {
+        	action = new ReprtDetailSelectAction();
         }
 
         // 3. 일꾼 실행 및 이동
