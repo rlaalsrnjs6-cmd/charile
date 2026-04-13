@@ -2,6 +2,7 @@ package Machinery;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import Machinery.MachineryDTO;
 import Machinery.MachineryService;
+import Mdm.MdmService;
+import fileLibrary.CommonDTO;
 
 @WebServlet("/machinery")
 public class MachineryControll extends HttpServlet {
@@ -33,6 +36,8 @@ public class MachineryControll extends HttpServlet {
 		case "modify": detail(request, response, "modify"); return;
 		case "update": update(request, response); return;
 		case "delete": delete(request, response); return;
+		
+		case "search": search(request, response); return;
 		
 		default: System.out.println("잘못된 접근입니다"); return;
 		
@@ -61,11 +66,11 @@ public class MachineryControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 
 		MachineryService service = new MachineryService();
-		List list = (List) service.selectAll();
-
-		System.out.println( "/ctrl list : " + list );
+		Map map = service.selectDB(setDTO(request), setCommonDTO(request, ""));
 		
-		request.setAttribute("list", list);
+		request.setAttribute("map", map);
+		request.setAttribute("servletName", "machinery");
+		
 		request.getRequestDispatcher("WEB-INF/views/machinery/machinery_list.jsp").forward(request, response);
 
 	}
@@ -99,7 +104,7 @@ public class MachineryControll extends HttpServlet {
 
 		// Service > DAO - selectOne
 		MachineryService service = new MachineryService();
-		List machineryInfo = service.selectDB(setDTO(request), "num");
+		List machineryInfo = service.selectOne(setDTO(request), setCommonDTO(request, ""));
 
 		// Forward > DTO
 		request.setAttribute("machineryInfo", machineryInfo);
@@ -117,6 +122,21 @@ public class MachineryControll extends HttpServlet {
 		}
 		
 	}
+	
+	// search
+		protected void search(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+
+			
+			MachineryService service = new MachineryService();
+			// 검색 내용받음
+			
+			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
+
+			request.setAttribute("map", map);
+			request.getRequestDispatcher("WEB-INF/views/machinery/machinery_list.jsp").forward(request, response);
+
+		}
 
 	// 거의 고정해서 사용
 	
@@ -136,35 +156,11 @@ public class MachineryControll extends HttpServlet {
 			System.out.println( "/set machinery machinery_num : " + machinery_num );
 		} 
 		
-		if (request.getParameter("machinery_type") != null 
-				&& !("".equals(request.getParameter("machinery_type")))) {
-			
 			machinery_type = request.getParameter("machinery_type");
-			
-			System.out.println( "/set machinery machinery_type : " + machinery_type );
-		} 
-		if (request.getParameter("machinery_status") != null 
-				&& !("".equals(request.getParameter("machinery_status")))) {
-			
 			machinery_status = request.getParameter("machinery_status");
-			
-			System.out.println( "/set machinery machinery_status : " + machinery_status );
-		} 
-		if (request.getParameter("error_sign") != null 
-				&& !("".equals(request.getParameter("error_sign")))) {
-			
 			error_sign = request.getParameter("error_sign");
-			
-			System.out.println( "/set machinery error_sign : " + error_sign );
-		} 
-		
-		if (request.getParameter("m_action") != null 
-				&& !("".equals(request.getParameter("m_action")))) {
-			
 			m_action = request.getParameter("m_action");
 			
-			System.out.println( "/set machinery m_action : " + m_action );
-		} 
 		
 		if (request.getParameter("mdm_num") != null 
 				&& !("".equals(request.getParameter("mdm_num")))) {
@@ -184,6 +180,42 @@ public class MachineryControll extends HttpServlet {
 		
 		return machineryDTO;
 	}
+	
+	// 공통 변수
+		protected CommonDTO setCommonDTO(HttpServletRequest request, String cmd)
+				throws ServletException, IOException {
+			
+			CommonDTO commonDTO = new CommonDTO();
+			
+			// 검색 기능 [ search_content ]
+			if("search".equals(cmd)) {
+				commonDTO.setSelector(request.getParameter("search_select"));
+				commonDTO.setSearch(request.getParameter("search_content"));
+				System.out.println(commonDTO.getSelector());
+				System.out.println(commonDTO.getSearch());
+			}
+			
+			// orderBy [ column ]
+			String orderBy = request.getParameter("orderBy");
+			commonDTO.setOrderBy(orderBy);
+			
+			
+			// paging 
+			int size= 10, page= 1;
+			
+			try {
+				size = Integer.parseInt(request.getParameter("size"));
+			} catch(Exception e) { }
+			try {
+				page = Integer.parseInt(request.getParameter("page"));
+			} catch(Exception e) { }
+			
+			commonDTO.setSize(size);
+			commonDTO.setPage(page);
+			
+			return commonDTO;
+		}
+	
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

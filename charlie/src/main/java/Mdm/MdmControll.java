@@ -68,7 +68,7 @@ public class MdmControll extends HttpServlet {
 
 		MdmService service = new MdmService();
 
-		Map map = service.selectDB(setDTO(request), setTestDTO(request, ""));
+		Map map = service.selectDB(setDTO(request), setCommonDTO(request, ""));
 		System.out.println("/ctrl map : " + map);
 		
 		request.setAttribute("map", map);
@@ -108,7 +108,7 @@ public class MdmControll extends HttpServlet {
 		System.out.println("/detail 실행");
 		// Service > DAO - selectOne
 		MdmService service = new MdmService();
-		MdmDTO mdmDTO = service.selectOne(setDTO(request), setTestDTO(request, "num"));
+		MdmDTO mdmDTO = service.selectOne(setDTO(request), setCommonDTO(request, ""));
 		// Forward > DTO
 		request.setAttribute("mdmDTO", mdmDTO);
 		
@@ -126,9 +126,6 @@ public class MdmControll extends HttpServlet {
 		
 	}
 	
-	
-	////////////
-	//!!!!!!!!!!!!!!!!
 	// search
 	protected void search(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -137,17 +134,12 @@ public class MdmControll extends HttpServlet {
 		MdmService service = new MdmService();
 		// 검색 내용받음
 		
-		Map map = service.selectDB(setDTO(request), setTestDTO(request, "search"));
+		Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
 
 		request.setAttribute("map", map);
 		request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list.jsp").forward(request, response);
 
 	}
-	
-	////////////
-	
-	
-	
 	
 
 	// 거의 고정해서 사용
@@ -193,7 +185,7 @@ public class MdmControll extends HttpServlet {
 	}
 	
 	// 공통 변수
-	protected CommonDTO setTestDTO(HttpServletRequest request, String cmd)
+	protected CommonDTO setCommonDTO(HttpServletRequest request, String cmd)
 			throws ServletException, IOException {
 		
 		CommonDTO commonDTO = new CommonDTO();

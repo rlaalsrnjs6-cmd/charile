@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 import fileLibrary.LoggableStatement;
 
 
-public abstract class ParentDAO2<T, TestDTO> {
+public abstract class ParentDAO2<T, C> {
 
 	// 援ы쁽�빐�꽌 �궗�슜�븷 硫붿냼�뱶
 	protected abstract String tableName();
@@ -22,8 +22,8 @@ public abstract class ParentDAO2<T, TestDTO> {
 	protected abstract int setDTONum(T dto);
 	// set Query / set DTO(rs)
 
-	protected abstract PreparedStatement selectPs(PreparedStatement ps, TestDTO testDTO) throws SQLException; 
-	protected abstract String selectQuery(T dto, TestDTO testDTO);
+	protected abstract PreparedStatement selectPs(PreparedStatement ps, C commonDTO) throws SQLException; 
+	protected abstract String selectQuery(T dto, C commonDTO);
 	
 	protected abstract T setDTO(ResultSet rs) throws SQLException; // DTO �꽭�똿
 
@@ -32,14 +32,14 @@ public abstract class ParentDAO2<T, TestDTO> {
 	protected abstract String modifyQuery();
 	
 	// select
-	public List selectDB(T dto, TestDTO testDTO) {
+	public List selectDB(T dto, C commonDTO) {
 
 		List list = new ArrayList();
 
 		try ( Connection conn = getConn();
-			  PreparedStatement ps = new LoggableStatement(conn, selectQuery(dto, testDTO));) 
+			  PreparedStatement ps = new LoggableStatement(conn, selectQuery(dto, commonDTO));) 
 					  
-		{ selectPs(ps, testDTO);
+		{ selectPs(ps, commonDTO);
 		  // DB 조회 결과
 		  System.out.println(((LoggableStatement) ps).getQueryString());
 		
@@ -59,7 +59,7 @@ public abstract class ParentDAO2<T, TestDTO> {
 	}
 	
 	// selectOne
-	public T selectOne(T dto, TestDTO testDTO) {
+	public T selectOne(T dto, C commonDTO) {
 		
 		try ( Connection conn = getConn();
 			  PreparedStatement ps = new LoggableStatement(conn, 

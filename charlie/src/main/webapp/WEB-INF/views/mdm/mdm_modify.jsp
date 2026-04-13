@@ -29,15 +29,19 @@
 					<c:if test="${ mdmDTO.mdm_num eq g}"> 
 						<option value="g" selected>g</option> 
 					</c:if>
+					<option value="kg" >kg</option>
+					<c:if test="${ mdmDTO.mdm_num eq kg}"> 
+						<option value="kg" selected>kg</option> 
+					</c:if>
 					
 					<option value="L" >L</option>
 					<c:if test="${ mdmDTO.mdm_num eq L}"> 
 						<option value="L" selected>L</option> 
 					</c:if>
 					
-					<option value="ea">정</option>
+					<option value="ea">ea</option>
 					<c:if test="${ mdmDTO.mdm_num eq ea}"> 
-						<option value="정" selected>ea</option> 
+						<option value="ea" selected>ea</option> 
 					</c:if>
 				</select> <br>
 		타입 : <input name="type" value="${ mdmDTO.type }"> <br>

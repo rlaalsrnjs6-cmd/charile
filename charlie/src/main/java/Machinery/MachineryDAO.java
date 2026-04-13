@@ -3,9 +3,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import fileLibrary.ParentDAO;
+import fileLibrary.CommonDTO;
+import fileLibrary.ParentDAO2;
 
-public class MachineryDAO extends ParentDAO<MachineryDTO>{
+public class MachineryDAO extends ParentDAO2<MachineryDTO, CommonDTO>{
 
 	@Override
 	protected String tableName() {
@@ -20,11 +21,6 @@ public class MachineryDAO extends ParentDAO<MachineryDTO>{
 	@Override
 	protected int setDTONum(MachineryDTO dto) {
 		return dto.getMachinery_num();
-	}
-
-	@Override
-	protected String deleteQuery(MachineryDTO dto) {
-		return "DELETE FROM " + tableName() + " WHERE " + pk_Coulum_Name() + " =  '" + setDTONum(dto) + "'";
 	}
 
 	@Override
@@ -101,6 +97,18 @@ public class MachineryDAO extends ParentDAO<MachineryDTO>{
 				+ "	mdm_num = ? "
 				+ " where " + pk_Coulum_Name() + " = ? "
 			;
+	}
+
+	@Override
+	protected PreparedStatement selectPs(PreparedStatement ps, CommonDTO commonDTO) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected String selectQuery(MachineryDTO dto, CommonDTO commonDTO) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

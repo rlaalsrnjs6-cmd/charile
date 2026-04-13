@@ -25,15 +25,15 @@
 	Map map = (Map) request.getAttribute("map");
 	int total = (int) map.get("totalCount");
 	
- 	CommonDTO testDTO = (CommonDTO)map.get("testDTO");
- 	int size = (int) testDTO.getSize();
- 	int pageNum = (int) testDTO.getPage();
+ 	CommonDTO commonDTO = (CommonDTO)map.get("commonDTO");
+ 	int size = (int) commonDTO.getSize();
+ 	int pageNum = (int) commonDTO.getPage();
  	
  	// 총 페이지 개수 ex: 16.. 17...
  	int totalPage = (int) Math.ceil((double) total / size);
  	
  	// 기본값 5
- 	int section =  (int) testDTO.getSection();
+ 	int section =  (int) commonDTO.getSection();
  	
  	// page [1-5] ~ [N-totalPage]  
  	int end_section = (int) Math.ceil((double) pageNum / section ) * section ;
@@ -44,7 +44,7 @@
  	}
 %>
 
-<c:set var="pageNum" value="${map.testDTO.page}" />
+<c:set var="pageNum" value="${map.commonDTO.page}" />
 
 	<c:if test="<%= start_section == 1 %>">
 		이전
