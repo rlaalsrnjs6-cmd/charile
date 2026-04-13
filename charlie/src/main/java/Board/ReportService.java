@@ -63,6 +63,12 @@ public class ReportService {
 						map.put("currentPage", page); //현재 페이지가 데이터
 						
 				return map;
+	}
+	
+	//detail select 메서드
+	public BoardDTO detailSelect(int postNum) {
+		BoardDTO result = dao.selectData(postNum);
 		
+		return result;
 	}
 }

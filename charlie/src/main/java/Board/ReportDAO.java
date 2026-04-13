@@ -48,12 +48,12 @@ public class ReportDAO {
 						list.add(dto2);
 					}
 				}
-				System.out.println("DAO에서 list" + list);
+				System.out.println("ReportDAO에서 list" + list);
 				return list;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("NoticeDAO selectNotice() 예외 발생");
+		System.out.println("ReportDAO selectNotice() 예외 발생");
 		return null;
 	}
 	
@@ -86,5 +86,39 @@ public class ReportDAO {
 			e.printStackTrace();
 		}
 		return total;
+	}
+	
+	//detail select 하는 메서드
+	public BoardDTO selectData(int postNum) {
+		String query = " SELECT p.*, e.ename \" +"
+				+ "               \"FROM post p \" +"
+				+ "               \"JOIN emp e ON p.empno = e.empno \" +"
+				+ "               \"WHERE p.post_num = ?";
+		BoardDTO dto2 = new BoardDTO();
+		
+		try (Connection conn = dataFactory.getConnection(); 
+				PreparedStatement ps =  conn.prepareStatement(query)) {
+				
+				ps.setInt(1, postNum);
+
+				try (ResultSet rs = ps.executeQuery()) {
+					if (rs.next()) {
+						
+						dto2.setEname(rs.getString("ename"));
+						dto2.setPost_num(rs.getInt("post_num"));
+		                dto2.setTitle(rs.getString("title"));
+		                dto2.setCategory(rs.getString("category"));
+		                dto2.setContent(rs.getString("content"));
+		                dto2.setWrite_time(rs.getDate("write_time"));
+						
+					}
+				}
+
+				return dto2;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("ReportDAO selectNotice() 예외 발생");
+		return null;
 	}
 }

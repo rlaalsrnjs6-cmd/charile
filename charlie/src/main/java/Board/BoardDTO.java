@@ -5,10 +5,13 @@ import java.sql.Date;
 public class BoardDTO {
 	int empno;
 	int post_num;
+	private String ename;
 	String category;
 	String title;
 	String content;
 	Date write_time;
+
+
 	int file_num;
 	
 	private int size = 5;
@@ -17,6 +20,13 @@ public class BoardDTO {
 	private int start = 0;
 	private int end = 0;
 	
+	
+	public String getEname() {
+		return ename;
+	}
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
 	public int getSize() {
 		return size;
 	}
@@ -86,9 +96,9 @@ public class BoardDTO {
 	
 	@Override
 	public String toString() {
-		return "BoardDTO [empno=" + empno + ", post_num=" + post_num + ", category=" + category + ", title=" + title
-				+ ", content=" + content + ", write_time=" + write_time + ", file_num=" + file_num + ", size=" + size
-				+ ", page=" + page + ", start=" + start + ", end=" + end + "]";
+		return "BoardDTO [empno=" + empno + ", post_num=" + post_num + ", ename=" + ename + ", category=" + category
+				+ ", title=" + title + ", content=" + content + ", write_time=" + write_time + ", file_num=" + file_num
+				+ ", size=" + size + ", page=" + page + ", start=" + start + ", end=" + end + "]";
 	}
 	
 	
