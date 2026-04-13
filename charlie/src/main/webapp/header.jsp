@@ -81,13 +81,14 @@
     </style>
 </head>
 <body>
+<%@ include file="/header.jsp" %>
     <div id="header-all">
     <div class="util-menu">
         <ul class="util-list">
             <li><a href="">로그인</a></li>
             <li><a href="">회원가입</a></li>
             <li><a href="">마이페이지</a></li>
-            <li><a href="">로그아웃</a></li>
+            <li><a href="http://localhost:8080/charlie/charlie?mod=logout">로그아웃</a></li>
             <li><a href="">카테고리 관리</a></li>
         </ul>
     </div>
@@ -100,10 +101,10 @@
             </h1>
             <ul class="header-ul">
                 <li><a href="">기준관리</a></li>
-                <li><a href="">자재관리</a></li>
-                <li><a href="">작업지시서</a></li>
-                <li><a href="">생산관리</a></li>
-                <li><a href="">품질관리</a></li>
+                <li><a href="http://localhost:8080/charlie/material">자재관리</a></li>
+                <li><a href="http://localhost:8080/charlie/order">작업지시서</a></li>
+                <li><a href="http://localhost:8080/charlie/production/management">생산관리</a></li>
+                <li><a href="http://localhost:8080/charlie/qc">품질관리</a></li>
                 <li><a href="">게시판</a></li>
             </ul>
         </div>
@@ -111,5 +112,6 @@
 
 
 </div>
+<%@ include file="/footer.jsp" %>
 </body>
 </html>
