@@ -7,6 +7,7 @@ public class UploadFileDTO {
 	String url;
 	int random_code;
 	Date upload_time;
+	String mod;
 	
 	public int getFile_num() {
 		return file_num;
@@ -32,11 +33,18 @@ public class UploadFileDTO {
 	public void setUpload_time(Date upload_time) {
 		this.upload_time = upload_time;
 	}
+	public String getMod() {
+		return mod;
+	}
+	public void setMod(String mod) {
+		this.mod = mod;
+	}
 	
 	@Override
 	public String toString() {
 		return "UploadFileDTO [file_num=" + file_num + ", url=" + url + ", random_code=" + random_code
-				+ ", upload_time=" + upload_time + "]";
-	}	
+				+ ", upload_time=" + upload_time + ", mod=" + mod + "]";
+	}
+	
 	
 }
