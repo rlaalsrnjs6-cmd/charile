@@ -2,6 +2,9 @@ package Emp;
 
 import java.util.List;
 
+import Defective.DefectiveDAO;
+import Defective.DefectiveDTO;
+
 public class EmpService {
 	List<EmpDTO> select(EmpDTO dto){
 		EmpDAO dao = new EmpDAO();
@@ -21,5 +24,10 @@ public class EmpService {
 			insert = dao.insert(dto);
 		}
 		return insert;
+	}
+	int empService(EmpDTO dto){
+		EmpDAO dao = new EmpDAO();
+		int list = dao.empDAO(dto);
+		return list ;
 	}
 }

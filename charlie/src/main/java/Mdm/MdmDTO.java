@@ -1,22 +1,24 @@
 package Mdm;
 
+import java.sql.Date;
+
 public class MdmDTO {
 	int mdm_num;
 	String code;
 	String name;
 	String unit;
 	String type;
+	Date received_date;
 	int price;
 	
-	String search;
+
 	
-	public String getSearch() {
-		return search;
+	public Date getReceived_date() {
+		return received_date;
 	}
-	public void setSearch(String search) {
-		this.search = search;
+	public void setReceived_date(Date received_date) {
+		this.received_date = received_date;
 	}
-	
 	public String getCode() {
 		return code;
 	}
@@ -53,11 +55,11 @@ public class MdmDTO {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	
 	@Override
 	public String toString() {
 		return "MdmDTO [mdm_num=" + mdm_num + ", code=" + code + ", name=" + name + ", unit=" + unit + ", type=" + type
-				+ ", price=" + price + "]";
+				+ ", received_date=" + received_date + ", price=" + price + "]";
 	}
+	
 	
 }

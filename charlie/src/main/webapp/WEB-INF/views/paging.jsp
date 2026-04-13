@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*"%>
 <%@ page import="Mdm.MdmDTO"%> 
-<%@ page import="fileLibrary.TestDTO"%> 
+<%@ page import="fileLibrary.CommonDTO"%> 
 <%@ page import="javax.servlet.http.HttpSession"%> 
 
 <!DOCTYPE html>
@@ -15,15 +15,17 @@
 </head>
 <body>
 
-<h1>페이징 include</h1>
+<h1>paging</h1>
 <!-- paging -->
 
-<% 
+<%
+
+ 
 
 	Map map = (Map) request.getAttribute("map");
 	int total = (int) map.get("totalCount");
 	
- 	TestDTO testDTO = (TestDTO)map.get("testDTO");
+ 	CommonDTO testDTO = (CommonDTO)map.get("testDTO");
  	int size = (int) testDTO.getSize();
  	int pageNum = (int) testDTO.getPage();
  	

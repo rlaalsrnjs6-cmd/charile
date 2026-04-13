@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*"%>
 <%@ page import="Mdm.MdmDTO"%> 
+<%@ page import="fileLibrary.CommonDTO"%> 
     
 <!DOCTYPE html>
 <html>
@@ -15,15 +16,14 @@
 
 <h1>mdm list</h1>
 <hr>
-
 <form action="mdm?cmd=search" method="post">
 
 <select name="search_select">
-	<option value="search1">전체</option>
-	<option value="search2">코드</option>
-	<option value="search3">명칭</option>
-	<option value="search4">단위</option>
-	<option value="search5">타입</option>
+	<option value="search_all">전체</option>
+	<option value="code">코드</option>
+	<option value="name">명칭</option>
+	<option value="unit">단위</option>
+	<option value="type">타입</option>
 </select>
 
 	<input name="search_content">
@@ -40,10 +40,11 @@
 				<th>단위</th>
 				<th>타입</th>
 				<th>가격</th>
+				<th>입고날짜</th>
 			</tr>
 		</thead>
 
-		<c:forEach var="row" items="${ list }">
+		<c:forEach var="row" items="${ map.list }">
 			<tr>
 				<td>${ row.mdm_num }</td>
 				<td>${ row.code }</td>
@@ -57,12 +58,16 @@
 				<td>${ row.unit }</td>
 				<td>${ row.type }</td>
 				<td>${ row.price }</td>
+				<td>${ row.received_date }</td>
 			</tr>
 		</c:forEach>
 		
 		</table>
 		
-		<hr>
-	<a href="mdm?cmd=insertPage">등록페이지로</a>
+	<jsp:include page="/WEB-INF/views/paging.jsp" />
+	
+	<hr>
+	<a href="${servletName}?cmd=insertPage">등록페이지로</a>
+	
 </body>
 </html>

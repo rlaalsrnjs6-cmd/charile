@@ -22,18 +22,20 @@
 			<th>전화번호</th>
 			<th>급여</th>
 			<th>주소</th>
+			<th>상태</th>
 		</tr>
 		
 		<c:forEach var="e" items="${emp}">
 			<tr>
 				<td>${e.empno}</td>
-				<td>${e.ename}</td>
+				<td><a href="http://localhost:8080/charlie/emp?empno=${e.empno}&mod=detail">${e.ename}</td>
 				<td>${e.id}</td>
 				<td>${e.pw}</td>
 				<td>${e.emp_level}</td>
 				<td>${e.tel}</td>
 				<td>${e.sal}</td>
 				<td>${e.addr}</td>
+				<td>${e.status}</td>
 			</tr>
 		</c:forEach>
 		

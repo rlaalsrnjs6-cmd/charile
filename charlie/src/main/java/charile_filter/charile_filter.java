@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet Filter implementation class charile_filter
  */
-//@WebFilter("*")
+@WebFilter("*")
 public class charile_filter implements Filter {
 
     /**
@@ -65,9 +65,6 @@ public class charile_filter implements Filter {
 			}else {
 				chain.doFilter(request, response);
 			}
-//			if() {
-//				
-//			}
 		}
 		
 	}
@@ -82,7 +79,7 @@ public class charile_filter implements Filter {
 			path.equals("/WEB-INF/views/emp/login.jsp") ||
 			path.equals("/charlie") ||
 			path.equals("/check") ||
-			path.equals("/emp") ||
+//			path.equals("/emp") ||
 			path.equals("/WEB-INF/views/emp/emp_signin.jsp")
 			) {
 			result = true;

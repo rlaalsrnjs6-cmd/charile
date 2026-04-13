@@ -12,6 +12,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import Defective.DefectiveDTO;
+
 public class EmpDAO {
 	
 	public List<EmpDTO> select(EmpDTO dto) {
@@ -28,22 +30,32 @@ public class EmpDAO {
 //			System.out.println("DAOMODselect:"+dto.getMod());
 			conn = dataFactory.getConnection();
 			String query = "select * from emp ";
-			// ȸ������
+
+			if("detail".equals(dto.getMod()) || "up".equals(dto.getMod())) {
+				
+				query += "where empno = ? ";
+			}
+			
 			if("add".equals(dto.getMod())) {
 				query += "where empno = ? or id = ? or email = ? ";
 			}
-			// �α���
+
 			if("login".equals(dto.getMod())) {
 				query += "where id = ? and pw = ? ";
 			}
 			ps = conn.prepareStatement(query);
-			// ȸ������
+
+			if("detail".equals(dto.getMod()) || "up".equals(dto.getMod())) {
+				System.out.println("empnoDAO:"+dto.getEmpno());
+				ps.setInt(1,dto.getEmpno());
+			}
+			
 			if("add".equals(dto.getMod())) {
 				ps.setInt(1,dto.getEmpno());
 				ps.setString(2,dto.getId());
 				ps.setString(3,dto.getEmail());
 			}
-			// �α���
+
 			if("login".equals(dto.getMod())) {
 				ps.setString(1,dto.getId());
 				ps.setString(2,dto.getPw());
@@ -63,6 +75,7 @@ public class EmpDAO {
 				String addr = rs.getString("addr");
 				Date birthday = rs.getDate("birthday");
 				String email = rs.getString("email");
+				String status = rs.getString("status");
 				
 				DTO.setEmpno(empno);
 				DTO.setEname(ename);
@@ -74,6 +87,7 @@ public class EmpDAO {
 				DTO.setAddr(addr);
 				DTO.setBirthday(birthday);
 				DTO.setEmail(email);
+				DTO.setStatus(status);
 				list.add(DTO);
 			}
 //			System.out.println("DAOlist:"+list);
@@ -121,7 +135,7 @@ public class EmpDAO {
 			if("add".equals(dto.getMod())) {
 			query = "insert into emp (empno, ename, id, pw, "
 				 + "tel, sal, addr, birthday, email) "
-				 + "values (?, ?, ?, ?, ?, ?, ?, ?, ? )";
+				 + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
 			}
 			ps = conn.prepareStatement(query);
 			if("add".equals(dto.getMod())) {
@@ -138,6 +152,98 @@ public class EmpDAO {
 			
 			result = ps.executeUpdate();
 //			System.out.println("DAOinsertResult:"+result);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+	
+	public int empDAO(EmpDTO dto) {
+		
+		int result = -1;
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			Context ctx = new InitialContext();
+			
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+//			System.out.println("DAOMODselect:"+dto.getMod());
+			conn = dataFactory.getConnection();
+			
+			String query = "";
+			System.out.println("EmpDAO모드:"+dto.getMod());
+			System.out.println("EmpDAO스테:"+dto.getStatus());
+			// 업데이트
+			if("up".equals(dto.getMod())) {
+				  query = "UPDATE emp "
+						+ "SET empno = ?, "
+						+ "ename = ?, "
+						+ "emp_level = ?, "
+						+ "tel = ?, "
+						+ "sal = ?, "
+						+ "addr = ?, "
+						+ "birthday = ?, "
+						+ "email = ?, "
+						+ "status = ? "
+						+ "where empno = ?";
+			}
+			// 딜리트
+			if("delete".equals(dto.getMod())) { //만드는중
+				query = "DELETE FROM emp "
+					  + "WHERE empno = ?";
+			}
+			ps = conn.prepareStatement(query);
+			
+			if("up".equals(dto.getMod())) {
+				System.out.println("upps");
+				ps.setInt(1, dto.getEmpno());
+				ps.setString(2, dto.getEname());
+				ps.setInt(3, dto.getEmp_level());
+				ps.setString(4, dto.getTel());
+				ps.setInt(5, dto.getSal());
+				ps.setString(6, dto.getAddr());
+				ps.setDate(7, dto.getBirthday());
+				ps.setString(8, dto.getEmail());
+				ps.setString(9, dto.getStatus());
+				ps.setInt(10, dto.getEmpno());
+				
+			}
+			
+			if("delete".equals(dto.getMod())) {
+				System.out.println("deleteps");
+				ps.setInt(1, dto.getEmpno());
+			}
+			
+			result = ps.executeUpdate();
+			
+			System.out.println("upDAO리솔트:"+result);
 			
 			
 		} catch (Exception e) {
