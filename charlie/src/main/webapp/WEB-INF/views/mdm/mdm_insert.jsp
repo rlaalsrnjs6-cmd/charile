@@ -16,9 +16,9 @@
 	
 	type: 
 	<select name="type">
-		<option value="semi">반제품</option>
-		<option value="Prod">제품</option>
-		<option value="raw">재료</option>
+		<option value="assemble">반제품</option>
+		<option value="product">제품</option>
+		<option value="material">재료</option>
 		<option value="equip">장비</option>
 	</select> <br>
 	
@@ -27,8 +27,9 @@
 	unit:
 	<select name="unit">
 		<option value="g">g</option>
+		<option value="kg">kg</option>
 		<option value="L">L</option>
-		<option value="ea">정</option>
+		<option value="ea">ea</option>
 	</select> <br>
 	
 	price: <input type="number" name="price" value="2000"> 원<br>

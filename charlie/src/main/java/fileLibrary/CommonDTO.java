@@ -1,17 +1,14 @@
 package fileLibrary;
 
-public class TestDTO {
+public class CommonDTO {
 
 	String tableName;
 	
 	// select list 
-	String search_content; // 검색어 내용 
 	String orderBy; // set column Name
-	String selector; // set select cmd
+	String selector=""; // set select cmd
+	String search;
 	
-	// 아직 구상만 하는중
-	String whereCul; // where 조건 컬럼
-	String whereVal; // where 조건 벨류
 
 	// paging
 
@@ -26,7 +23,12 @@ public class TestDTO {
 	int start;  // start page number
 	int end;  // end page number
 	
-	
+	public String getSearch() {
+		return search;
+	}
+	public void setSearch(String search) {
+		this.search = search;
+	}
 	
 	public String getTableName() {
 		return tableName;
@@ -42,24 +44,8 @@ public class TestDTO {
 	public void setSelector(String selector) {
 		this.selector = selector;
 	}
-	public String getWhereCul() {
-		return whereCul;
-	}
-	public void setWhereCul(String whereCul) {
-		this.whereCul = whereCul;
-	}
-	public String getWhereVal() {
-		return whereVal;
-	}
-	public void setWhereVal(String whereVal) {
-		this.whereVal = whereVal;
-	}
-	public String getSearch_content() {
-		return search_content;
-	}
-	public void setSearch_content(String search_content) {
-		this.search_content = search_content;
-	}
+	
+	
 	public String getOrderBy() {
 		return orderBy;
 	}
@@ -105,10 +91,5 @@ public class TestDTO {
 	
 	
 	
-	@Override
-	public String toString() {
-		return "TestDTO [search_content=" + search_content + ", orderBy=" + orderBy + ", whereCul=" + whereCul
-				+ ", whereVal=" + whereVal + "]";
-	}
 	
 }

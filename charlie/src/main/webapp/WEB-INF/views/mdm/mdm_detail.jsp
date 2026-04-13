@@ -12,26 +12,25 @@
 <title>detail page</title>
 </head>
 <body>
-	${mdmInfo.list}
 
 	<h1>mdm detail</h1>
+	
+	${ mdmDTO }
 	<hr>
 	<a href="mdm?cmd=list">뒤로</a> <br>
 	<hr>
-	<c:forEach var="row" items="${ mdmInfo.list }">
 	
-		관리번호 : ${ row.mdm_num } <br>
-		코드 : ${ row.code } <br>
-		이름 : ${ row.name } <br>
-		단위 : ${ row.unit } <br>
-		타입 : ${ row.type } <br>
-		가격 : ${ row.price } <br>
-		
-	</c:forEach>
+		관리번호 : ${ mdmDTO.mdm_num } <br>
+		코드 : ${ mdmDTO.code } <br>
+		이름 : ${ mdmDTO.name } <br>
+		단위 : ${ mdmDTO.unit } <br>
+		타입 : ${ mdmDTO.type } <br>
+		가격 : ${ mdmDTO.price } <br>
+		입고날짜 : ${ mdmDTO.received_date } 
 	
 	<hr>
-	<a href="mdm?cmd=modify&mdm_num=${ mdmInfo.get(0).mdm_num }">수정</a>
-	<a href="mdm?cmd=delete&mdm_num=${ mdmInfo.get(0).mdm_num }">삭제</a>
+	<a href="mdm?cmd=modify&mdm_num=${ mdmDTO.mdm_num }">수정</a>
+	<a href="mdm?cmd=delete&mdm_num=${ mdmDTO.mdm_num }">삭제</a>
 	
 </body>
 </html>
