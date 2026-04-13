@@ -28,5 +28,8 @@
 		<input type="submit" value="수정">
 	</table>
 	</form>
+	<script>
+			
+	</script>
 </body>
 </html>

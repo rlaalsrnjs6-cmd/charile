@@ -1,14 +1,11 @@
 package Mdm;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-import fileLibrary.ParentDAO2;
 import fileLibrary.CommonDTO;
+import fileLibrary.ParentDAO2;
 
 public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 	

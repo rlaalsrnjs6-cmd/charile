@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@ include file="/header.jsp" %>
 	<table border=1>
 		<tr>
 			<th>qc번호</th>
@@ -19,7 +20,6 @@
 			<th>qc부착날짜</th>
 			<th>사원번호</th>
 		</tr>
-		${qc}
 		<c:forEach var="q" items="${qc}">
 			<tr>
 				<td>${q.qc_num}</td>
@@ -30,6 +30,7 @@
 		</c:forEach>
 	</table>
 	<a href = "http://localhost:8080/charlie/qc?mod=add">작성</a>
+	<%@ include file="/footer.jsp" %>
 	
 </body>
 </html>

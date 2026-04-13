@@ -81,7 +81,7 @@
     </style>
 </head>
 <body>
-<%@ include file="/header.jsp" %>
+<%-- <%@ include file="/header.jsp" %> --%>
     <div id="header-all">
     <div class="util-menu">
         <ul class="util-list">
@@ -112,6 +112,6 @@
 
 
 </div>
-<%@ include file="/footer.jsp" %>
+<%-- <%@ include file="/footer.jsp" %> --%>
 </body>
 </html>

@@ -12,7 +12,7 @@
 <title>list page</title>
 </head>
 <body>
-
+<%@ include file="/header.jsp" %>
 <h1>material list</h1>
 <hr>
 mdm 정보 가져오기
@@ -46,5 +46,6 @@ mdm 정보 가져오기
 		
 		<hr>
 	<a href="material?cmd=insertPage">등록페이지로</a>
+	<%@ include file="/footer.jsp" %>
 </body>
 </html>
