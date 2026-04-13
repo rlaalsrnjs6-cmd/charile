@@ -58,7 +58,7 @@
 		if(!pw || !check.test(pw)){
 			spw.innerText = "대문자 소문자 숫자 특수기호를 포함한 8글자 이상 20글자 이하로 작성해주세요 "
 				return;
-		} else {
+			} else {
 			spw.innerText = ""
 			}
 	}

@@ -2,6 +2,11 @@
     pageEncoding="UTF-8"
     import = ""
     %>
+    
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +14,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%@ include file="header.jsp" %>
+<%@ include file="/header.jsp" %>
 <form method="post" action="defective">
 	<table border=1>
 		<tr>
@@ -33,6 +38,6 @@
 		<input type="submit" value="작성">
 	</table>
 </form>
-<%@ include file="footer.jsp" %>
+<%@ include file="/footer.jsp" %>
 </body>
 </html>

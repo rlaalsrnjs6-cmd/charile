@@ -65,10 +65,17 @@ public class charile_filter implements Filter {
 			String name = (String) session.getAttribute("name");
 			Integer level = (Integer) session.getAttribute("level");
 			System.out.println("필터로그인"+login);
+<<<<<<< HEAD
 //			if((login!=null && login==true) || "login".equals(mod) || "add".equals(mod)) { 
 //				chain.doFilter(request, response);
 //			}
 			if((login == null || login != true) && !isMultipart) {
+=======
+			if("logout".equals(mod)) {
+			session.invalidate();
+			}
+			if(login == null || login != true) {
+>>>>>>> 2df4fe03f01664f121c1ea45d5ea6548305ade63
 				System.out.println("로그인 후 이용하세요");
 				resp.sendRedirect("charlie");
 			}else {

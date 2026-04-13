@@ -1,6 +1,7 @@
 package Lot;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,9 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Defective.DefectiveDTO;
-import Defective.DefectiveService;
-
 @WebServlet("/lot")
 public class LotControll extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -19,7 +17,7 @@ public class LotControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 		String slot_num = request.getParameter("lot_num");
 		String mod = request.getParameter("mod");
-
+		
 		int lot_num = -1;
 		if (slot_num != null) {
 			lot_num = Integer.parseInt(slot_num);
@@ -31,6 +29,21 @@ public class LotControll extends HttpServlet {
 		List<LotDTO> list = service.select(lotDTO);
 		System.out.println("Lot컨트롤마지막: "+list);
 		request.setAttribute("lot", list);
+		PrintWriter out = response.getWriter();
+		if(list.size()>0 && "fetch".equals(mod)) {
+			System.out.println("패치트루출발");
+	        out.print(true);
+	        out.flush();
+			out.close();
+			return;
+		} else if(list.size()==0 && "fetch".equals(mod)){
+			System.out.println("패치펄스출발");
+			out.print(false);
+			out.flush();
+			out.close();
+			return;
+		}
+		
 		if ("detail".equals(mod)) {
 			System.out.println("디테일로고고씽");
 			request.getRequestDispatcher("WEB-INF/views/lot/lotDetail.jsp").forward(request, response);

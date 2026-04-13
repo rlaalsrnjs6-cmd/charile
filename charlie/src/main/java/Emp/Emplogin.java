@@ -19,7 +19,7 @@ public class Emplogin extends HttpServlet {
 		} else {
 			System.out.println("charlie로그인으로보내기");
 		request.getRequestDispatcher("/WEB-INF/views/emp/login.jsp").forward(request, response);
-		}
+		} 
 	}
 
 }

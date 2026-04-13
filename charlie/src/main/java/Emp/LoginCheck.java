@@ -25,7 +25,8 @@ public class LoginCheck extends HttpServlet {
 		empDTO.setMod(mod);
 		EmpService service = new EmpService();
 		List<EmpDTO> check = service.select(empDTO);
-			if (check.size() == 0) {
+		
+		if (check.size() == 0) {
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('로그인 하세요');");

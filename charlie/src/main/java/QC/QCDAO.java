@@ -145,8 +145,8 @@ public int qcDAO(QCDTO dto) {
 				System.out.println("deleteps");
 				ps.setInt(1, dto.getQc_num());
 			}
-			
 			result = ps.executeUpdate();
+			System.out.println("qc리솔트 전");
 			
 			System.out.println("qcDAO리솔트:"+result);
 			

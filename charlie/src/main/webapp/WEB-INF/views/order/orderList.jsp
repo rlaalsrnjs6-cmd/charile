@@ -13,7 +13,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	
+	<%@ include file="/header.jsp" %>
 	<SELECT>
 		<option name="total" value="전체">전체</option>
 		<option name="am" value="오전">오전</option>
@@ -41,5 +41,6 @@
 		</c:forEach>
 	</table>
 	<a href = "http://localhost:8080/charlie/order?mod=add">작성</a>
+	<%@ include file="/footer.jsp" %>
 </body>
 </html>
