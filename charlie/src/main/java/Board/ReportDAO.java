@@ -90,11 +90,12 @@ public class ReportDAO {
 	
 	//detail select 하는 메서드
 	public BoardDTO selectData(int postNum) {
-		String query = " SELECT p.*, e.ename \" +"
-				+ "               \"FROM post p \" +"
-				+ "               \"JOIN emp e ON p.empno = e.empno \" +"
-				+ "               \"WHERE p.post_num = ?";
-		BoardDTO dto2 = new BoardDTO();
+		String query = "SELECT p.*, e.ename, f.url, f.file_num " +
+	               "FROM post p " +
+	               "JOIN emp e ON p.empno = e.empno " +
+	               "LEFT OUTER JOIN upload_file f ON p.file_num = f.file_num " +
+	               "WHERE p.post_num = ?";
+
 		
 		try (Connection conn = dataFactory.getConnection(); 
 				PreparedStatement ps =  conn.prepareStatement(query)) {
@@ -103,22 +104,33 @@ public class ReportDAO {
 
 				try (ResultSet rs = ps.executeQuery()) {
 					if (rs.next()) {
-						
+						BoardDTO dto2 = new BoardDTO();
 						dto2.setEname(rs.getString("ename"));
 						dto2.setPost_num(rs.getInt("post_num"));
 		                dto2.setTitle(rs.getString("title"));
 		                dto2.setCategory(rs.getString("category"));
 		                dto2.setContent(rs.getString("content"));
 		                dto2.setWrite_time(rs.getDate("write_time"));
-						
+		                dto2.setFileNum(rs.getInt("file_num"));
+		                String url = rs.getString("url");
+		                if (url == null || url.trim().isEmpty()) {
+		                    dto2.setUrl("no_file");
+		                } else {
+		                    dto2.setUrl(url);
+		                }
+						return dto2;
+		                
 					}
 				}
 
-				return dto2;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		System.out.println("ReportDAO selectNotice() 예외 발생");
 		return null;
 	}
+	
+	
+	
 }
