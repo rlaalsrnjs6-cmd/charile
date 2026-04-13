@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@ include file="/header.jsp" %>
 <table border=1>
 		<tr>
 			<th>사원번호</th>
@@ -40,5 +41,6 @@
 		</c:forEach>
 		
 	</table>
+<%@ include file="/footer.jsp" %>
 </body>
 </html>
