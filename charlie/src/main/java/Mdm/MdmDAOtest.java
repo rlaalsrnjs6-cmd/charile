@@ -129,9 +129,5 @@ public class MdmDAOtest extends ParentDAO2<MdmDTO, TestDTO> {
 		return ps;
 	}
 
-	
-
-
-
 
 }

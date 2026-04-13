@@ -15,7 +15,7 @@
 </head>
 <body>
 
-<h1>페이징 include</h1>
+<h1>paging</h1>
 <!-- paging -->
 
 <% 
