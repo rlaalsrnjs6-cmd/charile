@@ -13,6 +13,7 @@ public class EmpDTO {
 	String addr;
 	Date birthday;
 	String email;
+	String status;
 	String mod;
 	public int getEmpno() {
 		return empno;
@@ -74,6 +75,12 @@ public class EmpDTO {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public String getMod() {
 		return mod;
 	}
@@ -84,9 +91,7 @@ public class EmpDTO {
 	public String toString() {
 		return "EmpDTO [empno=" + empno + ", ename=" + ename + ", id=" + id + ", pw=" + pw + ", emp_level=" + emp_level
 				+ ", tel=" + tel + ", sal=" + sal + ", addr=" + addr + ", birthday=" + birthday + ", email=" + email
-				+ ", mod=" + mod + "]";
+				+ ", status=" + status + ", mod=" + mod + "]";
 	}
-	
-	
 
 }

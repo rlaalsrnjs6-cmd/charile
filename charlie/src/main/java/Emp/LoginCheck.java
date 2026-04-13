@@ -13,14 +13,12 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet("/check")
 public class LoginCheck extends HttpServlet {
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
 		String mod = request.getParameter("mod");
+		String status = request.getParameter("status");
 		EmpDTO empDTO = new EmpDTO();
 		empDTO.setId(id);
 		empDTO.setPw(pw);
@@ -35,7 +33,15 @@ public class LoginCheck extends HttpServlet {
 				out.println("</script>");
 				out.close();
 				return;
-			}else {
+			} else if("N".equals(status) || status == null) {
+				PrintWriter out = response.getWriter();
+				out.println("<script>");
+				out.println("alert('퇴사한 사원입니다');");
+				out.println("history.back();");
+				out.println("</script>");
+				out.close();
+				return;
+			} else {
 				System.out.println("check로그인완");
 				HttpSession session = request.getSession();
 				session.setAttribute("login", true);

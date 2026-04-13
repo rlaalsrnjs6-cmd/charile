@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Defective.DefectiveDTO;
+import Defective.DefectiveService;
+
 @WebServlet("/emp")
 public class EmpControll extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -30,16 +33,79 @@ public class EmpControll extends HttpServlet {
 		}
 		EmpDTO DTO = new EmpDTO();
 		DTO.setEmpno(empno);
-
 		DTO.setMod(mod);
 		List list = service.select(DTO);
-		System.out.println(list);
+		System.out.println("emp컨트롤마지막:"+list);
 		request.setAttribute("emp", list);
-		request.getRequestDispatcher("/WEB-INF/views/emp/main.jsp").forward(request, response);
+		if("detail".equals(mod)) {
+			request.getRequestDispatcher("/WEB-INF/views/emp/empDetail.jsp").forward(request, response);
+		} else if("up".equals(mod)) {
+			request.getRequestDispatcher("/WEB-INF/views/emp/empUp.jsp").forward(request, response);
+		} else if("delete".equals(mod)) {
+			empDelete(request,response);
+		} else {
+			request.getRequestDispatcher("/WEB-INF/views/emp/empList.jsp").forward(request, response);
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8;");
+		String mod = request.getParameter("mod");
+		if("add".equals(mod)) {
+			empAdd(request,response);
+		} else if("up".equals(mod)) {
+			empUp(request,response);
+		} else if("delete".equals(mod)) {
+			empDelete(request,response);
+		}
+	}
+	
+	protected void empUp(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String sempno = request.getParameter("empno");
+		String ename = request.getParameter("ename");
+		String id = request.getParameter("id");
+		String pw = request.getParameter("pw");
+		String semp_level = request.getParameter("emp_level");
+		String tel = request.getParameter("tel");
+		String ssal = request.getParameter("sal");
+		String addr = request.getParameter("addr");
+		String sbirthday = request.getParameter("birthday");
+		String email = request.getParameter("email");
+		String status = request.getParameter("status");
+		String mod = request.getParameter("mod");
+		Date birthday = Date.valueOf(sbirthday);
+		int empno = Integer.parseInt(sempno);
+		int emp_level = Integer.parseInt(semp_level);
+		int sal = Integer.parseInt(ssal);
+		System.out.println("empUp:"+status);
+	
+		EmpDTO empDTO = new EmpDTO();
+		empDTO.setEmpno(empno);
+		empDTO.setEname(ename);
+		empDTO.setId(id);
+		empDTO.setPw(pw);
+		empDTO.setEmp_level(emp_level);
+		empDTO.setTel(tel);
+		empDTO.setSal(sal);
+		empDTO.setAddr(addr);
+		empDTO.setBirthday(birthday);
+		empDTO.setEmail(email);
+		empDTO.setStatus(status);
+		empDTO.setMod(mod);
+		EmpService service = new EmpService();
+		service.empService(empDTO);
+		response.sendRedirect("emp");
+		
+	}
+
+	protected void empAdd(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8;");
 		try {
 			String mod = request.getParameter("mod");
 			String sempno = request.getParameter("empno");
@@ -105,12 +171,26 @@ public class EmpControll extends HttpServlet {
 					return;
 				}
 			}
-			response.sendRedirect("charlie");
+			response.sendRedirect("emp");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 	
-
+	protected void empDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8;");
+		String sempno = request.getParameter("empno");
+		String mod = request.getParameter("mod");
+		int empno = Integer.parseInt(sempno);
+		EmpDTO empDTO = new EmpDTO();
+		empDTO.setEmpno(empno);
+		empDTO.setMod(mod);
+		EmpService service = new EmpService();
+		System.out.println("emp딜리트마지막: " + service.empService(empDTO));
+		response.sendRedirect("emp");
+	}
+	
 }

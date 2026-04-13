@@ -34,6 +34,7 @@
 			<option name="google" value="google.com">google.com</option>
 		</select><br>
 		생년월일<input type="date" name="birthday"><br>
+		<input type="text" name="status"><br>
 		<input type="submit" value="회원가입">
 	</form>
 	
