@@ -38,12 +38,13 @@
 		<a href="${pageContext.request.contextPath}/detail.report?post_num=${i.post_num}">${i.title }</a>
 		</td>
 		
-		<td>관리자</td>
+		<td>${i.ename }</td>
 		<td>${i.write_time }</td>
 	</tr>
 	</c:forEach>
 </table>
 <a href="${pageContext.request.contextPath}/reportInsert.jsp">작성하기</a>
+
 </div>
 
 	<div>

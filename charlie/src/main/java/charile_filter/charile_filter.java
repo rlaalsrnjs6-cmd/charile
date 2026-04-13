@@ -45,13 +45,22 @@ public class charile_filter implements Filter {
 		HttpServletResponse resp = (HttpServletResponse) response;
 		
 		String path = req.getServletPath();
+		
+		//종한 로직임 건들면 안돼~
+		boolean isMultipart = (req.getContentType() != null && req.getContentType().startsWith("multipart/form-data"));
 		System.out.println(path);
+		
 		//로그인x들어갈수있음
 		if(isExclude(path)) {
 			chain.doFilter(request, response);
 		} else {//로그인 해야 들어갈수있음
 			HttpSession session = req.getSession();
-			String mod = req.getParameter("mod");
+			
+//			String mod = req.getParameter("mod");
+			//파일 업로드 하는 것 때문에 수정 했어 파일 업로드 하는 상황일 때는
+			//getParameter 하지 말라는거야
+			String mod = isMultipart ? null : req.getParameter("mod");
+			
 			Boolean login = (Boolean) session.getAttribute("login");
 			String name = (String) session.getAttribute("name");
 			Integer level = (Integer) session.getAttribute("level");
@@ -59,7 +68,7 @@ public class charile_filter implements Filter {
 //			if((login!=null && login==true) || "login".equals(mod) || "add".equals(mod)) { 
 //				chain.doFilter(request, response);
 //			}
-			if(login == null || login != true) {
+			if((login == null || login != true) && !isMultipart) {
 				System.out.println("로그인 후 이용하세요");
 				resp.sendRedirect("charlie");
 			}else {

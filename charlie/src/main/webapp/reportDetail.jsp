@@ -15,30 +15,35 @@
 <table border="1">
     <tr>
         <th>제목</th>
-        <td>${post.title}</td>
+        <td>${dto.title}</td>
     </tr>
     <tr>
         <th>작성자</th>
-        <td>${post.ename}</td>
+        <td>${dto.ename}</td>
     </tr>
     <tr>
         <th>첨부파일</th>
         <td>
             <c:choose>
-                <c:when test="${post.url == 'no_file'}">
+                <c:when test="${dto.url == 'no_file'}">
                     <span>첨부파일 없음</span> 
                 </c:when>
                 <c:otherwise>
                     <%-- 실제 다운로드 처리를 담당할 서블릿으로 연결 --%>
-                    <a href="download.do?fileName=${post.url}">${post.url}</a>
+                    <a href="download.report?fileName=${dto.url}">${dto.url}</a>
                 </c:otherwise>
             </c:choose>
         </td>
     </tr>
     <tr>
         <th>내용</th>
-        <td>${post.content}</td>
+        <td>${dto.content}</td>
     </tr>
 </table>
+<form method="post" action="delete.report">
+<input type="hidden" name="postNum" value="${dto.post_num }">
+<button type="submit">삭제하기</button>
+</form>
+<a href="updateForm.report?post_num=${dto.post_num }">수정하기</a>
 </body>
 </html>

@@ -71,4 +71,24 @@ public class ReportService {
 		
 		return result;
 	}
+	
+	public int insertReport(BoardDTO dto) {
+		
+		int result = dao.insertData(dto);
+		
+		return result;
+	}
+	
+	public int deleteReport(BoardDTO dto) {
+		int result = dao.deleteData(dto);
+		return result;
+	}
+	
+	//report update
+	public int updateReport(BoardDTO dto) {
+		int result = dao.updateData(dto);
+		
+		return result;
+	}
 }
+

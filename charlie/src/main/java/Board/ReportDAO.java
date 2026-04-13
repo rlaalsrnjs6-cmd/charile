@@ -24,9 +24,16 @@ public class ReportDAO {
 	
 	public List selectAll(BoardDTO dto) {
 		List list = new ArrayList();
-		String query = "SELECT * FROM (SELECT ROWNUM AS rnum, a.* FROM "
-	             + "(SELECT * FROM post WHERE category LIKE '리포트%' ORDER BY post_num DESC) a "
-	             + "WHERE ROWNUM <= ?) WHERE rnum >= ?";
+		String query = "SELECT * FROM ("
+	             + "    SELECT ROWNUM AS rnum, a.* FROM ("
+	             + "        SELECT p.*, e.ename " 
+	             + "        FROM post p "
+	             + "        LEFT OUTER JOIN emp e ON p.empno = e.empno " 
+	             + "        WHERE p.category LIKE '리포트%' "
+	             + "        ORDER BY p.post_num DESC"
+	             + "    ) a "
+	             + "    WHERE ROWNUM <= ?"
+	             + ") WHERE rnum >= ?";
 		
 		try (Connection conn = dataFactory.getConnection(); 
 				PreparedStatement ps =  conn.prepareStatement(query)) {
@@ -44,6 +51,7 @@ public class ReportDAO {
 		                dto2.setTitle(rs.getString("title"));
 		                dto2.setCategory(rs.getString("category"));
 		                dto2.setContent(rs.getString("content"));
+		                dto2.setEname(rs.getString("ename"));
 		                dto2.setWrite_time(rs.getDate("write_time"));
 						list.add(dto2);
 					}
@@ -131,6 +139,108 @@ public class ReportDAO {
 		return null;
 	}
 	
+	public int insertData(BoardDTO dto) {
+		
+
+		    int result = 0;
+		    
+		    // 파일 정보 인서트
+		    String sqlFile = "INSERT INTO UPLOAD_FILE (FILE_NUM, URL, UPLOAD_TIME) " +
+		                     "VALUES (SEQ_UPLOAD_FILE_NUM.NEXTVAL, ?, SYSDATE)";
+		                     
+		    // 게시글 인서트 (SEQ_UPLOAD_FILE_NUM.CURRVAL 사용)
+		    String sqlPost = "INSERT INTO POST (POST_NUM, TITLE, CONTENT, EMPNO, CATEGORY, FILE_NUM, WRITE_TIME) " +
+		                     "VALUES ( SEQ_POST_NO.NEXTVAL, ?, ?, ?, '리포트', SEQ_UPLOAD_FILE_NUM.CURRVAL, SYSDATE)";
+
+		    try (Connection conn = dataFactory.getConnection()) {
+		        conn.setAutoCommit(false); // 트랜잭션 수동 관리 시작
+
+		        try (PreparedStatement psFile = conn.prepareStatement(sqlFile);
+		             PreparedStatement psPost = conn.prepareStatement(sqlPost)) {
+		            
+		            // 1. UPLOAD_FILE 인서트
+		            psFile.setString(1, dto.getUrl());
+		            psFile.executeUpdate();
+
+		            // 2. POST 인서트
+		            psPost.setString(1, dto.getTitle());
+		            psPost.setString(2, dto.getContent());
+		            psPost.setInt(3, dto.getEmpno());
+		            
+		            result = psPost.executeUpdate();
+		            System.out.println("DAO: DB 커밋 완료");
+		            conn.commit(); // 모든 쿼리가 성공하면 최종 확정
+		        } catch (Exception e) {
+		            conn.rollback(); // 하나라도 에러 나면 폴더에 저장된 파일은 어쩔 수 없지만 DB는 복구
+		            throw e;
+		        }
+		    } catch (Exception e) {
+		    	System.out.println("리포트 인서트 예외 발생함");
+		        e.printStackTrace();
+		    }
+		    System.out.println("result: " + result);
+		    return result;
+		}
 	
+	//리포트 데이터 삭제
+	public int deleteData(BoardDTO dto) {
+		
+		String query = "delete from post where post_num=?";
+		
+		try(Connection conn = dataFactory.getConnection();
+				PreparedStatement ps = conn.prepareStatement(query);){
+						ps.setInt(1, dto.getPost_num());
+						int result = ps.executeUpdate();
+						return result ;
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+		System.out.println("DAO에서 delete메서드 오류남");
+			return 0;
+	}
+	
+	//update 메서드
+	public int updateData(BoardDTO dto) {
+		int result = 0;
+	    
+	    // 1. 파일 정보 업데이트 (post 테이블이 참조하는 file_num의 url 변경)
+	    String sqlFile = "UPDATE UPLOAD_FILE SET URL = ?, UPLOAD_TIME = SYSDATE " +
+	                     "WHERE FILE_NUM = (SELECT FILE_NUM FROM POST WHERE POST_NUM = ?)";
+	                     
+	    // 2. 게시글 정보 업데이트 (제목, 내용 수정)
+	    String sqlPost = "UPDATE POST SET TITLE = ?, CONTENT = ? WHERE POST_NUM = ?";
+
+	    try (Connection conn = dataFactory.getConnection()) {
+	        conn.setAutoCommit(false); // 트랜잭션 시작
+
+	        try (PreparedStatement psFile = conn.prepareStatement(sqlFile);
+	             PreparedStatement psPost = conn.prepareStatement(sqlPost)) {
+	            
+	            // 1. UPLOAD_FILE 업데이트
+	            psFile.setString(1, dto.getUrl());
+	            psFile.setInt(2, dto.getPost_num());
+	            psFile.executeUpdate();
+
+	            // 2. POST 업데이트
+	            psPost.setString(1, dto.getTitle());
+	            psPost.setString(2, dto.getContent());
+	            psPost.setInt(3, dto.getPost_num());
+	            
+	            result = psPost.executeUpdate();
+	            
+	            conn.commit(); // 둘 다 성공하면 확정
+	            System.out.println("DAO: " + dto.getPost_num() + "번 데이터 수정 및 커밋 완료");
+	            
+	        } catch (Exception e) {
+	            conn.rollback(); // 에러 시 롤백
+	            throw e;
+	        }
+	    } catch (Exception e) {
+	        System.out.println("리포트 업데이트 예외 발생");
+	        e.printStackTrace();
+	    }
+	    
+	    return result;
+	}
 	
 }
