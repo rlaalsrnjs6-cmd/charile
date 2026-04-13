@@ -73,7 +73,7 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 	@Override
 	protected String insertQuery() {
 		return "INSERT INTO mdm ( mdm_num, code, name, unit, type, price) " 
-				+ " VALUES ( mdm_seq.nextval, ?, ?, ?, ?, ?)";
+				+ " VALUES ( mdm_seq.nextval, ?, ?, ?, ?, ?, ?, ?)";
 	}
 
 	@Override
@@ -81,10 +81,12 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 
 			ps.setString(1, dto.getCode());
 			ps.setString(2, dto.getName());
-			ps.setString(3, dto.getUnit());
-			ps.setString(4, dto.getType());
-			ps.setInt(5, dto.getPrice());
-			if ("update".equals(selector)) { ps.setInt(6, dto.getMdm_num()); }
+			ps.setInt(3, dto.getQuantity());
+			ps.setString(4, dto.getUnit());
+			ps.setString(5, dto.getType());
+			ps.setInt(6, dto.getPrice());
+			ps.setString(7, dto.getCan_use());
+			if ("update".equals(selector)) { ps.setInt(8, dto.getMdm_num()); }
 
 		return ps;
 	}
@@ -95,9 +97,11 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 				"UPDATE mdm SET "
 				+ "	code = ?, "
 				+ "	name = ?, "
+				+ "	quantity = ?, "
 				+ "	unit = ?, "
 				+ "	type = ?, "
-				+ " price = ? "
+				+ " price = ?, "
+				+ " can_use = ? "
 				+ " where mdm_num = ? "
 			;
 	}
@@ -110,10 +114,12 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 			dto.setMdm_num(rs.getInt("mdm_num"));
 			dto.setCode(rs.getString("code"));
 			dto.setName(rs.getString("name"));
+			dto.setQuantity(rs.getInt("quantity"));
 			dto.setUnit(rs.getString("unit"));
 			dto.setType(rs.getString("type"));
 			dto.setReceived_date(rs.getDate("received_date"));
 			dto.setPrice(rs.getInt("price"));
+			dto.setCan_use(rs.getString("canuse"));
 			
 		return dto;
 	}
@@ -124,6 +130,18 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 		ps.setInt(1, commonDTO.getStart());
 		ps.setInt(2, commonDTO.getEnd());
 		return ps;
+	}
+
+	@Override
+	protected String selectAllQuery() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected MdmDTO setJoinDTO(ResultSet rs) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

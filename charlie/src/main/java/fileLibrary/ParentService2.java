@@ -5,6 +5,7 @@ import java.util.Map;
 
 public abstract class ParentService2<T, C> {
 	
+	public abstract List selectJoinInfo();
 	public abstract Map selectDB(T dto, C commonDTO);
 	public abstract T selectOne(T dto, C commonDTO);
 	public abstract T insertDB(T dto);

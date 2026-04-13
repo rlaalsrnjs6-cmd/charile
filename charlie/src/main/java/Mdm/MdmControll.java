@@ -150,7 +150,7 @@ public class MdmControll extends HttpServlet {
 		MdmDTO mdmDTO = new MdmDTO();
 		
 		
-		int mdm_num = -1; int price= -1; 
+		int mdm_num = -1; int price= -1;  int quantity= -1; 
 		
 		if (request.getParameter("mdm_num") != null 
 				&& !("".equals(request.getParameter("mdm_num")))) {
@@ -168,17 +168,28 @@ public class MdmControll extends HttpServlet {
 			System.out.println( "/set mdm price : " + price );
 		} 
 		
+		if (request.getParameter("quantity") != null 
+				&& !("".equals(request.getParameter("quantity")))) {
+			
+			quantity = Integer.parseInt(request.getParameter("quantity"));
+			
+			System.out.println( "/set mdm quantity : " + quantity );
+		} 
+		
 		String code = request.getParameter("code");
 		String name = request.getParameter("name");
 		String unit = request.getParameter("unit");
 		String type = request.getParameter("type");
+		String can_use = request.getParameter("can_use");
 		
 		mdmDTO.setMdm_num(mdm_num);
 		mdmDTO.setCode(code);
 		mdmDTO.setName(name);
+		mdmDTO.setQuantity(quantity);
 		mdmDTO.setUnit(unit);
 		mdmDTO.setType(type);
 		mdmDTO.setPrice(price);
+		mdmDTO.setCan_use(can_use);
 		
 		return mdmDTO;
 		

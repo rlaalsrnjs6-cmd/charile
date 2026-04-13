@@ -16,10 +16,17 @@
 
 <form method="post" action="material">
 
-	total_quantity: <input type="text" name="total_quantity" value="1"> <br>
-	warehouse_num: <input type="number" name=warehouse_num value="1"> <br>
-	mdm_num: <input type="number" name="mdm_num" value="2"> <br>
-	
+	총수량 : <input type="text" name="total_quantity" value="1"> <br>
+	창고 번호 : <input type="number" name=warehouse_num value="1"> <br>
+	품목 : 
+	<select name="mdm_num">
+		<c:forEach var="item" items="${list}">
+			<option value="${item.mdm_num}" selected>
+          		  ${item.code} / ${item.name}
+       	 	 </option>
+		</c:forEach>
+    </select>
+	<br>
 	<input type="hidden" name="cmd" value="insert">
 	<input type="submit" value="등록">
 	

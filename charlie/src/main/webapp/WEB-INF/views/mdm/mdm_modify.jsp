@@ -44,8 +44,17 @@
 						<option value="ea" selected>ea</option> 
 					</c:if>
 				</select> <br>
-		타입 : <input name="type" value="${ mdmDTO.type }"> <br>
+		수량 : <input name="quantity" value="${ mdmDTO.quantity }"> <br>
+		타입 : 
+				<select name="type">
+					<option value="assemble">반제품</option>
+					<option value="product">제품</option>
+					<option value="material">재료</option>
+					<option value="equip">장비</option>
+			    </select> <br>
+			  
 		가격 : <input name="price" value="${ mdmDTO.price }"> <br>
+		가용확인 : <input name="can_use" value="${ mdmDTO.can_use }"> <br>
 		<hr>
 		 <input type="submit" value="수정"> <br>
 		

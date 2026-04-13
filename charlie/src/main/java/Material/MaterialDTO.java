@@ -4,8 +4,39 @@ public class MaterialDTO {
 	int material_num;
 	int total_quantity;
 	int warehouse_num;
-	int mdm_num;
 	
+	// join mdm
+	int mdm_num;
+	String code;
+	String name;
+	int quantity;
+	String unit;
+	
+	
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public String getUnit() {
+		return unit;
+	}
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
 	public int getMaterial_num() {
 		return material_num;
 	}

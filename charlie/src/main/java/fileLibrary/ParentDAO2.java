@@ -24,6 +24,9 @@ public abstract class ParentDAO2<T, C> {
 
 	protected abstract PreparedStatement selectPs(PreparedStatement ps, C commonDTO) throws SQLException; 
 	protected abstract String selectQuery(T dto, C commonDTO);
+
+	protected abstract String selectAllQuery();
+	protected abstract T setJoinDTO(ResultSet rs) throws SQLException; // DTO �꽭�똿
 	
 	protected abstract T setDTO(ResultSet rs) throws SQLException; // DTO �꽭�똿
 
@@ -183,7 +186,28 @@ public abstract class ParentDAO2<T, C> {
 		return total;
 	}
 	
-
+	// select all 고정 사용 (join table research 용도)
+		public List selectJoinInfo() {
+			
+			List list = new ArrayList();
+			
+			try ( Connection conn = getConn(); ) {
+				
+				try (PreparedStatement ps = conn.prepareStatement(selectAllQuery()); // �삤�씪�겢�슜�쑝濡� 而댄뙆�씪
+						// SQL �떎�뻾 諛� 寃곌낵 �솗蹂�
+						ResultSet rs = ps.executeQuery(); // �뜲�씠�꽣 媛��졇�샂
+						) { // 寃곌낵 �솢�슜
+					while (rs.next()) {
+						list.add(setJoinDTO(rs));
+					}
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println("/DAO select list : " + list);
+			return list;
+		}
 	
 	
 }

@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*"%>
 <%@ page import="Machinery.MachineryDTO"%> 
+<%@ page import="fileLibrary.CommonDTO"%> 
     
 <!DOCTYPE html>
 <html>
@@ -15,27 +16,25 @@
 
 <h1>machinery list</h1>
 <hr>
-mdm 정보 가져오기
 <hr>
 
 <table border="1px">
 		<thead>
 			<tr>
-				<th>machinery_num</th>
-				<th>machinery_type</th>
-				<th>machinery_status</th>
-				<th>error_sign</th>
-				<th>m_action</th>
-				<th>m_log_time</th>
-				<th>mdm_num</th>
+				<th>등록 번호</th>
+				<th>해당 장비</th>
+				<th>장비 타입</th>
+				<th>장비 상태</th>
+				<th>에러 내용</th>
+				<th>조치 내용</th>
+				<th>등록 시간</th>
 			</tr>
 		</thead>
 
-		<c:forEach var="row" items="${ list }">
+		<c:forEach var="row" items="${ map.list }">
 			<tr>
-				<td>
-					${ row.machinery_num }
-				</td>
+				<td>${ row.machinery_num }</td>
+				<td>${ row.mdm_num } : ${ row.name }</td>
 				<td>${ row.machinery_type }</td>
 				<td>${ row.machinery_status }</td>
 				
@@ -46,11 +45,13 @@ mdm 정보 가져오기
 				</td>
 				<td>${ row.m_action }</td>
 				<td>${ row.m_log_time }</td>
-				<td>${ row.mdm_num }</td>
+				
 			</tr>
 		</c:forEach>
 		
 		</table>
+		
+		<jsp:include page="/WEB-INF/views/paging.jsp" />
 		
 		<hr>
 	<a href="machinery?cmd=insertPage">등록페이지로</a>

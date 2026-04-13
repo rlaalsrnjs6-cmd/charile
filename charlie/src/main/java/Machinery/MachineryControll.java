@@ -29,7 +29,7 @@ public class MachineryControll extends HttpServlet {
 
 		switch (cmd) { // get cmd > method
 
-		case "insertPage": request.getRequestDispatcher("WEB-INF/views/machinery/machinery_insert.jsp").forward(request, response); return;
+		case "insertPage": insertPage(request, response); return;
 		case "insert": insert(request, response); return;
 		case "list": list(request, response); return;
 		case "detail": detail(request, response, "detail"); return;
@@ -45,6 +45,21 @@ public class MachineryControll extends HttpServlet {
 
 	}
 
+	protected void insertPage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		response.setContentType("text/html; charset=utf-8;");
+
+		MachineryService service = new MachineryService();
+		List list = service.selectJoinInfo();
+		
+		request.setAttribute("list", list);
+		
+		request.getRequestDispatcher("WEB-INF/views/machinery/machinery_insert.jsp")
+														.forward(request, response);
+		
+	}
+	
 	protected void insert(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -104,10 +119,10 @@ public class MachineryControll extends HttpServlet {
 
 		// Service > DAO - selectOne
 		MachineryService service = new MachineryService();
-		List machineryInfo = service.selectOne(setDTO(request), setCommonDTO(request, ""));
+		MachineryDTO machineryDTO = service.selectOne(setDTO(request), setCommonDTO(request, ""));
 
 		// Forward > DTO
-		request.setAttribute("machineryInfo", machineryInfo);
+		request.setAttribute("machineryDTO", machineryDTO);
 		
 		if("detail".equals(selector)) { // 상세 페이지
 			
