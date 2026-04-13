@@ -45,6 +45,7 @@ public class LoginCheck extends HttpServlet {
 				System.out.println("check로그인완");
 				HttpSession session = request.getSession();
 				session.setAttribute("login", true);
+				session.setAttribute("empno", check.get(0).getEmpno());
 				session.setAttribute("name", check.get(0).getEname());
 				session.setAttribute("level", check.get(0).getEmp_level());
 				response.sendRedirect("emp");

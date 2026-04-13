@@ -10,9 +10,8 @@ public class BoardDTO {
 	String title;
 	String content;
 	Date write_time;
-
-
-	int file_num;
+	String url;
+	int fileNum;
 	
 	private int size = 5;
 	private int page = 1;
@@ -20,7 +19,12 @@ public class BoardDTO {
 	private int start = 0;
 	private int end = 0;
 	
-	
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 	public String getEname() {
 		return ename;
 	}
@@ -87,18 +91,19 @@ public class BoardDTO {
 	public void setWrite_time(Date write_time) {
 		this.write_time = write_time;
 	}
-	public int getFile_num() {
-		return file_num;
+	public int getFileNum() {
+		return fileNum;
 	}
-	public void setFile_num(int file_num) {
-		this.file_num = file_num;
+	public void setFileNum(int fileNum) {
+		this.fileNum = fileNum;
 	}
 	
 	@Override
 	public String toString() {
 		return "BoardDTO [empno=" + empno + ", post_num=" + post_num + ", ename=" + ename + ", category=" + category
-				+ ", title=" + title + ", content=" + content + ", write_time=" + write_time + ", file_num=" + file_num
-				+ ", size=" + size + ", page=" + page + ", start=" + start + ", end=" + end + "]";
+				+ ", title=" + title + ", content=" + content + ", write_time=" + write_time + ", url=" + url
+				+ ", fileNum=" +fileNum + ", size=" + size + ", page=" + page + ", start=" + start + ", end=" + end
+				+ "]";
 	}
 	
 	
