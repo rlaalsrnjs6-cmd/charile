@@ -56,7 +56,7 @@ public class WorkOrderDAO {
 				int prod_num = rs.getInt("prod_num");
 				int target_quantity = rs.getInt("target_quantity");
 				int empno = rs.getInt("empno");
-				String title = rs.getString("title");
+				String title = rs.getString("work_order_title");
 				String status = rs.getString("status");
 				int mdm_num = rs.getInt("mdm_num");
 
@@ -137,7 +137,7 @@ public int orderDAO(WorkOrderDTO dto) {
 				  query = "UPDATE work_order "
 						+ "SET order_num = ?, "
 						+ "work_date = sysdate, "
-						+ "title = ?, "
+						+ "work_order_title = ?, "
 						+ "prod_num = ?, "
 						+ "target_quantity = ?, "
 						+ "empno = ?, "
@@ -149,7 +149,7 @@ public int orderDAO(WorkOrderDTO dto) {
 			if("add".equals(dto.getMod())) {
 				 query = "INSERT INTO work_order "
 					   + "(order_num, work_date, prod_num, target_quantity, "
-					   + "empno, title, mdm_num, status) "
+					   + "empno, work_order_title, mdm_num, status) "
 					   + "VALUES (?, SYSDATE, ?, ?, ?, ?, ?, ?)";
 			}
 			// 딜리트

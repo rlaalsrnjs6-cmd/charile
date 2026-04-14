@@ -7,8 +7,10 @@ public class QCDTO {
 	int lot_num;
 	Date qc_date;
 	int empno;
+	String qc_chk;
+	int lot_count;
+	String ename;
 	String mod;
-	
 	public int getQc_num() {
 		return qc_num;
 	}
@@ -33,18 +35,34 @@ public class QCDTO {
 	public void setEmpno(int empno) {
 		this.empno = empno;
 	}
+	public String getQc_chk() {
+		return qc_chk;
+	}
+	public void setQc_chk(String qc_chk) {
+		this.qc_chk = qc_chk;
+	}
+	public int getLot_count() {
+		return lot_count;
+	}
+	public void setLot_count(int lot_count) {
+		this.lot_count = lot_count;
+	}
+	public String getEname() {
+		return ename;
+	}
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
 	public String getMod() {
 		return mod;
 	}
 	public void setMod(String mod) {
 		this.mod = mod;
 	}
-	
 	@Override
 	public String toString() {
 		return "QCDTO [qc_num=" + qc_num + ", lot_num=" + lot_num + ", qc_date=" + qc_date + ", empno=" + empno
-				+ ", mod=" + mod + "]";
+				+ ", qc_chk=" + qc_chk + ", qc_count=" + lot_count + ", ename=" + ename + ", mod=" + mod + "]";
 	}
-	
 	
 }

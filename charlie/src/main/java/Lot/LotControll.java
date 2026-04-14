@@ -1,7 +1,6 @@
 package Lot;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -9,6 +8,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import Emp.EmpDTO;
+import Emp.EmpService;
 
 @WebServlet("/lot")
 public class LotControll extends HttpServlet {
@@ -26,23 +28,8 @@ public class LotControll extends HttpServlet {
 		lotDTO.setLot_num(lot_num);
 		lotDTO.setMod(mod);
 		LotService service = new LotService();
-		List<LotDTO> list = service.select(lotDTO);
-		System.out.println("Lot컨트롤마지막: "+list);
-		request.setAttribute("lot", list);
-		PrintWriter out = response.getWriter();
-		if(list.size()>0 && "fetch".equals(mod)) {
-			System.out.println("패치트루출발");
-	        out.print(true);
-	        out.flush();
-			out.close();
-			return;
-		} else if(list.size()==0 && "fetch".equals(mod)){
-			System.out.println("패치펄스출발");
-			out.print(false);
-			out.flush();
-			out.close();
-			return;
-		}
+			List<LotDTO> list = service.select(lotDTO);
+			request.setAttribute("lot", list);
 		
 		if ("detail".equals(mod)) {
 			System.out.println("디테일로고고씽");

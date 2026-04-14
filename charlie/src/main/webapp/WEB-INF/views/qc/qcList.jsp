@@ -19,6 +19,9 @@
 			<th>로트번호</th>
 			<th>qc부착날짜</th>
 			<th>사원번호</th>
+			<th>사원이름</th>
+			<th>로트당제품개수</th>
+			<th>qc체크</th>
 		</tr>
 		<c:forEach var="q" items="${qc}">
 			<tr>
@@ -26,6 +29,9 @@
 				<td><a href="http://localhost:8080/charlie/qc?qc_num=${q.qc_num}&mod=detail">${q.lot_num}</td>
 				<td>${q.qc_date}</td>
 				<td>${q.empno}</td>
+				<td>${q.ename}</td>
+				<td>${q.lot_count}</td>
+				<td>${q.qc_chk}</td>
 			</tr>
 		</c:forEach>
 	</table>

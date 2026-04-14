@@ -6,7 +6,7 @@ import Defective.DefectiveDAO;
 import Defective.DefectiveDTO;
 
 public class EmpService {
-	List<EmpDTO> select(EmpDTO dto){
+	public List<EmpDTO> select(EmpDTO dto){
 		EmpDAO dao = new EmpDAO();
 		List list = dao.select(dto);
 		return list;

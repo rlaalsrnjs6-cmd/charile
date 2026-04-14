@@ -12,8 +12,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import Emp.EmpDTO;
-import PersonalHygiene.PersonalHygieneDTO;
+import Lot.LotDTO;
 
 public class QCDAO {
 	public List<QCDTO> select(QCDTO dto) {
@@ -29,14 +28,20 @@ public class QCDAO {
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 //			System.out.println("DAOMODselect:"+dto.getMod());
 			conn = dataFactory.getConnection();
-			String query = "select * from qc ";
+			String query = "select qc_num, q.lot_num, qc_date, q.empno, e.ename, "
+					+ "l.qc_chk, l.lot_count "
+					+ "from qc q "
+					+ "left outer join lot l "
+					+ "on (q.lot_num = l.lot_num) "
+					+ "left outer join emp e "
+					+ "on (q.empno = e.empno) ";
 
-			if(dto.getQc_num()!=-1) {
+			if(dto.getQc_num()!=-1 || "up".equals(dto.getMod())) {
 				query += "where qc_num = ?";
 			}
 			ps = conn.prepareStatement(query);
 
-			if(dto.getQc_num()!=-1) {
+			if(dto.getQc_num()!=-1 || "up".equals(dto.getMod())) {
 				ps.setInt(1,dto.getQc_num());
 			}
 			
@@ -48,11 +53,17 @@ public class QCDAO {
 				int lot_num = rs.getInt("lot_num");
 				Date qc_date = rs.getDate("qc_date");
 				int empno = rs.getInt("empno");
+				int lot_count = rs.getInt("lot_count");
+				String qc_chk = rs.getString("qc_chk");
+				String ename = rs.getString("ename");
 				
 				DTO.setQc_num(qc_num);
 				DTO.setLot_num(lot_num);
 				DTO.setQc_date(qc_date);
 				DTO.setEmpno(empno);
+				DTO.setQc_chk(qc_chk);
+				DTO.setLot_count(lot_count);
+				DTO.setEname(ename);
 				
 				list.add(DTO);
 			}
@@ -115,7 +126,7 @@ public int qcDAO(QCDTO dto) {
 			if("add".equals(dto.getMod())) {
 				 query = "INSERT INTO qc "//아직안만듬
 					   + "(qc_num, lot_num, qc_date, empno) "
-					   + "VALUES (?, ?, SYSDATE, ?)";
+					   + "VALUES ((SELECT NVL(MAX(qc_num), 0) + 1 FROM qc), ?, SYSDATE, ?)";
 			}
 			// 딜리트
 			if("delete".equals(dto.getMod())) { //만드는중
@@ -135,9 +146,8 @@ public int qcDAO(QCDTO dto) {
 			
 			if("add".equals(dto.getMod())) {
 				System.out.println("addps");
-				ps.setInt(1, dto.getQc_num());
-				ps.setInt(2, dto.getLot_num());
-				ps.setInt(3, dto.getEmpno());
+				ps.setInt(1, dto.getLot_num());
+				ps.setInt(2, dto.getEmpno());
 				
 			}
 			
@@ -178,4 +188,5 @@ public int qcDAO(QCDTO dto) {
 		}
 		return result;
 	}
+
 }

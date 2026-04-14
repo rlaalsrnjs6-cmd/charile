@@ -7,6 +7,7 @@ public class LotDTO {
 	String qc_chk;
 	int material_num;
 	int mdm_num;
+	int qc_num;
 	String mod;
 	public int getLot_num() {
 		return lot_num;
@@ -44,6 +45,12 @@ public class LotDTO {
 	public void setMdm_num(int mdm_num) {
 		this.mdm_num = mdm_num;
 	}
+	public int getQc_num() {
+		return qc_num;
+	}
+	public void setQc_num(int qc_num) {
+		this.qc_num = qc_num;
+	}
 	public String getMod() {
 		return mod;
 	}
@@ -53,7 +60,8 @@ public class LotDTO {
 	@Override
 	public String toString() {
 		return "LotDTO [lot_num=" + lot_num + ", lot_count=" + lot_count + ", order_num=" + order_num + ", qc_chk="
-				+ qc_chk + ", material_num=" + material_num + ", mdm_num=" + mdm_num + ", mod=" + mod + "]";
+				+ qc_chk + ", material_num=" + material_num + ", mdm_num=" + mdm_num + ", qc_num=" + qc_num + ", mod="
+				+ mod + "]";
 	}
 	
 	

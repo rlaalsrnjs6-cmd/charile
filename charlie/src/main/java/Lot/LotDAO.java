@@ -11,7 +11,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import Defective.DefectiveDTO;
+import QC.QCDTO;
 
 public class LotDAO {
 	public List<LotDTO> select(LotDTO dto) {
@@ -29,12 +29,27 @@ public class LotDAO {
 			conn = dataFactory.getConnection();
 			String query = "select * from lot ";
 
-			if(dto.getLot_num()!=-1) {
+			System.out.println("lotadomod:"+dto.getMod());
+			if("up".equals(dto.getMod())) {
+				System.out.println("실행됐나?");
+				query = "select * "
+						+ "from qc q "
+						+ "join lot l "
+						+ "on (q.lot_num = l.lot_num) "
+						+ "where qc_num = ?";
+			}
+
+			if(!("up".equals(dto.getMod())) && dto.getLot_num()!=-1) {
 				query += "where lot_num = ?";
 			}
 			ps = conn.prepareStatement(query);
 
-			if(dto.getLot_num()!=-1) {
+			if("up".equals(dto.getMod())) {
+				ps.setInt(1,dto.getQc_num());
+				System.out.println("tlfgodehoTsk2:"+dto.getQc_num());
+			}
+
+			if(!("up".equals(dto.getMod())) && dto.getLot_num()!=-1) {
 				ps.setInt(1,dto.getLot_num());
 			}
 			
@@ -106,6 +121,7 @@ public int lotDAO(LotDTO dto) {
 			System.out.println("QCDAOmod:"+dto.getMod());
 			// 업데이트
 			if("up".equals(dto.getMod())) {
+				System.out.println("qc수정으로lot실행");
 				  query = "UPDATE lot "
 						+ "SET lot_num = ?, "
 						+ "lot_count = ?, "
@@ -192,4 +208,67 @@ public int lotDAO(LotDTO dto) {
 		}
 		return result;
 	}
+
+public int lotQcDAO(LotDTO dto) {
+	
+	int result = -1;
+	
+	Connection conn = null;
+	PreparedStatement ps = null;
+	ResultSet rs = null;
+	
+	try {
+		Context ctx = new InitialContext();
+		
+		DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+//			System.out.println("DAOMODselect:"+dto.getMod());
+		conn = dataFactory.getConnection();
+		
+		String	query = "UPDATE lot "
+					+ "SET lot_num = ?, "
+					+ "lot_count = ?, "
+					+ "qc_chk = ? "
+					+ "where lot_num = ?";
+		
+		ps = conn.prepareStatement(query);
+		
+			System.out.println("upps");
+			ps.setInt(1, dto.getLot_num());
+			ps.setInt(2, dto.getLot_count());
+			ps.setString(3, dto.getQc_chk());
+			ps.setInt(4, dto.getLot_num());
+			
+		
+		result = ps.executeUpdate();
+		
+		System.out.println("lotDAO리솔트:"+result);
+		
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if (ps != null) {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	return result;
+}
 }
