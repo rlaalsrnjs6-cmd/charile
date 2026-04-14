@@ -52,9 +52,12 @@
 		<a href="./management?page=${map.endPage + 1}">[다음]</a>
 	</c:if>
 </div>
-
+<% 
+	int level = (Integer)session.getAttribute("level");
+	if(level > 1){
+%>
 <a href="/charlie/ProductionManagementInsert.jsp">작성하기</a>
-
+<%} %>
 <!-- pageAll 닫기 div -->
 </div>
 

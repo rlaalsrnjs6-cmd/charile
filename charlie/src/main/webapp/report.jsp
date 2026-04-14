@@ -19,9 +19,7 @@
 
 </head>
 <body>
-
-<h1>리포트 페이지</h1>
-
+<%@ include file="header.jsp" %>
 <table border="1">
 	<tr>
 		<th>NO</th>
@@ -43,8 +41,13 @@
 	</tr>
 	</c:forEach>
 </table>
+<% 
+// HttpSession session = request.getSession();
+	int level = (Integer)session.getAttribute("level");
+	if(level != 1){
+%>
 <a href="${pageContext.request.contextPath}/reportInsert.jsp">작성하기</a>
-
+<%} %>
 </div>
 
 	<div>
@@ -59,6 +62,6 @@
 	<c:if test="${map.endPage < map.totalPage}">
 		<a href="${pageContext.request.contextPath}/select.report?page=${map.endPage + 1}">[다음]</a>
 	</c:if>
-
+<%@ include file="footer.jsp" %>
 </body>
 </html>

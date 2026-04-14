@@ -4,6 +4,9 @@ import java.sql.Date;
 
 public class BoardDTO {
 	int empno;
+	int level;
+
+
 	int post_num;
 	private String ename;
 	String category;
@@ -19,6 +22,13 @@ public class BoardDTO {
 	private int start = 0;
 	private int end = 0;
 	
+	
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
 	public String getUrl() {
 		return url;
 	}
@@ -100,10 +110,10 @@ public class BoardDTO {
 	
 	@Override
 	public String toString() {
-		return "BoardDTO [empno=" + empno + ", post_num=" + post_num + ", ename=" + ename + ", category=" + category
-				+ ", title=" + title + ", content=" + content + ", write_time=" + write_time + ", url=" + url
-				+ ", fileNum=" +fileNum + ", size=" + size + ", page=" + page + ", start=" + start + ", end=" + end
-				+ "]";
+		return "BoardDTO [empno=" + empno + ", level=" + level + ", post_num=" + post_num + ", ename=" + ename
+				+ ", category=" + category + ", title=" + title + ", content=" + content + ", write_time=" + write_time
+				+ ", url=" + url + ", fileNum=" + fileNum + ", size=" + size + ", page=" + page + ", start=" + start
+				+ ", end=" + end + "]";
 	}
 	
 	
