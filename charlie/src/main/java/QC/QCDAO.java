@@ -13,10 +13,9 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import fileLibrary.CommonDTO;
-import fileLibrary.ParentDAO2;
 
 public class QCDAO   {
-	public List<QCDTO> select(QCDTO dto) {
+	public List<QCDTO> select(QCDTO dto, CommonDTO pageing) {
 		List<QCDTO> list = new ArrayList();
 		
 		Connection conn = null;
@@ -27,24 +26,37 @@ public class QCDAO   {
 			Context ctx = new InitialContext();
 
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
-//			System.out.println("DAOMODselect:"+dto.getMod());
 			conn = dataFactory.getConnection();
-			String query = "select qc_num, q.lot_num, qc_date, q.empno, e.ename, "
+			String query =
+					"SELECT * from ( "
+					+ "SELECT rownum as rnum, subqry.* from ( "
+					+ "select qc_num, q.lot_num, qc_date, q.empno, e.ename, "
 					+ "l.qc_chk, l.lot_count "
 					+ "from qc q "
 					+ "left outer join lot l "
 					+ "on (q.lot_num = l.lot_num) "
 					+ "left outer join emp e "
 					+ "on (q.empno = e.empno) ";
-
+					
+			
+			System.out.println("QCDAOmod: "+dto.getMod());
+			System.out.println("QCDAOqc_num: "+dto.getQc_num());
 			if(dto.getQc_num()!=-1 || "up".equals(dto.getMod())) {
 				query += "where qc_num = ?";
 			}
+			//위에 웨어가 밑으로 오면 안되서
+			query += "ORDER BY q.qc_num asc, q.qc_date asc "
+					+ ") subqry) "
+					+ "WHERE rnum >= ? AND rnum <= ?";
+			
 			ps = conn.prepareStatement(query);
-
+			int idx = 1;
 			if(dto.getQc_num()!=-1 || "up".equals(dto.getMod())) {
-				ps.setInt(1,dto.getQc_num());
+				ps.setInt(idx++,dto.getQc_num());
 			}
+			
+			ps.setInt(idx++, pageing.getStart());
+		       ps.setInt(idx++, pageing.getEnd());
 			
 			rs = ps.executeQuery();
 			

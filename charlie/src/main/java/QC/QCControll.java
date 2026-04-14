@@ -25,18 +25,30 @@ public class QCControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 		String sqc_num = request.getParameter("qc_num");
 		String mod = request.getParameter("mod");
-
+		String ssize = request.getParameter("size");
+		String spage = request.getParameter("page");
+		int size = 10;
+		int page = 1;
+		if(ssize!=null && spage!=null) {
+			size = Integer.parseInt(ssize);
+			page = Integer.parseInt(spage);
+		}
 		int qc_num = -1;
 		if (sqc_num != null) {
 			System.out.println("qcif확인");
 			qc_num = Integer.parseInt(sqc_num);
 		}
 		QCDTO qcDTO = new QCDTO();
+		CommonDTO commonDTO= new CommonDTO();
+		commonDTO.setSize(size);
+		commonDTO.setPage(page);
 		qcDTO.setQc_num(qc_num);
 		qcDTO.setMod(mod);
 		QCService service = new QCService();
 		// 수정 
-		Map map = service.select(qcDTO);
+		
+		Map map = service.select(qcDTO, commonDTO);
+		System.out.println("qc컨트롤map: " + map);
 		request.setAttribute("map", map);
 		
 		if ("detail".equals(mod)) {
@@ -75,15 +87,6 @@ public class QCControll extends HttpServlet {
 			} 
 		}
 		System.out.println("리스트로 고고씽");
-		System.out.println("paging 되라 " + map.get("totalCount"));
-		System.out.println("paging 되라 " + map.get("totalCount"));
-		System.out.println("paging 되라 " + map.get("totalCount"));
-		System.out.println("paging 되라 " + map.get("totalCount"));
-		System.out.println("paging 되라 " + map.get("totalCount"));
-		System.out.println("paging 되라 " + map.get("totalCount"));
-		System.out.println("paging 되라 " + map.get("totalCount"));
-		System.out.println("paging 되라 " + map.get("totalCount"));
-		System.out.println("paging 되라 " + map.get("totalCount"));
 		request.getRequestDispatcher("WEB-INF/views/qc/qcList.jsp").forward(request, response);
 	}
 
