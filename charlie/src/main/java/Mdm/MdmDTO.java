@@ -10,9 +10,23 @@ public class MdmDTO {
 	String type;
 	Date received_date;
 	int price;
+	int quantity;
 	
+	String can_use;
 
 	
+	public String getCan_use() {
+		return can_use;
+	}
+	public void setCan_use(String can_use) {
+		this.can_use = can_use;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 	public Date getReceived_date() {
 		return received_date;
 	}

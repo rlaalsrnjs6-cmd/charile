@@ -37,10 +37,12 @@
 				<th>관리번호</th>
 				<th>관리코드</th>
 				<th>명칭</th>
+				<th>수량</th>
 				<th>단위</th>
 				<th>타입</th>
 				<th>가격</th>
 				<th>입고날짜</th>
+				<th>가용 여부</th>
 			</tr>
 		</thead>
 
@@ -55,10 +57,12 @@
 						<c:if test="${ not empty row.name }"> ${ row.name } </c:if>
 					</a>
 				</td>
+				<td>${ row.quantity }</td>
 				<td>${ row.unit }</td>
 				<td>${ row.type }</td>
 				<td>${ row.price }</td>
 				<td>${ row.received_date }</td>
+				<td>${ row.can_use }</td>
 			</tr>
 		</c:forEach>
 		

@@ -29,19 +29,32 @@
 					<c:if test="${ mdmDTO.mdm_num eq g}"> 
 						<option value="g" selected>g</option> 
 					</c:if>
+					<option value="kg" >kg</option>
+					<c:if test="${ mdmDTO.mdm_num eq kg}"> 
+						<option value="kg" selected>kg</option> 
+					</c:if>
 					
 					<option value="L" >L</option>
 					<c:if test="${ mdmDTO.mdm_num eq L}"> 
 						<option value="L" selected>L</option> 
 					</c:if>
 					
-					<option value="ea">정</option>
+					<option value="ea">ea</option>
 					<c:if test="${ mdmDTO.mdm_num eq ea}"> 
-						<option value="정" selected>ea</option> 
+						<option value="ea" selected>ea</option> 
 					</c:if>
 				</select> <br>
-		타입 : <input name="type" value="${ mdmDTO.type }"> <br>
+		수량 : <input name="quantity" value="${ mdmDTO.quantity }"> <br>
+		타입 : 
+				<select name="type">
+					<option value="assemble">반제품</option>
+					<option value="product">제품</option>
+					<option value="material">재료</option>
+					<option value="equip">장비</option>
+			    </select> <br>
+			  
 		가격 : <input name="price" value="${ mdmDTO.price }"> <br>
+		가용확인 : <input name="can_use" value="${ mdmDTO.can_use }"> <br>
 		<hr>
 		 <input type="submit" value="수정"> <br>
 		

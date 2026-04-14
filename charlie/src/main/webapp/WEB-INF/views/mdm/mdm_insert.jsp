@@ -24,6 +24,8 @@
 	
 	code: <input type="text" name="code" value="AAABBC001"> <br>
 	
+	quantity: <input type="text" name="quantity" value="1"> <br>
+	
 	unit:
 	<select name="unit">
 		<option value="g">g</option>
@@ -33,6 +35,10 @@
 	</select> <br>
 	
 	price: <input type="number" name="price" value="2000"> 원<br>
+	
+	can_use: <br>
+	가능<input type="radio" name="can_use" value="Y" checked> <br>
+	불가능<input type="radio" name="can_use" value="N"> <br>
 	<hr>
 
 	<input type="hidden" name="cmd" value="insert">

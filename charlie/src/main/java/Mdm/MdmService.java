@@ -71,6 +71,12 @@ public class MdmService extends ParentService2<MdmDTO, CommonDTO>{
 		return mdmDAO.deleteDB(dto);
 	}
 
+	@Override
+	public List selectJoinInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 

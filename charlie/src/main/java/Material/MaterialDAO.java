@@ -4,9 +4,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import fileLibrary.ParentDAO;
+import Material.MaterialDTO;
+import fileLibrary.CommonDTO;
+import fileLibrary.ParentDAO2;
 
-public class MaterialDAO extends ParentDAO<MaterialDTO> {
+public class MaterialDAO extends ParentDAO2<MaterialDTO, CommonDTO> {
 
 	@Override
 	protected String tableName() {
@@ -18,44 +20,16 @@ public class MaterialDAO extends ParentDAO<MaterialDTO> {
 		return "material_num";
 	}
 
-	@Override
-	protected int setDTONum(MaterialDTO dto) {
-		return dto.getMaterial_num();
-	}
-
-	@Override
-	protected String deleteQuery(MaterialDTO dto) {
-		return "DELETE FROM " + tableName() + " WHERE " + pk_Coulum_Name() + " =  '" + setDTONum(dto) + "'";
-	}
-
-	@Override
-	protected String selectQuery(MaterialDTO dto, String selector) {
-		String query = " select * from " + tableName();
-
-		if ("".equals(selector) || selector == null || dto == null)
-			return query;
-
-		switch (selector) {
-
-		case "num":
-			query += " where " + pk_Coulum_Name() + " = '" + setDTONum(dto) + "'";
-			return query;
-
-		default:
-			break;
-		}
-
-		query += " order by " + pk_Coulum_Name();
-		return query;
-	}
 
 	@Override
 	protected MaterialDTO setDTO(ResultSet rs) {
+		
 		MaterialDTO dto = new MaterialDTO();
 
 		try {
+			 System.out.println("-DEBUGING-");
 
-			dto.setMaterial_num(rs.getInt("Material_num"));
+			dto.setMaterial_num(rs.getInt("material_num"));
 			dto.setTotal_quantity(rs.getInt("total_quantity"));
 			dto.setWarehouse_num(rs.getInt("warehouse_num"));
 			dto.setMdm_num(rs.getInt("mdm_num"));
@@ -64,26 +38,15 @@ public class MaterialDAO extends ParentDAO<MaterialDTO> {
 			e.printStackTrace();
 		}
 		return dto;
+	
 	}
 
-	@Override
-	protected PreparedStatement setPs(PreparedStatement ps, MaterialDTO dto, String selector) {
-		try {
-			ps.setInt(1, dto.getTotal_quantity());
-			ps.setInt(2, dto.getWarehouse_num());
-			ps.setInt(3, dto.getMdm_num());
-			if ("update".equals(selector)) { ps.setInt(4, dto.getMaterial_num()); }
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return ps;
-	}
 
 	@Override
 	protected String insertQuery() {
 		return "INSERT INTO " + tableName() + " ( " + pk_Coulum_Name() 
-		+ ", total_quantity, warehouse_num, Mdm_num) " 
-				+ " VALUES ( material_seq.nextval, ?, ?, ?)";
+		+ ", total_quantity, warehouse_num, code, name, quantity, unit) " 
+				+ " VALUES ( material_seq.nextval, ?, ?, ?, ?, ?, ?)";
 	}
 
 	@Override
@@ -97,4 +60,56 @@ public class MaterialDAO extends ParentDAO<MaterialDTO> {
 			;
 	}
 
+	@Override
+	protected int setDTONum(MaterialDTO dto) {
+		return dto.getMaterial_num();
+	}
+
+	@Override
+	protected PreparedStatement selectPs(PreparedStatement ps, CommonDTO commonDTO) throws SQLException {
+		ps.setInt(1, commonDTO.getStart());
+		ps.setInt(2, commonDTO.getEnd());
+		return ps;
+	}
+
+	@Override
+	protected String selectQuery(MaterialDTO dto, CommonDTO commonDTO) {
+		return null;
+	}
+	@Override
+	protected String selectAllQuery() {
+	    return "SELECT mdm_num, code, name, quantity, unit FROM mdm " +
+	           "WHERE type IN ('assemble', 'product', 'material') AND canuse = 'Y'";
+	}
+
+	@Override
+	protected MaterialDTO setJoinDTO(ResultSet rs) throws SQLException {
+		
+		MaterialDTO dto = new MaterialDTO();
+		
+		dto.setMdm_num(rs.getInt("mdm_num"));
+		dto.setCode(rs.getString("code"));
+		dto.setName(rs.getString("name"));
+		dto.setQuantity(rs.getInt("quantity"));
+		dto.setUnit(rs.getString("unit"));
+		
+		return dto;
+	}
+	
+
+	@Override
+	protected PreparedStatement setPs(PreparedStatement ps, MaterialDTO dto, String selector) throws SQLException {
+		try {
+			ps.setInt(1, dto.getTotal_quantity());
+			ps.setInt(2, dto.getWarehouse_num());
+			ps.setString(3, dto.getCode());
+			ps.setString(4, dto.getName());
+			ps.setInt(5, dto.getQuantity());
+			ps.setString(6, dto.getUnit());
+			if ("update".equals(selector)) { ps.setInt(7, dto.getMaterial_num()); }
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ps;
+	}
 }

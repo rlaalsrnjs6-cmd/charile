@@ -14,7 +14,7 @@ import javax.sql.DataSource;
 import fileLibrary.LoggableStatement;
 
 
-public abstract class ParentDAO2<T, TestDTO> {
+public abstract class ParentDAO2<T, C> {
 
 	// 援ы쁽�빐�꽌 �궗�슜�븷 硫붿냼�뱶
 	protected abstract String tableName();
@@ -22,8 +22,11 @@ public abstract class ParentDAO2<T, TestDTO> {
 	protected abstract int setDTONum(T dto);
 	// set Query / set DTO(rs)
 
-	protected abstract PreparedStatement selectPs(PreparedStatement ps, TestDTO testDTO) throws SQLException; 
-	protected abstract String selectQuery(T dto, TestDTO testDTO);
+	protected abstract PreparedStatement selectPs(PreparedStatement ps, C commonDTO) throws SQLException; 
+	protected abstract String selectQuery(T dto, C commonDTO);
+
+	protected abstract String selectAllQuery();
+	protected abstract T setJoinDTO(ResultSet rs) throws SQLException; // DTO �꽭�똿
 	
 	protected abstract T setDTO(ResultSet rs) throws SQLException; // DTO �꽭�똿
 
@@ -32,14 +35,14 @@ public abstract class ParentDAO2<T, TestDTO> {
 	protected abstract String modifyQuery();
 	
 	// select
-	public List selectDB(T dto, TestDTO testDTO) {
+	public List selectDB(T dto, C commonDTO) {
 
 		List list = new ArrayList();
 
 		try ( Connection conn = getConn();
-			  PreparedStatement ps = new LoggableStatement(conn, selectQuery(dto, testDTO));) 
+			  PreparedStatement ps = new LoggableStatement(conn, selectQuery(dto, commonDTO));) 
 					  
-		{ selectPs(ps, testDTO);
+		{ selectPs(ps, commonDTO);
 		  // DB 조회 결과
 		  System.out.println(((LoggableStatement) ps).getQueryString());
 		
@@ -59,7 +62,7 @@ public abstract class ParentDAO2<T, TestDTO> {
 	}
 	
 	// selectOne
-	public T selectOne(T dto, TestDTO testDTO) {
+	public T selectOne(T dto, C commonDTO) {
 		
 		try ( Connection conn = getConn();
 			  PreparedStatement ps = new LoggableStatement(conn, 
@@ -183,7 +186,28 @@ public abstract class ParentDAO2<T, TestDTO> {
 		return total;
 	}
 	
-
+	// select all 고정 사용 (join table research 용도)
+		public List selectJoinInfo() {
+			
+			List list = new ArrayList();
+			
+			try ( Connection conn = getConn(); ) {
+				
+				try (PreparedStatement ps = conn.prepareStatement(selectAllQuery()); // �삤�씪�겢�슜�쑝濡� 而댄뙆�씪
+						// SQL �떎�뻾 諛� 寃곌낵 �솗蹂�
+						ResultSet rs = ps.executeQuery(); // �뜲�씠�꽣 媛��졇�샂
+						) { // 寃곌낵 �솢�슜
+					while (rs.next()) {
+						list.add(setJoinDTO(rs));
+					}
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println("/DAO select list : " + list);
+			return list;
+		}
 	
 	
 }

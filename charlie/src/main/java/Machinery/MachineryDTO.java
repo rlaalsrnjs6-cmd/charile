@@ -9,7 +9,18 @@ public class MachineryDTO {
 	String error_sign;
 	String m_action;
 	Date m_log_time;
+	
+	// join
 	int mdm_num;
+	String name;
+	
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public int getMachinery_num() {
 		return machinery_num;
 	}
