@@ -71,7 +71,8 @@
     display: flex;
     gap: 50px;
     list-style: none;
-    font-size: 2rem;
+    font-size: 1.6rem;
+    font-weight: 700;
     margin-left: 100px;
 }
 
@@ -101,11 +102,12 @@
             </h1>
             <ul class="header-ul">
                 <li><a href="">기준관리</a></li>
-                <li><a href="http://localhost:8080/charlie/material">자재관리</a></li>
-                <li><a href="http://localhost:8080/charlie/order">작업지시서</a></li>
-                <li><a href="http://localhost:8080/charlie/production/management">생산관리</a></li>
-                <li><a href="http://localhost:8080/charlie/qc">품질관리</a></li>
-                <li><a href="">게시판</a></li>
+                <li><a href="${pageContext.request.contextPath}/material">자재관리</a></li>
+                <li><a href="${pageContext.request.contextPath}/order">작업지시서</a></li>
+                <li><a href="${pageContext.request.contextPath}/production/management">생산관리</a></li>
+                <li><a href="${pageContext.request.contextPath}/qc">품질관리</a></li>
+                <li><a href="${pageContext.request.contextPath}/notice/controller">공지사항</a></li>
+                <li><a href="${pageContext.request.contextPath}/select.report">리포트</a></li>
             </ul>
         </div>
     </div>
