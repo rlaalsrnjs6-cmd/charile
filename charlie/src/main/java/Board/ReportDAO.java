@@ -23,6 +23,9 @@ public class ReportDAO {
     }
 	
 	public List selectAll(BoardDTO dto) {
+		String selectTitle = dto.getSelectTitle();
+		boolean hasSearch = (selectTitle != null && !selectTitle.trim().isEmpty());
+		
 		List list = new ArrayList();
 		StringBuilder query = new StringBuilder();
 	    query.append("SELECT * FROM (");
@@ -32,9 +35,12 @@ public class ReportDAO {
 	    query.append("        LEFT OUTER JOIN emp e ON p.empno = e.empno ");
 	    query.append("        WHERE p.category LIKE '리포트%' ");
 	    
+	    if (hasSearch) {
+	        query.append("        AND p.title LIKE '%' || ? || '%' ");
+	    }
+	    
 	    //관리자가 아니면 트루
 	    boolean isNotAdmin = 1 != dto.getLevel();
-	    
 	    if (isNotAdmin) {//관리자가 아니면 본인이 작성한 글만 볼 수 있음
 	        query.append("        AND p.empno = ? ");
 	    }
@@ -48,6 +54,11 @@ public class ReportDAO {
 				PreparedStatement ps =  conn.prepareStatement(query.toString())) {
 				
 				int idx = 1;
+				
+				if (hasSearch) {
+			        ps.setString(idx++, selectTitle);
+			    }
+				
 				if(isNotAdmin) {
 					ps.setInt(idx++, dto.getEmpno());
 				}
@@ -76,30 +87,51 @@ public class ReportDAO {
 		return null;
 	}
 	
-	public int getTotalCount() {
+	public int getTotalCount(BoardDTO dto) {
 		
 		int total = 0;
-		
+		String selectTitle = dto.getSelectTitle();
+	    boolean hasSearch = (selectTitle != null && !selectTitle.trim().isEmpty());
+	    boolean isNotAdmin = (dto.getLevel() == 2); // 관리자가 아니면 true로 만들고~
+	    
 		try {
 			//자원을 가지러 가기 위해 문을 열고
 			Context ctx = new InitialContext();
 			//열어둔 문을 통해 어디로 갈지 경로를 정함
 	        DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 	        
-	        String query ="select count(*) from post where category LIKE '리포트%'"; 
+	        StringBuilder query = new StringBuilder("SELECT COUNT(*) FROM post WHERE category LIKE '리포트%'");
 	        
+	        if (hasSearch) {
+	            query.append(" AND title LIKE '%' || ? || '%'");
+	          }
+	        if (isNotAdmin) {
+	            query.append(" AND empno = ?");
+	        }
 	        try(Connection conn = dataFactory.getConnection();
-	        	PreparedStatement ps = conn.prepareStatement(query);	
-	        		ResultSet rs = ps.executeQuery()){
+	        	PreparedStatement ps = conn.prepareStatement(query.toString());	
+	        		){
+	        	int idx = 1;
 	        	
-	        	if(rs.next()) {
-	        		 // COUNT(*)가 emp 테이블에 사원이 몇명 있는지 검사해서 숫자를 리턴 해주기 때문에
-	        		//while을 돌릴 필요 없이 if로 해당 숫자만 돌려받음
-	        		
-	        		//rs.getInt(1);을 한 이유:
-	        		//count(*)을 하면 사원 수를 count컬럼 한 줄에 찍어서 돌려주니까 한 줄만 받겠다
-	        		total = rs.getInt(1);
+	        	if (hasSearch) {
+	                ps.setString(idx++, selectTitle);
+	            }
+
+	            if (isNotAdmin) {
+	                ps.setInt(idx++, dto.getEmpno());
+	            }
+	            
+	        	try(ResultSet rs = ps.executeQuery()){
+	        		if(rs.next()) {
+		        		 // COUNT(*)가 emp 테이블에 사원이 몇명 있는지 검사해서 숫자를 리턴 해주기 때문에
+		        		//while을 돌릴 필요 없이 if로 해당 숫자만 돌려받음
+		        		
+		        		//rs.getInt(1);을 한 이유:
+		        		//count(*)을 하면 사원 수를 count컬럼 한 줄에 찍어서 돌려주니까 한 줄만 받겠다
+		        		total = rs.getInt(1);
+		        	}
 	        	}
+	        	
 	        }
 		}catch (Exception e) {
 			e.printStackTrace();

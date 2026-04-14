@@ -4,15 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 public class ReportService {
 	
 	ReportDAO dao = new ReportDAO();
 	
 	//select 로직
 	public Map selectList(BoardDTO dto) {
-		
+
 		//페이지에서 보여줄 항목 몇개인지 개수 리턴
-				int pageCount = dao.getTotalCount();
+				int pageCount = dao.getTotalCount(dto);
 				
 //				System.out.println(list1);
 

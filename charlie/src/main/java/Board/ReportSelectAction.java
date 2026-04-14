@@ -10,7 +10,12 @@ public class ReportSelectAction implements Command {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) {
-
+		
+		
+		
+		
+		
+		
 		// 값이 없을 때를 대비한 기본값 설정
 		int size = 5; // 페이지당 표시 개수
 		int page = 1; // 현재 페이지
@@ -36,9 +41,15 @@ public class ReportSelectAction implements Command {
 		}
 
 		HttpSession session = request.getSession();
+		String selectTitle = request.getParameter("selectTitle");
+		if( selectTitle == null) {
+			selectTitle = "";
+		}
+		
 		int level = (Integer) session.getAttribute("level");
 		int empno = (Integer) session.getAttribute("empno");
 		BoardDTO dto = new BoardDTO();
+		dto.setSelectTitle(selectTitle);
 		dto.setLevel(level);
 		dto.setEmpno(empno);
 		dto.setSize(size);

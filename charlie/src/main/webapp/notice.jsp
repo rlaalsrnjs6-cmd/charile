@@ -42,7 +42,7 @@ response.setContentType("text/html; charset=utf-8;"); %>
 </table>
 <% 
 
-	int level = (Integer)session.getAttribute("level");
+	 level = (Integer)session.getAttribute("level");
 	if(level == 1){
 %>
 <a href="/charlie/noticeInsert.jsp">작성하기</a>

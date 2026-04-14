@@ -19,6 +19,10 @@
 <body>
 <%@ include file="header.jsp" %>
 <div id="pageAll">
+<form action="${pageContext.request.contextPath}/select.report" method="get">
+    <input type="text" name="selectTitle" placeholder="검색하실 제목을 입력하세요" value="${param.selectTitle}">
+    <button type="submit">검색</button>
+</form>
 	<table border="1">
 	<tr>
 	<th>상태</th>
@@ -53,8 +57,8 @@
 	</c:if>
 </div>
 <% 
-	int level = (Integer)session.getAttribute("level");
-	if(level > 1){
+	 level = (Integer)session.getAttribute("level");
+	if(level < 3){
 %>
 <a href="/charlie/ProductionManagementInsert.jsp">작성하기</a>
 <%} %>

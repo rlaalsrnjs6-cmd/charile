@@ -46,8 +46,10 @@ public class ProductionManagementControll extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		String selectTitle = request.getParameter("selectTitle");
 		
 		ProductionManagementDTO dto = new ProductionManagementDTO();
+		dto.setSelectTitle(selectTitle);
 		dto.setSize(size);
 		dto.setPage(page);
 

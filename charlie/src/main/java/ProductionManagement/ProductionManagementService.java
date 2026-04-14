@@ -12,7 +12,7 @@ public class ProductionManagementService {
 
 		
 		//페이지에서 보여줄 항목 몇개인지 개수 리턴
-		int pageCount = dao.getTotalCount();
+		int pageCount = dao.getTotalCount(dto);
 		
 //		System.out.println(list1);
 

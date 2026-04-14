@@ -107,7 +107,12 @@
                 <li><a href="${pageContext.request.contextPath}/production/management">생산관리</a></li>
                 <li><a href="${pageContext.request.contextPath}/qc">품질관리</a></li>
                 <li><a href="${pageContext.request.contextPath}/notice/controller">공지사항</a></li>
+    <% 
+	int level = (Integer)session.getAttribute("level");
+    System.out.println("level: " + level);
+	if(level < 3){ %>
                 <li><a href="${pageContext.request.contextPath}/select.report">리포트</a></li>
+                <%} %>
             </ul>
         </div>
     </div>

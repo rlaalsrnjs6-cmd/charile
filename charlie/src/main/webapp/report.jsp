@@ -20,6 +20,13 @@
 </head>
 <body>
 <%@ include file="header.jsp" %>
+
+<form action="${pageContext.request.contextPath}/select.report" method="get">
+    <input type="text" name="selectTitle" placeholder="검색하실 제목을 입력하세요" value="${param.selectTitle}">
+    <button type="submit">검색</button>
+</form>
+
+
 <table border="1">
 	<tr>
 		<th>NO</th>
@@ -42,9 +49,8 @@
 	</c:forEach>
 </table>
 <% 
-// HttpSession session = request.getSession();
-	int level = (Integer)session.getAttribute("level");
-	if(level != 1){
+	 level = (Integer)session.getAttribute("level");
+	if(level == 2){
 %>
 <a href="${pageContext.request.contextPath}/reportInsert.jsp">작성하기</a>
 <%} %>
