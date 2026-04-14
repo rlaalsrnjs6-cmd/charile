@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+    <%request.setCharacterEncoding("utf-8");
+	response.setContentType("text/html; charset=utf-8;"); %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,15 +88,23 @@
     </style>
 </head>
 <body>
+
 <%-- <%@ include file="/header.jsp" %> --%>
+
+<% Boolean isLogin = (Boolean)session.getAttribute("login"); %>
     <div id="header-all">
     <div class="util-menu">
         <ul class="util-list">
+        <c:choose>
+        <c:when test="${sessionScope.login == true }">
+            <li><a href="">마이페이지</a></li>
+            <li><a href="${pageContext.request.contextPath}/charlie?mod=logout">로그아웃</a></li>
+            </c:when>
+            <c:otherwise>
             <li><a href="">로그인</a></li>
             <li><a href="">회원가입</a></li>
-            <li><a href="">마이페이지</a></li>
-            <li><a href="http://localhost:8080/charlie/charlie?mod=logout">로그아웃</a></li>
-            <li><a href="">카테고리 관리</a></li>
+            </c:otherwise>
+		</c:choose>
         </ul>
     </div>
 
