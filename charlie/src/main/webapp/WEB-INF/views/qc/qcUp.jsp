@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>    
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +17,8 @@
 		<tr>
 			<th>qc번호</th>
 			<th>로트번호</th>
-			<th>qc부착날짜</th>
+			<th>lot당 제품 개수</th>
+			<th>체크전후</th>
 			<th>사원번호</th>
 		</tr>
 		
@@ -20,10 +26,20 @@
 			<input type="hidden" name="mod" value="up">
 			<input type="hidden" name="qc_num" value="${qc[0].qc_num}">
 			<input type="hidden" name="lot_num" value="${qc[0].lot_num}">
+			<input type="hidden" name="qc_date" value="${qc[0].qc_date}">
 			<td>${qc[0].qc_num}</td>
 			<td>${qc[0].lot_num}</td>
-			<td><input type="text" name="qc_date" value="${qc[0].qc_date}"></td>
-			<td><input type="text" name="empno" value="${qc[0].empno}"></td>
+			<td><input name="lot_count" value="${lot[0].lot_count}"></td>
+			<td><input name="qc_chk" value="${lot[0].qc_chk}"></td>
+			<td>
+				<select name="empno">
+       				 <c:forEach var="e" items="${emp}">
+            			<option value="${e.empno}" selected>
+               	 			사원이름:${e.ename}, 사원번호:${e.empno}
+             			</option>
+        			</c:forEach>
+    			</select>
+    		</td>
 		</tr>
 		<input type="submit" value="수정">
 	</table>
