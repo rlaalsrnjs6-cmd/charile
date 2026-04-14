@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"
+    %>
     
+<%@ page import="java.util.*"%>
+<%@ page import="fileLibrary.CommonDTO"%>
+    
+<!-- 수정 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -23,7 +28,8 @@
 			<th>로트당제품개수</th>
 			<th>qc체크</th>
 		</tr>
-		<c:forEach var="q" items="${qc}">
+								<!-- 수정 -->
+		<c:forEach var="q" items="${map.list}">
 			<tr>
 				<td>${q.qc_num}</td>
 				<td><a href="http://localhost:8080/charlie/qc?qc_num=${q.qc_num}&mod=detail">${q.lot_num}</td>
@@ -36,7 +42,8 @@
 		</c:forEach>
 	</table>
 	<a href = "http://localhost:8080/charlie/qc?mod=add">작성</a>
+					<!-- 수정 -->
+	<jsp:include page="/WEB-INF/views/paging.jsp" />
 	<%@ include file="/footer.jsp" %>
-	
 </body>
 </html>

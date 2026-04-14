@@ -2,17 +2,20 @@ package QC;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Emp.EmpDTO;
 import Emp.EmpService;
 import Lot.LotDTO;
 import Lot.LotService;
+import fileLibrary.CommonDTO;
 
 @WebServlet("/qc")
 public class QCControll extends HttpServlet {
@@ -32,8 +35,10 @@ public class QCControll extends HttpServlet {
 		qcDTO.setQc_num(qc_num);
 		qcDTO.setMod(mod);
 		QCService service = new QCService();
-		List<QCDTO> list = service.select(qcDTO);
-		request.setAttribute("qc", list);
+		// 수정 
+		Map map = service.select(qcDTO);
+		request.setAttribute("map", map);
+		
 		if ("detail".equals(mod)) {
 			System.out.println("디테일로고고씽");
 			request.getRequestDispatcher("WEB-INF/views/qc/qcDetail.jsp").forward(request, response);
@@ -70,6 +75,15 @@ public class QCControll extends HttpServlet {
 			} 
 		}
 		System.out.println("리스트로 고고씽");
+		System.out.println("paging 되라 " + map.get("totalCount"));
+		System.out.println("paging 되라 " + map.get("totalCount"));
+		System.out.println("paging 되라 " + map.get("totalCount"));
+		System.out.println("paging 되라 " + map.get("totalCount"));
+		System.out.println("paging 되라 " + map.get("totalCount"));
+		System.out.println("paging 되라 " + map.get("totalCount"));
+		System.out.println("paging 되라 " + map.get("totalCount"));
+		System.out.println("paging 되라 " + map.get("totalCount"));
+		System.out.println("paging 되라 " + map.get("totalCount"));
 		request.getRequestDispatcher("WEB-INF/views/qc/qcList.jsp").forward(request, response);
 	}
 
