@@ -15,7 +15,7 @@ response.setContentType("text/html; charset=utf-8;");
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>notice insert 페이지</h1>
+<%@ include file="header.jsp" %>
 	
 	<form method="post" action="/charlie/NoticeInsertController">
 		<span>제목</span> <input type="text" name="title"><br>
@@ -23,6 +23,6 @@ response.setContentType("text/html; charset=utf-8;");
 		<a href="notice/controller">작성 취소</a><br>
 		<button>등록하기</button><br>
 	</form>
-	
+<%@ include file="footer.jsp" %>
 </body>
 </html>

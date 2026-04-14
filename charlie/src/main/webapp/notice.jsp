@@ -16,7 +16,7 @@ response.setContentType("text/html; charset=utf-8;"); %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 </head>
 <body>
-<h1>공지사항 페이지</h1>
+<%@ include file="header.jsp" %>
 
 <div class="notice-all" >
 <table border="1">
@@ -40,7 +40,13 @@ response.setContentType("text/html; charset=utf-8;"); %>
 	</tr>
 	</c:forEach>
 </table>
+<% 
+
+	int level = (Integer)session.getAttribute("level");
+	if(level == 1){
+%>
 <a href="/charlie/noticeInsert.jsp">작성하기</a>
+<%} %>
 </div>
 
 	<div>
@@ -56,5 +62,6 @@ response.setContentType("text/html; charset=utf-8;"); %>
 		<a href="./controller?page=${map.endPage + 1}">[다음]</a>
 	</c:if>
 </div>
+<%@ include file="footer.jsp" %>
 </body>
 </html>

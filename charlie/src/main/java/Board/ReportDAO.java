@@ -24,24 +24,35 @@ public class ReportDAO {
 	
 	public List selectAll(BoardDTO dto) {
 		List list = new ArrayList();
-		String query = "SELECT * FROM ("
-	             + "    SELECT ROWNUM AS rnum, a.* FROM ("
-	             + "        SELECT p.*, e.ename " 
-	             + "        FROM post p "
-	             + "        LEFT OUTER JOIN emp e ON p.empno = e.empno " 
-	             + "        WHERE p.category LIKE '리포트%' "
-	             + "        ORDER BY p.post_num DESC"
-	             + "    ) a "
-	             + "    WHERE ROWNUM <= ?"
-	             + ") WHERE rnum >= ?";
+		StringBuilder query = new StringBuilder();
+	    query.append("SELECT * FROM (");
+	    query.append("    SELECT ROWNUM AS rnum, a.* FROM (");
+	    query.append("        SELECT p.*, e.ename ");
+	    query.append("        FROM post p ");
+	    query.append("        LEFT OUTER JOIN emp e ON p.empno = e.empno ");
+	    query.append("        WHERE p.category LIKE '리포트%' ");
+	    
+	    //관리자가 아니면 트루
+	    boolean isNotAdmin = 1 != dto.getLevel();
+	    
+	    if (isNotAdmin) {//관리자가 아니면 본인이 작성한 글만 볼 수 있음
+	        query.append("        AND p.empno = ? ");
+	    }
+
+	    query.append("        ORDER BY p.post_num DESC");
+	    query.append("    ) a ");
+	    query.append("    WHERE ROWNUM <= ?");
+	    query.append(") WHERE rnum >= ?");
 		
 		try (Connection conn = dataFactory.getConnection(); 
-				PreparedStatement ps =  conn.prepareStatement(query)) {
+				PreparedStatement ps =  conn.prepareStatement(query.toString())) {
 				
-				ps.setInt(1, dto.getEnd());
-				ps.setInt(2, dto.getStart());
-				
-				
+				int idx = 1;
+				if(isNotAdmin) {
+					ps.setInt(idx++, dto.getEmpno());
+				}
+				ps.setInt(idx++, dto.getEnd());
+		        ps.setInt(idx++, dto.getStart());
 
 				try (ResultSet rs = ps.executeQuery()) {
 					while (rs.next()) {

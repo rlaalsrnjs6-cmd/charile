@@ -2,9 +2,9 @@ package Board;
 
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class ReportSelectAction implements Command {
 
@@ -35,7 +35,12 @@ public class ReportSelectAction implements Command {
 			e.printStackTrace();
 		}
 
+		HttpSession session = request.getSession();
+		int level = (Integer) session.getAttribute("level");
+		int empno = (Integer) session.getAttribute("empno");
 		BoardDTO dto = new BoardDTO();
+		dto.setLevel(level);
+		dto.setEmpno(empno);
 		dto.setSize(size);
 		dto.setPage(page);
 
