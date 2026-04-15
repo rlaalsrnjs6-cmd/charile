@@ -129,25 +129,25 @@ public class EmpDAO {
 		try {
 			Context ctx = new InitialContext();
 
-			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/oracle");
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 			String query ="";
 			conn = dataFactory.getConnection();
 			if("add".equals(dto.getMod())) {
 			query = "insert into emp (empno, ename, id, pw, "
-				 + "tel, sal, addr, birthday, email) "
-				 + "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+				 + "tel, addr, birthday, email) "
+				 + "values (?, ?, ?, ?, ?, ?, ?, ? )";
 			}
 			ps = conn.prepareStatement(query);
 			if("add".equals(dto.getMod())) {
+				System.out.println("DAO인서트 입장");
 				ps.setInt(1,dto.getEmpno());
 				ps.setString(2,dto.getEname());
 				ps.setString(3,dto.getId());
 				ps.setString(4,dto.getPw());
 				ps.setString(5,dto.getTel());
-				ps.setInt(6,dto.getSal());
-				ps.setString(7,dto.getAddr());
-				ps.setDate(8,dto.getBirthday());
-				ps.setString(9,dto.getEmail());
+				ps.setString(6,dto.getAddr());
+				ps.setDate(7,dto.getBirthday());
+				ps.setString(8,dto.getEmail());
 			}
 			
 			result = ps.executeUpdate();

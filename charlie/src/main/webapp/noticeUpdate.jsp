@@ -167,7 +167,7 @@ response.setContentType("text/html; charset=utf-8;");
 			</div>
 			
 			<div class="btn-grp">
-				<button type="button" class="btn-can" onclick="history.back();">취소</button>
+				<button type="button" class="btn-can" onclick="history.back()">취소</button>
 				<button type="submit" class="btn-sub">수정하기</button>
 			</div>
 			
@@ -175,5 +175,56 @@ response.setContentType("text/html; charset=utf-8;");
 	</div>
 
 <%@ include file="footer.jsp" %>
+<script>
+//수정 취소 버튼
+const btn_can = document.querySelector(".btn-can");
+
+//수정하기 버튼
+const btn_sub = document.querySelector(".btn-sub");
+
+
+//수정하기 누르면
+btn_sub.addEventListener('click', (e)=>{
+	//제목 및 내용 DOM
+	const title_el = document.querySelector(".up-in");
+	const content_el = document.querySelector(".ta-lg");
+	
+	//제목 input
+	const title_val = document.querySelector(".up-in").value.trim();
+	//내용 input
+	const content_val = document.querySelector(".ta-lg").value.trim();
+	
+	title_el.style.borderColor = "";
+    content_el.style.borderColor = "";
+	
+	if(title_val == "" || title_val.length == 0){
+		alert("제목을 입력하세요.");
+		e.preventDefault();
+		title_el.focus();
+		title_el.style.borderColor = "#4B2C20";
+		return;
+	}else if(content_val == "" || content_val.length == 0){
+		alert("내용을 입력하세요.");
+		e.preventDefault();
+		content_el.focus();
+		content_el.style.borderColor = "#4B2C20";
+		return;
+	}
+	
+	alert("수정이 완료되었습니다.");
+	
+})
+
+//수정 취소 버튼
+	btn_can.addEventListener('click',(e)=>{
+		if (confirm("정말 수정을 취소하시겠습니까?")) {
+            alert("취소되었습니다.");
+
+           
+        } else {
+            e.preventDefault(); 
+        }
+	})
+</script>
 </body>
 </html>

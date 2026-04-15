@@ -13,12 +13,14 @@ public class EmpService {
 	}
 
 	int insert(EmpDTO dto){
+		System.out.println("서비스 첫번쨰 인서트 확인");
 		EmpDAO dao = new EmpDAO();
 		List list = null;
 		if("add".equals(dto.getMod())) {
 		list = dao.select(dto);
 		}
 		int insert = -1;
+		System.out.println("서비스 if 조건 확인: " + list.size());
 		if(list.size()<1) {
 			System.out.println("인서트 시작");
 			insert = dao.insert(dto);

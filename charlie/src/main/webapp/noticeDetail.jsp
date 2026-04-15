@@ -215,11 +215,12 @@
 
 		const btn_del = document.querySelector(".btn-del");
 		
-		btn_del.addEventListener('click', ()=>{
+		btn_del.addEventListener('click', (e)=>{
 			if(confirm("정말로 해당 공지사항을 삭제하시겠습니까?")){
 				alert("삭제되었습니다.");
 			}else{
-				alert("취소되었습니다.");
+				e.preventDefault();
+				return;
 			}
 			
 			
