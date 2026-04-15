@@ -10,7 +10,6 @@
 <form method="post" action="order">
 	<table border=1>
 		<tr>
-			<th>작업지시번호</th>
 			<th>제목</th>
 			<th>생산관리번호</th>
 			<th>목표수량</th>
@@ -21,7 +20,6 @@
 		
 		<tr>
 			<input type="hidden" name="mod" value="add">
-			<td><input type="text" name="order_num"></td>
 			<td><input type="text" name="title"></td>
 			<td><input type="text" name="prod_num"></td>
 			<td><input type="text" name="target_quantity"></td>

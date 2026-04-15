@@ -18,14 +18,13 @@ public class LoginCheck extends HttpServlet {
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
 		String mod = request.getParameter("mod");
-		String status = request.getParameter("status");
 		EmpDTO empDTO = new EmpDTO();
 		empDTO.setId(id);
 		empDTO.setPw(pw);
 		empDTO.setMod(mod);
 		EmpService service = new EmpService();
 		List<EmpDTO> check = service.select(empDTO);
-		
+		System.out.println("로그인 체크 : "+check.get(0).status);
 		if (check.size() == 0) {
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
@@ -34,7 +33,7 @@ public class LoginCheck extends HttpServlet {
 				out.println("</script>");
 				out.close();
 				return;
-			} else if("N".equals(check.get(0).status) || check.get(0).status == null) {
+			} else if(!("Y".equals(check.get(0).status)) || check.get(0).status == null) {
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
 				out.println("alert('퇴사한 사원입니다');");
