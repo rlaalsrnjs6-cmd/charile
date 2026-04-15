@@ -26,7 +26,7 @@
 			<th>상태</th>
 		</tr>
 		
-		<c:forEach var="e" items="${emp}">
+		<c:forEach var="e" items="${map.list}">
 			<tr>
 				<td>${e.empno}</td>
 				<td><a href="http://localhost:8080/charlie/emp?empno=${e.empno}&mod=detail">${e.ename}</td>

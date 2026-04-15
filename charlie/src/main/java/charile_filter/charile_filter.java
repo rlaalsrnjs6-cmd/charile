@@ -74,12 +74,10 @@ public class charile_filter implements Filter {
 
 //			if((login!=null && login==true) || "login".equals(mod) || "add".equals(mod)) { 
 //				chain.doFilter(request, response);
-//			}	//로그인이 돼있지만 첨부파일이 없으면 x?
+//			}	//로그인이 안돼있지만 첨부파일이 없으면 x?
 			if ((login == null || login != true) && !isMultipart) {
 				
-				if ("logout".equals(mod)) {
-					session.invalidate();
-				}
+				
 				if("add".equals(mod)||"add".equals(dto.getMod())) {
 					chain.doFilter(request, response);
 				}
@@ -88,7 +86,17 @@ public class charile_filter implements Filter {
 				return;
 				
 			} else {
-				chain.doFilter(request, response);
+				if ("logout".equals(mod)) {
+					session.invalidate();
+				}
+				if(level == 1) {
+					System.out.println("레벨1");
+					chain.doFilter(request, response);
+					return;
+				} else if(!(level == 1)) {
+					System.out.println("레벨2~3");
+					chain.doFilter(request, response);
+				}
 			}
 
 		}
