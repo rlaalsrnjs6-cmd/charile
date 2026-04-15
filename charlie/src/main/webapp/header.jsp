@@ -118,7 +118,7 @@
 	<div class="hd-bar">
 		<h1 class="logo">
 			<a href="${pageContext.request.contextPath}/">
-				<img src="${pageContext.request.contextPath}/assets/img/로고-배경제거.png" alt="Charlie MES">
+				<img src="${pageContext.request.contextPath}/assets/img/logo-no-bg.png" alt="Charlie MES">
 			</a>
 		</h1>
 		<ul class="hd-nav">

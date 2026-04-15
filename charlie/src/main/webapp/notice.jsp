@@ -33,7 +33,7 @@ response.setContentType("text/html; charset=utf-8;"); %>
 		width: 90%;
 		max-width: 1200px;
 		margin: 3rem auto;
-		min-height: calc(100vh - 300px);
+		min-height: calc(100vh - 249px);
 	}
 
 	/* 공지사항 테이블 */
