@@ -4,9 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import fileLibrary.CommonDTO;
-import fileLibrary.ParentDAO2;
+import fileLibrary.ParentDAO3;
 
-public class ProcessDAO extends ParentDAO2<ProcessDTO, CommonDTO>{
+public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 
 	// TABLE
 	@Override // CHECKED
@@ -79,11 +79,11 @@ public class ProcessDAO extends ParentDAO2<ProcessDTO, CommonDTO>{
 			
 			try {	
 			dto.setName(rs.getString("name"));
+			dto.setCode(rs.getString("code"));
 			} catch (SQLException e) {
 			e.printStackTrace();
 				System.out.println("name 없음!");
 			}
-			
 		return dto;
 	}
 	
@@ -95,10 +95,10 @@ public class ProcessDAO extends ParentDAO2<ProcessDTO, CommonDTO>{
 		String query = // 고정 사용
 					"SELECT * FROM ( "
                 + "  SELECT rownum AS rnum, subqry.* FROM ( "
-				+ "" // MAIN QUERY 			
+				+ "" // MAIN TABLE A	
                 + "    SELECT tableA.*, tableB.code, tableB.name  "
                 + " FROM process tableA "
-                + "" // JOIN 
+                + "" // JOIN TABLE B
                 + " LEFT OUTER JOIN mdm tableB "
                 + " ON tableA.mdm_num = tableB.mdm_num ";
 	    			
@@ -149,5 +149,6 @@ public class ProcessDAO extends ParentDAO2<ProcessDTO, CommonDTO>{
 		ps.setInt(2, commonDTO.getEnd());
 		return ps;
 	}
+
 
 }

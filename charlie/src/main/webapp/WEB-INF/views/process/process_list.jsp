@@ -26,6 +26,8 @@
 		<thead>
 			<tr>
 				<th>process_num</th>
+				<th>name</th>
+				<th>code</th>
 				<th>process_content</th>
 				<th>flow</th>
 				<th>img_url</th>
@@ -41,6 +43,7 @@
 					</a>
 				</td>
 				<td>${ row.name }</td>
+				<td>${ row.code }</td>
 				<td>${ row.process_content }</td>
 				<td>${ row.flow }</td>
 				
