@@ -102,6 +102,7 @@ public class EmpControll extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
+		System.out.println("emp입장");
 		try {
 			String mod = request.getParameter("mod");
 			String sempno = request.getParameter("empno");
@@ -149,6 +150,7 @@ public class EmpControll extends HttpServlet {
 			dto.setMod(mod);
 			EmpService service = new EmpService();
 			if ("add".equals(mod)) {
+				System.out.println("회원가입시작");
 				dto.setEmpno(empno);
 				dto.setEname(ename);
 				dto.setId(id);
@@ -167,7 +169,7 @@ public class EmpControll extends HttpServlet {
 					return;
 				}
 			}
-			response.sendRedirect("emp");
+			System.out.println("인서트확인용");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

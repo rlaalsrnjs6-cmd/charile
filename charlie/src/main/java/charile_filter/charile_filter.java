@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import Emp.EmpDTO;
+
 /**
  * Servlet Filter implementation class charile_filter
  */
@@ -54,6 +56,7 @@ public class charile_filter implements Filter {
 		// 로그인x들어갈수있음
 		if (isExclude(path)) {
 			chain.doFilter(request, response);
+			System.out.println("확인용");
 			return;
 		} else {// 로그인 해야 들어갈수있음
 			HttpSession session = req.getSession();
@@ -63,6 +66,7 @@ public class charile_filter implements Filter {
 			// getParameter 하지 말라는거야
 			String mod = isMultipart ? null : req.getParameter("mod");
 
+			EmpDTO dto = new EmpDTO();
 			Boolean login = (Boolean) session.getAttribute("login");
 			String name = (String) session.getAttribute("name");
 			Integer level = (Integer) session.getAttribute("level");
@@ -70,13 +74,15 @@ public class charile_filter implements Filter {
 
 //			if((login!=null && login==true) || "login".equals(mod) || "add".equals(mod)) { 
 //				chain.doFilter(request, response);
-//			}
+//			}	//로그인이 돼있지만 첨부파일이 없으면 x?
 			if ((login == null || login != true) && !isMultipart) {
-
+				
 				if ("logout".equals(mod)) {
 					session.invalidate();
 				}
-
+				if("add".equals(mod)||"add".equals(dto.getMod())) {
+					chain.doFilter(request, response);
+				}
 				System.out.println("로그인 후 이용하세요");
 				resp.sendRedirect(req.getContextPath() + "/charlie");
 				return;

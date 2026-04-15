@@ -14,23 +14,23 @@
 <body>
 	<form method="post" action="emp">
 		<input type="hidden" name="mod" value="add">
-		<input type="text" name="empno"  placeholder = "사원번호"><br>
-		<input type="text" id="id" onblur="check_id()" name="id" placeholder = "id">
+		<input type="text" name="empno"  placeholder = "사원번호" value="43244"><br>
+		<input type="text" id="id" onblur="check_id()" name="id" placeholder = "id" value="qwer23">
 		<span type="text" id="sid" style="color:red"></span><br>
-		<input type="text" id="pw" onblur="check_pw()" name="pw"  placeholder = "pw">
+		<input type="text" id="pw" onblur="check_pw()" name="pw"  placeholder = "pw" value="Qwer237@">
 		<span type="text" id="spw" style="color:red"></span><br>
-		<input type="text" id="rpw" onblur="check_rpw()" name="rpw"  placeholder = "pw재확인">
+		<input type="text" id="rpw" onblur="check_rpw()" name="rpw"  placeholder = "pw재확인" value="Qwer237@">
 		<span type="text" id="srpw" style="color:red"></span><br>
-		<input type="text" id="ename" name="ename"  placeholder = "이름"><br>
-		<input type="text" id="tel" name="tel"  placeholder = "번호"><br>
-		<input type="text" id="addr" name="addr"  placeholder = "주소"><br>
-		<input type="text" id="email" onblur="check_id()" name="email" placeholder = "이메일">
+		<input type="text" id="ename" name="ename"  placeholder = "이름" value="서영"><br>
+		<input type="text" id="tel" name="tel"  placeholder = "번호" value="01078945612"><br>
+		<input type="text" id="addr" name="addr"  placeholder = "주소" value="경남 부산"><br>
+		<input type="text" id="email" onblur="check_id()" name="email" placeholder = "이메일" value="qwehkj2">
 		<span type="text" id="semail" style="color:red"></span>
 		<input type="hidden" name="email2" value="@">@
 		<input type="text" id="domain" name="email3" >
 		<select name="domain" id="domain_list" onchange="setDomain()">
 			<option name="gg" id="gg" value="" >직접입력</option>
-			<option name="naver" value="naver.com">naver.com</option>
+			<option name="naver" value="naver.com" checked>naver.com</option>
 			<option name="google" value="google.com">google.com</option>
 		</select><br>
 		생년월일<input type="date" name="birthday"><br>

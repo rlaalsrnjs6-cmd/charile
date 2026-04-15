@@ -29,7 +29,7 @@ public class LoginCheck extends HttpServlet {
 		if (check.size() == 0) {
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('로그인 하세요');");
+				out.println("alert('존재하지 않는 회원입니다');");
 				out.println("history.back();");
 				out.println("</script>");
 				out.close();
