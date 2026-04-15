@@ -148,37 +148,38 @@
 		<form method="post" action="emp" id="signForm" onsubmit="return validateForm()">
 			<input type="hidden" name="mod" value="add">
 			
-			<div class="sg-row">
-				<span class="sg-lb">사원번호</span>
-				<input type="text" name="empno" id="empno" class="sg-in" placeholder="사원번호 (숫자만 입력)" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-			</div>
+<!-- 			<div class="sg-row"> -->
+<!-- 				<span class="sg-lb">사원번호</span> -->
+<!-- 				<input type="text" name="empno" id="empno" class="sg-in" placeholder="사원번호 (숫자만 입력)" oninput="this.value = this.value.replace(/[^0-9]/g, '')"> -->
+<!-- 			</div> -->
 			
 			<div class="sg-row">
 				<span class="sg-lb">아이디</span>
-				<input type="text" id="id" name="id" class="sg-in" onblur="check_id()" placeholder="id" value="qwer23">
+				<input type="text" id="id" name="id" class="sg-in" onblur="check_id()" placeholder="아이디 입력" value="">
 				<span id="sid" class="sg-err"></span>
 			</div>
 			
 			<div class="sg-row">
 				<span class="sg-lb">비밀번호</span>
-				<input type="password" id="pw" name="pw" class="sg-in" onblur="check_pw()" placeholder="pw" value="Qwer237@">
+				<input type="password" id="pw" name="pw" class="sg-in" onblur="check_pw()" placeholder="비밀번호 입력" value="">
 				<span id="spw" class="sg-err"></span>
 			</div>
 			
 			<div class="sg-row">
 				<span class="sg-lb">비밀번호 재확인</span>
-				<input type="password" id="rpw" name="rpw" class="sg-in" onblur="check_rpw()" placeholder="pw재확인" value="Qwer237@">
+				<input type="password" id="rpw" name="rpw" class="sg-in" onblur="check_rpw()" placeholder="비밀번호 재확인" value="">
 				<span id="srpw" class="sg-err"></span>
 			</div>
 			
 			<div class="sg-row">
 				<span class="sg-lb">이름</span>
-				<input type="text" id="ename" name="ename" class="sg-in" placeholder="이름" value="서영">
+				<input type="text" id="ename" name="ename" class="sg-in" placeholder="이름" value="">
 			</div>
 			
 			<div class="sg-row">
 				<span class="sg-lb">전화번호</span>
-				<input type="text" id="tel" name="tel" class="sg-in" placeholder="번호" value="01078945612">
+				<input type="text" id="tel" name="tel" class="sg-in" placeholder="번호 (- 없이 입력)"
+				oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);" value="" maxlength="11">
 			</div>
 			
 			<div class="sg-row">
@@ -191,7 +192,7 @@
 				<div class="email-grp">
 					<input type="text" id="email" name="email" class="sg-in" onblur="check_email()" placeholder="이메일" value="qwehkj2">
 					<input type="hidden" name="email2" value="@"> <span>@</span>
-					<input type="text" id="domain" name="email3" class="sg-in">
+					<input type="text" id="domain" placeholder="domain" name="email3" class="sg-in">
 					<select name="domain" id="domain_list" class="sg-in" onchange="setDomain()">
 						<option name="gg" id="gg" value="">직접입력</option>
 						<option name="naver" value="naver.com" checked>naver.com</option>
@@ -243,7 +244,7 @@
 		let rpw = document.querySelector('#rpw').value;
 		let pw = document.querySelector('#pw').value;
 		if (pw !== rpw || rpw === "") {
-			srpw.innerText = "입력하신 비밀번호와 다릅니다 확인해주세요";
+			srpw.innerText = "입력하신 비밀번호가 다릅니다 확인해주세요";
 			return false;
 		} else {
 			srpw.innerText = "";
@@ -288,13 +289,13 @@
 	};
 
 	function validateForm() {
-		// 사원번호 숫자 검사 및 빈칸 검사
-		let empno = document.querySelector('#empno');
-		if (empno.value.trim() === "") {
-			alert("사원번호를 입력해주세요.");
-			empno.focus();
-			return false;
-		}
+// 		// 사원번호 숫자 검사 및 빈칸 검사
+// 		let empno = document.querySelector('#empno');
+// 		if (empno.value.trim() === "") {
+// 			alert("사원번호를 입력해주세요.");
+// 			empno.focus();
+// 			return false;
+// 		}
 
 		let isIdValid = check_id();
 		let isPwValid = check_pw();
