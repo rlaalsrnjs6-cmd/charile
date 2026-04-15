@@ -17,7 +17,7 @@ public class ReportSelectAction implements Command {
 		
 		
 		// 값이 없을 때를 대비한 기본값 설정
-		int size = 5; // 페이지당 표시 개수
+		int size = 10; // 페이지당 표시 개수
 		int page = 1; // 현재 페이지
 
 		String sSize = request.getParameter("size");
