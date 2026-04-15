@@ -135,19 +135,18 @@ public class EmpDAO {
 			if("add".equals(dto.getMod())) {
 			query = "insert into emp (empno, ename, id, pw, "
 				 + "tel, addr, birthday, email) "
-				 + "values (?, ?, ?, ?, ?, ?, ?, ? )";
+				 + "values (emp_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ? )";
 			}
 			ps = conn.prepareStatement(query);
 			if("add".equals(dto.getMod())) {
 				System.out.println("DAO인서트 입장");
-				ps.setInt(1,dto.getEmpno());
-				ps.setString(2,dto.getEname());
-				ps.setString(3,dto.getId());
-				ps.setString(4,dto.getPw());
-				ps.setString(5,dto.getTel());
-				ps.setString(6,dto.getAddr());
-				ps.setDate(7,dto.getBirthday());
-				ps.setString(8,dto.getEmail());
+				ps.setString(1,dto.getEname());
+				ps.setString(2,dto.getId());
+				ps.setString(3,dto.getPw());
+				ps.setString(4,dto.getTel());
+				ps.setString(5,dto.getAddr());
+				ps.setDate(6,dto.getBirthday());
+				ps.setString(7,dto.getEmail());
 			}
 			
 			result = ps.executeUpdate();

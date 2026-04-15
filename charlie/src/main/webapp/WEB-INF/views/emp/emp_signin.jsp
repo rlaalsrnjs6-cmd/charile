@@ -148,10 +148,6 @@
 		<form method="post" action="emp" id="signForm" onsubmit="return validateForm()">
 			<input type="hidden" name="mod" value="add">
 			
-			<div class="sg-row">
-				<span class="sg-lb">사원번호</span>
-				<input type="text" name="empno" id="empno" class="sg-in" placeholder="사원번호 (숫자만 입력)" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-			</div>
 			
 			<div class="sg-row">
 				<span class="sg-lb">아이디</span>
