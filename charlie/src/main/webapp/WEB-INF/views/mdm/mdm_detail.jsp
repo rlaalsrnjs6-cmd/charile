@@ -27,7 +27,8 @@
 		단위 : ${ mdmDTO.unit } <br>
 		타입 : ${ mdmDTO.type } <br>
 		가격 : ${ mdmDTO.price } <br>
-		입고날짜 : ${ mdmDTO.received_date } 
+		입고날짜 : ${ mdmDTO.received_date }  <br>
+		사용기한 : ${ mdmDTO.exp_date } 
 		<br>
 		가용 여부 : 
 		<c:if test="${ mdmDTO.can_use eq 'Y'}">가능</c:if>

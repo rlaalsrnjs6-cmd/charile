@@ -8,13 +8,22 @@ public class MdmDTO {
 	String name;
 	String unit;
 	String type;
+	
 	Date received_date;
+	Date exp_date;
+	
 	int price;
 	int quantity;
 	
 	String can_use;
 
 	
+	public Date getExp_date() {
+		return exp_date;
+	}
+	public void setExp_date(Date exp_date) {
+		this.exp_date = exp_date;
+	}
 	public String getCan_use() {
 		return can_use;
 	}
@@ -72,7 +81,8 @@ public class MdmDTO {
 	@Override
 	public String toString() {
 		return "MdmDTO [mdm_num=" + mdm_num + ", code=" + code + ", name=" + name + ", unit=" + unit + ", type=" + type
-				+ ", received_date=" + received_date + ", price=" + price + "]";
+				+ ", received_date=" + received_date + ", exp_date=" + exp_date + ", price=" + price + ", quantity="
+				+ quantity + ", can_use=" + can_use + "]";
 	}
 	
 	

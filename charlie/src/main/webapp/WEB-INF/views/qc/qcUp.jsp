@@ -24,11 +24,11 @@
 		
 		<tr>
 			<input type="hidden" name="mod" value="up">
-			<input type="hidden" name="qc_num" value="${qc[0].qc_num}">
-			<input type="hidden" name="lot_num" value="${qc[0].lot_num}">
-			<input type="hidden" name="qc_date" value="${qc[0].qc_date}">
-			<td>${qc[0].qc_num}</td>
-			<td>${qc[0].lot_num}</td>
+			<input type="hidden" name="qc_num" value="${map.list[0].qc_num}">
+			<input type="hidden" name="lot_num" value="${map.list[0].lot_num}">
+			<input type="hidden" name="qc_date" value="${map.list[0].qc_date}">
+			<td>${map.list[0].qc_num}</td>
+			<td>${map.list[0].lot_num}</td>
 			<td><input name="lot_count" value="${lot[0].lot_count}"></td>
 			<td><input name="qc_chk" value="${lot[0].qc_chk}"></td>
 			<td>

@@ -15,37 +15,41 @@
 <%@ include file="/header.jsp" %>
 <h1>material list</h1>
 <hr>
-mdm 정보 가져오기
-<hr>
 
 <table border="1px">
+		
 		<thead>
 			<tr>
-				<th>material_num</th>
-				<th>total_quantity</th>
-				<th>warehouse_num</th>
-				<th>mdm_num</th>
+				<th>코드</th>
+				<th>자재명</th>
+				<th>총수량</th>
+				<th>단위</th>
+				<th>총가격(매출)</th>
+				<th>창고확인</th>
+				<th>기온</th>
+				<th>습도</th>
+				<th>섹션구분</th>
+				<th>층구분</th>
 			</tr>
 		</thead>
 
-		<c:forEach var="row" items="${ list }">
+		<c:forEach var="row" items="${ map.list }">
 			<tr>
-			
-				<td>
-					<a href="material?cmd=detail&material_num=${ row.material_num }">
-						${ row.material_num }
-					</a>
-				</td>
+				<td>${ row.code }</td>
+				<td>${ row.name }</td>
 				<td>${ row.total_quantity }</td>
-				<td>${ row.warehouse_num }</td>
-				<td>${ row.mdm_num }</td>
+				<td>${ row.unit }</td>
+				<td>${ row.total_price }</td>
+				<td>${ row.wh_status_chk }</td>
+				<td>${ row.temperature }</td>
+				<td>${ row.humidity }</td>
+				<td>${ row.wh_section }</td>
+				<td>${ row.floor_level }</td>
 			</tr>
 		</c:forEach>
-		
 		</table>
 		
 		<hr>
-	<a href="material?cmd=insertPage">등록페이지로</a>
 	<%@ include file="/footer.jsp" %>
 </body>
 </html>

@@ -37,7 +37,7 @@
 	</select> <br>
 	
 	장비 상태: <br>
-		동작: <input type="radio" name="machinery_status" value="T" selected>
+		동작: <input type="radio" name="machinery_status" value="T" checked>
 		정지: <input type="radio" name="machinery_status" value="F" > <br>
 	
 	에러 내용: 

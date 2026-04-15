@@ -21,17 +21,17 @@
 		
 		<tr>
 			<input type="hidden" name="mod" value="up">
-			<input type="hidden" name="order_num" value="${order[0].order_num}">
-			<input type="hidden" name="prod_num" value="${order[0].prod_num}">
-			<input type="hidden" name="mdm_num" value="${order[0].mdm_num}">
-			<input type="hidden" name="empno" value="${order[0].empno}">
-			<td>${order[0].order_num}</td>
-			<td><input type="text" name="title" value="${order[0].title}"></td>
-			<td>${order[0].prod_num}</td>
-			<td><input type="text" name="target_quantity" value="${order[0].target_quantity}"></td>
-			<td>${order[0].empno}</td>
-			<td>${order[0].mdm_num}</td>
-			<td><input type="text" name="status" value="${order[0].status}"></td>
+			<input type="hidden" name="order_num" value="${map.list[0].order_num}">
+			<input type="hidden" name="prod_num" value="${map.list[0].prod_num}">
+			<input type="hidden" name="mdm_num" value="${map.list[0].mdm_num}">
+			<input type="hidden" name="empno" value="${map.list[0].empno}">
+			<td>${map.list[0].order_num}</td>
+			<td><input type="text" name="title" value="${map.list[0].title}"></td>
+			<td>${map.list[0].prod_num}</td>
+			<td><input type="text" name="target_quantity" value="${map.list[0].target_quantity}"></td>
+			<td>${map.list[0].empno}</td>
+			<td>${map.list[0].mdm_num}</td>
+			<td><input type="text" name="status" value="${map.list[0].status}"></td>
 		</tr>
 		<input type="submit" value="수정">
 	</table>

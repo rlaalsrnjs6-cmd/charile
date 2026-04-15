@@ -5,11 +5,14 @@ public class CommonDTO {
 	String tableName;
 	
 	// select list 
-	String orderBy; // set column Name
 	String selector=""; // set select cmd
 	String search;
 	
-
+	// QUERY
+	String where="";
+	String groupBy="";
+	String orderBy=""; // set column Name
+	
 	// paging
 
 	// contents row 개수 설정
@@ -23,6 +26,25 @@ public class CommonDTO {
 	int start;  // start page number
 	int end;  // end page number
 	
+	
+	
+	
+	
+	
+	
+	
+	public String getWhere() {
+		return where;
+	}
+	public void setWhere(String where) {
+		this.where = where;
+	}
+	public String getGroupBy() {
+		return groupBy;
+	}
+	public void setGroupBy(String groupBy) {
+		this.groupBy = groupBy;
+	}
 	public String getSearch() {
 		return search;
 	}

@@ -19,13 +19,13 @@
 	<form method="post" action="process">
 	
 		<input type="hidden" name="cmd" value="update">
-		<input type="hidden" name="process_num" value="${ processInfo[0].process_num }">
+		<input type="hidden" name="process_num" value="${ processDTO.process_num }">
 		
-		process_num : ${ processInfo[0].process_num } <br>
-		process_content : <input name="process_content" value="${ processInfo[0].process_content }"> <br>
-		flow : <input name="flow" value="${ processInfo[0].flow }"> <br>
-		img_url : <input name="img_url" value="${ processInfo[0].img_url }"> <br>
-		mdm_num : <input name="mdm_num" value="${ processInfo[0].mdm_num }"> <br>
+		process_num : ${ processDTO.process_num } <br>
+		process_content : <input name="process_content" value="${ processDTO.process_content }"> <br>
+		flow : <input name="flow" value="${ processDTO.flow }"> <br>
+		img_url : <input name="img_url" value="${ processDTO.img_url }"> <br>
+		mdm_num : <input name="mdm_num" value="${ processDTO.mdm_num }"> <br>
 		 <input type="submit" value="수정"> <br>
 		
 		</form>

@@ -19,10 +19,10 @@
 	<hr>
 	<c:forEach var="row" items="${ materialInfo }">
 	
-		material_num : ${ row.material_num } <br>
-		material_type : ${ row.total_quantity } <br>
-		material_status : ${ row.warehouse_num } <br>
-		mdm_num : ${ row.mdm_num } <br>
+<%-- 		material_num : ${ row.material_num } <br> --%>
+<%-- 		material_type : ${ row.total_quantity } <br> --%>
+<%-- 		material_status : ${ row.warehouse_num } <br> --%>
+<%-- 		mdm_num : ${ row.mdm_num } <br> --%>
 		
 	</c:forEach>
 	

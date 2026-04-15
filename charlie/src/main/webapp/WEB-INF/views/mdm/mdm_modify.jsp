@@ -54,6 +54,10 @@
 			    </select> <br>
 			  
 		가격 : <input name="price" value="${ mdmDTO.price }"> <br>
+		
+		입고날짜 : <span>${ mdmDTO.received_date }</span> <br>
+		사용기한 : <span>${ mdmDTO.exp_date }</span> <br>
+		
 		가용확인 : <input name="can_use" value="${ mdmDTO.can_use }"> <br>
 		<hr>
 		 <input type="submit" value="수정"> <br>

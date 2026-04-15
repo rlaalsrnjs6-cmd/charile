@@ -2,17 +2,20 @@ package QC;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Emp.EmpDTO;
 import Emp.EmpService;
 import Lot.LotDTO;
 import Lot.LotService;
+import fileLibrary.CommonDTO;
 
 @WebServlet("/qc")
 public class QCControll extends HttpServlet {
@@ -22,18 +25,32 @@ public class QCControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 		String sqc_num = request.getParameter("qc_num");
 		String mod = request.getParameter("mod");
-
+		String ssize = request.getParameter("size");
+		String spage = request.getParameter("page");
+		int size = 10;
+		int page = 1;
+		if(ssize!=null && spage!=null) {
+			size = Integer.parseInt(ssize);
+			page = Integer.parseInt(spage);
+		}
 		int qc_num = -1;
 		if (sqc_num != null) {
 			System.out.println("qcif확인");
 			qc_num = Integer.parseInt(sqc_num);
 		}
 		QCDTO qcDTO = new QCDTO();
+		CommonDTO commonDTO= new CommonDTO();
+		commonDTO.setSize(size);
+		commonDTO.setPage(page);
 		qcDTO.setQc_num(qc_num);
 		qcDTO.setMod(mod);
 		QCService service = new QCService();
-		List<QCDTO> list = service.select(qcDTO);
-		request.setAttribute("qc", list);
+		// 수정 
+		
+		Map map = service.select(qcDTO, commonDTO);
+		System.out.println("qc컨트롤map: " + map);
+		request.setAttribute("map", map);
+		
 		if ("detail".equals(mod)) {
 			System.out.println("디테일로고고씽");
 			request.getRequestDispatcher("WEB-INF/views/qc/qcDetail.jsp").forward(request, response);
