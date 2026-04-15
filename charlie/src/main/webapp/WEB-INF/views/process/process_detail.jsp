@@ -19,6 +19,7 @@
 	<hr>
 	
 		process_num : ${ processDTO.process_num } <br>
+		name : ${ processDTO.name } <br>
 		code : ${ processDTO.code } <br>
 		img : <img src="${ processDTO.img_url }"> <br>
 		process_content : ${ processDTO.process_content } <br>
