@@ -17,17 +17,15 @@
 	<hr>
 	<a href="bom?cmd=list">뒤로</a> <br>
 	<hr>
-	<c:forEach var="row" items="${ bomInfo }">
 	
-		관리번호 : ${ row.bom_num } <br>
-		요구량 : ${ row.required_weight } <br>
-		이름 : ${ row.mdm_num } <br>
+		관리번호 : ${ bomDTO.bom_num } <br>
+		요구량 : ${ bomDTO.required_weight } <br>
+		이름 : ${ bomDTO.mdm_num } <br>
 		
-	</c:forEach>
 	
 	<hr>
-	<a href="bom?cmd=modify&bom_num=${ bomInfo.get(0).bom_num }">수정</a>
-	<a href="bom?cmd=delete&bom_num=${ bomInfo.get(0).bom_num }">삭제</a>
+	<a href="bom?cmd=modify&bom_num=${ bomDTO.bom_num }">수정</a>
+	<a href="bom?cmd=delete&bom_num=${ bomDTO.bom_num }">삭제</a>
 	
 </body>
 </html>
