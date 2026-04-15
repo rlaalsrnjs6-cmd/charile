@@ -19,7 +19,7 @@ public class BoardDTO {
 
 	int fileNum;
 	
-	private int size = 5;
+	private int size = 10;
 	private int page = 1;
 	
 	private int start = 0;

@@ -38,10 +38,10 @@ public class ReportService {
 						int totalPage = (int) Math.ceil((double) pageCount / size);
 						
 						//시작점 찾기 : (현재 페이지 -1 / 5 ) * 5 + 1;
-						int startPage = ((page - 1) / 5) * 5 + 1;
+						int startPage = ((page - 1) / 10) * 10 + 1;
 						
 						//종점 찾기 
-						int endPage = startPage + 4;
+						int endPage = startPage + 9;
 
 						if (endPage > totalPage) {
 							endPage = totalPage;
