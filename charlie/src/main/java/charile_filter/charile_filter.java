@@ -105,6 +105,9 @@ public class charile_filter implements Filter {
 				path.equals("/WEB-INF/views/emp/emp_signin.jsp")) {
 			result = true;
 		}
+		if (path.startsWith("/assets/")) {
+	        result = true;
+	    }
 		return result;
 	}
 
