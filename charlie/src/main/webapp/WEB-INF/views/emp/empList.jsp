@@ -41,6 +41,7 @@
 		</c:forEach>
 		
 	</table>
+	<jsp:include page="/WEB-INF/views/paging.jsp" />
 <%@ include file="/footer.jsp" %>
 </body>
 </html>
