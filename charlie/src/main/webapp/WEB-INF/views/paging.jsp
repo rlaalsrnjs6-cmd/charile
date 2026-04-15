@@ -3,7 +3,6 @@
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*"%>
-<%@ page import="Mdm.MdmDTO"%> 
 <%@ page import="fileLibrary.CommonDTO"%> 
 <%@ page import="javax.servlet.http.HttpSession"%> 
 

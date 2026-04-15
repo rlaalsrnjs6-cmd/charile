@@ -1,7 +1,7 @@
 package Mdm;
 
 import java.io.IOException;
-import java.util.List;
+import java.sql.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import fileLibrary.CommonDTO;
 
@@ -55,6 +54,7 @@ public class MdmControll extends HttpServlet {
 		MdmService service = new MdmService();
 		service.insertDB(setDTO(request));
 
+		
 		// list page
 		response.sendRedirect("mdm?cmd=list");
 	}
@@ -151,6 +151,7 @@ public class MdmControll extends HttpServlet {
 		
 		
 		int mdm_num = -1; int price= -1;  int quantity= -1; 
+		Date exp_date = null;
 		
 		if (request.getParameter("mdm_num") != null 
 				&& !("".equals(request.getParameter("mdm_num")))) {
@@ -182,6 +183,12 @@ public class MdmControll extends HttpServlet {
 		String type = request.getParameter("type");
 		String can_use = request.getParameter("can_use");
 		
+		String exp_dateStr = request.getParameter("exp_date");
+		if (exp_dateStr != null && !exp_dateStr.isEmpty()) {
+			   exp_date = java.sql.Date.valueOf(exp_dateStr);
+			   mdmDTO.setExp_date(exp_date);
+			}
+		
 		mdmDTO.setMdm_num(mdm_num);
 		mdmDTO.setCode(code);
 		mdmDTO.setName(name);
@@ -191,6 +198,7 @@ public class MdmControll extends HttpServlet {
 		mdmDTO.setPrice(price);
 		mdmDTO.setCan_use(can_use);
 		
+		System.out.println("/ctrl setDTO" + mdmDTO);
 		return mdmDTO;
 		
 	}

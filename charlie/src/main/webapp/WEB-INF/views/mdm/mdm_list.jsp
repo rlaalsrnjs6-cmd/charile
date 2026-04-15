@@ -30,7 +30,6 @@
 	<input type="submit" value="검색">
 </form>
 <hr>
-
 <table border="1px">
 		<thead>
 			<tr>
@@ -42,6 +41,7 @@
 				<th>타입</th>
 				<th>가격</th>
 				<th>입고날짜</th>
+				<th>사용기한</th>
 				<th>가용 여부</th>
 			</tr>
 		</thead>
@@ -62,6 +62,7 @@
 				<td>${ row.type }</td>
 				<td>${ row.price }</td>
 				<td>${ row.received_date }</td>
+				<td>${ row.exp_date }</td>
 				<td>${ row.can_use }</td>
 			</tr>
 		</c:forEach>

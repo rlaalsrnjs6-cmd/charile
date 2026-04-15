@@ -1,12 +1,29 @@
 package Process;
 
 public class ProcessDTO {
+	
 	int process_num;
 	String process_content;
 	int flow;
 	String img_url;
-	int mdm_num;
 	
+	int mdm_num;
+	String name;
+	String code;
+	
+	
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	public int getProcess_num() {
 		return process_num;
 	}

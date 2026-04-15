@@ -39,7 +39,7 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 		// SET ORDERBY
 		String orderBy = pk_Coulum_Name();
 		if ( commonDTO.getOrderBy() != null ) orderBy = commonDTO.getOrderBy();
-		orderBy += ", received_date" ;
+		orderBy += ", exp_date" ;
 		
 		// 가변 조건
 		if ( dto != null ) {
@@ -72,8 +72,8 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 
 	@Override
 	protected String insertQuery() {
-		return "INSERT INTO mdm ( mdm_num, code, name, unit, type, price) " 
-				+ " VALUES ( mdm_seq.nextval, ?, ?, ?, ?, ?, ?, ?)";
+		return "INSERT INTO mdm ( mdm_num, code, name, unit, type, quantity, exp_date, price, canuse) " 
+				+ " VALUES ( mdm_seq.nextval, ?, ?, ?, ?, ?, ?, ?, ?)";
 	}
 
 	@Override
@@ -81,12 +81,13 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 
 			ps.setString(1, dto.getCode());
 			ps.setString(2, dto.getName());
-			ps.setInt(3, dto.getQuantity());
-			ps.setString(4, dto.getUnit());
-			ps.setString(5, dto.getType());
-			ps.setInt(6, dto.getPrice());
-			ps.setString(7, dto.getCan_use());
-			if ("update".equals(selector)) { ps.setInt(8, dto.getMdm_num()); }
+			ps.setString(3, dto.getUnit());
+			ps.setString(4, dto.getType());
+			ps.setInt(5, dto.getQuantity());
+			ps.setDate(6, dto.getExp_date());
+			ps.setInt(7, dto.getPrice());
+			ps.setString(8, dto.getCan_use());
+			if ("update".equals(selector)) { ps.setInt(9, dto.getMdm_num()); }
 
 		return ps;
 	}
@@ -101,6 +102,7 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 				+ "	unit = ?, "
 				+ "	type = ?, "
 				+ " price = ?, "
+				+ " exp_date = ?, "
 				+ " can_use = ? "
 				+ " where mdm_num = ? "
 			;
@@ -118,9 +120,11 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 			dto.setUnit(rs.getString("unit"));
 			dto.setType(rs.getString("type"));
 			dto.setReceived_date(rs.getDate("received_date"));
+			dto.setExp_date(rs.getDate("exp_date"));
 			dto.setPrice(rs.getInt("price"));
 			dto.setCan_use(rs.getString("canuse"));
 			
+			System.out.println(dto.getExp_date());
 		return dto;
 	}
 

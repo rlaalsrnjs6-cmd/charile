@@ -217,8 +217,6 @@ public class MaterialControll extends HttpServlet {
 			if("search".equals(cmd)) {
 				commonDTO.setSelector(request.getParameter("search_select"));
 				commonDTO.setSearch(request.getParameter("search_content"));
-				System.out.println(commonDTO.getSelector());
-				System.out.println(commonDTO.getSearch());
 			}
 			
 			// orderBy [ column ]

@@ -33,18 +33,20 @@
 			</tr>
 		</thead>
 
-		<c:forEach var="row" items="${ list }">
+		<c:forEach var="row" items="${ map.list }">
 			<tr>
 				<td>
-					${ row.process_num }
+					<a href="process?cmd=detail&process_num=${ row.process_num }">
+						${ row.process_num }
+					</a>
 				</td>
+				<td>${ row.name }</td>
 				<td>${ row.process_content }</td>
 				<td>${ row.flow }</td>
 				
 				<td>
-					<a href="process?cmd=detail&process_num=${ row.process_num }">
-						${ row.img_url }
-					</a>
+					<img src="${ row.img_url }">
+						
 				</td>
 				<td>${ row.mdm_num }</td>
 			</tr>

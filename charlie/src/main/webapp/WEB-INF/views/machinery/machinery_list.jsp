@@ -17,7 +17,7 @@
 <h1>machinery list</h1>
 <hr>
 <hr>
-
+${map.list.get(0)}
 <table border="1px">
 		<thead>
 			<tr>
@@ -34,14 +34,13 @@
 		<c:forEach var="row" items="${ map.list }">
 			<tr>
 				<td>${ row.machinery_num }</td>
-				<td>${ row.mdm_num } : ${ row.name }</td>
+				<td><a href="machinery?cmd=detail&machinery_num=${ row.machinery_num }">
+					${ row.mdm_num } : ${ row.name }
+				</a></td>
 				<td>${ row.machinery_type }</td>
 				<td>${ row.machinery_status }</td>
-				
 				<td>
-					<a href="machinery?cmd=detail&machinery_num=${ row.machinery_num }">
-						${ row.error_sign }
-					</a>
+					${ row.error_sign }
 				</td>
 				<td>${ row.m_action }</td>
 				<td>${ row.m_log_time }</td>
