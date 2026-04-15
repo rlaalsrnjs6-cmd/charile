@@ -122,7 +122,7 @@
 			</a>
 		</h1>
 		<ul class="hd-nav">
-			<li><a href="">기준관리</a></li>
+			<li><a href="${pageContext.request.contextPath}/mdm">기준관리</a></li>
 			<li><a href="${pageContext.request.contextPath}/material">자재관리</a></li>
 			<li><a href="${pageContext.request.contextPath}/order">작업지시서</a></li>
 			<li><a href="${pageContext.request.contextPath}/production/management">생산관리</a></li>
