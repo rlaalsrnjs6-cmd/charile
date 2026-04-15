@@ -89,14 +89,8 @@ public class charile_filter implements Filter {
 				if ("logout".equals(mod)) {
 					session.invalidate();
 				}
-				if(level == 1) {
-					System.out.println("레벨1");
-					chain.doFilter(request, response);
-					return;
-				} else if(!(level == 1)) {
-					System.out.println("레벨2~3");
-					chain.doFilter(request, response);
-				}
+				chain.doFilter(request, response);
+				return;
 			}
 
 		}
