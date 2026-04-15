@@ -155,31 +155,31 @@
 			
 			<div class="sg-row">
 				<span class="sg-lb">아이디</span>
-				<input type="text" id="id" name="id" class="sg-in" onblur="check_id()" placeholder="아이디 입력" value="">
+				<input type="text" id="id" name="id" class="sg-in" onblur="check_id()" placeholder="아이디 입력" value="admin123">
 				<span id="sid" class="sg-err"></span>
 			</div>
 			
 			<div class="sg-row">
 				<span class="sg-lb">비밀번호</span>
-				<input type="password" id="pw" name="pw" class="sg-in" onblur="check_pw()" placeholder="비밀번호 입력" value="">
+				<input type="password" id="pw" name="pw" class="sg-in" onblur="check_pw()" placeholder="비밀번호 입력" value="Admin123@">
 				<span id="spw" class="sg-err"></span>
 			</div>
 			
 			<div class="sg-row">
 				<span class="sg-lb">비밀번호 재확인</span>
-				<input type="password" id="rpw" name="rpw" class="sg-in" onblur="check_rpw()" placeholder="비밀번호 재확인" value="">
+				<input type="password" id="rpw" name="rpw" class="sg-in" onblur="check_rpw()" placeholder="비밀번호 재확인" value="Admin123@">
 				<span id="srpw" class="sg-err"></span>
 			</div>
 			
 			<div class="sg-row">
 				<span class="sg-lb">이름</span>
-				<input type="text" id="ename" name="ename" class="sg-in" placeholder="이름" value="">
+				<input type="text" id="ename" name="ename" class="sg-in" placeholder="이름" value="관리자">
 			</div>
 			
 			<div class="sg-row">
 				<span class="sg-lb">전화번호</span>
 				<input type="text" id="tel" name="tel" class="sg-in" placeholder="번호 (- 없이 입력)"
-				oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);" value="" maxlength="11">
+				oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);" value="01067077558" maxlength="11">
 			</div>
 			
 			<div class="sg-row">
@@ -190,7 +190,7 @@
 			<div class="sg-row">
 				<span class="sg-lb">이메일</span>
 				<div class="email-grp">
-					<input type="text" id="email" name="email" class="sg-in" onblur="check_email()" placeholder="이메일" value="qwehkj2">
+					<input type="text" id="email" name="email1" class="sg-in" onblur="check_email()" placeholder="이메일">
 					<input type="hidden" name="email2" value="@"> <span>@</span>
 					<input type="text" id="domain" placeholder="domain" name="email3" class="sg-in">
 					<select name="domain" id="domain_list" class="sg-in" onchange="setDomain()">

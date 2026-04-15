@@ -40,6 +40,7 @@ public class EmpControll extends HttpServlet {
 		} else if("delete".equals(mod)) {
 			empDelete(request,response);
 		} else {
+			System.out.println("emp리스트확인용");
 			request.getRequestDispatcher("/WEB-INF/views/emp/empList.jsp").forward(request, response);
 		}
 	}
@@ -105,7 +106,6 @@ public class EmpControll extends HttpServlet {
 		System.out.println("emp입장");
 		try {
 			String mod = request.getParameter("mod");
-			String sempno = request.getParameter("empno");
 			String ename = request.getParameter("ename");
 			String id = request.getParameter("id");
 			String pw = request.getParameter("pw");
@@ -113,7 +113,13 @@ public class EmpControll extends HttpServlet {
 			String ssal = request.getParameter("sal");
 			String addr = request.getParameter("addr");
 			String sbirthday = request.getParameter("birthday");
-			String email = request.getParameter("email");
+			String email1 = request.getParameter("email1");
+			String email2 = request.getParameter("email2");
+			String email3 = request.getParameter("email3");
+			
+			String email = email1+email2+email3; 
+			
+			System.out.println("이메일"+email);
 			System.out.println("생년월일"+sbirthday);
 			if(sbirthday==null || sbirthday.trim().isEmpty()) {
 				PrintWriter out = response.getWriter();
@@ -128,7 +134,6 @@ public class EmpControll extends HttpServlet {
 			Date birthday = null;
 			if ("add".equals(mod)) {
 				birthday = Date.valueOf(sbirthday);
-				empno = Integer.parseInt(sempno);
 
 				if (id == null || !id.matches("^[a-z][a-z0-9]{4,14}$")) {
 					System.out.println("컨트롤: member_id오류");
@@ -139,7 +144,7 @@ public class EmpControll extends HttpServlet {
 					System.out.println("컨트롤: member_pw오류");
 					return;
 				}
-				if (email == null || !email.trim().matches("^[a-z][a-z0-9]{4,14}$")) {
+				if (email == null || !email.trim().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
 					System.out.println("컨트롤: member_email오류");
 					return;
 				}
