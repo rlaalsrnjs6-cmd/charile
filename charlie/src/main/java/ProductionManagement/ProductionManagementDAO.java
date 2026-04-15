@@ -32,63 +32,70 @@ public class ProductionManagementDAO {
 
 	
 	//페이지에서 보여줄 항목 몇개인지 개수 리턴
-	public int getTotalCount() {
+	public int getTotalCount(ProductionManagementDTO dto) {
 		
 		int total = 0;
-		
-		try {
-			//자원을 가지러 가기 위해 문을 열고
-			Context ctx = new InitialContext();
-			//열어둔 문을 통해 어디로 갈지 경로를 정함
-	        DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
-	        
-	        String query ="select count(*) from production_management"; 
-	        
-	        try(Connection conn = dataFactory.getConnection();
-	        	PreparedStatement ps = conn.prepareStatement(query);	
-	        		ResultSet rs = ps.executeQuery()){
-	        	
-	        	if(rs.next()) {
-	        		 // COUNT(*)가 emp 테이블에 사원이 몇명 있는지 검사해서 숫자를 리턴 해주기 때문에
-	        		//while을 돌릴 필요 없이 if로 해당 숫자만 돌려받음
-	        		
-	        		//rs.getInt(1);을 한 이유:
-	        		//count(*)을 하면 사원 수를 count컬럼 한 줄에 찍어서 돌려주니까 한 줄만 받겠다
-	        		total = rs.getInt(1);
-	        	}
-	        }
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		return total;
-	}
+		String selectTitle = dto.getSelectTitle();
+	    boolean hasSearch = (selectTitle != null && !selectTitle.trim().isEmpty());
+
+	    StringBuilder query = new StringBuilder("SELECT COUNT(*) FROM production_management");
+	    
+	    if (hasSearch) {
+	        query.append(" WHERE title LIKE '%' || ? || '%'");
+	    }
+	    
+	    try (Connection conn = dataFactory.getConnection();
+	            PreparedStatement ps = conn.prepareStatement(query.toString())) {
+	           
+	           if (hasSearch) {
+	               ps.setString(1, selectTitle);
+	           }
+
+	           try (ResultSet rs = ps.executeQuery()) {
+	               if (rs.next()) total = rs.getInt(1);
+	           }
+	       } catch (Exception e) {
+	           e.printStackTrace();
+	       }
+	       return total;
+	   }
 	
 	public List<ProductionManagementDTO> selectPage(ProductionManagementDTO dto) {
 		List list = new ArrayList();
+		String selectTitle = dto.getSelectTitle();
+	    boolean hasSearch = (selectTitle != null && !selectTitle.trim().isEmpty());
+	    StringBuilder query = new StringBuilder();
+	    
+	    query.append("SELECT * FROM (");
+	    query.append("  SELECT rownum AS rnum, a.* FROM (");
+	    query.append("    SELECT ");
+	    query.append("        P.prod_num, P.title, ");
+	    query.append("        P.target_quantity AS \"전체목표\", ");
+	    query.append("        NVL(SUM(L.lot_count), 0) AS \"현재까지_만든_총합\", "); // null일 경우 0처리
+	    query.append("        (P.target_quantity - NVL(SUM(L.lot_count), 0)) AS \"남은목표_수량\" ");
+	    query.append("    FROM production_management P ");
+	    query.append("    LEFT JOIN work_order W ON P.prod_num = W.prod_num ");
+	    query.append("    LEFT JOIN lot L ON W.order_num = L.order_num ");
+	    
+	    if (hasSearch) {
+	        query.append("    WHERE P.title LIKE '%' || ? || '%' ");
+	    }
 		
-		String query = "SELECT * FROM ("
-                + "  SELECT rownum AS rnum, a.* FROM ("
-                + "    SELECT "
-                + "        P.prod_num, "
-                + "        P.title, " 
-                + "        P.target_quantity AS \"전체목표\", "
-                + "        SUM(L.lot_count) AS \"현재까지_만든_총합\", "
-                + "        (P.target_quantity - SUM(L.lot_count)) AS \"남은목표_수량\" "
-                + "    FROM production_management P "
-                + "    LEFT JOIN work_order W ON P.prod_num = W.prod_num "
-                + "    LEFT JOIN lot L ON W.order_num = L.order_num "
-                + "    GROUP BY P.prod_num, P.title, P.target_quantity " 
-                + "    ORDER BY P.prod_num DESC"
-                + "  ) a"
-                + ") WHERE rnum >= ? AND rnum <= ?";
-		
+	    query.append("    GROUP BY P.prod_num, P.title, P.target_quantity ");
+	    query.append("    ORDER BY P.prod_num DESC");
+	    query.append("  ) a");
+	    query.append(") WHERE rnum >= ? AND rnum <= ?");
+	    
 		try (Connection conn = dataFactory.getConnection(); 
-				PreparedStatement ps =  conn.prepareStatement(query)) {
+				PreparedStatement ps =  conn.prepareStatement(query.toString())) {
 				
-				ps.setInt(1, dto.getStart());
-				ps.setInt(2, dto.getEnd());
+			int idx = 1;
+			if (hasSearch) {
+	            ps.setString(idx++, selectTitle);
+	        }
 				
-				
+			ps.setInt(idx++, dto.getStart());
+	        ps.setInt(idx++, dto.getEnd());
 
 				try (ResultSet rs = ps.executeQuery()) {
 					while (rs.next()) {

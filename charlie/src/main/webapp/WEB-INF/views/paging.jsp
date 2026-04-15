@@ -19,8 +19,6 @@
 
 <%
 
- 
-
 	Map map = (Map) request.getAttribute("map");
 	int total = (int) map.get("totalCount");
 	

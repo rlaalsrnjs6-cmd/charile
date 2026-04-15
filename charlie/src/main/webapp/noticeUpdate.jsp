@@ -15,15 +15,15 @@ response.setContentType("text/html; charset=utf-8;");
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>공지사항 수정 페이지</h1>
-	list  == ${list }
-	list[0] == ${list[0] }
+<%@ include file="header.jsp" %>
+
 	<form method="post" action="/charlie/NoticeUpdateController">
-		<input type="hidden" name="post_num" value="${param.post_num }">
-		<span>제목</span> <input name="title" value="${param.title }">
-		<span>내용</span> <input name="content" value="${param.content}">
+		<input type="hidden" name="post_num" value="${param.post_num }"><br>
+		<span>제목</span> <input name="title" value="${param.title }"><br>
+		<span>내용</span> <input name="content" value="${param.content}"><br>
 		<button type="submit">수정하기</button>
 	</form>
 	<button type="button" onclick="history.back();">취소</button>
+<%@ include file="footer.jsp" %>
 </body>
 </html>

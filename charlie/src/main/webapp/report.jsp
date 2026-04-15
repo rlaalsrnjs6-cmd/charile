@@ -19,8 +19,13 @@
 
 </head>
 <body>
+<%@ include file="header.jsp" %>
 
-<h1>리포트 페이지</h1>
+<form action="${pageContext.request.contextPath}/select.report" method="get">
+    <input type="text" name="selectTitle" placeholder="검색하실 제목을 입력하세요" value="${param.selectTitle}">
+    <button type="submit">검색</button>
+</form>
+
 
 <table border="1">
 	<tr>
@@ -43,8 +48,12 @@
 	</tr>
 	</c:forEach>
 </table>
+<% 
+	 level = (Integer)session.getAttribute("level");
+	if(level == 2){
+%>
 <a href="${pageContext.request.contextPath}/reportInsert.jsp">작성하기</a>
-
+<%} %>
 </div>
 
 	<div>
@@ -59,6 +68,6 @@
 	<c:if test="${map.endPage < map.totalPage}">
 		<a href="${pageContext.request.contextPath}/select.report?page=${map.endPage + 1}">[다음]</a>
 	</c:if>
-
+<%@ include file="footer.jsp" %>
 </body>
 </html>

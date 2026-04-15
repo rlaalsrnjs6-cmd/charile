@@ -7,8 +7,15 @@ public class ProductionManagementDTO {
 	private int remainCount; //남은 개수
 	private int mdmNum;
 	private String mdmName;
-	
+	String selectTitle;
 
+
+	public String getSelectTitle() {
+		return selectTitle;
+	}
+	public void setSelectTitle(String selectTitle) {
+		this.selectTitle = selectTitle;
+	}
 
 	int prod_num;
 	int target_quantity;
@@ -126,10 +133,10 @@ public class ProductionManagementDTO {
 	@Override
 	public String toString() {
 		return "ProductionManagementDTO [currentCount=" + currentCount + ", remainCount=" + remainCount + ", mdmNum="
-				+ mdmNum + ", mdmName=" + mdmName + ", prod_num=" + prod_num + ", target_quantity=" + target_quantity
-				+ ", work_start=" + work_start + ", work_end=" + work_end + ", title=" + title + ", content=" + content
-				+ ", code=" + code + ", empno=" + empno + ", size=" + size + ", page=" + page + ", start=" + start
-				+ ", end=" + end + "]";
+				+ mdmNum + ", mdmName=" + mdmName + ", selectTitle=" + selectTitle + ", prod_num=" + prod_num
+				+ ", target_quantity=" + target_quantity + ", work_start=" + work_start + ", work_end=" + work_end
+				+ ", title=" + title + ", content=" + content + ", code=" + code + ", empno=" + empno + ", size=" + size
+				+ ", page=" + page + ", start=" + start + ", end=" + end + "]";
 	}
 	
 

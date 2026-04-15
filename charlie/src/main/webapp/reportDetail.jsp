@@ -40,10 +40,17 @@
         <td>${dto.content}</td>
     </tr>
 </table>
+<% 
+
+	int level = (Integer)session.getAttribute("level");
+	if(level != 1){
+%>
 <form method="post" action="delete.report">
 <input type="hidden" name="postNum" value="${dto.post_num }">
 <button type="submit">삭제하기</button>
 </form>
 <a href="updateForm.report?post_num=${dto.post_num }">수정하기</a>
+<%} %>
+<a href="${pageContext.request.contextPath}/select.report">목록으로 돌아가기</a>
 </body>
 </html>
