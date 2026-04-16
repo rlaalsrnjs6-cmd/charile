@@ -14,6 +14,7 @@
 </head>
 <body>
 
+${ machineryDTO }
 	<h1>Machinery detail</h1>
 	<hr>
 	<a href="machinery?cmd=list">뒤로</a> <br>
