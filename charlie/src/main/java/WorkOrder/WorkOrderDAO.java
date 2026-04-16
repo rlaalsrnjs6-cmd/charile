@@ -95,6 +95,73 @@ public class WorkOrderDAO {
 		}
 		return list;
 	}
+	
+	public List<WorkOrderDTO> selectall(WorkOrderDTO dto) {
+		List<WorkOrderDTO> list = new ArrayList();
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			Context ctx = new InitialContext();
+			
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+//			System.out.println("DAOMODselect:"+dto.getMod());
+			conn = dataFactory.getConnection();
+			String query = "SELECT * from work_order";
+			
+			//수정
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				WorkOrderDTO DTO = new WorkOrderDTO();
+				int order_num = rs.getInt("order_num");
+				Date work_date = rs.getDate("work_date");
+				int prod_num = rs.getInt("prod_num");
+				int daily_target = rs.getInt("daily_target");
+				int empno = rs.getInt("empno");
+				String work_order_title = rs.getString("work_order_title");
+				String status = rs.getString("status");
+				
+				DTO.setOrder_num(order_num);
+				DTO.setWork_date(work_date);
+				DTO.setProd_num(prod_num);
+				DTO.setDaily_target(daily_target);
+				DTO.setEmpno(empno);
+				DTO.setWork_order_title(work_order_title);
+				DTO.setStatus(status);
+				list.add(DTO);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
 
 	public int orderDAO(WorkOrderDTO dto) {
 

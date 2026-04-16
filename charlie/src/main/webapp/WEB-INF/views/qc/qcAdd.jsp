@@ -16,12 +16,14 @@
 	<table border=1>
 		<tr>
 <!-- 			<th>qc번호</th> -->
+			<th>qc실시날짜</th>
 			<th>로트번호</th>
 			<th>사원번호</th>
 		</tr>
 		<tr>
 			<input type="hidden" name="mod" value="add">
 <!-- 			<td><input type="text" id="qc" name="qc_num" onblur="qc_check()"></td> -->
+			<td><input type="date" name="qc_date"></td>
 			<td>
 				<select name="lot_num">
        				 <c:forEach var="l" items="${lot}">
@@ -45,7 +47,6 @@
 		<input type="submit" value="작성">
 	</table>
 	</form>
-	
 	<script>
 // 		function qc_check(){
 // 			const qc = document.querySelector('#qc').value

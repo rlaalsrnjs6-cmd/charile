@@ -125,6 +125,7 @@
 			<c:if test="${sessionScope.level < 3}">
 				<li><a href="${pageContext.request.contextPath}/emp">사원목록</a></li>
 			</c:if>
+			<li><a href="${pageContext.request.contextPath}/lot">로트관리</a></li>
 			<li><a href="${pageContext.request.contextPath}/mdm">기준관리</a></li>
 			<li><a href="${pageContext.request.contextPath}/material">자재관리</a></li>
 			<li><a href="${pageContext.request.contextPath}/order">작업지시서</a></li>

@@ -47,7 +47,13 @@ public class MaterialService extends ParentService2<MaterialDTO, CommonDTO> {
 		return map;
 
 	}
-
+//////////////////////////////////////////////////////////////
+	List<MaterialDTO> selectall(MaterialDTO dto){
+		MaterialDAO dao = new MaterialDAO();
+		List list = dao.selectall(dto);
+		return list;
+	}
+	////////////////////////////////////////////////////////////
 	@Override
 	public MaterialDTO selectOne(MaterialDTO dto, CommonDTO commonDTO) {
 		System.out.println("service selectOne : " + dto);

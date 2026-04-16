@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Emp.EmpDAO;
 import Emp.EmpDTO;
 import fileLibrary.CommonDTO;
 
@@ -50,6 +51,12 @@ public class WorkOrderService {
         return map;
 	}
 	 
+	public List<WorkOrderService> selectall(WorkOrderDTO dto){
+		WorkOrderDAO dao = new WorkOrderDAO();
+		List list = dao.selectall(dto);
+		return list;
+	}
+	
 	int orderService(WorkOrderDTO dto){
 		WorkOrderDAO dao = new WorkOrderDAO();
 		int list = dao.orderDAO(dto);

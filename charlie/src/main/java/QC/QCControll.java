@@ -1,6 +1,7 @@
 package QC;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -78,7 +79,7 @@ public class QCControll extends HttpServlet {
 			} else if ("add".equals(mod)) {
 				
 				List<LotDTO> lotlist = lotservice.select(lotDTO);
-				Map emplist = empservice.select(empDTO,commonDTO);
+				List emplist = empservice.selectall(empDTO);
 				request.setAttribute("lot", lotlist);
 				request.setAttribute("emp", emplist);
 				request.getRequestDispatcher("WEB-INF/views/qc/qcAdd.jsp").forward(request, response);
@@ -146,16 +147,19 @@ public class QCControll extends HttpServlet {
 //		String sqc_num = request.getParameter("qc_num");
 		String slot_num = request.getParameter("lot_num");
 		String sempno = request.getParameter("empno");
+		String sqc_date = request.getParameter("qc_date");
 		String mod = request.getParameter("mod");
 		System.out.println("up:" + mod);
 //		int qc_num = Integer.parseInt(sqc_num);
 		int lot_num = Integer.parseInt(slot_num);
 		int empno = Integer.parseInt(sempno);
+		Date qc_date = Date.valueOf(sqc_date);
 
 		QCDTO qcDTO = new QCDTO();
 //		qcDTO.setQc_num(qc_num);
 		qcDTO.setLot_num(lot_num);
 		qcDTO.setEmpno(empno);
+		qcDTO.setQc_date(qc_date);
 		qcDTO.setMod(mod);
 
 		QCService service = new QCService();
