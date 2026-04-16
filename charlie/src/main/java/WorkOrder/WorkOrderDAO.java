@@ -139,8 +139,10 @@ public class WorkOrderDAO {
 			}
 			// 인서트
 			if ("add".equals(dto.getMod())) {
-				query = "INSERT INTO work_order " + "(order_num, work_date, prod_num, target_quantity, "
-						+ "empno, work_order_title, mdm_num, status) " + "VALUES (?, SYSDATE, ?, ?, ?, ?, ?, ?)";
+				query = "INSERT INTO work_order " 
+						+ "(order_num, work_date, prod_num, target_quantity, "
+						+ "empno, work_order_title, mdm_num, status) " 
+						+ "VALUES (work_order_seq.nextval, SYSDATE, ?, ?, ?, ?, ?, ?)";
 			}
 			// 딜리트
 			if ("delete".equals(dto.getMod())) {
@@ -150,14 +152,13 @@ public class WorkOrderDAO {
 
 			if ("up".equals(dto.getMod())) {
 				System.out.println("upps");
-				ps.setInt(1, dto.getOrder_num());
-				ps.setString(2, dto.getTitle());
-				ps.setInt(3, dto.getProd_num());
-				ps.setInt(4, dto.getTarget_quantity());
-				ps.setInt(5, dto.getEmpno());
-				ps.setInt(6, dto.getMdm_num());
-				ps.setString(7, dto.getStatus());
-				ps.setInt(8, dto.getOrder_num());
+				ps.setString(1, dto.getTitle());
+				ps.setInt(2, dto.getProd_num());
+				ps.setInt(3, dto.getTarget_quantity());
+				ps.setInt(4, dto.getEmpno());
+				ps.setInt(5, dto.getMdm_num());
+				ps.setString(6, dto.getStatus());
+				ps.setInt(7, dto.getOrder_num());
 
 			}
 

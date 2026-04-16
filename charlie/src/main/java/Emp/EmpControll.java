@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import fileLibrary.CommonDTO;
 
 @WebServlet("/emp")
 public class EmpControll extends HttpServlet {
@@ -19,20 +22,31 @@ public class EmpControll extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
-		
+		System.out.println("empGET입장");
 		String sempno = request.getParameter("empno");
 		String mod = request.getParameter("mod");
+		String ssize = request.getParameter("size");
+		String spage = request.getParameter("page");
+		int size = 10;
+		int page = 1;
+		if(ssize!=null && spage!=null) {
+			size = Integer.parseInt(ssize);
+			page = Integer.parseInt(spage);
+		}
 		EmpService service = new EmpService();
 		int empno = -1;
 		if (sempno != null) {
 			empno = Integer.parseInt(sempno);
 		}
 		EmpDTO DTO = new EmpDTO();
+		CommonDTO commonDTO= new CommonDTO();
+		commonDTO.setSize(size);
+		commonDTO.setPage(page);
 		DTO.setEmpno(empno);
 		DTO.setMod(mod);
-		List list = service.select(DTO);
-		System.out.println("emp컨트롤마지막:"+list);
-		request.setAttribute("emp", list);
+		Map map = service.select(DTO);
+		System.out.println("emp컨트롤마지막:"+map);
+		request.setAttribute("map", map);
 		if("detail".equals(mod)) {
 			request.getRequestDispatcher("/WEB-INF/views/emp/empDetail.jsp").forward(request, response);
 		} else if("up".equals(mod)) {
