@@ -236,16 +236,17 @@
 
 				<div class="mod-row">
 					<span class="mod-lb">사용기한</span> <span class="mod-txt">${ mdmDTO.exp_date }</span>
+					<input type="hidden" name="exp_date" value="${ mdmDTO.exp_date }">
 				</div>
-
+				
 				<div class="mod-row">
 					<span class="mod-lb">가용확인</span>
 					<div class="mod-rd-grp">
 						<label class="mod-rd-item"> <input type="radio"
-							name="can_use" value="Y" ${mdmDTO.canUse == 'Y' ? 'checked' : ''}>
+							name="canUse" value="Y" ${mdmDTO.canUse == 'Y' ? 'checked' : ''}>
 							가능
 						</label> <label class="mod-rd-item"> <input type="radio"
-							name="can_use" value="N" ${mdmDTO.canUse == 'N' ? 'checked' : ''}>
+							name="canUse" value="N" ${mdmDTO.canUse == 'N' ? 'checked' : ''}>
 							불가능
 						</label>
 					</div>

@@ -13,12 +13,11 @@
 <body>
 <h1>process insert</h1>
 <hr>
-img url 등록 시 보이게 끔
 
 <form method="post" action="process">
 
 	process_content: <br> 
-	<textarea name="process_content">들어갈 공정 내용</textarea>  <br>
+	<textarea name="process_content">부품 A와 B를 결합 후 고정 볼트 체결</textarea>  <br>
 	flow: <input type="number" name="flow" value="1">  <br>
 	img_url: <input type="text" name="img_url" 
 		value="https://cdn.discordapp.com/attachments/1486907574929330306/1492024217951277128/-removebg-preview.png?ex=69d9d356&is=69d881d6&hm=2c9ba62f625cab2e2f5b0bfb3a8f1c968fece496ad67ce4ff2624dddacc4c21f&

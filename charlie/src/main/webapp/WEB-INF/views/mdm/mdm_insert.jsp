@@ -212,10 +212,10 @@
 			<label class="reg-lb">가용 여부 (Availability)</label>
 			<div class="rd-grp">
 				<label class="rd-item">
-					<input type="radio" name="can_use" value="Y" checked> 가능
+					<input type="radio" name="canUse" value="Y" checked> 가능
 				</label>
 				<label class="rd-item">
-					<input type="radio" name="can_use" value="N"> 불가능
+					<input type="radio" name="canUse" value="N"> 불가능
 				</label>
 			</div>
 		</div>
