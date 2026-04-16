@@ -28,39 +28,15 @@ public class WorkOrderDAO {
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 //			System.out.println("DAOMODselect:"+dto.getMod());
 			conn = dataFactory.getConnection();
-			String query = //수정
-//					" SELECT * from work_order ";
-	                
-					query = "SELECT * from ( "
+			String query = "SELECT * from ( "
 							+ "SELECT rownum as rnum, subqry.* from ( "
-							+ 		"select w.order_num, "
-							+ 		"pm.prod_num, "
-							+ 		"pm.work_start, "
-							+ 		"pm.work_end, "
-							+ 		"pm.title, "
-							+ 		"pm.content, "
-							+ 		"w.daily_target, "
-							+ 		"pm.empno, "
-							+ 		"pm.mdm_num, "
-							+ 		"e.ename, "
-							+ 		"w.status       "
-							+ 	" from production_management pm "
-							+ 	"left outer join emp e "
-							+ 	"on (pm.empno = e.empno) "
-							+ 	"left outer join work_order w "
-							+ 	"on (pm.prod_num = w.prod_num) ";
-
+							+ 		"select * from work_order ";
 
 			if(dto.getOrder_num() != -1) {
 				query += "where order_num = ?";
 			}
-			
-			query += "ORDER BY pm.work_end asc, pm.work_start asc "
-					+ ") subqry) "
+			query +=") subqry) "
 					+ "WHERE rnum >= ? AND rnum <= ?";
-					
-					
-					
 			//수정
 			ps = conn.prepareStatement(query);
 			int idx = 1;
@@ -75,44 +51,23 @@ public class WorkOrderDAO {
 			while (rs.next()) {
 				WorkOrderDTO DTO = new WorkOrderDTO();
 				int order_num = rs.getInt("order_num");
+				Date work_date = rs.getDate("work_date");
 				int prod_num = rs.getInt("prod_num");
-				Date work_start = rs.getDate("work_start");
-				Date work_end = rs.getDate("work_end");
-				String title = rs.getString("title");
-				String content = rs.getString("content");
+				int daily_target = rs.getInt("daily_target");
 				int empno = rs.getInt("empno");
-				int mdm_num = rs.getInt("mdm_num");
-				String ename = rs.getString("ename");
+				String work_order_title = rs.getString("work_order_title");
 				String status = rs.getString("status");
 
 				DTO.setOrder_num(order_num);
+				DTO.setWork_date(work_date);
 				DTO.setProd_num(prod_num);
-				DTO.setWork_start(work_start);
-				DTO.setWork_end(work_end);
-				DTO.setTitle(title);
-				DTO.setContent(content);
+				DTO.setDaily_target(daily_target);
 				DTO.setEmpno(empno);
-				DTO.setMdm_num(mdm_num);
-				DTO.setEname(ename);
+				DTO.setWork_order_title(work_order_title);
 				DTO.setStatus(status);
 				list.add(DTO);
 			}
-//			while (rs.next()) {
-//				WorkOrderDTO DTO = new WorkOrderDTO();
-//				int order_num = rs.getInt("order_num");
-//				Date work_date = rs.getDate("work_date");
-//				String work_order_title = rs.getString("title");
-//				String ename = rs.getString("ename");
-//				String status = rs.getString("status");
-//				
-//				DTO.setOrder_num(order_num);
-//				DTO.setWork_date(work_date);
-//				DTO.setWork_order_title(work_order_title);
-//				DTO.setEname(ename);
-//				DTO.setStatus(status);
-//				list.add(DTO);
-//			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -156,19 +111,31 @@ public class WorkOrderDAO {
 //			System.out.println("DAOMODselect:"+dto.getMod());
 			conn = dataFactory.getConnection();
 			System.out.println("최상단DAO:" + dto.getMod());
-
+			System.out.println("일일목표 : "+dto.getDaily_target());
 			String query = "";
 			// 업데이트
 			if ("up".equals(dto.getMod())) {
-				query = "UPDATE work_order " + "SET order_num = ?, " + "work_date = sysdate, "
-						+ "work_order_title = ?, " + "prod_num = ?, " + "target_quantity = ?, " + "empno = ?, "
-						+ "mdm_num = ?, " + "status = ? " + "where order_num = ?";
+				query = "UPDATE work_order " 
+						+ "SET work_order_title = ?, " 
+						+ "work_date = ?, "
+						+ "daily_target = ?, " 
+						+ "empno = ?, "
+						+ "status = ? " 
+						+ "where order_num = ?";
 			}
 			// 인서트
 			if ("add".equals(dto.getMod())) {
 				query = "INSERT INTO work_order " 
-						+ "(order_num, prod_num, empno) "
-						+ "VALUES (work_order_seq.nextval, ?, ?)";
+						+ "(order_num, prod_num, work_order_title, work_date, daily_target, empno, status) "
+						+ "values( "
+						+ "work_order_seq.nextval, "
+						+ "?, "
+						+ "?, "
+						+ "?, "
+						+ "?, "
+						+ "?, "
+						+ "? "
+						+ ") ";
 			}
 			// 딜리트
 			if ("delete".equals(dto.getMod())) {
@@ -178,18 +145,21 @@ public class WorkOrderDAO {
 
 			if ("up".equals(dto.getMod())) {
 				System.out.println("upps");
-				ps.setString(1, dto.getTitle());
-				ps.setInt(2, dto.getProd_num());
+				ps.setString(1, dto.getWork_order_title());
+				ps.setDate(2, dto.getWork_date());
 				ps.setInt(3, dto.getDaily_target());
 				ps.setInt(4, dto.getEmpno());
-				ps.setInt(5, dto.getMdm_num());
-				ps.setString(6, dto.getStatus());
-				ps.setInt(7, dto.getOrder_num());
+				ps.setString(5, dto.getStatus());
+				ps.setInt(6, dto.getOrder_num());
 
 			}
 			if ("add".equals(dto.getMod())) {
 				ps.setInt(1, dto.getProd_num());
-				ps.setInt(2, dto.getEmpno());
+				ps.setString(2, dto.getWork_order_title());
+				ps.setDate(3, dto.getWork_date());
+				ps.setInt(4, dto.getDaily_target());
+				ps.setInt(5, dto.getEmpno());
+				ps.setString(6, dto.getStatus());
 				}
 			
 			if ("delete".equals(dto.getMod())) {
@@ -199,7 +169,7 @@ public class WorkOrderDAO {
 
 			result = ps.executeUpdate();
 
-			System.out.println("hygieneDAO:" + result);
+			System.out.println("orderDAO:" + result);
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Emp.EmpDTO;
 import fileLibrary.CommonDTO;
 
 public class WorkOrderService {
@@ -39,17 +40,6 @@ public class WorkOrderService {
         Map map = new HashMap();
         // 생산관리에 있는 기존 DB만 select
         System.out.println("order서비스mod: " + dto.getMod());
-//        List<WorkOrderDTO> list1 = dao.select(dto, pageing);
-//        int prod_num = -1;
-//        int empno = -1;
-//        for(int i = 0; i<list1.size(); i++) {
-//        	prod_num = list1.get(i).prod_num;
-//        	empno = list1.get(i).empno;
-//        }
-//        dto.setProd_num(prod_num);
-//        dto.setEmpno(empno);
-//        int orderlist = dao.orderDAO(dto);
-//        dto.setOrder_num(orderlist);
         List<WorkOrderDTO> list = dao.select(dto, pageing);
         System.out.println("서비스의 list: " + list);
 
@@ -59,7 +49,7 @@ public class WorkOrderService {
 
         return map;
 	}
-	
+	 
 	int orderService(WorkOrderDTO dto){
 		WorkOrderDAO dao = new WorkOrderDAO();
 		int list = dao.orderDAO(dto);

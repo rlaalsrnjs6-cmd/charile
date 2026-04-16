@@ -2,6 +2,7 @@ package WorkOrder;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -10,16 +11,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Emp.EmpDTO;
+import Emp.EmpService;
+import ProductionManagement.ProductionManagementDTO;
+import ProductionManagement.ProductionManagementService;
 import fileLibrary.CommonDTO;
 
 @WebServlet("/order")
 public class WorkOrderControll extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		CommonDTO commonDTO= new CommonDTO();
 		String sorder_num = request.getParameter("order_num");
 		String ssize = request.getParameter("size");
 		String spage= request.getParameter("page");
 		String mod = request.getParameter("mod");
+		String sprod_num = request.getParameter("prod_num");
 		int size = 10;
 		int page = 1;
 		if (ssize != null && spage != null) {
@@ -42,12 +49,31 @@ public class WorkOrderControll extends HttpServlet {
 		if("detail".equals(mod)) {
 			System.out.println("detail로");
 			request.getRequestDispatcher("/WEB-INF/views/order/orderDetail.jsp").forward(request, response);
+		}else if("add".equals(mod)){
+			ProductionManagementService sv = new ProductionManagementService();
+			EmpService empservice = new EmpService();
+			EmpDTO empDTO = new EmpDTO();
+			ProductionManagementDTO pmdto = new ProductionManagementDTO();
+			int prod_num=-1;
+			if(sprod_num!=null) {
+				prod_num = Integer.parseInt(sprod_num);
+			}
+			pmdto.setProd_num(prod_num);
+			Map pmlist = sv.loadPM(pmdto);
+			Map emplist = empservice.select(empDTO,commonDTO);
+			request.setAttribute("pm", pmlist);
+			request.setAttribute("emp", emplist);
+			System.out.println("wo출발 emp:" + emplist);
+			System.out.println("wo출발 pm:" + pmlist);
+			System.out.println("add로");
+			request.getRequestDispatcher("/WEB-INF/views/order/orderAdd.jsp").forward(request, response);
 		}
-//		else if("add".equals(mod)){
-//			System.out.println("add로");
-//			request.getRequestDispatcher("/WEB-INF/views/order/orderAdd.jsp").forward(request, response);
-//		}
 		else if("up".equals(mod)){
+			EmpService empservice = new EmpService();
+			EmpDTO empDTO = new EmpDTO();
+			List emplist = empservice.selectall(empDTO);
+			request.setAttribute("emp", emplist);
+			System.out.println("wo출발 emp:" + emplist);
 			System.out.println("UP로");
 			request.getRequestDispatcher("/WEB-INF/views/order/orderUp.jsp").forward(request, response);
 		}else if("delete".equals(mod)){
@@ -79,32 +105,29 @@ public class WorkOrderControll extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
 		String sorder_num = request.getParameter("order_num");
-		String sprod_num = request.getParameter("prod_num");
-		String starget_quantity = request.getParameter("target_quantity");
+		String swork_date = request.getParameter("work_date");
+		String sdaily_target = request.getParameter("daily_target");
 		String sempno = request.getParameter("empno");
-		String title = request.getParameter("title");
-		String smdm_num = request.getParameter("mdm_num");
+		String work_order_title = request.getParameter("work_order_title");
 		String status = request.getParameter("status");
 		String mod = request.getParameter("mod");
 		System.out.println("up:" + mod);
 		int order_num = Integer.parseInt(sorder_num);
-		int prod_num = Integer.parseInt(sprod_num);
-		int target_quantity = Integer.parseInt(starget_quantity);
-		int mdm_num = Integer.parseInt(smdm_num);
 		int empno = Integer.parseInt(sempno);
-		
+		int daily_target = Integer.parseInt(sdaily_target);
+		Date work_date = Date.valueOf(swork_date);
+		System.out.println("업출발");
 		WorkOrderDTO orderDTO = new WorkOrderDTO();
+		orderDTO.setWork_date(work_date);
 		orderDTO.setOrder_num(order_num);
-		orderDTO.setProd_num(prod_num);
-		orderDTO.setDaily_target(target_quantity);
 		orderDTO.setEmpno(empno);
-		orderDTO.setTitle(title);
+		orderDTO.setWork_order_title(work_order_title);
 		orderDTO.setStatus(status);
-		orderDTO.setMdm_num(mdm_num);
+		orderDTO.setDaily_target(daily_target);
 		orderDTO.setMod(mod);
 		
 		WorkOrderService service = new WorkOrderService();
-		service.orderService(orderDTO);
+		System.out.println("order업마지막: "+service.orderService(orderDTO));
 		response.sendRedirect("order");
 	}
 	
@@ -112,41 +135,27 @@ public class WorkOrderControll extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
-		String sorder_num = request.getParameter("order_num");
-		String starget_quantity = request.getParameter("target_quantity");
 		String status = request.getParameter("status");
-		String smdm_num = request.getParameter("mdm_num");
 			String sprod_num = request.getParameter("prod_num");
 			String sempno = request.getParameter("empno");
-			String title = request.getParameter("title");
-			String swork_start = request.getParameter("work_start");
-			String swork_end = request.getParameter("work_end");
-			String content = request.getParameter("content");
-			String sweekly_target = request.getParameter("weekly_target");
+			String sdaily_target = request.getParameter("daily_target");
+			String swork_date = request.getParameter("work_date");
+			String work_order_title = request.getParameter("work_order_title");
 		String mod = request.getParameter("mod");
 		System.out.println("up:" + mod);
-		int order_num = Integer.parseInt(sorder_num);
-		int mdm_num = Integer.parseInt(smdm_num);
-		int target_quantity = Integer.parseInt(starget_quantity);
 			int empno = Integer.parseInt(sempno);
 			int prod_num = Integer.parseInt(sprod_num);
-			Date work_start = Date.valueOf(swork_start);
-			Date work_end = Date.valueOf(swork_end);
-			int weekly_target = Integer.parseInt(sweekly_target);
+			int daily_target = Integer.parseInt(sdaily_target);
+			Date work_date = Date.valueOf(swork_date);
 		
 		WorkOrderDTO orderDTO = new WorkOrderDTO();
-		orderDTO.setOrder_num(order_num);
-		orderDTO.setDaily_target(target_quantity);
 		orderDTO.setStatus(status);
-		orderDTO.setMdm_num(mdm_num);
 			orderDTO.setProd_num(prod_num);
 			orderDTO.setEmpno(empno);
-			orderDTO.setTitle(title);
-			orderDTO.setWork_start(work_start);
-			orderDTO.setWork_end(work_end);
-			orderDTO.setWeekly_target(weekly_target);
-			orderDTO.setContent(content);
+			orderDTO.setDaily_target(daily_target);
+			orderDTO.setWork_order_title(work_order_title);
 		orderDTO.setMod(mod);
+		orderDTO.setWork_date(work_date);
 		
 		WorkOrderService service = new WorkOrderService();
 		service.orderService(orderDTO);

@@ -49,6 +49,12 @@ public class EmpService {
         return map;
 	}
 	
+	public List<EmpDTO> selectall(EmpDTO dto){
+		EmpDAO dao = new EmpDAO();
+		List list = dao.selectall(dto);
+		return list;
+	}
+	
 	int insert(EmpDTO dto){
 		CommonDTO pageing = new CommonDTO();
 		System.out.println("서비스 첫번쨰 인서트 확인");

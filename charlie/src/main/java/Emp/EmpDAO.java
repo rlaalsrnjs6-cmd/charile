@@ -29,9 +29,10 @@ public class EmpDAO {
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 //			System.out.println("DAOMODselect:"+dto.getMod());
 			conn = dataFactory.getConnection();
-			String query = "SELECT * from ( "
-					+ "SELECT rownum as rnum, subqry.* from ( "
-					+ "select * from emp ";
+			String query = "";
+					query +=	"SELECT * from ( "
+						 + "SELECT rownum as rnum, subqry.* from ( "
+						 + "select * from emp ";
 
 			System.out.println("empDAO스타트: "+pageing.getStart());
 			System.out.println("empDAO엔드: "+pageing.getEnd());
@@ -49,11 +50,9 @@ public class EmpDAO {
 			if("login".equals(dto.getMod())) {
 				query += "where id = ? and pw = ? ";
 			}
-
 			query += "ORDER BY emp_level asc, empno asc "
 					+ ") subqry) "
 					+ "WHERE rnum >= ? AND rnum <= ?";
-			
 			ps = conn.prepareStatement(query);
 
 			int idx = 1;
@@ -75,8 +74,8 @@ public class EmpDAO {
 			}
 			
 			ps.setInt(idx++, pageing.getStart());
-		       ps.setInt(idx++, pageing.getEnd());
-			
+		    ps.setInt(idx++, pageing.getEnd());
+		       
 			rs = ps.executeQuery();
 			
 			while(rs.next()) {
@@ -135,7 +134,7 @@ public class EmpDAO {
 		return list;
 	}
 	
-	public List<EmpDTO> selectpage(EmpDTO dto,CommonDTO pageing) {
+	public List<EmpDTO> selectall(EmpDTO dto) {
 		List<EmpDTO> list = new ArrayList();
 		
 		Connection conn = null;
@@ -148,17 +147,11 @@ public class EmpDAO {
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 //			System.out.println("DAOMODselect:"+dto.getMod());
 			conn = dataFactory.getConnection();
-			String query ="SELECT * from ( "
-					+ "SELECT rownum as rnum, subqry.* from ( "
-					+ "select * from emp "
-					+ ") subqry) "
-					+ "WHERE rnum >= ? AND rnum <= ?";
+			String query ="SELECT * from emp";
 			
 			
 			ps = conn.prepareStatement(query);
 			
-				ps.setInt(1,pageing.getSize());
-				ps.setInt(2,pageing.getPage());
 			
 			
 			rs = ps.executeQuery();

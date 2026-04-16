@@ -40,6 +40,7 @@ public class EmpControll extends HttpServlet {
 		}
 		EmpDTO DTO = new EmpDTO();
 		CommonDTO commonDTO= new CommonDTO();
+		System.out.println("emp컨트롤사이즈: "+size);
 		commonDTO.setSize(size);
 		commonDTO.setPage(page);
 		DTO.setEmpno(empno);

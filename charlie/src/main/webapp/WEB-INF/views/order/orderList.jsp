@@ -22,28 +22,25 @@
 	</SELECT>
 	
 	<input type="text" name="search" placeholder="제목/날짜/작성자 검색">
-	
 	<table border=1>
 		<tr>
-			<th>No.</th>
-			<th>제목</th>
-			<th>날짜</th>
-			<th>작성자 사원번호</th>
+			<th>작업지시번호</th>
+			<th>작업실시날짜</th>
+			<th>일일목표수량</th>
+			<th>사원번호</th>
+			<th>작업제목</th>
 			<th>상태</th>
+			<th>생산관리번호</th>
 		</tr>
 		<c:forEach var="o" items="${map.list}">
 			<tr>
 				<td>${o.order_num}</td>
-				<td>${o.prod_num}</td>
-				<td><a href="http://localhost:8080/charlie/order?order_num=${o.order_num}&mod=detail">${o.title}</td>
-				<td>${o.work_start}</td>
-				<td>${o.work_end}</td>
-				<td>${o.content}</td>
+				<td>${o.work_date}</td>
 				<td>${o.daily_target}</td>
 				<td>${o.empno}</td>
-				<td>${o.mdm_num}</td>
-				<td>${o.ename}</td>
+				<td><a href="http://localhost:8080/charlie/order?order_num=${o.order_num}&mod=detail">${o.work_order_title}</td>
 				<td>${o.status}</td>
+				<td><a href="http://localhost:8080/charlie/PMDetailServlet?prod_num=${o.prod_num}">${o.prod_num}</td>
 			</tr>
 		</c:forEach>
 	</table>

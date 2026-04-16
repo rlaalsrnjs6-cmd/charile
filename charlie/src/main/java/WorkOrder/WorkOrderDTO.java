@@ -7,15 +7,10 @@ public class WorkOrderDTO {
 	Date work_date;
 	int daily_target;
 	String status;
-		int prod_num;
-		int mdm_num;
-		int empno;
-		String title;
-		Date work_start;
-		Date work_end;
-		String content;
-		int weekly_target;
-		String ename;
+	String ename;
+	int prod_num;
+	int empno;
+	String work_order_title;
 	String mod;
 	public int getOrder_num() {
 		return order_num;
@@ -29,12 +24,6 @@ public class WorkOrderDTO {
 	public void setWork_date(Date work_date) {
 		this.work_date = work_date;
 	}
-	public int getProd_num() {
-		return prod_num;
-	}
-	public void setProd_num(int prod_num) {
-		this.prod_num = prod_num;
-	}
 	public int getDaily_target() {
 		return daily_target;
 	}
@@ -47,11 +36,17 @@ public class WorkOrderDTO {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public int getMdm_num() {
-		return mdm_num;
+	public String getEname() {
+		return ename;
 	}
-	public void setMdm_num(int mdm_num) {
-		this.mdm_num = mdm_num;
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
+	public int getProd_num() {
+		return prod_num;
+	}
+	public void setProd_num(int prod_num) {
+		this.prod_num = prod_num;
 	}
 	public int getEmpno() {
 		return empno;
@@ -59,41 +54,11 @@ public class WorkOrderDTO {
 	public void setEmpno(int empno) {
 		this.empno = empno;
 	}
-	public String getTitle() {
-		return title;
+	public String getWork_order_title() {
+		return work_order_title;
 	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public Date getWork_start() {
-		return work_start;
-	}
-	public void setWork_start(Date work_start) {
-		this.work_start = work_start;
-	}
-	public Date getWork_end() {
-		return work_end;
-	}
-	public void setWork_end(Date work_end) {
-		this.work_end = work_end;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public int getWeekly_target() {
-		return weekly_target;
-	}
-	public void setWeekly_target(int weekly_target) {
-		this.weekly_target = weekly_target;
-	}
-	public String getEname() {
-		return ename;
-	}
-	public void setEname(String ename) {
-		this.ename = ename;
+	public void setWork_order_title(String work_order_title) {
+		this.work_order_title = work_order_title;
 	}
 	public String getMod() {
 		return mod;
@@ -103,10 +68,9 @@ public class WorkOrderDTO {
 	}
 	@Override
 	public String toString() {
-		return "WorkOrderDTO [order_num=" + order_num + ", work_date=" + work_date + ", prod_num=" + prod_num
-				+ ", daily_target=" + daily_target + ", status=" + status + ", mdm_num=" + mdm_num + ", empno=" + empno
-				+ ", title=" + title + ", work_start=" + work_start + ", work_end=" + work_end + ", content=" + content
-				+ ", weekly_target=" + weekly_target + ", ename=" + ename + ", mod=" + mod + "]";
+		return "WorkOrderDTO [order_num=" + order_num + ", work_date=" + work_date + ", daily_target=" + daily_target
+				+ ", status=" + status + ", ename=" + ename + ", prod_num=" + prod_num + ", empno=" + empno
+				+ ", work_order_title=" + work_order_title + ", mod=" + mod + "]";
 	}
 	
 	
