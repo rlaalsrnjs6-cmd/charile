@@ -34,9 +34,15 @@
 		<c:forEach var="o" items="${map.list}">
 			<tr>
 				<td>${o.order_num}</td>
+				<td>${o.prod_num}</td>
 				<td><a href="http://localhost:8080/charlie/order?order_num=${o.order_num}&mod=detail">${o.title}</td>
-				<td>${o.work_date}</td>
+				<td>${o.work_start}</td>
+				<td>${o.work_end}</td>
+				<td>${o.content}</td>
+				<td>${o.daily_target}</td>
 				<td>${o.empno}</td>
+				<td>${o.mdm_num}</td>
+				<td>${o.ename}</td>
 				<td>${o.status}</td>
 			</tr>
 		</c:forEach>

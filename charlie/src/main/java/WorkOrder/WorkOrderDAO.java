@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 import fileLibrary.CommonDTO;
 
 public class WorkOrderDAO {
-	public List<WorkOrderDTO> selectOne(WorkOrderDTO dto) {
+	public List<WorkOrderDTO> select(WorkOrderDTO dto, CommonDTO pageing) {
 		List<WorkOrderDTO> list = new ArrayList();
 
 		Connection conn = null;
@@ -33,21 +33,22 @@ public class WorkOrderDAO {
 	                
 					query = "SELECT * from ( "
 							+ "SELECT rownum as rnum, subqry.* from ( "
-							+ "select w.order_num, "
-							+ "pm.work_start, "
-							+ "pm.work_end, "
-							+ "pm.title, "
-							+ "pm.content, "
-							+ "daily_target "
-							+ "pm.empno, "
-							+ "pm.mdm_num, "
-							+ "e.ename, "
-							+ "w.status "
-							+ "from production_management pm "
-							+ "left outer join emp e "
-							+ "on (pm.empno = e.empno) "
-							+ "left outer join work_order w "
-							+ "on (pm.prod_num = w.prod_num)";
+							+ 		"select w.order_num, "
+							+ 		"pm.prod_num, "
+							+ 		"pm.work_start, "
+							+ 		"pm.work_end, "
+							+ 		"pm.title, "
+							+ 		"pm.content, "
+							+ 		"w.daily_target, "
+							+ 		"pm.empno, "
+							+ 		"pm.mdm_num, "
+							+ 		"e.ename, "
+							+ 		"w.status       "
+							+ 	" from production_management pm "
+							+ 	"left outer join emp e "
+							+ 	"on (pm.empno = e.empno) "
+							+ 	"left outer join work_order w "
+							+ 	"on (pm.prod_num = w.prod_num) ";
 
 
 			if(dto.getOrder_num() != -1) {
@@ -62,34 +63,38 @@ public class WorkOrderDAO {
 					
 			//수정
 			ps = conn.prepareStatement(query);
-			
+			int idx = 1;
 			if(dto.getOrder_num() != -1) {
 				
-				ps.setInt(1, dto.getOrder_num());
+				ps.setInt(idx++, dto.getOrder_num());
 			}
-			
+			ps.setInt(idx++, pageing.getStart());
+			ps.setInt(idx++, pageing.getEnd());
 			rs = ps.executeQuery();
 
 			while (rs.next()) {
 				WorkOrderDTO DTO = new WorkOrderDTO();
 				int order_num = rs.getInt("order_num");
+				int prod_num = rs.getInt("prod_num");
 				Date work_start = rs.getDate("work_start");
 				Date work_end = rs.getDate("work_end");
 				String title = rs.getString("title");
 				String content = rs.getString("content");
 				int empno = rs.getInt("empno");
 				int mdm_num = rs.getInt("mdm_num");
-				int ename = rs.getInt("ename");
+				String ename = rs.getString("ename");
 				String status = rs.getString("status");
 
 				DTO.setOrder_num(order_num);
+				DTO.setProd_num(prod_num);
 				DTO.setWork_start(work_start);
 				DTO.setWork_end(work_end);
-				DTO.setDaily_target(daily_target);
-				DTO.setEmpno(empno);
 				DTO.setTitle(title);
-				DTO.setStatus(status);
+				DTO.setContent(content);
+				DTO.setEmpno(empno);
 				DTO.setMdm_num(mdm_num);
+				DTO.setEname(ename);
+				DTO.setStatus(status);
 				list.add(DTO);
 			}
 //			while (rs.next()) {
@@ -162,9 +167,8 @@ public class WorkOrderDAO {
 			// 인서트
 			if ("add".equals(dto.getMod())) {
 				query = "INSERT INTO work_order " 
-						+ "(order_num, work_date, prod_num, target_quantity, "
-						+ "empno, work_order_title, mdm_num, status) " 
-						+ "VALUES (work_order_seq.nextval, SYSDATE, ?, ?, ?, ?, ?, ?)";
+						+ "(order_num, prod_num, empno) "
+						+ "VALUES (work_order_seq.nextval, ?, ?)";
 			}
 			// 딜리트
 			if ("delete".equals(dto.getMod())) {
@@ -183,19 +187,11 @@ public class WorkOrderDAO {
 				ps.setInt(7, dto.getOrder_num());
 
 			}
-
 			if ("add".equals(dto.getMod())) {
-				System.out.println("addps");
-				System.out.println(dto.getMdm_num());
-				ps.setInt(1, dto.getOrder_num());
-				ps.setInt(2, dto.getProd_num());
-				ps.setInt(3, dto.getDaily_target());
-				ps.setInt(4, dto.getEmpno());
-				ps.setString(5, dto.getTitle());
-				ps.setInt(6, dto.getMdm_num());
-				ps.setString(7, dto.getStatus());
-			}
-
+				ps.setInt(1, dto.getProd_num());
+				ps.setInt(2, dto.getEmpno());
+				}
+			
 			if ("delete".equals(dto.getMod())) {
 				System.out.println("deleteps" + dto.getOrder_num());
 				ps.setInt(1, dto.getOrder_num());
@@ -233,85 +229,7 @@ public class WorkOrderDAO {
 		return result;
 	}
 
-	public List<WorkOrderDTO> select(WorkOrderDTO dto, CommonDTO pageing ) {
-		List<WorkOrderDTO> list = new ArrayList();
-
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-
-		try {
-			Context ctx = new InitialContext();
-
-			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
-//			System.out.println("DAOMODselect:"+dto.getMod());
-			conn = dataFactory.getConnection();
-			String query = //수정
-					"   SELECT * from (   "
-	                + "   SELECT rownum as rnum, subqry.* from (   " 
-					+ "     select * from work_order w "
-					+ "	ORDER BY w.order_num asc "
-					+ "     ) subqry "
-					+ " ) "
-             		+ " WHERE rnum >= ? AND rnum <= ?";
-			ps = conn.prepareStatement(query);
-			
-			System.out.println("스타트:" +  pageing.getStart());
-			System.out.println("엔드:" +  pageing.getEnd());
-			ps.setInt(1, pageing.getStart());
-			ps.setInt(2, pageing.getEnd());
-
-			rs = ps.executeQuery();
-
-			while (rs.next()) {
-				WorkOrderDTO DTO = new WorkOrderDTO();
-				int order_num = rs.getInt("order_num");
-				Date work_date = rs.getDate("work_date");
-				int prod_num = rs.getInt("prod_num");
-				int daily_target = rs.getInt("daily_target");
-				int empno = rs.getInt("empno");
-				String title = rs.getString("work_order_title");
-				String status = rs.getString("status");
-				int mdm_num = rs.getInt("mdm_num");
-
-				DTO.setOrder_num(order_num);
-				DTO.setWork_date(work_date);
-				DTO.setProd_num(prod_num);
-				DTO.setDaily_target(daily_target);
-				DTO.setEmpno(empno);
-				DTO.setTitle(title);
-				DTO.setStatus(status);
-				DTO.setMdm_num(mdm_num);
-				list.add(DTO);
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (ps != null) {
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return list;
-	}
+	
 	
 //Use paging 수정
 	public int getTotalCount() {

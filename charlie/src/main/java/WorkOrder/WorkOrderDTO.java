@@ -5,9 +5,9 @@ import java.sql.Date;
 public class WorkOrderDTO {
 	int order_num = -1;
 	Date work_date;
-	int prod_num;
 	int daily_target;
 	String status;
+		int prod_num;
 		int mdm_num;
 		int empno;
 		String title;
@@ -15,6 +15,7 @@ public class WorkOrderDTO {
 		Date work_end;
 		String content;
 		int weekly_target;
+		String ename;
 	String mod;
 	public int getOrder_num() {
 		return order_num;
@@ -88,6 +89,12 @@ public class WorkOrderDTO {
 	public void setWeekly_target(int weekly_target) {
 		this.weekly_target = weekly_target;
 	}
+	public String getEname() {
+		return ename;
+	}
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
 	public String getMod() {
 		return mod;
 	}
@@ -99,7 +106,7 @@ public class WorkOrderDTO {
 		return "WorkOrderDTO [order_num=" + order_num + ", work_date=" + work_date + ", prod_num=" + prod_num
 				+ ", daily_target=" + daily_target + ", status=" + status + ", mdm_num=" + mdm_num + ", empno=" + empno
 				+ ", title=" + title + ", work_start=" + work_start + ", work_end=" + work_end + ", content=" + content
-				+ ", weekly_target=" + weekly_target + ", mod=" + mod + "]";
+				+ ", weekly_target=" + weekly_target + ", ename=" + ename + ", mod=" + mod + "]";
 	}
 	
 	

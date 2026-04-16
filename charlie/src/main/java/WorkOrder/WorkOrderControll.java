@@ -35,16 +35,19 @@ public class WorkOrderControll extends HttpServlet {
 		pageing.setSize(size);
 		pageing.setPage(page);
 		orderDTO.setOrder_num(order_num);
+		orderDTO.setMod(mod);
 		WorkOrderService service = new WorkOrderService();
 		Map map = service.select(orderDTO, pageing);
 		request.setAttribute("map", map);
 		if("detail".equals(mod)) {
 			System.out.println("detail로");
 			request.getRequestDispatcher("/WEB-INF/views/order/orderDetail.jsp").forward(request, response);
-		}else if("add".equals(mod)){
-			System.out.println("add로");
-			request.getRequestDispatcher("/WEB-INF/views/order/orderAdd.jsp").forward(request, response);
-		}else if("up".equals(mod)){
+		}
+//		else if("add".equals(mod)){
+//			System.out.println("add로");
+//			request.getRequestDispatcher("/WEB-INF/views/order/orderAdd.jsp").forward(request, response);
+//		}
+		else if("up".equals(mod)){
 			System.out.println("UP로");
 			request.getRequestDispatcher("/WEB-INF/views/order/orderUp.jsp").forward(request, response);
 		}else if("delete".equals(mod)){
