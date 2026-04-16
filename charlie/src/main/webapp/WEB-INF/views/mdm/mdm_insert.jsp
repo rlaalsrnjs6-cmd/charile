@@ -8,68 +8,328 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert page</title>
+<title>기준관리 등록</title>
+<style>
+	/* 기본 초기화 */
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	/* 폼 컨테이너 (반응형: % 및 최대 너비 사용) */
+	.reg-wrap {
+		width: 90%;
+		max-width: 700px;
+		margin: 3rem auto 6rem auto; 
+		background-color: #fff;
+		border-top: 3rem solid #4B2C20; /* 메인 컬러 */
+		border-radius: 6px;
+		box-shadow: 0 4px 20px rgba(0,0,0,0.15); 
+		padding: 3rem;
+	}
+
+	/* 타이틀 */
+	.reg-tit {
+		font-size: 1.5rem;
+		font-weight: 700;
+		color: #333;
+		margin-bottom: 2rem;
+		border-bottom: 2px solid #eee;
+		padding-bottom: 1rem;
+	}
+
+	/* 입력 행 */
+	.reg-row {
+		display: flex;
+		flex-direction: column;
+		margin-bottom: 1.5rem;
+	}
+
+	/* 라벨 (메인 컬러) */
+	.reg-lb {
+		font-weight: 600;
+		color: #4B2C20;
+		margin-bottom: 0.5rem;
+		font-size: 1rem;
+	}
+
+	/* 인풋 및 셀렉트 공통 스타일 */
+	.reg-in {
+		width: 100%;
+		padding: 0.8rem;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		font-size: 1rem;
+		font-family: inherit; 
+		transition: border-color 0.3s, box-shadow 0.3s;
+	}
+
+	/* 포커스 시 서브 컬러 반응 */
+	.reg-in:focus {
+		outline: none;
+		border-color: #5C6BC0; 
+		box-shadow: 0 0 0 3px rgba(92, 107, 192, 0.1); 
+	}
+
+	/* 라디오 그룹 스타일 */
+	.rd-grp {
+		display: flex;
+		gap: 2rem;
+		padding: 0.5rem 0;
+	}
+
+	.rd-item {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		cursor: pointer;
+	}
+
+	/* 버튼 그룹 */
+	.btn-grp {
+		display: flex;
+		justify-content: flex-end;
+		gap: 1rem;
+		margin-top: 3rem;
+		border-top: 1px solid #eee;
+		padding-top: 2rem;
+	}
+
+	/* 버튼 공통 */
+	.btn-sub, .btn-can {
+		padding: 0.8rem 2.5rem;
+		border-radius: 4px;
+		font-size: 1rem;
+		font-weight: 600;
+		text-align: center;
+		cursor: pointer;
+		border: none;
+		transition: all 0.2s;
+	}
+
+	/* 등록 버튼 (메인 컬러) */
+	.btn-sub {
+		background-color: #4B2C20;
+		color: #fff;
+	}
+
+	.btn-sub:hover {
+		background-color: #5C6BC0; /* 서브 컬러 */
+	}
+
+	/* 취소 버튼 (테두리 스타일) */
+	.btn-can {
+		background-color: #fff;
+		color: #4B2C20;
+		border: 1px solid #4B2C20;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.btn-can:hover {
+		color: #5C6BC0;
+		border-color: #5C6BC0;
+		background-color: #f8f9ff;
+	}
+
+	/* 태블릿/모바일 반응형 */
+	@media (max-width: 768px) {
+		.reg-wrap {
+			width: 95%;
+			padding: 2rem 1.5rem;
+		}
+		.btn-grp {
+			flex-direction: column-reverse; 
+			gap: 0.8rem;
+		}
+		.btn-sub, .btn-can {
+			width: 100%;
+		}
+	}
+</style>
 </head>
 <body>
-<h1>mdm insert</h1>
-<hr>
+<%@ include file="/header.jsp" %>
 
-<form method="post" action="mdm">
+<div class="reg-wrap">
+	<div class="reg-tit">기준정보 등록</div>
 
-	name: <input type="text" name="name" value="카카오빈 (250g)"> <br>
+<<<<<<< HEAD
+	<form id="regForm" method="post" action="mdm">
+		
+		<div class="reg-row">
+			<label class="reg-lb">명칭 (Name)</label>
+			<input type="text" name="name" class="reg-in" value="카카오빈 (250g)">
+		</div>
+
+		<div class="reg-row">
+			<label class="reg-lb">타입 (Type)</label>
+			<select name="type" class="reg-in">
+				<option value="assemble">반제품</option>
+				<option value="product">제품</option>
+				<option value="material">재료</option>
+				<option value="equip">장비</option>
+			</select>
+		</div>
+
+		<div class="reg-row">
+			<label class="reg-lb">코드 (Code)</label>
+			<input type="text" name="code" class="reg-in" value="AAABBC001">
+		</div>
+
+		<div class="reg-row">
+			<label class="reg-lb">수량 (Quantity)</label>
+			<input type="text" name="quantity" class="reg-in" value="1">
+		</div>
+
+		<div class="reg-row">
+			<label class="reg-lb">단위 (Unit)</label>
+			<select name="unit" class="reg-in">
+				<option value="g">g</option>
+				<option value="kg">kg</option>
+				<option value="L">L</option>
+				<option value="ea">ea</option>
+			</select>
+		</div>
+
+		<div class="reg-row">
+			<label class="reg-lb">가격 (Price)</label>
+			<input type="number" name="price" class="reg-in" value="2000">
+		</div>
+
+		<div class="reg-row">
+			<label class="reg-lb">사용기한 (Expiration Date)</label>
+			<input id="exp_date" type="date" name="exp_date" class="reg-in">
+		</div>
+
+		<div class="reg-row">
+			<label class="reg-lb">가용 여부 (Availability)</label>
+			<div class="rd-grp">
+				<label class="rd-item">
+					<input type="radio" name="can_use" value="Y" checked> 가능
+				</label>
+				<label class="rd-item">
+					<input type="radio" name="can_use" value="N"> 불가능
+				</label>
+			</div>
+		</div>
+
+		<div class="btn-grp">
+			<input type="hidden" name="cmd" value="insert">
+			<a href="mdm?cmd=list" class="btn-can">등록취소</a>
+			<button type="submit" class="btn-sub">등록하기</button>
+		</div>
+		
+	</form>
+</div>
+
+<%@ include file="/footer.jsp" %>
+=======
+	name: <input type="text" name="name" value="유기농 말차 가루"> <br>
 	
 	type: 
 	<select name="type">
 		<option value="assemble">반제품</option>
-		<option value="product">제품</option>
+		<option value="product" selected>제품</option>
 		<option value="material">재료</option>
 		<option value="equip">장비</option>
 	</select> <br>
 	
-	code: <input type="text" name="code" value="AAABBC001"> <br>
+	code: <input type="text" name="code" value="MAT-POW-01"> <br>
 	
-	quantity: <input type="text" name="quantity" value="1"> <br>
+	quantity: <input type="text" name="quantity" value="50"> <br>
 	
 	unit:
 	<select name="unit">
 		<option value="g">g</option>
-		<option value="kg">kg</option>
+		<option value="kg" selected>kg</option>
 		<option value="L">L</option>
-		<option value="ea">ea</option>
+		<option value="EA">EA</option>
 	</select> <br>
 	
-	price: <input type="number" name="price" value="2000"> 원<br>
-	사용기한 : <input id="exp_date" type="date" name="exp_date"> <br>
+	price: <input type="number" name="price" value="1200000"> 원<br>
+	사용기한 : <input id="exp_date" type="date" name="exp_date" value="2027-04-15"> <br>
 	
-	can_use: <br>
-	가능<input type="radio" name="can_use" value="Y" checked> <br>
-	불가능<input type="radio" name="can_use" value="N"> <br>
+	canUse: <br>
+	가능<input type="radio" name="canUse" value="Y" checked> <br>
+	불가능<input type="radio" name="canUse" value="N"> <br>
 	<hr>
+>>>>>>> 791f7e6d4cebed6cdfe55f9e754cac4e9830b9f1
 
-	<input type="hidden" name="cmd" value="insert">
-	<input type="submit" value="등록">
-	
-</form>
-	<a href="mdm?cmd=list">리스트페이지</a>
-</body>
 <script>
+<<<<<<< HEAD
 	window.onload = function() {
+		// 기존 날짜 설정 로직 유지
+		let now = new Date();
+		now.setMonth(now.getMonth() + 1);
+		let year = now.getFullYear();
+		let month = ("0" + (now.getMonth() + 1)).slice(-2);
+		let day = ("0" + now.getDate()).slice(-2);
+		let oneMonthLater = `${year}-${month}-${day}`;
+		document.getElementById('exp_date').value = oneMonthLater;
+
+		// 신규 추가: 유효성 검사 및 UX 로직
+		const regForm = document.getElementById("regForm");
+		const btnCan = document.querySelector(".btn-can");
 		
-    // 현재 날짜
-    let now = new Date();
-    
-    // 한 달 뒤
-    now.setMonth(now.getMonth() + 1);
-    
-    // YYYY-MM-DD 형식으로 변환
-    let year = now.getFullYear();
-    let month = ("0" + (now.getMonth() + 1)).slice(-2);
-    let day = ("0" + now.getDate()).slice(-2);
-    
-    let oneMonthLater = `${year}-${month}-${day}`;
-    
-    // input.value
-    document.getElementById('exp_date').value = oneMonthLater;
+		// 등록 버튼 클릭 이벤트
+		regForm.addEventListener("submit", function(e) {
+			const name = document.querySelector("input[name='name']");
+			const code = document.querySelector("input[name='code']");
+			const quantity = document.querySelector("input[name='quantity']");
+			const price = document.querySelector("input[name='price']");
+
+			// 명칭 확인
+			if(name.value.trim() === "") {
+				alert("명칭을 입력해주세요.");
+				name.focus();
+				e.preventDefault();
+				return;
+			}
+			// 코드 확인
+			if(code.value.trim() === "") {
+				alert("코드를 입력해주세요.");
+				code.focus();
+				e.preventDefault();
+				return;
+			}
+			// 수량 확인
+			if(quantity.value.trim() === "" || isNaN(quantity.value)) {
+				alert("수량을 올바른 숫자로 입력해주세요.");
+				quantity.focus();
+				e.preventDefault();
+				return;
+			}
+			// 가격 확인
+			if(price.value.trim() === "" || price.value < 0) {
+				alert("가격을 정확히 입력해주세요.");
+				price.focus();
+				e.preventDefault();
+				return;
+			}
+
+			if(!confirm("기준정보를 등록하시겠습니까?")) {
+				e.preventDefault();
+			}
+		});
+
+		// 취소 버튼 클릭 이벤트
+		btnCan.addEventListener("click", function(e) {
+			if(!confirm("작성 중인 내용이 저장되지 않습니다. 취소하시겠습니까?")) {
+				e.preventDefault();
+			}
+		});
 	}
+=======
+	
+>>>>>>> 791f7e6d4cebed6cdfe55f9e754cac4e9830b9f1
 </script>
+</body>
 </html>

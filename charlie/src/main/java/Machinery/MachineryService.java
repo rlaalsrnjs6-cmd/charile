@@ -51,6 +51,7 @@ public class MachineryService extends ParentService2<MachineryDTO, CommonDTO> {
 	@Override
 	public MachineryDTO selectOne(MachineryDTO dto, CommonDTO commonDTO) {
 		System.out.println("service selectOne : " + dto);
+		commonDTO.setWhere("tableA.machinery_num = ?");
 		return machineryDAO.selectOne(dto, commonDTO);
 	}
 	@Override
