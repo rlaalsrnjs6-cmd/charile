@@ -33,9 +33,6 @@ public class EmpDAO {
 					+ "SELECT rownum as rnum, subqry.* from ( "
 					+ "select * from emp ";
 
-			System.out.println("empDAOmod: "+dto.getMod());
-			System.out.println("empDAOid: "+dto.getId());
-			System.out.println("empDAOpw: "+dto.getPw());
 			System.out.println("empDAO스타트: "+pageing.getStart());
 			System.out.println("empDAO엔드: "+pageing.getEnd());
 			
@@ -300,8 +297,6 @@ public class EmpDAO {
 			conn = dataFactory.getConnection();
 			
 			String query = "";
-			System.out.println("EmpDAO모드:"+dto.getMod());
-			System.out.println("EmpDAO스테:"+dto.getStatus());
 			// 업데이트
 			if("up".equals(dto.getMod())) {
 				  query = "UPDATE emp "

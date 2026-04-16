@@ -105,7 +105,7 @@ public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
 	                 
 	                 
 	                 // join data
-	                 + " select tableA.*, tableB.name "
+	                 + " select tableA.*, tableB.name, tableB.code"
 	                 + " from machinery tableA "
 	                 // join on
 	                 + " JOIN mdm tableB ON tableA.mdm_num = tableB.mdm_num ";
