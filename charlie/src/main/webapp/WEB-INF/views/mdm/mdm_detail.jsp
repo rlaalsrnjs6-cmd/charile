@@ -161,6 +161,7 @@
 		<span class="dt-val">${ mdmDTO.mdm_num }</span>
 	</div>
 	
+<<<<<<< HEAD
 	<div class="dt-row">
 		<span class="dt-lb">코드</span> 
 		<span class="dt-val">${ mdmDTO.code }</span>
@@ -170,6 +171,26 @@
 		<span class="dt-lb">이름</span> 
 		<span class="dt-val">${ mdmDTO.name }</span>
 	</div>
+=======
+	<hr>
+	<a href="mdm?cmd=list">뒤로</a> <br>
+	<hr>
+	
+		관리번호 : ${ mdmDTO.mdm_num } <br>
+		코드 : ${ mdmDTO.code } <br>
+		이름 : ${ mdmDTO.name } <br>
+		수량 : ${ mdmDTO.quantity } <br>
+		단위 : ${ mdmDTO.unit } <br>
+		타입 : ${ mdmDTO.type } <br>
+		가격 : ${ mdmDTO.price } <br>
+		입고날짜 : ${ mdmDTO.received_date }  <br>
+		사용기한 : ${ mdmDTO.exp_date } 
+		<br>
+		가용 여부 : 
+		<c:if test="${ mdmDTO.canUse eq 'Y'}">가능</c:if>
+		<c:if test="${ mdmDTO.canUse eq 'N'}">불가능</c:if>
+		
+>>>>>>> 791f7e6d4cebed6cdfe55f9e754cac4e9830b9f1
 	
 	<div class="dt-row">
 		<span class="dt-lb">수량</span> 

@@ -191,6 +191,12 @@
 <body>
 <%@ include file="/header.jsp" %>
 
+<<<<<<< HEAD
+=======
+<%@ include file="/header.jsp" %>
+
+<h1>mdm list</h1>
+>>>>>>> 791f7e6d4cebed6cdfe55f9e754cac4e9830b9f1
 <hr>
 <div class="mdm-all">
 	<form class="sch-fm" action="mdm?cmd=search" method="post">
@@ -202,12 +208,71 @@
 			<option value="type">타입</option>
 		</select>
 
+<<<<<<< HEAD
 		<input class="sch-in" name="search_content" placeholder="검색어를 입력하세요">
 		<input class="btn-sch" type="submit" value="검색">
 	</form>
+=======
+<select name="search_select">
+	<option value="search_all">전체</option>
+	<option value="code">코드</option>
+	<option value="name">명칭</option>
+	<option value="unit">단위</option>
+	<option value="type">타입</option>
+</select>
+
+	<input name="search_content">
+	<input type="submit" value="검색">
+</form>
+<hr>
+<table border="1px">
+		<thead>
+			<tr>
+				<th>관리번호</th>
+				<th>관리코드</th>
+				<th>명칭</th>
+				<th>수량</th>
+				<th>단위</th>
+				<th>타입</th>
+				<th>가격</th>
+				<th>입고날짜</th>
+				<th>사용기한</th>
+				<th>가용 여부</th>
+			</tr>
+		</thead>
+
+		<c:forEach var="row" items="${ map.list }">
+			<tr>
+				<td>${ row.mdm_num }</td>
+				<td>${ row.code }</td>
+				<td>
+				
+					<a href="mdm?cmd=detail&mdm_num=${ row.mdm_num }">
+						<c:if test="${ empty row.name }"> Null </c:if>
+						<c:if test="${ not empty row.name }"> ${ row.name } </c:if>
+					</a>
+				</td>
+
+
+
+				<td>${ row.quantity }</td>
+				<td>${ row.unit }</td>
+				<td>${ row.type }</td>
+				<td>${ row.price }</td>
+				<td>${ row.received_date }</td>
+				<td>${ row.exp_date }</td>
+				<td>${ row.canUse }</td>
+			</tr>
+		</c:forEach>
+		
+		</table>
+		
+	<jsp:include page="/WEB-INF/views/paging.jsp" />
+>>>>>>> 791f7e6d4cebed6cdfe55f9e754cac4e9830b9f1
 	
 	<hr>
 	
+<<<<<<< HEAD
 	<div class="tb-wrap">
 		<table class="mdm-tb">
 			<thead>
@@ -257,5 +322,8 @@
 </div>
 
 <%@ include file="/footer.jsp" %>
+=======
+	<%@ include file="/footer.jsp" %>
+>>>>>>> 791f7e6d4cebed6cdfe55f9e754cac4e9830b9f1
 </body>
 </html>

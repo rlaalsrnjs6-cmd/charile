@@ -161,6 +161,7 @@
 <div class="reg-wrap">
 	<div class="reg-tit">기준정보 등록</div>
 
+<<<<<<< HEAD
 	<form id="regForm" method="post" action="mdm">
 		
 		<div class="reg-row">
@@ -230,8 +231,40 @@
 </div>
 
 <%@ include file="/footer.jsp" %>
+=======
+	name: <input type="text" name="name" value="유기농 말차 가루"> <br>
+	
+	type: 
+	<select name="type">
+		<option value="assemble">반제품</option>
+		<option value="product" selected>제품</option>
+		<option value="material">재료</option>
+		<option value="equip">장비</option>
+	</select> <br>
+	
+	code: <input type="text" name="code" value="MAT-POW-01"> <br>
+	
+	quantity: <input type="text" name="quantity" value="50"> <br>
+	
+	unit:
+	<select name="unit">
+		<option value="g">g</option>
+		<option value="kg" selected>kg</option>
+		<option value="L">L</option>
+		<option value="EA">EA</option>
+	</select> <br>
+	
+	price: <input type="number" name="price" value="1200000"> 원<br>
+	사용기한 : <input id="exp_date" type="date" name="exp_date" value="2027-04-15"> <br>
+	
+	canUse: <br>
+	가능<input type="radio" name="canUse" value="Y" checked> <br>
+	불가능<input type="radio" name="canUse" value="N"> <br>
+	<hr>
+>>>>>>> 791f7e6d4cebed6cdfe55f9e754cac4e9830b9f1
 
 <script>
+<<<<<<< HEAD
 	window.onload = function() {
 		// 기존 날짜 설정 로직 유지
 		let now = new Date();
@@ -294,6 +327,9 @@
 			}
 		});
 	}
+=======
+	
+>>>>>>> 791f7e6d4cebed6cdfe55f9e754cac4e9830b9f1
 </script>
 </body>
 </html>
