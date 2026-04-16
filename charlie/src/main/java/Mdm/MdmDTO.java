@@ -21,6 +21,7 @@ public class MdmDTO {
 	public Date getExp_date() {
 		return exp_date;
 	}
+
 	public void setExp_date(Date exp_date) {
 		this.exp_date = exp_date;
 	}
@@ -79,5 +80,10 @@ public class MdmDTO {
 		this.canUse = canUse;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "MdmDTO [mdm_num=" + mdm_num + ", code=" + code + ", name=" + name + ", unit=" + unit + ", type=" + type
+				+ ", received_date=" + received_date + ", exp_date=" + exp_date + ", price=" + price + ", quantity="
+				+ quantity + ", canUse=" + canUse + "]";
+	}
 }
