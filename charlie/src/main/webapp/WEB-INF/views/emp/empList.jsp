@@ -158,8 +158,8 @@
 				<tr>
 					<th>사원번호</th>
 					<th>이름</th>
-					<th>id</th>
-					<th>pw</th>
+					<th>ID</th>
+<!-- 					<th>pw</th> -->
 					<th>사원등급</th>
 					<th>전화번호</th>
 					<th>급여</th>
@@ -174,7 +174,7 @@
 					<td data-label="사원번호">${e.empno}</td>
 					<td data-label="이름"><a class="a-name" href="http://localhost:8080/charlie/emp?empno=${e.empno}&mod=detail">${e.ename}</a></td>
 					<td data-label="id">${e.id}</td>
-					<td data-label="pw">${e.pw}</td>
+<%-- 					<td data-label="pw">${e.pw}</td> --%>
 					<td data-label="사원등급">${e.emp_level}</td>
 					<td data-label="전화번호">${e.tel}</td>
 					<td data-label="급여">${e.sal}</td>
