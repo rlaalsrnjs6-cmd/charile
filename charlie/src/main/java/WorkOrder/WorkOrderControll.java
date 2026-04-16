@@ -1,6 +1,7 @@
 package WorkOrder;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -126,8 +127,8 @@ public class WorkOrderControll extends HttpServlet {
 		int target_quantity = Integer.parseInt(starget_quantity);
 			int empno = Integer.parseInt(sempno);
 			int prod_num = Integer.parseInt(sprod_num);
-			int work_start = Integer.parseInt(swork_start);
-			int work_end = Integer.parseInt(swork_end);
+			Date work_start = Date.valueOf(swork_start);
+			Date work_end = Date.valueOf(swork_end);
 			int weekly_target = Integer.parseInt(sweekly_target);
 		
 		WorkOrderDTO orderDTO = new WorkOrderDTO();
