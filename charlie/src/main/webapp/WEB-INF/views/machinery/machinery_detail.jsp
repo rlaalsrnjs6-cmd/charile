@@ -20,6 +20,8 @@
 	<hr>
 	
 		machinery_num : ${ machineryDTO.machinery_num } <br>
+		name : ${ machineryDTO.name } <br>
+		code : ${ machineryDTO.code } <br>
 		machinery_type : ${ machineryDTO.machinery_type } <br>
 		machinery_status : ${ machineryDTO.machinery_status } <br>
 		error_sign : ${ machineryDTO.error_sign } <br>

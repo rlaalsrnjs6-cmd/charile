@@ -67,9 +67,8 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 	// SELECT DTO SET
 	@Override
 	protected ProcessDTO setDTO(ResultSet rs) throws SQLException {
-		ProcessDTO dto = new ProcessDTO();
-
 		
+		ProcessDTO dto = new ProcessDTO();
 
 			dto.setProcess_num(rs.getInt("Process_num"));
 			dto.setProcess_content(rs.getString("process_content"));
@@ -84,12 +83,13 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 			e.printStackTrace();
 				System.out.println("name 없음!");
 			}
+			
 		return dto;
 	}
 	
 	
 	// SELECT MAIN QUERY FOR LIST 
-	@Override // NEEDCHECKED
+	@Override // CHECKED
 	protected String selectQuery(ProcessDTO dto, CommonDTO commonDTO) {
 
 		String query = // 고정 사용

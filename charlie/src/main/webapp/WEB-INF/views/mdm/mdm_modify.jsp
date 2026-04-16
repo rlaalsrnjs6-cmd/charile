@@ -39,9 +39,9 @@
 						<option value="L" selected>L</option> 
 					</c:if>
 					
-					<option value="ea">ea</option>
-					<c:if test="${ mdmDTO.mdm_num eq ea}"> 
-						<option value="ea" selected>ea</option> 
+					<option value="EA">EA</option>
+					<c:if test="${ mdmDTO.mdm_num eq EA}"> 
+						<option value="EA" selected>EA</option> 
 					</c:if>
 				</select> <br>
 		수량 : <input name="quantity" value="${ mdmDTO.quantity }"> <br>
@@ -57,8 +57,13 @@
 		
 		입고날짜 : <span>${ mdmDTO.received_date }</span> <br>
 		사용기한 : <span>${ mdmDTO.exp_date }</span> <br>
+		<input name="exp_date" type="hidden" value="${ mdmDTO.exp_date }">
 		
-		가용확인 : <input name="can_use" value="${ mdmDTO.can_use }"> <br>
+		
+		가용확인 :
+		
+		Y<input type="radio" name="canUse" value="Y" checked> 
+		N<input type="radio" name="canUse" value="N"> <br>
 		<hr>
 		 <input type="submit" value="수정"> <br>
 		

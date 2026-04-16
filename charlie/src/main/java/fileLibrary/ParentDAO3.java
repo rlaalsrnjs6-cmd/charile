@@ -15,8 +15,8 @@ import fileLibrary.LoggableStatement;
 
 
 public abstract class ParentDAO3<T, C> {
+	
 
-	// 援ы쁽�빐�꽌 �궗�슜�븷 硫붿냼�뱶
 	protected abstract String tableName();
 	protected abstract String pk_Coulum_Name();
 	protected abstract int setDTONum(T dto);

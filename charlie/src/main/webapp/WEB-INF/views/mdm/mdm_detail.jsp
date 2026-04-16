@@ -15,7 +15,6 @@
 
 	<h1>mdm detail</h1>
 	
-	${ mdmDTO }
 	<hr>
 	<a href="mdm?cmd=list">뒤로</a> <br>
 	<hr>
@@ -31,8 +30,8 @@
 		사용기한 : ${ mdmDTO.exp_date } 
 		<br>
 		가용 여부 : 
-		<c:if test="${ mdmDTO.can_use eq 'Y'}">가능</c:if>
-		<c:if test="${ mdmDTO.can_use eq 'N'}">불가능</c:if>
+		<c:if test="${ mdmDTO.canUse eq 'Y'}">가능</c:if>
+		<c:if test="${ mdmDTO.canUse eq 'N'}">불가능</c:if>
 		
 	
 	<hr>

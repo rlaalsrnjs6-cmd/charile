@@ -14,6 +14,8 @@
 </head>
 <body>
 
+<%@ include file="/header.jsp" %>
+
 <h1>mdm list</h1>
 <hr>
 <form action="mdm?cmd=search" method="post">
@@ -57,13 +59,16 @@
 						<c:if test="${ not empty row.name }"> ${ row.name } </c:if>
 					</a>
 				</td>
+
+
+
 				<td>${ row.quantity }</td>
 				<td>${ row.unit }</td>
 				<td>${ row.type }</td>
 				<td>${ row.price }</td>
 				<td>${ row.received_date }</td>
 				<td>${ row.exp_date }</td>
-				<td>${ row.can_use }</td>
+				<td>${ row.canUse }</td>
 			</tr>
 		</c:forEach>
 		
@@ -74,5 +79,6 @@
 	<hr>
 	<a href="${servletName}?cmd=insertPage">등록페이지로</a>
 	
+	<%@ include file="/footer.jsp" %>
 </body>
 </html>
