@@ -9,4 +9,9 @@ public class MypageService {
 		List result = dao.selectData(dto);
 		return result;
 	}
+	
+	public int update(MypageDTO dto) {
+		int result = dao.upLoad(dto);
+		return result;
+	}
 }

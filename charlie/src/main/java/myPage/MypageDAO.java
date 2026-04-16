@@ -59,5 +59,28 @@ public class MypageDAO {
 		return null;
 	}
 		
+	//회원정보 수정
+	public int upLoad(MypageDTO dto) {
+		
+		String query ="update emp set  pw=?, tel=?, addr=?, email=? where empno=?";
+		
+		try(Connection conn = dataFactory.getConnection();
+				PreparedStatement ps = conn.prepareStatement(query);){
+			
+						ps.setString(1, dto.getPw());
+						ps.setString(2, dto.getTel());
+						ps.setString(3, dto.getAddr());
+						ps.setString(4, dto.getEmail());
+						ps.setInt(5, dto.getEmpno());
 
+						
+						int result = ps.executeUpdate();
+						return result  ;
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+		System.out.println("마이페이지 수정 로직 예외처리");
+			return 0;
+		}//updatePM()닫음
+	
 }
