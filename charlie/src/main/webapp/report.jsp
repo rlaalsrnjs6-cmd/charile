@@ -23,6 +23,10 @@
 		text-decoration: none;
 		color: inherit;
 	}
+	.a-title{
+	text-decoration: underline;
+	text-underline-offset: 5px;
+	}
 
 	/* 메인 컨테이너 (반응형 퍼센트 및 뷰포트 높이 사용) */
 	.rp-all {
@@ -188,7 +192,7 @@
 			<td>${i.post_num }</td>
 			
 			<td>
-			<a href="${pageContext.request.contextPath}/detail.report?post_num=${i.post_num}">${i.title }</a>
+			<a href="${pageContext.request.contextPath}/detail.report?post_num=${i.post_num}" class="a-title">${i.title }</a>
 			</td>
 			
 			<td>${i.ename }</td>
