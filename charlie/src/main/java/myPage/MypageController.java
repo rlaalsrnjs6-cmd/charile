@@ -30,7 +30,10 @@ public class MypageController extends HttpServlet {
 		request.setAttribute("list", result);
 		request.getRequestDispatcher("myPage.jsp").forward(request, response);
 		
-		
+	}
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	    doGet(request, response); 
 	}
 
 }

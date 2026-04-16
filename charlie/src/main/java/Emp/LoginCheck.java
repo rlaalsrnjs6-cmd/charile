@@ -54,6 +54,7 @@ public class LoginCheck extends HttpServlet {
 				session.setAttribute("login", true);
 				session.setAttribute("empno", empList.get(0).getEmpno());
 				session.setAttribute("name", empList.get(0).getEname());
+				session.setAttribute("pw", empList.get(0).getPw());
 				session.setAttribute("level", empList.get(0).getEmp_level());
 				Integer level = (Integer) session.getAttribute("level");
 				if(level==1) {
