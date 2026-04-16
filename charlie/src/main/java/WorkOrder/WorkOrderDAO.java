@@ -31,9 +31,10 @@ public class WorkOrderDAO {
 			String query = //수정
 //					" SELECT * from work_order ";
 	                
-					query = "select w.order_num, w.title, w.WORK_DATE, e.ename, w.status ";
-					query += "from work_order w left outer join emp e ";
-					query += "on (w.empno = e.empno)";
+					query = "select w.order_num, w.title, w.WORK_DATE, e.ename, w.status "
+					 + "from work_order w left outer join emp e "
+					 + "on (w.empno = e.empno) "
+					 + "";
 
 
 			if(dto.getOrder_num() != -1) {
