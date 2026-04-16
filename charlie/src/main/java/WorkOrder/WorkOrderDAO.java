@@ -31,17 +31,35 @@ public class WorkOrderDAO {
 			String query = //수정
 //					" SELECT * from work_order ";
 	                
-					query = "select w.order_num, pm.title, pm.WORK_START, pm.work_end pm.empno, w.status "
-					 + "from production_management pm "
-					 + "left outer join emp e "
-					 + "on (pm.empno = e.empno) "
-					 + "left outer join work_order w "
-					 + "on (pm.prod_num = w.prod_num)";
+					query = "SELECT * from ( "
+							+ "SELECT rownum as rnum, subqry.* from ( "
+							+ "select w.order_num, "
+							+ "pm.work_start, "
+							+ "pm.work_end, "
+							+ "pm.title, "
+							+ "pm.content, "
+							+ "daily_target "
+							+ "pm.empno, "
+							+ "pm.mdm_num, "
+							+ "e.ename, "
+							+ "w.status "
+							+ "from production_management pm "
+							+ "left outer join emp e "
+							+ "on (pm.empno = e.empno) "
+							+ "left outer join work_order w "
+							+ "on (pm.prod_num = w.prod_num)";
 
 
 			if(dto.getOrder_num() != -1) {
 				query += "where order_num = ?";
 			}
+			
+			query += "ORDER BY pm.work_end asc, pm.work_start asc "
+					+ ") subqry) "
+					+ "WHERE rnum >= ? AND rnum <= ?";
+					
+					
+					
 			//수정
 			ps = conn.prepareStatement(query);
 			
@@ -55,17 +73,18 @@ public class WorkOrderDAO {
 			while (rs.next()) {
 				WorkOrderDTO DTO = new WorkOrderDTO();
 				int order_num = rs.getInt("order_num");
-				Date work_date = rs.getDate("work_date");
-				int prod_num = rs.getInt("prod_num");
-				int daily_target = rs.getInt("daily_target");
+				Date work_start = rs.getDate("work_start");
+				Date work_end = rs.getDate("work_end");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
 				int empno = rs.getInt("empno");
-				String title = rs.getString("work_order_title");
-				String status = rs.getString("status");
 				int mdm_num = rs.getInt("mdm_num");
+				int ename = rs.getInt("ename");
+				String status = rs.getString("status");
 
 				DTO.setOrder_num(order_num);
-				DTO.setWork_date(work_date);
-				DTO.setProd_num(prod_num);
+				DTO.setWork_start(work_start);
+				DTO.setWork_end(work_end);
 				DTO.setDaily_target(daily_target);
 				DTO.setEmpno(empno);
 				DTO.setTitle(title);

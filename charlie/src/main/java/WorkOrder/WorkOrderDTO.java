@@ -8,11 +8,11 @@ public class WorkOrderDTO {
 	int prod_num;
 	int daily_target;
 	String status;
-	int mdm_num;
+		int mdm_num;
 		int empno;
 		String title;
-		int work_start;
-		int work_end;
+		Date work_start;
+		Date work_end;
 		String content;
 		int weekly_target;
 	String mod;
@@ -40,12 +40,6 @@ public class WorkOrderDTO {
 	public void setDaily_target(int daily_target) {
 		this.daily_target = daily_target;
 	}
-	public int getEmpno() {
-		return empno;
-	}
-	public void setEmpno(int empno) {
-		this.empno = empno;
-	}
 	public String getStatus() {
 		return status;
 	}
@@ -58,22 +52,28 @@ public class WorkOrderDTO {
 	public void setMdm_num(int mdm_num) {
 		this.mdm_num = mdm_num;
 	}
+	public int getEmpno() {
+		return empno;
+	}
+	public void setEmpno(int empno) {
+		this.empno = empno;
+	}
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public int getWork_start() {
+	public Date getWork_start() {
 		return work_start;
 	}
-	public void setWork_start(int work_start) {
+	public void setWork_start(Date work_start) {
 		this.work_start = work_start;
 	}
-	public int getWork_end() {
+	public Date getWork_end() {
 		return work_end;
 	}
-	public void setWork_end(int work_end) {
+	public void setWork_end(Date work_end) {
 		this.work_end = work_end;
 	}
 	public String getContent() {
@@ -97,7 +97,7 @@ public class WorkOrderDTO {
 	@Override
 	public String toString() {
 		return "WorkOrderDTO [order_num=" + order_num + ", work_date=" + work_date + ", prod_num=" + prod_num
-				+ ", daily_target=" + daily_target + ", empno=" + empno + ", status=" + status + ", mdm_num=" + mdm_num
+				+ ", daily_target=" + daily_target + ", status=" + status + ", mdm_num=" + mdm_num + ", empno=" + empno
 				+ ", title=" + title + ", work_start=" + work_start + ", work_end=" + work_end + ", content=" + content
 				+ ", weekly_target=" + weekly_target + ", mod=" + mod + "]";
 	}
