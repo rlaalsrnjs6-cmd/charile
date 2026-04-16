@@ -27,6 +27,10 @@
 		text-decoration: none;
 		color: inherit;
 	}
+		.a-title{
+	text-decoration: underline;
+	text-underline-offset: 5px;
+	}
 
 	/* 메인 컨테이너 (반응형: % 및 뷰포트 높이 사용) */
 	.pm-all {
@@ -191,7 +195,7 @@
 				<c:if test="${i.target_quantity - i.currentCount != 0 }">진행중</c:if>
 			</td>
 			<td>
-				<a href="${pageContext.request.contextPath}/PMDetailServlet?prod_num=${i.prod_num}">${i.title }</a>
+				<a href="${pageContext.request.contextPath}/PMDetailServlet?prod_num=${i.prod_num}" class="a-title">${i.title }</a>
 			</td>
 			<td>
 				목표: ${i.target_quantity}<br>
