@@ -70,9 +70,9 @@ public class ProductionManagementDAO {
 	    query.append("  SELECT rownum AS rnum, a.* FROM (");
 	    query.append("    SELECT ");
 	    query.append("        P.prod_num, P.title, ");
-	    query.append("        P.target_quantity AS \"전체목표\", ");
+	    query.append("        P.WEEKLY_TARGET AS \"전체목표\", ");
 	    query.append("        NVL(SUM(L.lot_count), 0) AS \"현재까지_만든_총합\", "); // null일 경우 0처리
-	    query.append("        (P.target_quantity - NVL(SUM(L.lot_count), 0)) AS \"남은목표_수량\" ");
+	    query.append("        (P.WEEKLY_TARGET - NVL(SUM(L.lot_count), 0)) AS \"남은목표_수량\" ");
 	    query.append("    FROM production_management P ");
 	    query.append("    LEFT JOIN work_order W ON P.prod_num = W.prod_num ");
 	    query.append("    LEFT JOIN lot L ON W.order_num = L.order_num ");
@@ -81,7 +81,7 @@ public class ProductionManagementDAO {
 	        query.append("    WHERE P.title LIKE '%' || ? || '%' ");
 	    }
 		
-	    query.append("    GROUP BY P.prod_num, P.title, P.target_quantity ");
+	    query.append("    GROUP BY P.prod_num, P.title, P.WEEKLY_TARGET ");
 	    query.append("    ORDER BY P.prod_num DESC");
 	    query.append("  ) a");
 	    query.append(") WHERE rnum >= ? AND rnum <= ?");
@@ -119,7 +119,7 @@ public class ProductionManagementDAO {
 	//insert하는 메서드
 	public int insertData(ProductionManagementDTO dto) {
 	
-		String query = "insert into production_management (prod_num, target_quantity, work_start, work_end, title, mdm_num, content, empno)"
+		String query = "insert into production_management (prod_num, WEEKLY_TARGET, work_start, work_end, title, mdm_num, content, empno)"
 				+ " values(production_mgmt_seq.nextval, ?, ?, ?, ?, ?, '비고', ?)";
 		
 		try(Connection conn = dataFactory.getConnection();
