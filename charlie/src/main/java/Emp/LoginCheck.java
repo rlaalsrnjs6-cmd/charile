@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import fileLibrary.CommonDTO;
+
 @WebServlet("/check")
 public class LoginCheck extends HttpServlet {
 
@@ -20,13 +22,14 @@ public class LoginCheck extends HttpServlet {
 		String pw = request.getParameter("pw");
 		String mod = request.getParameter("mod");
 		EmpDTO empDTO = new EmpDTO();
+		CommonDTO commonDTO= new CommonDTO();
 		empDTO.setId(id);
 		empDTO.setPw(pw);
 		empDTO.setMod(mod);
 		System.out.println("로그인체크id: "+empDTO.getId());
 		System.out.println("로그인체크pw: "+empDTO.getPw());
 		EmpService service = new EmpService();
-		Map check = service.select(empDTO);
+		Map check = service.select(empDTO,commonDTO);
 		List<EmpDTO> empList = (List<EmpDTO>) check.get("list");
 //		System.out.println("로그인 체크 : "+check.get(0).status);
 		if (empList.size() == 0) {

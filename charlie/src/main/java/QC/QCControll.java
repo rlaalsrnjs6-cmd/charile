@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import Emp.EmpDTO;
 import Emp.EmpService;
@@ -69,7 +68,7 @@ public class QCControll extends HttpServlet {
 				lotDTO.setQc_num(qc_num);
 				lotDTO.setMod(mod);
 				List<LotDTO> lotlist = lotservice.select(lotDTO);
-				Map emplist = empservice.select(empDTO);
+				Map emplist = empservice.select(empDTO,commonDTO);
 				request.setAttribute("lot", lotlist);
 				request.setAttribute("emp", emplist);
 				System.out.println("qc출발 emp:" + emplist);
@@ -79,7 +78,7 @@ public class QCControll extends HttpServlet {
 			} else if ("add".equals(mod)) {
 				
 				List<LotDTO> lotlist = lotservice.select(lotDTO);
-				Map emplist = empservice.select(empDTO);
+				Map emplist = empservice.select(empDTO,commonDTO);
 				request.setAttribute("lot", lotlist);
 				request.setAttribute("emp", emplist);
 				request.getRequestDispatcher("WEB-INF/views/qc/qcAdd.jsp").forward(request, response);
