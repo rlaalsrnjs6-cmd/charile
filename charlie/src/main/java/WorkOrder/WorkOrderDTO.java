@@ -6,11 +6,15 @@ public class WorkOrderDTO {
 	int order_num = -1;
 	Date work_date;
 	int prod_num;
-	int target_quantity;
-	int empno;
-	String title;
+	int daily_target;
 	String status;
 	int mdm_num;
+		int empno;
+		String title;
+		int work_start;
+		int work_end;
+		String content;
+		int weekly_target;
 	String mod;
 	public int getOrder_num() {
 		return order_num;
@@ -30,23 +34,17 @@ public class WorkOrderDTO {
 	public void setProd_num(int prod_num) {
 		this.prod_num = prod_num;
 	}
-	public int getTarget_quantity() {
-		return target_quantity;
+	public int getDaily_target() {
+		return daily_target;
 	}
-	public void setTarget_quantity(int target_quantity) {
-		this.target_quantity = target_quantity;
+	public void setDaily_target(int daily_target) {
+		this.daily_target = daily_target;
 	}
 	public int getEmpno() {
 		return empno;
 	}
 	public void setEmpno(int empno) {
 		this.empno = empno;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
 	}
 	public String getStatus() {
 		return status;
@@ -60,6 +58,36 @@ public class WorkOrderDTO {
 	public void setMdm_num(int mdm_num) {
 		this.mdm_num = mdm_num;
 	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public int getWork_start() {
+		return work_start;
+	}
+	public void setWork_start(int work_start) {
+		this.work_start = work_start;
+	}
+	public int getWork_end() {
+		return work_end;
+	}
+	public void setWork_end(int work_end) {
+		this.work_end = work_end;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public int getWeekly_target() {
+		return weekly_target;
+	}
+	public void setWeekly_target(int weekly_target) {
+		this.weekly_target = weekly_target;
+	}
 	public String getMod() {
 		return mod;
 	}
@@ -69,8 +97,10 @@ public class WorkOrderDTO {
 	@Override
 	public String toString() {
 		return "WorkOrderDTO [order_num=" + order_num + ", work_date=" + work_date + ", prod_num=" + prod_num
-				+ ", target_quantity=" + target_quantity + ", empno=" + empno + ", title=" + title + ", status="
-				+ status + ", mdm_num=" + mdm_num + ", mod=" + mod + "]";
+				+ ", daily_target=" + daily_target + ", empno=" + empno + ", status=" + status + ", mdm_num=" + mdm_num
+				+ ", title=" + title + ", work_start=" + work_start + ", work_end=" + work_end + ", content=" + content
+				+ ", weekly_target=" + weekly_target + ", mod=" + mod + "]";
 	}
+	
 	
 }

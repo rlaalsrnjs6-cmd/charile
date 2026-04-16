@@ -31,9 +31,12 @@ public class WorkOrderDAO {
 			String query = //수정
 //					" SELECT * from work_order ";
 	                
-					query = "select w.order_num, w.title, w.WORK_DATE, e.ename, w.status ";
-					query += "from work_order w left outer join emp e ";
-					query += "on (w.empno = e.empno)";
+					query = "select w.order_num, pm.title, pm.WORK_START, pm.work_end pm.empno, w.status "
+					 + "from production_management pm "
+					 + "left outer join emp e "
+					 + "on (pm.empno = e.empno) "
+					 + "left outer join work_order w "
+					 + "on (pm.prod_num = w.prod_num)";
 
 
 			if(dto.getOrder_num() != -1) {
@@ -54,7 +57,7 @@ public class WorkOrderDAO {
 				int order_num = rs.getInt("order_num");
 				Date work_date = rs.getDate("work_date");
 				int prod_num = rs.getInt("prod_num");
-				int target_quantity = rs.getInt("target_quantity");
+				int daily_target = rs.getInt("daily_target");
 				int empno = rs.getInt("empno");
 				String title = rs.getString("work_order_title");
 				String status = rs.getString("status");
@@ -63,7 +66,7 @@ public class WorkOrderDAO {
 				DTO.setOrder_num(order_num);
 				DTO.setWork_date(work_date);
 				DTO.setProd_num(prod_num);
-				DTO.setTarget_quantity(target_quantity);
+				DTO.setDaily_target(daily_target);
 				DTO.setEmpno(empno);
 				DTO.setTitle(title);
 				DTO.setStatus(status);
@@ -154,7 +157,7 @@ public class WorkOrderDAO {
 				System.out.println("upps");
 				ps.setString(1, dto.getTitle());
 				ps.setInt(2, dto.getProd_num());
-				ps.setInt(3, dto.getTarget_quantity());
+				ps.setInt(3, dto.getDaily_target());
 				ps.setInt(4, dto.getEmpno());
 				ps.setInt(5, dto.getMdm_num());
 				ps.setString(6, dto.getStatus());
@@ -167,7 +170,7 @@ public class WorkOrderDAO {
 				System.out.println(dto.getMdm_num());
 				ps.setInt(1, dto.getOrder_num());
 				ps.setInt(2, dto.getProd_num());
-				ps.setInt(3, dto.getTarget_quantity());
+				ps.setInt(3, dto.getDaily_target());
 				ps.setInt(4, dto.getEmpno());
 				ps.setString(5, dto.getTitle());
 				ps.setInt(6, dto.getMdm_num());
@@ -246,7 +249,7 @@ public class WorkOrderDAO {
 				int order_num = rs.getInt("order_num");
 				Date work_date = rs.getDate("work_date");
 				int prod_num = rs.getInt("prod_num");
-				int target_quantity = rs.getInt("target_quantity");
+				int daily_target = rs.getInt("daily_target");
 				int empno = rs.getInt("empno");
 				String title = rs.getString("work_order_title");
 				String status = rs.getString("status");
@@ -255,7 +258,7 @@ public class WorkOrderDAO {
 				DTO.setOrder_num(order_num);
 				DTO.setWork_date(work_date);
 				DTO.setProd_num(prod_num);
-				DTO.setTarget_quantity(target_quantity);
+				DTO.setDaily_target(daily_target);
 				DTO.setEmpno(empno);
 				DTO.setTitle(title);
 				DTO.setStatus(status);
