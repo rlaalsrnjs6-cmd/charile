@@ -242,7 +242,7 @@
 					<td data-label="가격">${ row.price }</td>
 					<td data-label="입고날짜">${ row.received_date }</td>
 					<td data-label="사용기한">${ row.exp_date }</td>
-					<td data-label="가용 여부">${ row.canUse }</td>
+					<td data-label="가용 여부">${ row.can_use }</td>
 				</tr>
 			</c:forEach>
 			</tbody>

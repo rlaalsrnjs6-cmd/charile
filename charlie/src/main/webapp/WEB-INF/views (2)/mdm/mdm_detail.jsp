@@ -204,8 +204,8 @@
 	<div class="dt-row">
 		<span class="dt-lb">가용 여부</span> 
 		<span class="dt-val">
-			<c:if test="${ mdmDTO.canUse eq 'Y'}">가능</c:if>
-			<c:if test="${ mdmDTO.canUse eq 'N'}">불가능</c:if>
+			<c:if test="${ mdmDTO.can_use eq 'Y'}">가능</c:if>
+			<c:if test="${ mdmDTO.can_use eq 'N'}">불가능</c:if>
 		</span>
 	</div>
 
