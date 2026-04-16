@@ -126,7 +126,7 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 	@Override // CHECKED
 	protected String selectAllQuery() {
 		return "SELECT mdm_num, code, name FROM mdm " +
-		           "WHERE type IN ('assemble', 'product', 'material') AND canuse = 'Y'";
+		           "WHERE type = 'product' AND canuse = 'Y'";
 	}
 
 	@Override // CHECKED
