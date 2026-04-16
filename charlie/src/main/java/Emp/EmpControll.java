@@ -44,8 +44,7 @@ public class EmpControll extends HttpServlet {
 		commonDTO.setPage(page);
 		DTO.setEmpno(empno);
 		DTO.setMod(mod);
-		Map map = service.select(DTO);
-		System.out.println("emp컨트롤마지막:"+map);
+		Map map = service.select(DTO,commonDTO);
 		request.setAttribute("map", map);
 		if("detail".equals(mod)) {
 			request.getRequestDispatcher("/WEB-INF/views/emp/empDetail.jsp").forward(request, response);
@@ -92,7 +91,6 @@ public class EmpControll extends HttpServlet {
 		int empno = Integer.parseInt(sempno);
 		int emp_level = Integer.parseInt(semp_level);
 		int sal = Integer.parseInt(ssal);
-		System.out.println("empUp:"+status);
 	
 		EmpDTO empDTO = new EmpDTO();
 		empDTO.setEmpno(empno);
@@ -133,8 +131,6 @@ public class EmpControll extends HttpServlet {
 			
 			String email = email1+email2+email3; 
 			
-			System.out.println("이메일"+email);
-			System.out.println("생년월일"+sbirthday);
 			if(sbirthday==null || sbirthday.trim().isEmpty()) {
 				PrintWriter out = response.getWriter();
 				out.println("<script>");

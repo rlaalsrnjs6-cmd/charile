@@ -13,8 +13,7 @@ public class EmpService {
 //		return list;
 //	}
 
-	public Map select(EmpDTO dto){
-		CommonDTO pageing = new CommonDTO();
+	public Map select(EmpDTO dto, CommonDTO pageing){
 		EmpDAO dao = new EmpDAO();
 		
 		pageing.setTableName("emp");
@@ -38,9 +37,6 @@ public class EmpService {
         pageing.setEnd(end);
         Map map = new HashMap();
         // 생산관리에 있는 기존 DB만 select
-        System.out.println("emp서비스mod: "+dto.getMod());
-		System.out.println("emp서비스id: "+dto.getId());
-		System.out.println("emp서비스pw: "+dto.getPw());
 		System.out.println("emp서비스스타트: "+pageing.getStart());
 		System.out.println("emp서비스엔드: "+pageing.getEnd());
         List<EmpDTO> list = dao.select(dto, pageing);
