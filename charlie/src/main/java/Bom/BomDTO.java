@@ -1,5 +1,7 @@
 package Bom;
 
+import Mdm.MdmDTO;
+
 public class BomDTO {
 	int bom_num;
 	int required_weight;
@@ -8,8 +10,38 @@ public class BomDTO {
 	String name;
 	String code;
 	String unit;
+	String type;
+	
+	int target_mdm_num;
+	String target_name;
+	String target_code;
 	
 	
+	
+	public String getTarget_code() {
+		return target_code;
+	}
+	public void setTarget_code(String target_code) {
+		this.target_code = target_code;
+	}
+	public String getTarget_name() {
+		return target_name;
+	}
+	public void setTarget_name(String target_name) {
+		this.target_name = target_name;
+	}
+	public int getTarget_mdm_num() {
+		return target_mdm_num;
+	}
+	public void setTarget_mdm_num(int target_mdm_num) {
+		this.target_mdm_num = target_mdm_num;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getName() {
 		return name;
 	}

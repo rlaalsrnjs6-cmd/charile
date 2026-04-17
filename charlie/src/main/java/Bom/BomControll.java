@@ -172,6 +172,7 @@ public class BomControll extends HttpServlet {
 		BomDTO bomDTO = new BomDTO();
 		
 		int bom_num = -1; int required_weight= -1; int mdm_num = -1;
+		int target_mdm_num = -1; 
 		
 		if (request.getParameter("bom_num") != null 
 				&& !("".equals(request.getParameter("bom_num")))) {
@@ -196,8 +197,16 @@ public class BomControll extends HttpServlet {
 			
 			System.out.println( "/set bom mdm_num : " + mdm_num );
 		} 
-	
 		
+		if (request.getParameter("target_mdm_num") != null 
+				&& !("".equals(request.getParameter("target_mdm_num")))) {
+			
+			target_mdm_num = Integer.parseInt(request.getParameter("target_mdm_num"));
+			
+			System.out.println( "/set bom target_mdm_num : " + target_mdm_num );
+		} 
+	
+		bomDTO.setTarget_mdm_num(target_mdm_num);
 		bomDTO.setBom_num(bom_num);
 		bomDTO.setRequired_weight(required_weight);
 		bomDTO.setMdm_num(mdm_num);

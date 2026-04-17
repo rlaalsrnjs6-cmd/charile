@@ -14,42 +14,41 @@
 <body>
 
 <h1>process list</h1>
+
+
 <hr>
 1. img 태그에 \${ el 태그 }로 넣어서 이미지 띄우기 <br>
-2. 공정 순서 nextval 사용해서 insert 시 자동으로 다음 순서 만들게 할 지? <br>
-3. mdm_num select해서 보여주기. FK라 값 넣기 까다로움 <br>
-4. mdm FK 로 type이 제품인 것들만 가져오기. <br>
-		가져올 DB 정보: 제품명칭(name), 코드번호(code)
+2. js select로 이름 선택시 해당 제품의 공정 과정만 보여주기 <br>
+<select>
+	<c:forEach var="join" items="${ joinList }"> 
+		<option>${ join.name }</option>
+	</c:forEach>
+</select>
 <hr>
 
 <table border="1px">
 		<thead>
 			<tr>
-				<th>process_num</th>
-				<th>name</th>
-				<th>code</th>
-				<th>process_content</th>
-				<th>flow</th>
-				<th>img_url</th>
-				<th>mdm_num</th>
+				<th>NAME</th>
+				<th>CODE</th>
+				<th>PROCESS</th>
+				<th>FLOW</th>
+				<th>IMG URL</th>
+				<th>UPDATED MDM NUMBER</th>
 			</tr>
 		</thead>
 
 		<c:forEach var="row" items="${ map.list }">
 			<tr>
-				<td>
-					<a href="process?cmd=detail&process_num=${ row.process_num }">
-						${ row.process_num }
-					</a>
-				</td>
 				<td>${ row.name }</td>
 				<td>${ row.code }</td>
-				<td>${ row.process_content }</td>
+				<td><a href="process?cmd=detail&process_num=${ row.process_num }">
+					${ row.process_content }
+				</a></td>
 				<td>${ row.flow }</td>
 				
 				<td>
 					<img src="${ row.img_url }">
-						
 				</td>
 				<td>${ row.mdm_num }</td>
 			</tr>

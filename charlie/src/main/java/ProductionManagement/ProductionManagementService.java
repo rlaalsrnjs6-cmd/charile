@@ -4,10 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import WorkOrder.WorkOrderDAO;
-import WorkOrder.WorkOrderDTO;
-import WorkOrder.WorkOrderService;
-
 public class ProductionManagementService {
 	ProductionManagementDAO dao = new ProductionManagementDAO();
 
@@ -15,34 +11,34 @@ public class ProductionManagementService {
 	public Map loadPM(ProductionManagementDTO dto){ 
 
 		
-		//�럹�씠吏��뿉�꽌 蹂댁뿬以� �빆紐� 紐뉕컻�씤吏� 媛쒖닔 由ы꽩
+		//페이지에서 보여줄 항목 몇개인지 개수 리턴
 		int pageCount = dao.getTotalCount(dto);
 		
 //		System.out.println(list1);
 
 		
-		int size = dto.getSize(); // �븳 �럹�씠吏��뿉�꽌 蹂댁뿬以� 媛쒖닔
-		int page = dto.getPage(); // �떆�옉 �럹�씠吏�
+		int size = dto.getSize(); // 한 페이지에서 보여줄 개수
+		int page = dto.getPage(); // 시작 페이지
 		
-		//�럹�씠吏��뿉�꽌 蹂댁뿬以� 留덉�留� 踰덊샇
+		//페이지에서 보여줄 마지막 번호
 		int end = size * page;
 		
-		//�럹�씠吏��뿉�꽌 蹂댁뿬以� �떆�옉 踰덊샇
+		//페이지에서 보여줄 시작 번호
 		int start = end - (size - 1);
 		
 		dto.setStart(start);
 		dto.setEnd(end);
 		
-			// totalPage: �쟾泥� �럹�씠吏� 媛쒖닔
+			// totalPage: 전체 페이지 개수
 		
-				// pageCount / size瑜� double���엯�쑝濡� 留뚮뱾怨� 洹� 媛믪쓣 �삱由� 泥섎━ �븯怨�(Math.ceil)
-				//洹� 媛믪쓣 int濡� �삎蹂��솚 �빐�꽌 totalPage�뿉 �떞�뒗�떎
+				// pageCount / size를 double타입으로 만들고 그 값을 올림 처리 하고(Math.ceil)
+				//그 값을 int로 형변환 해서 totalPage에 담는다
 				int totalPage = (int) Math.ceil((double) pageCount / size);
 				
-				//�떆�옉�젏 李얘린 : (�쁽�옱 �럹�씠吏� -1 / 5 ) * 5 + 1;
+				//시작점 찾기 : (현재 페이지 -1 / 5 ) * 5 + 1;
 				int startPage = ((page - 1) / 10) * 10 + 1;
 				
-				//醫낆젏 李얘린 
+				//종점 찾기 
 				int endPage = startPage + 9;
 
 				if (endPage > totalPage) {
@@ -50,35 +46,29 @@ public class ProductionManagementService {
 				}
 				
 				Map map = new HashMap();
-				//�깮�궛愿�由ъ뿉 �엳�뒗 湲곗〈 DB留� select
+				//생산관리에 있는 기존 DB만 select
 				List list1 = dao.selectPage(dto);
-				System.out.println("�꽌鍮꾩뒪�쓽 list1: " + list1);
+				System.out.println("서비스의 list1: " + list1);
 				
-				// �쟾泥대ぉ�몴, 留뚮뱺 媛쒖닔, �궓�� �닔�웾 select
+				// 전체목표, 만든 개수, 남은 수량 select
 //				List list2 = dao.selectData();
 				
 				map.put("List1", list1);
 
 				map.put("page", pageCount);
 				
-				map.put("startPage", startPage); // �떆�옉 �럹�씠吏� 紐뉖쾲�씤吏�
-				map.put("endPage", endPage);	 // 醫낆젏 �럹�씠吏� 紐뉖쾲�씤吏�
-				map.put("totalPage", totalPage); //�쟾泥� �럹�씠吏� 媛쒖닔
-				map.put("currentPage", page); //�쁽�옱 �럹�씠吏�媛� �뜲�씠�꽣
+				map.put("startPage", startPage); // 시작 페이지 몇번인지
+				map.put("endPage", endPage);	 // 종점 페이지 몇번인지
+				map.put("totalPage", totalPage); //전체 페이지 개수
+				map.put("currentPage", page); //현재 페이지가 데이터
 				
 		return map;
-	}
-	
-	public List<ProductionManagementDTO> selectall(ProductionManagementDTO dto){
-		ProductionManagementDAO dao = new ProductionManagementDAO();
-		List list = dao.selectall(dto);
-		return list;
 	}
 	
 	// insert
 	public int insert(ProductionManagementDTO dto) {
 		
-		System.out.println("servlet�쓽 insert吏꾩엯");
+		System.out.println("servlet의 insert진입");
 		int result = dao.insertData(dto);
 		
 		return result;

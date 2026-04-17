@@ -17,10 +17,18 @@
 	<hr>
 	<a href="bom?cmd=list">뒤로</a> <br>
 	<hr>
-	
-		관리번호 : ${ bomDTO.bom_num } <br>
-		요구량 : ${ bomDTO.required_weight } <br>
-		이름 : ${ bomDTO.mdm_num } <br>
+		제품넘버 : ${ bomDTO.target_mdm_num } <br>
+		해당제품 : ${ bomDTO.target_name } <br>
+		제품코드 : ${ bomDTO.target_code } <br><br>
+		
+		BOM넘버 :  ${ bomDTO.bom_num } <br>
+		재료 :  ${ bomDTO.name } <br>
+		BOM코드 :  ${ bomDTO.code } <br> <br>
+<!-- 		재료타입 :  -->
+<%-- 		<c:if test="${ bomDTO.type eq 'material' }"> 원재료 </c:if> --%>
+<%-- 		<c:if test="${ bomDTO.type eq 'assemble' }"> 반제품 </c:if><br> --%>
+		
+		요구량 : ${ bomDTO.required_weight } ${ bomDTO.unit } <br>
 		
 	
 	<hr>

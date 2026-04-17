@@ -27,7 +27,7 @@
 			<td><input type="text" name="work_order_title"></td>
 			<td>
 				<select name="prod_num">
-       				 <c:forEach var="p" items="${pm}">
+       				 <c:forEach var="p" items="${pm.List1}">
             			<option value="${p.prod_num}" selected>
                	 			${p.title}
              			</option>
@@ -38,7 +38,7 @@
 			<td><input type="text" name="daily_target"></td>
 			<td>
 				<select name="empno">
-       				 <c:forEach var="e" items="${emp}">
+       				 <c:forEach var="e" items="${emp.list}">
             			<option value="${e.empno}" selected>
                	 			사원번호:${e.ename}(${e.empno})
              			</option>

@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Bom.BomDTO;
+import Mdm.MdmDAO;
+import Mdm.MdmDTO;
 import fileLibrary.CommonDTO;
 import fileLibrary.ParentService2;
 
@@ -38,6 +39,7 @@ public class BomService extends ParentService2<BomDTO, CommonDTO> {
 		Map map = new HashMap();
 		
 		List list = bomDAO.selectDB(dto, commonDTO);
+		
 		System.out.println("서비스의 list: " + list);
 
 		map.put("list", list); // list
