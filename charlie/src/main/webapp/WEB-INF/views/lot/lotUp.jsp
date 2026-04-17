@@ -20,9 +20,17 @@
 			<input type="hidden" name="lot_num" value="${lot[0].lot_num}">
 			<input type="hidden" name="order_num" value="${lot[0].order_num}">
 			<input type="hidden" name="material_num" value="${lot[0].material_num}">
-			<input type="hidden" name="qc_chk" value="${lot[0].qc_chk}">
 			<td><input type="text" name="lot_count" value="${lot[0].lot_count}"></td>
-			<td>${lot[0].qc_chk}</td>
+			<td>
+    			<select name="qc_chk">
+            			<option value="Y">
+							Y
+             			</option>
+            			<option value="N">
+							N
+             			</option>
+    			</select>
+    		</td>
 			<td>${lot[0].material_num}</td>
 			<td>${lot[0].order_num}</td>
 		</tr>

@@ -2,6 +2,7 @@ package Lot;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,22 +28,30 @@ public class LotControll extends HttpServlet {
 		String mod = request.getParameter("mod");
 
 		int size = 10;
-		int page = 10;
-		
+		int page = 1;
+		if(ssize!=null && spage!=null) {
+			size = Integer.parseInt(ssize);
+			page = Integer.parseInt(spage);
+		}
 		int lot_num = -1;
 		if (slot_num != null) {
 			lot_num = Integer.parseInt(slot_num);
 		}
 		LotDTO lotDTO = new LotDTO();
 		CommonDTO pageing = new CommonDTO();
+		pageing.setSize(size);
+		pageing.setPage(page);
 		lotDTO.setLot_num(lot_num);
 		lotDTO.setMod(mod);
 		LotService service = new LotService();
-		List<LotDTO> list = service.select(lotDTO);
-		request.setAttribute("lot", list);
-
+		Map list = service.select(lotDTO,pageing);
+		request.setAttribute("map", list);
+		System.out.println("디테일 들어가기전");
 		if ("detail".equals(mod)) {
-			List<LotDTO> lot = service.selectall(lotDTO);
+			System.out.println("들어갓나?");
+			List lot = service.selectall(lotDTO);
+			System.out.println(lot);
+			request.setAttribute("lot", lot);
 			request.getRequestDispatcher("WEB-INF/views/lot/lotDetail.jsp").forward(request, response);
 			return;
 		} else if ("delete".equals(mod)) {

@@ -15,7 +15,7 @@ public class LotService{
 
 	Map select(LotDTO dto, CommonDTO pageing){
 		LotDAO dao = new LotDAO();
-		
+		System.out.println("lot서비스 시작");
 
 		pageing.setTableName("lot");
 
@@ -40,13 +40,13 @@ public class LotService{
 
         pageing.setEnd(end);
         pageing.setStart(start);
-        System.out.println("서비스end: " + pageing.getEnd());
-        System.out.println("서비스end: " + pageing.getStart());
+        System.out.println("lot서비스end: " + pageing.getEnd());
+        System.out.println("lot서비스end: " + pageing.getStart());
         Map map = new HashMap();
         // 생산관리에 있는 기존 DB만 select
-        System.out.println("order서비스mod: " + dto.getMod());
+        System.out.println("lot서비스mod: " + dto.getMod());
         List<LotDTO> list = dao.select(dto, pageing);
-        System.out.println("서비스의 list: " + list);
+        System.out.println("lot서비스의 list: " + list);
 
         map.put("list", list); // list
         map.put("totalCount", totalCount);

@@ -53,8 +53,8 @@ public class charile_filter implements Filter {
 		System.out.println(path);
 
 		if (isExclude(path)) {
+			System.out.println("로그인없이진행");
 			chain.doFilter(request, response);
-			System.out.println("�솗�씤�슜");
 			return;
 		} else {
 			HttpSession session = req.getSession();
@@ -65,7 +65,7 @@ public class charile_filter implements Filter {
 			Boolean login = (Boolean) session.getAttribute("login");
 			String name = (String) session.getAttribute("name");
 			Integer level = (Integer) session.getAttribute("level");
-			System.out.println("�븘�꽣濡쒓렇�씤" + login);
+			System.out.println("로그인상태" + login);
 
 			if ((login == null || login != true) && !isMultipart) {
 				

@@ -7,6 +7,7 @@ public class DefectiveDTO {
 	int qc_num;
 	String action;
 	int mdm_num;
+//	String status;
 	String mod;
 	public int getDefective_num() {
 		return defective_num;
@@ -42,8 +43,14 @@ public class DefectiveDTO {
 		return mdm_num;
 	}
 	public void setMdm_num(int mdm_num) {
-		this.mdm_num= mdm_num;
+		this.mdm_num = mdm_num;
 	}
+//	public String getStatus() {
+//		return status;
+//	}
+//	public void setStatus(String status) {
+//		this.status = status;
+//	}
 	public String getMod() {
 		return mod;
 	}
@@ -53,9 +60,9 @@ public class DefectiveDTO {
 	@Override
 	public String toString() {
 		return "DefectiveDTO [defective_num=" + defective_num + ", category=" + category + ", count=" + count
-				+ ", qc_num=" + qc_num + ", action=" + action + ", mdm_num=" + mdm_num + ", mod=" + mod + "]";
+				+ ", qc_num=" + qc_num + ", action=" + action + ", mdm_num=" + mdm_num + ", status=" + ", mod="
+				+ mod + "]";
 	}
-	
 	
 	
 	

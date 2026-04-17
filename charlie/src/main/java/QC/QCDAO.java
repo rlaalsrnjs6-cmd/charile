@@ -12,6 +12,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import Lot.LotDTO;
 import fileLibrary.CommonDTO;
 
 public class QCDAO   {
@@ -44,7 +45,7 @@ public class QCDAO   {
 			if(dto.getQc_num()!=-1 || "up".equals(dto.getMod())) {
 				query += "where qc_num = ?";
 			}
-			//위에 웨어가 밑으로 오면 안되서
+			//�쐞�뿉 �썾�뼱媛� 諛묒쑝濡� �삤硫� �븞�릺�꽌
 			query += "ORDER BY q.qc_num asc, q.qc_date asc "
 					+ ") subqry) "
 					+ "WHERE rnum >= ? AND rnum <= ?";
@@ -109,6 +110,71 @@ public class QCDAO   {
 		return list;
 	}
 	
+	public List<QCDTO> selectall(QCDTO dto) {
+		List<QCDTO> list = new ArrayList();
+		System.out.println("올실행");
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			Context ctx = new InitialContext();
+			
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+			conn = dataFactory.getConnection();
+			String query = "SELECT * from qc ";
+			if(dto.getQc_num()!=-1) {
+				query += "where qc_num = ?";
+			}
+			ps = conn.prepareStatement(query);
+			
+			if(dto.getQc_num()!=-1) {
+				ps.setInt(1,dto.getQc_num());
+			}
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				QCDTO DTO = new QCDTO();
+				int qc_num = rs.getInt("qc_num");
+				Date qc_date = rs.getDate("qc_date");
+				int empno = rs.getInt("empno");
+				int lot_num = rs.getInt("lot_num");
+				
+				DTO.setQc_num(qc_num);
+				DTO.setQc_date(qc_date);
+				DTO.setEmpno(empno);
+				DTO.setLot_num(lot_num);
+				list.add(DTO);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	
 public int qcDAO(QCDTO dto) {
 		
 		int result = -1;
@@ -126,7 +192,7 @@ public int qcDAO(QCDTO dto) {
 			
 			String query = "";
 			System.out.println("QCDAOmod:"+dto.getMod());
-			// 업데이트
+			// �뾽�뜲�씠�듃
 			if("up".equals(dto.getMod())) {
 				  query = "UPDATE qc "
 						+ "SET qc_num = ?, "
@@ -135,14 +201,14 @@ public int qcDAO(QCDTO dto) {
 						+ "qc_date = SYSDATE "
 						+ "where qc_num = ?";
 			}
-			// 인서트
+			// �씤�꽌�듃
 			if("add".equals(dto.getMod())) {
-				 query = "INSERT INTO qc "//아직안만듬
+				 query = "INSERT INTO qc "//�븘吏곸븞留뚮벉
 					   + "(qc_num, lot_num, qc_date, empno) "
 					   + "VALUES ((SELECT NVL(MAX(qc_num), 0) + 1 FROM qc), ?, ?, ?)";
 			}
-			// 딜리트
-			if("delete".equals(dto.getMod())) { //만드는중
+			// �뵜由ы듃
+			if("delete".equals(dto.getMod())) { //留뚮뱶�뒗以�
 				query = "DELETE FROM qc "
 					  + "WHERE qc_num = ?";
 			}
@@ -160,8 +226,8 @@ public int qcDAO(QCDTO dto) {
 			if("add".equals(dto.getMod())) {
 				System.out.println("addps");
 				ps.setInt(1, dto.getLot_num());
-				ps.setInt(2, dto.getEmpno());
 				ps.setDate(2, dto.getQc_date());
+				ps.setInt(3, dto.getEmpno());
 				
 			}
 			
@@ -170,9 +236,9 @@ public int qcDAO(QCDTO dto) {
 				ps.setInt(1, dto.getQc_num());
 			}
 			result = ps.executeUpdate();
-			System.out.println("qc리솔트 전");
+			System.out.println("qc由ъ넄�듃 �쟾");
 			
-			System.out.println("qcDAO리솔트:"+result);
+			System.out.println("qcDAO由ъ넄�듃:"+result);
 			
 			
 		} catch (Exception e) {
@@ -203,15 +269,15 @@ public int qcDAO(QCDTO dto) {
 		return result;
 	}
 
-//Use paging 수정
+//Use paging �닔�젙
 public int getTotalCount() {
 
     int total = 0;
 
     try {
-        //자원을 가지러 가기 위해 문을 열고
+        //�옄�썝�쓣 媛�吏��윭 媛�湲� �쐞�빐 臾몄쓣 �뿴怨�
         Context ctx = new InitialContext();
-        //열어둔 문을 통해 어디로 갈지 경로를 정함
+        //�뿴�뼱�몦 臾몄쓣 �넻�빐 �뼱�뵒濡� 媛덉� 寃쎈줈瑜� �젙�븿
         DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 
         String query ="select count(*) from qc"; 
@@ -220,7 +286,7 @@ public int getTotalCount() {
             PreparedStatement ps = conn.prepareStatement(query);
                 ResultSet rs = ps.executeQuery()){
 
-            if(rs.next()) { // count 1줄 return
+            if(rs.next()) { // count 1以� return
                 total = rs.getInt(1);
             }
         }

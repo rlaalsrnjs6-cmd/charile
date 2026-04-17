@@ -153,6 +153,7 @@ html, body {
 			</h1>
 			<ul class="hd-nav">
 
+				<li><a href="${pageContext.request.contextPath}/defective">불량관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/lot">로트관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/mdm">기준관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/material">자재관리</a></li>

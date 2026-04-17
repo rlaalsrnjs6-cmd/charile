@@ -23,7 +23,16 @@
 		<tr>
 			<input type="hidden" name="mod" value="add">
 			<td><input type="text" name="lot_count"></td>
-			<td><input type="text" name="qc_chk"></td>
+			<td>
+    			<select name="qc_chk">
+            			<option value="Y">
+							Y
+             			</option>
+            			<option value="N">
+							N
+             			</option>
+    			</select>
+    		</td>
 			<td>
 				<select name="material_num">
        				 <c:forEach var="m" items="${material}">
