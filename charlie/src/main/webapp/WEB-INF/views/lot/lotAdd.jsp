@@ -24,7 +24,15 @@
 			<input type="hidden" name="mod" value="add">
 			<td><input type="text" name="lot_count"></td>
 			<td><input type="text" name="qc_chk"></td>
-			<td><input type="text" name="material_num"></td>
+			<td>
+				<select name="material_num">
+       				 <c:forEach var="o" items="${order}">
+            			<option value="${o.order_num}" selected>
+               	 			${o.work_order_title}
+             			</option>
+        			</c:forEach>
+    			</select>
+    		</td>
 			<td>
 				<select name="order_num">
        				 <c:forEach var="o" items="${order}">
