@@ -104,7 +104,7 @@
 		<ul class="ut-list">
 			<c:choose>
 				<c:when test="${sessionScope.login == true }">
-					<li><a href="${pageContext.request.contextPath}/mypage">마이페이지</a></li>
+					<li><a href="">마이페이지</a></li>
 					<li><a href="${pageContext.request.contextPath}/charlie?mod=logout">로그아웃</a></li>
 				</c:when>
 				<c:otherwise>
