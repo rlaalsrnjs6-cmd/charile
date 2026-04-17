@@ -146,7 +146,7 @@ html, body {
 
 		<div class="hd-bar">
 			<h1 class="logo">
-				<a href="${pageContext.request.contextPath}/"> <img
+				<a href="${pageContext.request.contextPath}/main"> <img
 					src="${pageContext.request.contextPath}/assets/img/logo-no-bg.png"
 					alt="Charlie MES">
 				</a>
