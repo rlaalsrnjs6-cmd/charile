@@ -3,7 +3,7 @@ package IOLog;
 import java.sql.Date;
 
 public class IOLogDTO {
-	int log_num;
+	int log_num = -1;
 	Date io_time;
 	String io_type;
 	int lot_num;

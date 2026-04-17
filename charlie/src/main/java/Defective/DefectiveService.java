@@ -12,7 +12,7 @@ import fileLibrary.CommonDTO;
 public class DefectiveService {
 	Map select(DefectiveDTO dto, CommonDTO pageing){
 		DefectiveDAO dao = new DefectiveDAO();
-		System.out.println("defective서비스 시작");
+		System.out.println("log서비스 시작");
 
 		pageing.setTableName("defective");
 
