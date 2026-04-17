@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@ include file="/header.jsp" %>
 <table border=1>
 		<tr>
 			<th>lot번호</th>
@@ -34,5 +35,6 @@
 		</c:forEach>
 	</table>
 	<a href = "http://localhost:8080/charlie/lot?mod=add">작성</a>
+	<%@ include file="/footer.jsp" %>
 </body>
 </html>
