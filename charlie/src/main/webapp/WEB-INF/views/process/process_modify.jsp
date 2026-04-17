@@ -25,12 +25,7 @@
 		process_content : <input name="process_content" value="${ processDTO.process_content }"> <br>
 		flow : <input name="flow" value="${ processDTO.flow }"> <br>
 		img_url : <input name="img_url" value="${ processDTO.img_url }"> <br>
-		mdm_num :
-		<select name="mdm_num">
-        	<c:forEach var="item" items="${ list }">
-            	<option value="${ item.mdm_num }">${ item.name } : ${ item.code }</option>
-        	</c:forEach>
-    	</select> <br>
+		mdm_num : <input name="mdm_num" value="${ processDTO.mdm_num }"> <br>
 		 <input type="submit" value="수정"> <br>
 		
 		</form>

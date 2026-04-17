@@ -3,7 +3,6 @@ package Bom;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,9 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import Bom.BomDTO;
 import Bom.BomService;
-import Bom.BomService;
-import Bom.BomService;
-import fileLibrary.CommonDTO;
 
 
 @WebServlet("/bom")
@@ -33,7 +29,7 @@ public class BomControll extends HttpServlet {
 
 		switch (cmd) {
 
-		case "insertPage": insertPage(request, response); return;
+		case "insertPage": request.getRequestDispatcher("WEB-INF/views/bom/bom_insert.jsp").forward(request, response); return;
 		case "insert": insert(request, response); return;
 		case "list": list(request, response); return;
 		case "detail": detail(request, response, "detail"); return;
@@ -41,28 +37,10 @@ public class BomControll extends HttpServlet {
 		case "update": update(request, response); return;
 		case "delete": delete(request, response); return;
 		
-		case "search": search(request, response); return;
-		
 		default: System.out.println("잘못된 접근입니다"); return;
 		
 		}
 
-	}
-	
-	protected void insertPage(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8;");
-
-		BomService service = new BomService();
-		List list = service.selectJoinInfo();
-		
-		request.setAttribute("list", list);
-		
-		request.getRequestDispatcher("WEB-INF/views/bom/bom_insert.jsp")
-														.forward(request, response);
-		
 	}
 
 	protected void insert(HttpServletRequest request, HttpServletResponse response)
@@ -80,20 +58,20 @@ public class BomControll extends HttpServlet {
 	}
 
 	// list
-		protected void list(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-			
-			response.setContentType("text/html; charset=utf-8;");
+	protected void list(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		response.setContentType("text/html; charset=utf-8;");
 
-			BomService service = new BomService();
-			Map map = service.selectDB(setDTO(request), setCommonDTO(request, ""));
-			
-			request.setAttribute("map", map);
-			request.setAttribute("servletName", "Bom");
-			
-			request.getRequestDispatcher("WEB-INF/views/bom/bom_list.jsp").forward(request, response);
+		BomService service = new BomService();
+		List list = (List) service.selectAll();
 
-		}
+		System.out.println( "/ctrl list : " + list );
+		
+		request.setAttribute("list", list);
+		request.getRequestDispatcher("WEB-INF/views/bom/bom_list.jsp").forward(request, response);
+
+	}
 	
 	// delete
 	protected void delete(HttpServletRequest request, HttpServletResponse response)
@@ -124,10 +102,10 @@ public class BomControll extends HttpServlet {
 
 		// Service > DAO - selectOne
 		BomService service = new BomService();
-		BomDTO bomDTO = service.selectOne(setDTO(request), setCommonDTO(request, ""));
+		List bomInfo = service.selectDB(setDTO(request), "num");
 
 		// Forward > DTO
-		request.setAttribute("bomDTO", bomDTO);
+		request.setAttribute("bomInfo", bomInfo);
 		
 		if("detail".equals(selector)) { // 상세 페이지
 			
@@ -136,33 +114,12 @@ public class BomControll extends HttpServlet {
 		
 		} else { // 수정 페이지
 			
-			List list = service.selectJoinInfo();
-			request.setAttribute("list", list);
-			
 			request.getRequestDispatcher("WEB-INF/views/bom/bom_modify.jsp")
 				.forward(request, response);
 			
 		}
 		
 	}
-	
-	// search
-	protected void search(HttpServletRequest request, HttpServletResponse response)
-							throws ServletException, IOException {
-
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8;");
-		
-			BomService service = new BomService();
-			// 검색 내용받음
-				
-			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
-
-			request.setAttribute("map", map);
-			request.getRequestDispatcher("WEB-INF/views/bom/bom_list.jsp").forward(request, response);
-
-			}
-
 
 	// 거의 고정해서 사용
 	
@@ -204,46 +161,6 @@ public class BomControll extends HttpServlet {
 		
 		return bomDTO;
 	}
-	
-	// 공통 변수
-			protected CommonDTO setCommonDTO(HttpServletRequest request, String cmd)
-					throws ServletException, IOException {
-				
-				CommonDTO commonDTO = new CommonDTO();
-				
-				// ORDER BY [COLUMN]
-				String orderBy = " tableA.bom_num DESC ";
-				commonDTO.setOrderBy(orderBy);
-				// GROUP BY 부터 작성
-				String groupBy = ""; 
-				commonDTO.setGroupBy(groupBy);
-				// WHERE 1=1
-				String where = ""; 
-				commonDTO.setWhere(where);
-				
-				// 검색 기능 [ search_content ]
-				if("search".equals(cmd)) {
-					commonDTO.setSelector(request.getParameter("search_select"));
-					commonDTO.setSearch(request.getParameter("search_content"));
-					System.out.println(commonDTO.getSelector());
-					System.out.println(commonDTO.getSearch());
-				}
-				
-				// paging 
-				int size= 10, page= 1;
-				
-				try {
-					size = Integer.parseInt(request.getParameter("size"));
-				} catch(Exception e) { }
-				try {
-					page = Integer.parseInt(request.getParameter("page"));
-				} catch(Exception e) { }
-				
-				commonDTO.setSize(size);
-				commonDTO.setPage(page);
-				
-				return commonDTO;
-			}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

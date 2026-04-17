@@ -139,7 +139,7 @@ public int qcDAO(QCDTO dto) {
 			if("add".equals(dto.getMod())) {
 				 query = "INSERT INTO qc "//아직안만듬
 					   + "(qc_num, lot_num, qc_date, empno) "
-					   + "VALUES ((SELECT NVL(MAX(qc_num), 0) + 1 FROM qc), ?, ?, ?)";
+					   + "VALUES ((SELECT NVL(MAX(qc_num), 0) + 1 FROM qc), ?, SYSDATE, ?)";
 			}
 			// 딜리트
 			if("delete".equals(dto.getMod())) { //만드는중
@@ -161,7 +161,6 @@ public int qcDAO(QCDTO dto) {
 				System.out.println("addps");
 				ps.setInt(1, dto.getLot_num());
 				ps.setInt(2, dto.getEmpno());
-				ps.setDate(2, dto.getQc_date());
 				
 			}
 			

@@ -32,7 +32,7 @@ public class PMDetailDAO {
 		String query = "SELECT \r\n" + "    P.*, " + "    M.NAME AS MDM_NAME," + "    (SELECT NVL(SUM(L.lot_count), 0) "
 				+ "     FROM work_order W \r\n" + "     JOIN lot L ON W.order_num = L.order_num "
 				+ "     WHERE W.prod_num = P.prod_num) AS current_total,"
-				+ "    (P.WEEKLY_TARGET - (SELECT NVL(SUM(L.lot_count), 0) "
+				+ "    (P.target_quantity - (SELECT NVL(SUM(L.lot_count), 0) "
 				+ "                          FROM work_order W \r\n"
 				+ "                          JOIN lot L ON W.order_num = L.order_num "
 				+ "                          WHERE W.prod_num = P.prod_num)) AS remain_qty"
@@ -46,7 +46,7 @@ public class PMDetailDAO {
 				if (rs.next()) {
 					ProductionManagementDTO dto = new ProductionManagementDTO();
 					dto.setProd_num(rs.getInt("prod_num"));
-					dto.setTarget_quantity(rs.getInt("WEEKLY_TARGET"));
+					dto.setTarget_quantity(rs.getInt("target_quantity"));
 					dto.setWork_start(rs.getDate("work_start"));
 					dto.setWork_end(rs.getDate("work_end"));
 					dto.setTitle(rs.getString("title"));
@@ -68,7 +68,7 @@ public class PMDetailDAO {
 	
 	public int updatePM(ProductionManagementDTO dto) {
 		
-		String query = "update production_management set title=?,WEEKLY_TARGET=?, work_start=?, work_end=?"
+		String query = "update production_management set title=?, target_quantity=?, work_start=?, work_end=?"
 				+ "  where prod_num = ?";
 		
 		try(Connection conn = dataFactory.getConnection();

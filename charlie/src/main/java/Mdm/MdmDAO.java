@@ -3,8 +3,6 @@ package Mdm;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import fileLibrary.CommonDTO;
 import fileLibrary.ParentDAO2;
@@ -50,15 +48,15 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 				switch(commonDTO.getSelector()) {
 				
 				// 전체검색
-				case "search_all": where = " WHERE code LIKE " 
-										+ "'%" + commonDTO.getSearch() + "%'"
-										+ " or name LIKE '%" + commonDTO.getSearch() + "%'" 
-										+ " or unit LIKE '%" + commonDTO.getSearch() + "%'"
-				/* 컬럼별 검색 */			+ " or type LIKE '%" + commonDTO.getSearch() + "%'"; break;	
-				case "code" : where = " where code LIKE '%" +  commonDTO.getSearch() + "%'"; break;
-				case "name" : where = " where name LIKE '%" +  commonDTO.getSearch() + "%'"; break;
-				case "unit" : where = " where unit LIKE '%" +  commonDTO.getSearch() + "%'"; break;
-				case "type" : where = " where type LIKE '%" +  commonDTO.getSearch() + "%'"; break;
+				case "search_all": where = " where code = " 
+										+ "'" + commonDTO.getSearch() + "'"
+										+ " or name = '" + commonDTO.getSearch() + "'" 
+										+ " or unit = '" + commonDTO.getSearch() + "'"
+				/* 컬럼별 검색 */			+ " or type = '" + commonDTO.getSearch() + "'"; break;	
+				case "code" : where = " where code = '" +  commonDTO.getSearch() + "'"; break;
+				case "name" : where = " where name = '" +  commonDTO.getSearch() + "'"; break;
+				case "unit" : where = " where unit = '" +  commonDTO.getSearch() + "'"; break;
+				case "type" : where = " where type = '" +  commonDTO.getSearch() + "'"; break;
 				default : break;
 				}
 			}
@@ -88,7 +86,7 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 			ps.setInt(5, dto.getQuantity());
 			ps.setDate(6, dto.getExp_date());
 			ps.setInt(7, dto.getPrice());
-			ps.setString(8, dto.getCanUse());
+			ps.setString(8, dto.getCan_use());
 			if ("update".equals(selector)) { ps.setInt(9, dto.getMdm_num()); }
 
 		return ps;
@@ -100,12 +98,12 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 				"UPDATE mdm SET "
 				+ "	code = ?, "
 				+ "	name = ?, "
+				+ "	quantity = ?, "
 				+ "	unit = ?, "
 				+ "	type = ?, "
-				+ "	quantity = ?, "
-				+ " exp_date = ?, "
 				+ " price = ?, "
-				+ " canuse = ? "
+				+ " exp_date = ?, "
+				+ " can_use = ? "
 				+ " where mdm_num = ? "
 			;
 	}
@@ -124,7 +122,7 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 			dto.setReceived_date(rs.getDate("received_date"));
 			dto.setExp_date(rs.getDate("exp_date"));
 			dto.setPrice(rs.getInt("price"));
-			dto.setCanUse(rs.getString("canuse"));
+			dto.setCan_use(rs.getString("canuse"));
 			
 			System.out.println(dto.getExp_date());
 		return dto;
@@ -137,8 +135,6 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 		ps.setInt(2, commonDTO.getEnd());
 		return ps;
 	}
-	
-	// join X
 
 	@Override
 	protected String selectAllQuery() {

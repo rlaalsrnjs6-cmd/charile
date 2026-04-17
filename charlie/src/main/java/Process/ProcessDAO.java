@@ -4,9 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import fileLibrary.CommonDTO;
-import fileLibrary.ParentDAO3;
+import fileLibrary.ParentDAO2;
 
-public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
+public class ProcessDAO extends ParentDAO2<ProcessDTO, CommonDTO>{
 
 	// TABLE
 	@Override // CHECKED
@@ -67,8 +67,9 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 	// SELECT DTO SET
 	@Override
 	protected ProcessDTO setDTO(ResultSet rs) throws SQLException {
-		
 		ProcessDTO dto = new ProcessDTO();
+
+		
 
 			dto.setProcess_num(rs.getInt("Process_num"));
 			dto.setProcess_content(rs.getString("process_content"));
@@ -78,7 +79,6 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 			
 			try {	
 			dto.setName(rs.getString("name"));
-			dto.setCode(rs.getString("code"));
 			} catch (SQLException e) {
 			e.printStackTrace();
 				System.out.println("name 없음!");
@@ -89,16 +89,16 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 	
 	
 	// SELECT MAIN QUERY FOR LIST 
-	@Override // CHECKED
+	@Override // NEEDCHECKED
 	protected String selectQuery(ProcessDTO dto, CommonDTO commonDTO) {
 
 		String query = // 고정 사용
 					"SELECT * FROM ( "
                 + "  SELECT rownum AS rnum, subqry.* FROM ( "
-				+ "" // MAIN TABLE A	
+				+ "" // MAIN QUERY 			
                 + "    SELECT tableA.*, tableB.code, tableB.name  "
                 + " FROM process tableA "
-                + "" // JOIN TABLE B
+                + "" // JOIN 
                 + " LEFT OUTER JOIN mdm tableB "
                 + " ON tableA.mdm_num = tableB.mdm_num ";
 	    			
@@ -126,7 +126,7 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 	@Override // CHECKED
 	protected String selectAllQuery() {
 		return "SELECT mdm_num, code, name FROM mdm " +
-		           "WHERE type = 'product' AND canuse = 'Y'";
+		           "WHERE type IN ('assemble', 'product', 'material') AND canuse = 'Y'";
 	}
 
 	@Override // CHECKED
@@ -149,6 +149,5 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 		ps.setInt(2, commonDTO.getEnd());
 		return ps;
 	}
-
 
 }

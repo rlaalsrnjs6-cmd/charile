@@ -4,9 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import fileLibrary.CommonDTO;
-import fileLibrary.ParentDAO3;
+import fileLibrary.ParentDAO2;
 
-public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
+public class MachineryDAO extends ParentDAO2<MachineryDTO, CommonDTO>{
 
 	// TABLE
 	@Override // CHECKED
@@ -37,7 +37,7 @@ public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
 				+ "	machinery_status = ?, "
 				+ "	error_sign = ?, "
 				+ "	m_action = ?, "
-				+ "	mdm_num = ?, "
+				+ "	mdm_num = ? "
 				+ " where " + pk_Coulum_Name() + " = ? "
 			;
 	}
@@ -46,20 +46,20 @@ public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
 	@Override // CHECKED
 	protected String insertQuery() {
 		return "INSERT INTO " + tableName() + " ( " + pk_Coulum_Name() 
-		+ ", machinery_type, machinery_status, error_sign, m_action, mdm_num, name, code) " 
+		+ ", machinery_type, machinery_status, error_sign, m_action, mdm_num) " 
 		+ " VALUES ( machinery_seq.nextval, ?, ?, ?, ?, ?)";
 	}
 	
 	// INSERT & UPDATE
 	@Override // CHECKED
 	protected PreparedStatement setPs(PreparedStatement ps, MachineryDTO dto, String selector) {
-		
 		try {
 			ps.setString(1, dto.getMachinery_type());
 			ps.setString(2, dto.getMachinery_status());
 			ps.setString(3, dto.getError_sign());
 			ps.setString(4, dto.getM_action());
 			ps.setInt(5, dto.getMdm_num());
+			//ps.setString(6, dto.getName());
 			if ("update".equals(selector)) { ps.setInt(6, dto.getMachinery_num()); }
 		} catch (SQLException e) {
 			System.out.println("SET PS ERROR 발생");
@@ -77,13 +77,14 @@ public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
 		MachineryDTO dto = new MachineryDTO();
 
 			try {
-				dto.setMachinery_num(rs.getInt("machinery_num"));
+				 System.out.println("-DEBUGING-");
+				 
+				dto.setMachinery_num(rs.getInt("Machinery_num"));
 				dto.setMachinery_type(rs.getString("machinery_type"));
 				dto.setMachinery_status(rs.getString("machinery_status"));
 				dto.setError_sign(rs.getString("error_sign"));
 				dto.setMdm_num(rs.getInt("mdm_num"));
-				dto.setName(rs.getString("name"));
-				dto.setCode(rs.getString("code"));
+				dto.setName(rs.getString("MDM_NAME"));
 				dto.setM_action(rs.getString("m_action"));
 				dto.setM_log_time(rs.getDate("m_log_time"));
 
@@ -105,25 +106,25 @@ public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
 	                 
 	                 
 	                 // join data
-	                 + " select tableA.*, tableB.name, tableB.code"
+	                 + " select tableA.*, tableB.name as MDM_NAME "
 	                 + " from machinery tableA "
 	                 // join on
-	                 + " JOIN mdm tableB ON tableA.mdm_num = tableB.mdm_num ";
+	                 + " join mdm tableB on tableA.mdm_num = tableB.mdm_num "
+	                 
+	                 + "WHERE LOWER(TRIM(tableB.type)) = 'equip'";
+	    			
 	    
 	    // 고정
-	    String where = commonDTO.getWhere();
-	    if(("".equals(commonDTO.getWhere()))) where = " LOWER(TRIM(tableB.type)) = 'equip'";  
+	    String where = "";
 
-	    String orderBy = commonDTO.getOrderBy();
-	    if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
-	    orderBy = " tableA.machinery_num DESC ";
-
-	    String groupBy = "";
-	    
-	    
+//	    String orderBy = "tableA." + pk_Coulum_Name();
+//	    if (commonDTO.getOrderBy() != null) {
+//	    }
+	    String orderBy = " tableA.machinery_num DESC ";
 
 	    // 추가 조건 붙일 때
-	    query += "Where " + where ;
+	    query += where;
+
 	    query += " order by " + orderBy + " ) subqry )";
 	    query += " WHERE rnum >= ? AND rnum <= ?";
 	    return query;
@@ -134,7 +135,7 @@ public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
 	// JOIN SELECT BEFORE INSERT
 	@Override // CHECKED
 	protected String selectAllQuery() {
-		return "SELECT mdm_num, name FROM mdm WHERE type = 'equip'";
+		return "SELECT mdm_num, name as MDM_NAME FROM mdm WHERE type = 'equip'";
 	}
 
 	@Override // CHECKED
@@ -143,7 +144,7 @@ public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
 		MachineryDTO dto = new MachineryDTO();
 		
 		dto.setMdm_num(rs.getInt("mdm_num"));
-		dto.setName(rs.getString("name"));
+		dto.setName(rs.getString("MDM_NAME"));
 		
 		return dto;
 	}

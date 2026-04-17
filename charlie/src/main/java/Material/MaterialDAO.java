@@ -1,5 +1,6 @@
 package Material;
 
+<<<<<<< HEAD
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -11,8 +12,17 @@ import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 import Emp.EmpDTO;
+=======
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+>>>>>>> b65e758293cb8ece965bd7853678efb52aaefcb3
 import Material.MaterialDTO;
 import fileLibrary.CommonDTO;
 import fileLibrary.ParentDAO2;
@@ -155,69 +165,72 @@ public class MaterialDAO extends ParentDAO2<MaterialDTO, CommonDTO> {
 	    }
 	    return ps;
 	}
-	/////////////////////////////////////////////////////////////////
+<<<<<<< HEAD
+	
+	//////////민권쓰
 	public List<MaterialDTO> selectall(MaterialDTO dto) {
-		List<MaterialDTO> list = new ArrayList();
-		
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		try {
-			Context ctx = new InitialContext();
-			
-			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
-//			System.out.println("DAOMODselect:"+dto.getMod());
-			conn = dataFactory.getConnection();
-			String query ="SELECT * from material";
-			
-			
-			ps = conn.prepareStatement(query);
-			
-			
-			
-			rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				MaterialDTO DTO = new MaterialDTO();
-				int total_quantity = rs.getInt("total_quantity");
-				int material_num = rs.getInt("material_num");
-				int warehouse_num = rs.getInt("warehouse_num");
-				int mdm_num = rs.getInt("mdm_num");
-				
-				DTO.setTotal_quantity(total_quantity);
-				DTO.setMaterial_num(material_num);
-				DTO.setWarehouse_num(warehouse_num);
-				DTO.setMdm_num(mdm_num);
-				list.add(DTO);
-			}
-//			System.out.println("DAOlist:"+list);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (ps != null) {
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return list;
-	}
-	/////////////////////////////////////////////////////////////////////////
+        List<MaterialDTO> list = new ArrayList();
+
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            Context ctx = new InitialContext();
+
+            DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+//            System.out.println("DAOMODselect:"+dto.getMod());
+            conn = dataFactory.getConnection();
+            String query ="SELECT * from material";
+
+
+            ps = conn.prepareStatement(query);
+
+
+
+            rs = ps.executeQuery();
+            while(rs.next()) {
+                MaterialDTO DTO = new MaterialDTO();
+                int total_quantity = rs.getInt("total_quantity");
+                int material_num = rs.getInt("material_num");
+                int warehouse_num = rs.getInt("warehouse_num");
+                int mdm_num = rs.getInt("mdm_num");
+
+                DTO.setTotal_quantity(total_quantity);
+                DTO.setMaterial_num(material_num);
+                DTO.setWarehouse_num(warehouse_num);
+                DTO.setMdm_num(mdm_num);
+                list.add(DTO);
+            }
+//            System.out.println("DAOlist:"+list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
 }
+=======
+}
+>>>>>>> b65e758293cb8ece965bd7853678efb52aaefcb3

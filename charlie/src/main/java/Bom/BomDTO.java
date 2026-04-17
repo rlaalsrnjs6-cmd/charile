@@ -5,29 +5,6 @@ public class BomDTO {
 	int required_weight;
 	int mdm_num;
 	
-	String name;
-	String code;
-	String unit;
-	
-	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getCode() {
-		return code;
-	}
-	public void setCode(String code) {
-		this.code = code;
-	}
-	public String getUnit() {
-		return unit;
-	}
-	public void setUnit(String unit) {
-		this.unit = unit;
-	}
 	public int getBom_num() {
 		return bom_num;
 	}

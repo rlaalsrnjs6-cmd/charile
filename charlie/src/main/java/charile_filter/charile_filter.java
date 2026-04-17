@@ -18,7 +18,7 @@ import Emp.EmpDTO;
 /**
  * Servlet Filter implementation class charile_filter
  */
-@WebFilter("/*")
+//@WebFilter("/*")
 public class charile_filter implements Filter {
 
 	/**
@@ -74,10 +74,12 @@ public class charile_filter implements Filter {
 
 //			if((login!=null && login==true) || "login".equals(mod) || "add".equals(mod)) { 
 //				chain.doFilter(request, response);
-//			}	//로그인이 안돼있지만 첨부파일이 없으면 x?
+//			}	//로그인이 돼있지만 첨부파일이 없으면 x?
 			if ((login == null || login != true) && !isMultipart) {
 				
-				
+				if ("logout".equals(mod)) {
+					session.invalidate();
+				}
 				if("add".equals(mod)||"add".equals(dto.getMod())) {
 					chain.doFilter(request, response);
 				}
@@ -86,11 +88,7 @@ public class charile_filter implements Filter {
 				return;
 				
 			} else {
-				if ("logout".equals(mod)) {
-					session.invalidate();
-				}
 				chain.doFilter(request, response);
-				return;
 			}
 
 		}
@@ -107,9 +105,6 @@ public class charile_filter implements Filter {
 				path.equals("/WEB-INF/views/emp/emp_signin.jsp")) {
 			result = true;
 		}
-		if (path.startsWith("/assets/")) {
-	        result = true;
-	    }
 		return result;
 	}
 

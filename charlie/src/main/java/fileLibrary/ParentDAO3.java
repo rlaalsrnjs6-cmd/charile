@@ -195,10 +195,10 @@ public abstract class ParentDAO3<T, C> {
 			
 			try ( Connection conn = getConn(); ) {
 				
-				try (PreparedStatement ps = conn.prepareStatement(selectAllQuery()); // �삤�씪�겢�슜�쑝濡� 而댄뙆�씪
-						// SQL �떎�뻾 諛� 寃곌낵 �솗蹂�
-						ResultSet rs = ps.executeQuery(); // �뜲�씠�꽣 媛��졇�샂
-						) { // 寃곌낵 �솢�슜
+				try (PreparedStatement ps = conn.prepareStatement(selectAllQuery()); 
+						
+						ResultSet rs = ps.executeQuery(); 
+						) { 
 					while (rs.next()) {
 						list.add(setJoinDTO(rs));
 					}
@@ -207,7 +207,7 @@ public abstract class ParentDAO3<T, C> {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			System.out.println("/DAO select list : " + list);
+			System.out.println("/DAO selectJoinInfo : " + list);
 			return list;
 		}
 	

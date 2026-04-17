@@ -4,8 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Emp.EmpDAO;
-import Emp.EmpDTO;
+import QC.QCDTO;
 import fileLibrary.CommonDTO;
 
 public class WorkOrderService {
@@ -13,7 +12,7 @@ public class WorkOrderService {
 		WorkOrderDAO dao = new WorkOrderDAO();
 		
 
-		pageing.setTableName("work_order");
+		pageing.setTableName("order");
 
         // 페이지에서 보여줄 항목 몇개인지 개수 리턴
         int totalCount = dao.getTotalCount();
@@ -40,7 +39,6 @@ public class WorkOrderService {
         System.out.println("서비스end: " + pageing.getStart());
         Map map = new HashMap();
         // 생산관리에 있는 기존 DB만 select
-        System.out.println("order서비스mod: " + dto.getMod());
         List<WorkOrderDTO> list = dao.select(dto, pageing);
         System.out.println("서비스의 list: " + list);
 
@@ -49,12 +47,6 @@ public class WorkOrderService {
         map.put("commonDTO", pageing); // common DTO
 
         return map;
-	}
-	 
-	public List<WorkOrderService> selectall(WorkOrderDTO dto){
-		WorkOrderDAO dao = new WorkOrderDAO();
-		List list = dao.selectall(dto);
-		return list;
 	}
 	
 	int orderService(WorkOrderDTO dto){

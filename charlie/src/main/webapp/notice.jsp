@@ -27,18 +27,13 @@ response.setContentType("text/html; charset=utf-8;"); %>
 		text-decoration: none;
 		color: inherit;
 	}
-	
-		.a-title{
-	text-decoration: underline;
-	text-underline-offset: 5px;
-	}
 
 	/* 메인 컨테이너 (반응형 퍼센트 및 최대 너비 지정) */
 	.notice-all {
 		width: 90%;
 		max-width: 1200px;
 		margin: 3rem auto;
-		min-height: calc(100vh - 249px);
+		min-height: calc(100vh - 300px);
 	}
 
 	/* 공지사항 테이블 */
@@ -149,7 +144,7 @@ response.setContentType("text/html; charset=utf-8;"); %>
 		<td>${i.post_num }</td>
 		
 		<td>
-		<a href="${pageContext.request.contextPath}/NoticedetailServlet?post_num=${i.post_num }" class="a-title">${i.title }</a>
+		<a href="${pageContext.request.contextPath}/NoticedetailServlet?post_num=${i.post_num }">${i.title }</a>
 		</td>
 		
 		<td>관리자</td>

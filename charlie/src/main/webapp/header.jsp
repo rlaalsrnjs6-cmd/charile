@@ -104,7 +104,7 @@
 		<ul class="ut-list">
 			<c:choose>
 				<c:when test="${sessionScope.login == true }">
-					<li><a href="${pageContext.request.contextPath}/mypage">마이페이지</a></li>
+					<li><a href="">마이페이지</a></li>
 					<li><a href="${pageContext.request.contextPath}/charlie?mod=logout">로그아웃</a></li>
 				</c:when>
 				<c:otherwise>
@@ -118,14 +118,10 @@
 	<div class="hd-bar">
 		<h1 class="logo">
 			<a href="${pageContext.request.contextPath}/">
-				<img src="${pageContext.request.contextPath}/assets/img/logo-no-bg.png" alt="Charlie MES">
+				<img src="${pageContext.request.contextPath}/assets/img/로고-배경제거.png" alt="Charlie MES">
 			</a>
 		</h1>
 		<ul class="hd-nav">
-			<c:if test="${sessionScope.level < 3}">
-				<li><a href="${pageContext.request.contextPath}/emp">사원목록</a></li>
-			</c:if>
-			<li><a href="${pageContext.request.contextPath}/lot">로트관리</a></li>
 			<li><a href="${pageContext.request.contextPath}/mdm">기준관리</a></li>
 			<li><a href="${pageContext.request.contextPath}/material">자재관리</a></li>
 			<li><a href="${pageContext.request.contextPath}/order">작업지시서</a></li>

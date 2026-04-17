@@ -17,8 +17,6 @@ import fileLibrary.CommonDTO;
 
 @WebServlet("/process")
 public class ProcessControll extends HttpServlet {
-	
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		System.out.println("/process [doGet] 실행");
@@ -135,9 +133,6 @@ public class ProcessControll extends HttpServlet {
 		
 		} else { // 수정 페이지
 			
-			List list = service.selectJoinInfo();
-			request.setAttribute("list", list);
-			
 			request.getRequestDispatcher("WEB-INF/views/process/process_modify.jsp")
 				.forward(request, response);
 			
@@ -168,8 +163,8 @@ public class ProcessControll extends HttpServlet {
 			
 			ProcessDTO processDTO = new ProcessDTO();
 			
-			int process_num = -1; int flow= -1; int mdm_num = -1; 
-			
+			int process_num = -1; String process_content = null; int flow= -1; 
+			int mdm_num = -1; String img_url = null;
 			
 			if (request.getParameter("process_num") != null 
 					&& !("".equals(request.getParameter("process_num")))) {
@@ -177,6 +172,14 @@ public class ProcessControll extends HttpServlet {
 				process_num = Integer.parseInt(request.getParameter("process_num"));
 			
 				System.out.println( "/set process process_num : " + process_num );
+			} 
+			
+			if (request.getParameter("process_content") != null 
+					&& !("".equals(request.getParameter("process_content")))) {
+				
+				process_content = request.getParameter("process_content");
+				
+				System.out.println( "/set process process_content : " + process_content );
 			} 
 			
 			if (request.getParameter("flow") != null 
@@ -187,6 +190,14 @@ public class ProcessControll extends HttpServlet {
 				System.out.println( "/set process flow : " + flow );
 			} 
 			
+			if (request.getParameter("img_url") != null 
+					&& !("".equals(request.getParameter("img_url")))) {
+				
+				img_url = request.getParameter("img_url");
+				
+				System.out.println( "/set process img_url : " + img_url );
+			} 
+			
 			if (request.getParameter("mdm_num") != null 
 					&& !("".equals(request.getParameter("mdm_num")))) {
 				
@@ -194,10 +205,7 @@ public class ProcessControll extends HttpServlet {
 				
 				System.out.println( "/set process mdm_num : " + mdm_num );
 			} 
-			
-			
-			String process_content = request.getParameter("process_content");
-			String img_url = request.getParameter("img_url");
+		
 			
 			processDTO.setProcess_num(process_num);
 			processDTO.setProcess_content(process_content);
@@ -214,16 +222,6 @@ public class ProcessControll extends HttpServlet {
 			
 			CommonDTO commonDTO = new CommonDTO();
 			
-			// ORDER BY [COLUMN]
-			String orderBy = " tableA.process_num DESC ";
-			commonDTO.setOrderBy(orderBy);
-			// GROUP BY 부터 작성
-			String groupBy = ""; 
-			commonDTO.setGroupBy(groupBy);
-			// WHERE 1=1
-			String where = ""; 
-			commonDTO.setWhere(where);
-			
 			// 검색 기능 [ search_content ]
 			if("search".equals(cmd)) {
 				commonDTO.setSelector(request.getParameter("search_select"));
@@ -231,6 +229,16 @@ public class ProcessControll extends HttpServlet {
 				System.out.println(commonDTO.getSelector());
 				System.out.println(commonDTO.getSearch());
 			}
+			
+			// ORDER BY [COLUMN]
+			String orderBy = " tableA.process_num DESC ";
+			commonDTO.setOrderBy(orderBy);
+			// GROUP BY 부터 작성
+			String groupBy = ""; 
+			commonDTO.setGroupBy(orderBy);
+			// WHERE 1=1
+			String where = ""; 
+			commonDTO.setWhere(where);
 			
 			// paging 
 			int size= 10, page= 1;

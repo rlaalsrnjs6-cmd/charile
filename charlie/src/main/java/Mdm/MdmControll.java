@@ -181,7 +181,7 @@ public class MdmControll extends HttpServlet {
 		String name = request.getParameter("name");
 		String unit = request.getParameter("unit");
 		String type = request.getParameter("type");
-		String canUse = request.getParameter("canUse");
+		String can_use = request.getParameter("can_use");
 		
 		String exp_dateStr = request.getParameter("exp_date");
 		if (exp_dateStr != null && !exp_dateStr.isEmpty()) {
@@ -196,7 +196,7 @@ public class MdmControll extends HttpServlet {
 		mdmDTO.setUnit(unit);
 		mdmDTO.setType(type);
 		mdmDTO.setPrice(price);
-		mdmDTO.setCanUse(canUse);
+		mdmDTO.setCan_use(can_use);
 		
 		System.out.println("/ctrl setDTO" + mdmDTO);
 		return mdmDTO;

@@ -17,7 +17,7 @@
 <h1>machinery list</h1>
 <hr>
 <hr>
-
+${map.list.get(0)}
 <table border="1px">
 		<thead>
 			<tr>
