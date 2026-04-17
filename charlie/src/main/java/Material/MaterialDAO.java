@@ -1,7 +1,6 @@
 package Material;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,16 +10,11 @@ import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 
-import Emp.EmpDTO;
-import Material.MaterialDTO;
 import fileLibrary.CommonDTO;
-import fileLibrary.ParentDAO2;
+import fileLibrary.ParentDAO3;
 
-public class MaterialDAO extends ParentDAO2<MaterialDTO, CommonDTO> {
+public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 
 	@Override
 	protected String tableName() {
@@ -50,13 +44,13 @@ public class MaterialDAO extends ParentDAO2<MaterialDTO, CommonDTO> {
 			dto.setCode(rs.getString("code"));
 			dto.setName(rs.getString("name"));
 			dto.setUnit(rs.getString("unit"));
-			dto.setTotal_price(rs.getLong("total_price_sum")); // Alias와 매칭
+			dto.setTotal_price(rs.getLong("total_price")); // Alias와 매칭
 
 			// warehouse
 			//dto.setWarehouse_num(rs.getInt("warehouse_num"));
-			dto.setWh_status_chk(rs.getString("wh_status_chk"));
-			dto.setTemperature(rs.getInt("temperature"));
-			dto.setHumidity(rs.getInt("humidity"));
+//			dto.setWh_status_chk(rs.getString("wh_status_chk"));
+//			dto.setTemperature(rs.getInt("temperature"));
+//			dto.setHumidity(rs.getInt("humidity"));
 			dto.setWh_section(rs.getString("wh_section"));
 			dto.setFloor_level(rs.getString("floor_level"));
 			
@@ -81,14 +75,13 @@ public class MaterialDAO extends ParentDAO2<MaterialDTO, CommonDTO> {
 				  "   SELECT * from (   "
 				+ "   SELECT rownum as rnum, subqry.* from (   "
 				+ " SELECT   "
-				+ "    m.code, "
-				+ "    m.name, "
-				+ "    SUM(mt.total_quantity) AS total_quantity, "
+				+ "    m.code AS code, "
+				+ "    m.name AS name, "
+				+ "    SUM(m.quantity) AS total_quantity, "
 				+ "    m.unit, "
-				+ "    SUM(mt.total_price * mt.total_quantity) AS total_price, "
-				+ "    MAX(w.temperature) AS temperature, "
-				+ "    MAX(w.humidity) AS humidity, "
-				+ "    MAX(w.wh_section) AS wh_section "
+				+ "    SUM(m.price * m.quantity) AS total_price, "
+				+ "    MAX(w.wh_section) AS wh_section, "
+				+ "    MAX(w.floor_level) AS floor_level " 
 				+ "FROM mdm m "
 				+ "LEFT JOIN material mt ON m.mdm_num = mt.mdm_num "
 				+ "LEFT JOIN warehouse w ON mt.warehouse_num = w.warehouse_num "
@@ -118,9 +111,16 @@ public class MaterialDAO extends ParentDAO2<MaterialDTO, CommonDTO> {
 	}
 		@Override
 	protected String insertQuery() {
-		return "INSERT INTO " + tableName() + " ( " + pk_Coulum_Name() 
-			 + ", total_quantity, warehouse_num, mdm_num) " 
-			 + " VALUES ( material_seq.nextval, ?, ?, ?)";
+		return "INSERT INTO material (material_num, total_quantity, warehouse_num, mdm_num) "
+				+ "SELECT  "
+				+ "    material_seq.nextval, "
+				+ "    SUM(mt.total_quantity), "
+				+ "    MAX(mt.warehouse_num), "
+				+ "    m.mdm_num "
+				+ "FROM mdm m "
+				+ "LEFT JOIN material mt ON m.mdm_num = mt.mdm_num "
+				+ "WHERE m.canuse = 'Y' "
+				+ "GROUP BY m.mdm_num;";
 	}
 
 	@Override

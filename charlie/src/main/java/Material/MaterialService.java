@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import Material.MaterialDTO;
+import Material.MaterialDTO;
 import fileLibrary.CommonDTO;
 import fileLibrary.ParentService2;
 
@@ -58,8 +59,10 @@ public class MaterialService extends ParentService2<MaterialDTO, CommonDTO> {
 
 	@Override
 	public MaterialDTO selectOne(MaterialDTO dto, CommonDTO commonDTO) {
-		System.out.println("service selectOne : " + dto);
-		return materialDAO.selectOne(dto, commonDTO);
+		
+		commonDTO.setWhere("mt.material_num = ?");
+		MaterialDTO result = materialDAO.selectOne(dto, commonDTO);
+		return result;
 	}
 	@Override
 	public MaterialDTO insertDB(MaterialDTO dto) {
