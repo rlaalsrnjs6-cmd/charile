@@ -40,9 +40,7 @@ public class WorkOrderService {
         System.out.println("order서비스start: " + pageing.getStart());
         Map map = new HashMap();
         // �깮�궛愿�由ъ뿉 �엳�뒗 湲곗〈 DB留� select
-        System.out.println("order�꽌鍮꾩뒪mod: " + dto.getMod());
         List<WorkOrderDTO> list = dao.select(dto, pageing);
-        System.out.println("�꽌鍮꾩뒪�쓽 list: " + list);
 
         map.put("list", list); // list
         map.put("totalCount", totalCount);

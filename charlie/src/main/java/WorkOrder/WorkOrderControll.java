@@ -72,13 +72,10 @@ public class WorkOrderControll extends HttpServlet {
 			EmpDTO empDTO = new EmpDTO();
 			List emplist = empservice.selectall(empDTO);
 			request.setAttribute("emp", emplist);
-			System.out.println("wo異쒕컻 emp:" + emplist);
-			System.out.println("UP濡�");
 			request.getRequestDispatcher("/WEB-INF/views/order/orderUp.jsp").forward(request, response);
 		}else if("delete".equals(mod)){
 			orderDelete(request, response);
 		}else {
-			System.out.println("由ъ뒪�듃濡�");
 			request.getRequestDispatcher("/WEB-INF/views/order/orderList.jsp").forward(request, response);
 		}
 
@@ -126,7 +123,6 @@ public class WorkOrderControll extends HttpServlet {
 		orderDTO.setMod(mod);
 		
 		WorkOrderService service = new WorkOrderService();
-		System.out.println("order�뾽留덉�留�: "+service.orderService(orderDTO));
 		response.sendRedirect("order");
 	}
 	

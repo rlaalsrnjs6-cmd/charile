@@ -49,39 +49,30 @@ public class charile_filter implements Filter {
 
 		String path = req.getServletPath();
 
-		// 종한 로직임 건들면 안돼~
 		boolean isMultipart = (req.getContentType() != null && req.getContentType().startsWith("multipart/form-data"));
 		System.out.println(path);
 
-		// 로그인x들어갈수있음
 		if (isExclude(path)) {
 			chain.doFilter(request, response);
-			System.out.println("확인용");
+			System.out.println("�솗�씤�슜");
 			return;
-		} else {// 로그인 해야 들어갈수있음
+		} else {
 			HttpSession session = req.getSession();
 
-//			String mod = req.getParameter("mod");
-			// 파일 업로드 하는 것 때문에 수정 했어 파일 업로드 하는 상황일 때는
-			// getParameter 하지 말라는거야
 			String mod = isMultipart ? null : req.getParameter("mod");
 
 			EmpDTO dto = new EmpDTO();
 			Boolean login = (Boolean) session.getAttribute("login");
 			String name = (String) session.getAttribute("name");
 			Integer level = (Integer) session.getAttribute("level");
-			System.out.println("필터로그인" + login);
+			System.out.println("�븘�꽣濡쒓렇�씤" + login);
 
-//			if((login!=null && login==true) || "login".equals(mod) || "add".equals(mod)) { 
-//				chain.doFilter(request, response);
-//			}	//로그인이 안돼있지만 첨부파일이 없으면 x?
 			if ((login == null || login != true) && !isMultipart) {
 				
 				
 				if("add".equals(mod)||"add".equals(dto.getMod())) {
 					chain.doFilter(request, response);
 				}
-				System.out.println("로그인 후 이용하세요");
 				resp.sendRedirect(req.getContextPath() + "/charlie");
 				return;
 				
