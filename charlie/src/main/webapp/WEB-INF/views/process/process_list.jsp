@@ -10,6 +10,15 @@
 <head>
 <meta charset="UTF-8">
 <title>list page</title>
+<style>
+	
+	.process_img {
+		width: 200px;
+		height: 100px;
+		background-size: cover;
+	}
+	
+</style>
 </head>
 <body>
 
@@ -33,7 +42,6 @@
 				<th>CODE</th>
 				<th>PROCESS</th>
 				<th>FLOW</th>
-				<th>IMG URL</th>
 				<th>UPDATED MDM NUMBER</th>
 			</tr>
 		</thead>
@@ -47,9 +55,6 @@
 				</a></td>
 				<td>${ row.flow }</td>
 				
-				<td>
-					<img src="${ row.img_url }">
-				</td>
 				<td>${ row.mdm_num }</td>
 			</tr>
 		</c:forEach>

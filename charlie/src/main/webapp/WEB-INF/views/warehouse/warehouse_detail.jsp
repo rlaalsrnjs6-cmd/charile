@@ -29,7 +29,7 @@
 	
 	<hr>
 <%-- 	<a href="warehouse?cmd=modify&warehouse_num=${ warehouseDTO.warehouse_num }">수정</a> --%>
-<%-- 	<a href="warehouse?cmd=delete&warehouse_num=${ warehouseDTO.warehouse_num }">삭제</a> --%>
+	<a href="warehouse?cmd=delete&warehouse_num=${ warehouseDTO.warehouse_num }">삭제</a>
 	
 </body>
 </html>
