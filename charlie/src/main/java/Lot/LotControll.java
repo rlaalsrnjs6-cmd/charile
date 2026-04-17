@@ -9,138 +9,154 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Material.MaterialDTO;
+import Material.MaterialService;
 import WorkOrder.WorkOrderDTO;
 import WorkOrder.WorkOrderService;
+import fileLibrary.CommonDTO;
 
 @WebServlet("/lot")
 public class LotControll extends HttpServlet {
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
 		String slot_num = request.getParameter("lot_num");
+		String ssize = request.getParameter("size");
+		String spage = request.getParameter("page");
 		String mod = request.getParameter("mod");
+
+		int size = 10;
+		int page = 10;
 		
 		int lot_num = -1;
 		if (slot_num != null) {
 			lot_num = Integer.parseInt(slot_num);
 		}
 		LotDTO lotDTO = new LotDTO();
+		CommonDTO pageing = new CommonDTO();
 		lotDTO.setLot_num(lot_num);
 		lotDTO.setMod(mod);
 		LotService service = new LotService();
-			List<LotDTO> list = service.select(lotDTO);
-			request.setAttribute("lot", list);
-		
+		List<LotDTO> list = service.select(lotDTO);
+		request.setAttribute("lot", list);
+
 		if ("detail".equals(mod)) {
-			System.out.println("디테일로고고씽");
+			List<LotDTO> lot = service.selectall(lotDTO);
 			request.getRequestDispatcher("WEB-INF/views/lot/lotDetail.jsp").forward(request, response);
-			return;
-		} else if ("up".equals(mod)) {
-			request.getRequestDispatcher("WEB-INF/views/lot/lotUp.jsp").forward(request, response);
-			return;
-		} else if ("add".equals(mod)) {
-			WorkOrderService ordersv = new WorkOrderService();
-			WorkOrderDTO orderDTO = new WorkOrderDTO();
-			List order = ordersv.selectall(orderDTO);
-			System.out.println("로트add가기전세팅:ㅣ "+order);
-			request.setAttribute("order", order);
-			request.getRequestDispatcher("WEB-INF/views/lot/lotAdd.jsp").forward(request, response);
 			return;
 		} else if ("delete".equals(mod)) {
 			lotDelete(request, response);
 			return;
+		} else {
+			WorkOrderService ordersv = new WorkOrderService();
+			MaterialService materialsv = new MaterialService();
+			WorkOrderDTO orderDTO = new WorkOrderDTO();
+			MaterialDTO materialDTO = new MaterialDTO();
+			List<LotDTO> lot = service.selectall(lotDTO);
+			List order = ordersv.selectall(orderDTO);
+			List material = materialsv.selectall(materialDTO);
+			request.setAttribute("order", order);
+			request.setAttribute("material", material);
+			request.setAttribute("lot", lot);
+			
+			if ("up".equals(mod)) {
+				request.getRequestDispatcher("WEB-INF/views/lot/lotUp.jsp").forward(request, response);
+				return;
+			} else if ("add".equals(mod)) {
+				
+				request.getRequestDispatcher("WEB-INF/views/lot/lotAdd.jsp").forward(request, response);
+				return;
+			}
 		}
-		System.out.println("리스트로 고고씽");
 		request.getRequestDispatcher("WEB-INF/views/lot/lotList.jsp").forward(request, response);
 	}
 
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
-	request.setCharacterEncoding("utf-8");
-	response.setContentType("text/html; charset=utf-8;");
-	String mod = request.getParameter("mod");
-	if ("add".equals(mod)) {
-		lotAdd(request, response);
-	} else if ("up".equals(mod)) {
-		lotUP(request, response);
-	} else if ("delete".equals(mod)) {
-		lotDelete(request, response);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8;");
+		String mod = request.getParameter("mod");
+		if ("add".equals(mod)) {
+			lotAdd(request, response);
+		} else if ("up".equals(mod)) {
+			lotUP(request, response);
+		} else if ("delete".equals(mod)) {
+			lotDelete(request, response);
+		}
+
 	}
 
-}
+	protected void lotUP(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8;");
+		String slot_num = request.getParameter("lot_num");
+		String slot_count = request.getParameter("lot_count");
+		String sorder_num = request.getParameter("order_num");
+		String qc_chk = request.getParameter("qc_chk");
+		String smaterial_num = request.getParameter("material_num");
+		String mod = request.getParameter("mod");
+		int lot_num = Integer.parseInt(slot_num);
+		int lot_count = Integer.parseInt(slot_count);
+		int order_num = Integer.parseInt(sorder_num);
+		int material_num = Integer.parseInt(smaterial_num);
+		LotDTO lotDTO = new LotDTO();
+		lotDTO.setLot_num(lot_num);
+		lotDTO.setLot_count(lot_count);
+		lotDTO.setOrder_num(order_num);
+		lotDTO.setQc_chk(qc_chk);
+		lotDTO.setMaterial_num(material_num);
+		lotDTO.setMod(mod);
+		LotService service = new LotService();
+		service.lotService(lotDTO);
+		response.sendRedirect("lot");
 
-protected void lotUP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	request.setCharacterEncoding("utf-8");
-	response.setContentType("text/html; charset=utf-8;");
-	String slot_num = request.getParameter("lot_num");
-	String slot_count = request.getParameter("lot_count");
-	String sorder_num = request.getParameter("order_num");
-	String qc_chk = request.getParameter("qc_chk");
-	String smaterial_num = request.getParameter("material_num");
-	String smdm_num = request.getParameter("mdm_num");
-	String mod = request.getParameter("mod");
-	int lot_num = Integer.parseInt(slot_num);
-	int lot_count = Integer.parseInt(slot_count);
-	int order_num = Integer.parseInt(sorder_num);
-	int material_num = Integer.parseInt(smaterial_num);
-	int mdm_num = Integer.parseInt(smdm_num);
-	LotDTO lotDTO = new LotDTO();
-	lotDTO.setLot_num(lot_num);
-	lotDTO.setLot_count(lot_count);
-	lotDTO.setOrder_num(order_num);
-	lotDTO.setQc_chk(qc_chk);
-	lotDTO.setMaterial_num(material_num);
-	lotDTO.setMdm_num(mdm_num);
-	lotDTO.setMod(mod);
-	LotService service = new LotService();
-	service.lotService(lotDTO);
-	response.sendRedirect("lot");
+	}
 
-}
+	protected void lotAdd(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8;");
 
-protected void lotAdd(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
-	request.setCharacterEncoding("utf-8");
-	response.setContentType("text/html; charset=utf-8;");
+		String sdefective_num = request.getParameter("defective_num");
+		String slot_count = request.getParameter("lot_count");
+		String sorder_num = request.getParameter("order_num");
+		String qc_chk = request.getParameter("qc_chk");
+		String smaterial_num = request.getParameter("material_num");
+		String mod = request.getParameter("mod");
+		System.out.println("up:" + mod);
+		int lot_count = Integer.parseInt(slot_count);
+		int order_num = Integer.parseInt(sorder_num);
+		int material_num = Integer.parseInt(smaterial_num);
 
-	String sdefective_num = request.getParameter("defective_num");
-	String slot_count = request.getParameter("lot_count");
-	String sorder_num = request.getParameter("order_num");
-	String qc_chk = request.getParameter("qc_chk");
-	String smaterial_num = request.getParameter("material_num");
-	String mod = request.getParameter("mod");
-	System.out.println("up:" + mod);
-	int lot_count = Integer.parseInt(slot_count);
-	int order_num = Integer.parseInt(sorder_num);
-	int material_num = Integer.parseInt(smaterial_num);
+		LotDTO lotDTO = new LotDTO();
+		lotDTO.setLot_count(lot_count);
+		lotDTO.setOrder_num(order_num);
+		lotDTO.setQc_chk(qc_chk);
+		lotDTO.setMaterial_num(material_num);
+		lotDTO.setMod(mod);
 
-	LotDTO lotDTO = new LotDTO();
-	lotDTO.setLot_count(lot_count);
-	lotDTO.setOrder_num(order_num);
-	lotDTO.setQc_chk(qc_chk);
-	lotDTO.setMaterial_num(material_num);
-	lotDTO.setMod(mod);
+		LotService service = new LotService();
 
-	LotService service = new LotService();
+		System.out.println("lotadd留덉�留�: " + service.lotService(lotDTO));
 
-	System.out.println("lotadd마지막: " + service.lotService(lotDTO));
+		response.sendRedirect("lot");
+	}
 
-	response.sendRedirect("lot");
-}
-
-protected void lotDelete(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
-	request.setCharacterEncoding("utf-8");
-	response.setContentType("text/html; charset=utf-8;");
-	String slot_num = request.getParameter("lot_num");
-	String mod = request.getParameter("mod");
-	int lot_num = Integer.parseInt(slot_num);
-	LotDTO lotDTO = new LotDTO();
-	lotDTO.setLot_num(lot_num);
-	lotDTO.setMod(mod);
-	LotService service = new LotService();
-	System.out.println("lotAdd마지막: " + service.lotService(lotDTO));
-	response.sendRedirect("lot");
-}
+	protected void lotDelete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8;");
+		String slot_num = request.getParameter("lot_num");
+		String mod = request.getParameter("mod");
+		int lot_num = Integer.parseInt(slot_num);
+		LotDTO lotDTO = new LotDTO();
+		lotDTO.setLot_num(lot_num);
+		lotDTO.setMod(mod);
+		LotService service = new LotService();
+		System.out.println("lotAdd留덉�留�: " + service.lotService(lotDTO));
+		response.sendRedirect("lot");
+	}
 
 }

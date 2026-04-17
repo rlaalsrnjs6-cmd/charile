@@ -26,9 +26,9 @@
 			<td><input type="text" name="qc_chk"></td>
 			<td>
 				<select name="material_num">
-       				 <c:forEach var="o" items="${order}">
-            			<option value="${o.order_num}" selected>
-               	 			${o.work_order_title}
+       				 <c:forEach var="m" items="${material}">
+            			<option value="${m.material_num}" selected>
+               	 			${m.material_num}
              			</option>
         			</c:forEach>
     			</select>
@@ -43,8 +43,8 @@
     			</select>
     		</td>
 		</tr>
-		<input type="submit" value="작성">
 	</table>
+		<input type="submit" value="작성">
 </form>
 </body>
 </html>

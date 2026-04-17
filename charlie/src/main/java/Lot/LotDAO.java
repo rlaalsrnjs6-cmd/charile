@@ -1,6 +1,7 @@
 package Lot;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,11 +13,13 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import QC.QCDTO;
+import WorkOrder.WorkOrderDTO;
+import fileLibrary.CommonDTO;
 
 public class LotDAO {
-	public List<LotDTO> select(LotDTO dto) {
+	public List<LotDTO> select(LotDTO dto, CommonDTO pageing) {
 		List<LotDTO> list = new ArrayList();
-		
+
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -25,55 +28,112 @@ public class LotDAO {
 			Context ctx = new InitialContext();
 
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
-//			System.out.println("DAOMODselect:"+dto.getMod());
 			conn = dataFactory.getConnection();
-			String query = "select * from lot ";
+			String query = "SELECT * from ( "
+							+ "SELECT rownum as rnum, subqry.* from ( "
+							+ 		"select * from lot ";
 
-			System.out.println("lotadomod:"+dto.getMod());
-			if("up".equals(dto.getMod())) {
-				System.out.println("실행됐나?");
-				query = "select * "
-						+ "from qc q "
-						+ "join lot l "
-						+ "on (q.lot_num = l.lot_num) "
-						+ "where qc_num = ?";
-			}
-
-			if(!("up".equals(dto.getMod())) && dto.getLot_num()!=-1) {
+			if(dto.getLot_num() != -1) {
 				query += "where lot_num = ?";
 			}
+			query +=") subqry) "
+					+ "WHERE rnum >= ? AND rnum <= ?";
+			//�닔�젙
 			ps = conn.prepareStatement(query);
-
-			if("up".equals(dto.getMod())) {
-				ps.setInt(1,dto.getQc_num());
-				System.out.println("tlfgodehoTsk2:"+dto.getQc_num());
+			int idx = 1;
+			if(dto.getLot_num() != -1) {
+				
+				ps.setInt(idx++, dto.getOrder_num());
 			}
-
-			if(!("up".equals(dto.getMod())) && dto.getLot_num()!=-1) {
-				ps.setInt(1,dto.getLot_num());
-			}
-			
+			ps.setInt(idx++, pageing.getStart());
+			ps.setInt(idx++, pageing.getEnd());
 			rs = ps.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				LotDTO DTO = new LotDTO();
 				int lot_num = rs.getInt("lot_num");
 				int lot_count = rs.getInt("lot_count");
+				int material_num = rs.getInt("material_num");
 				int order_num = rs.getInt("order_num");
 				String qc_chk = rs.getString("qc_chk");
-				int material_num = rs.getInt("material_num");
-				int mdm_num = rs.getInt("mdm_num");
 				
+				DTO.setOrder_num(order_num);
 				DTO.setLot_num(lot_num);
 				DTO.setLot_count(lot_count);
+				DTO.setMaterial_num(material_num);
 				DTO.setOrder_num(order_num);
 				DTO.setQc_chk(qc_chk);
-				DTO.setMaterial_num(material_num);
-				DTO.setMdm_num(mdm_num);
-				
 				list.add(DTO);
 			}
-//			System.out.println("DAOlist:"+list);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	
+	public List<LotDTO> selectall(LotDTO dto) {
+		List<LotDTO> list = new ArrayList();
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			Context ctx = new InitialContext();
+			
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+			conn = dataFactory.getConnection();
+			String query = "SELECT * from lot ";
+			if(dto.getLot_num()!=-1) {
+				query += "where lot_num = ?";
+			}
+			ps = conn.prepareStatement(query);
+			
+			if(dto.getLot_num()!=-1) {
+				ps.setInt(1,dto.getLot_num());
+			}
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				LotDTO DTO = new LotDTO();
+				int lot_num = rs.getInt("lot_num");
+				int lot_count = rs.getInt("lot_count");
+				int material_num = rs.getInt("material_num");
+				int order_num = rs.getInt("order_num");
+				String qc_chk = rs.getString("qc_chk");
+				
+				DTO.setOrder_num(order_num);
+				DTO.setLot_num(lot_num);
+				DTO.setLot_count(lot_count);
+				DTO.setMaterial_num(material_num);
+				DTO.setOrder_num(order_num);
+				DTO.setQc_chk(qc_chk);
+				list.add(DTO);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -127,8 +187,7 @@ public int lotDAO(LotDTO dto) {
 						+ "lot_count = ?, "
 						+ "order_num = ?, "
 						+ "qc_chk = ?, "
-						+ "material_num = ?, "
-						+ "mdm_num = ? "
+						+ "material_num = ? "
 						+ "where lot_num = ?";
 			}
 			// 인서트
@@ -155,8 +214,7 @@ public int lotDAO(LotDTO dto) {
 				ps.setInt(3, dto.getOrder_num());
 				ps.setString(4, dto.getQc_chk());
 				ps.setInt(5, dto.getMaterial_num());
-				ps.setInt(6, dto.getMdm_num());
-				ps.setInt(7, dto.getLot_num());
+				ps.setInt(6, dto.getLot_num());
 				
 			}
 			
@@ -267,5 +325,29 @@ public int lotQcDAO(LotDTO dto) {
 		}
 	}
 	return result;
+}
+
+public int getTotalCount() {
+
+	int total = 0;
+
+	try {
+		Context ctx = new InitialContext();
+		DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+
+		String query = "select count(*) from lot";
+
+		try (Connection conn = dataFactory.getConnection();
+				PreparedStatement ps = conn.prepareStatement(query);
+				ResultSet rs = ps.executeQuery()) {
+
+			if (rs.next()) { 
+				total = rs.getInt(1);
+			}
+		}
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
+	return total;
 }
 }

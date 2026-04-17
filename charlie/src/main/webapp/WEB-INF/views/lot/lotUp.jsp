@@ -10,25 +10,21 @@
 <form method="post" action="lot">
 	<table border=1>
 		<tr>
-			<th>lot번호</th>
 			<th>lot당제품개수</th>
-			<th>작업지시번호</th>
 			<th>품질체크전후번호</th>
 			<th>자재관리번호</th>
-			<th>mdm번호</th>
+			<th>작업지시번호</th>
 		</tr>
-		
 		<tr>
 			<input type="hidden" name="mod" value="up">
 			<input type="hidden" name="lot_num" value="${lot[0].lot_num}">
 			<input type="hidden" name="order_num" value="${lot[0].order_num}">
-			<input type="hidden" name="mdm_num" value="${lot[0].mdm_num}">
-			<td>${lot[0].lot_num}</td>
+			<input type="hidden" name="material_num" value="${lot[0].material_num}">
+			<input type="hidden" name="qc_chk" value="${lot[0].qc_chk}">
 			<td><input type="text" name="lot_count" value="${lot[0].lot_count}"></td>
+			<td>${lot[0].qc_chk}</td>
+			<td>${lot[0].material_num}</td>
 			<td>${lot[0].order_num}</td>
-			<td><input type="text" name="qc_chk" value="${lot[0].qc_chk}"></td>
-			<td><input type="text" name="material_num" value="${lot[0].material_num}"></td>
-			<td>${lot[0].mdm_num}</td>
 		</tr>
 		<input type="submit" value="수정">
 	</table>
