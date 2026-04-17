@@ -15,13 +15,13 @@ import fileLibrary.LoggableStatement;
 
 
 public abstract class ParentDAO2<T, C> {
-
-	// 援ы쁽�빐�꽌 �궗�슜�븷 硫붿냼�뱶
+	
+	// SET TABLE INFO 
 	protected abstract String tableName();
 	protected abstract String pk_Coulum_Name();
 	protected abstract int setDTONum(T dto);
-	// set Query / set DTO(rs)
-
+	
+	// SET SELECT QUERY / SET PS
 	protected abstract PreparedStatement selectPs(PreparedStatement ps, C commonDTO) throws SQLException; 
 	protected abstract String selectQuery(T dto, C commonDTO);
 

@@ -5,15 +5,12 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-
-import WorkOrder.WorkOrderDTO;
 
 
 
@@ -73,9 +70,9 @@ public class ProductionManagementDAO {
 	    query.append("  SELECT rownum AS rnum, a.* FROM (");
 	    query.append("    SELECT ");
 	    query.append("        P.prod_num, P.title, ");
-	    query.append("        P.target_quantity AS \"전체목표\", ");
+	    query.append("        P.WEEKLY_TARGET AS \"전체목표\", ");
 	    query.append("        NVL(SUM(L.lot_count), 0) AS \"현재까지_만든_총합\", "); // null일 경우 0처리
-	    query.append("        (P.target_quantity - NVL(SUM(L.lot_count), 0)) AS \"남은목표_수량\" ");
+	    query.append("        (P.WEEKLY_TARGET - NVL(SUM(L.lot_count), 0)) AS \"남은목표_수량\" ");
 	    query.append("    FROM production_management P ");
 	    query.append("    LEFT JOIN work_order W ON P.prod_num = W.prod_num ");
 	    query.append("    LEFT JOIN lot L ON W.order_num = L.order_num ");
@@ -84,7 +81,7 @@ public class ProductionManagementDAO {
 	        query.append("    WHERE P.title LIKE '%' || ? || '%' ");
 	    }
 		
-	    query.append("    GROUP BY P.prod_num, P.title, P.target_quantity ");
+	    query.append("    GROUP BY P.prod_num, P.title, P.WEEKLY_TARGET ");
 	    query.append("    ORDER BY P.prod_num DESC");
 	    query.append("  ) a");
 	    query.append(") WHERE rnum >= ? AND rnum <= ?");
@@ -122,7 +119,7 @@ public class ProductionManagementDAO {
 	//insert하는 메서드
 	public int insertData(ProductionManagementDTO dto) {
 	
-		String query = "insert into production_management (prod_num, target_quantity, work_start, work_end, title, mdm_num, content, empno)"
+		String query = "insert into production_management (prod_num, WEEKLY_TARGET, work_start, work_end, title, mdm_num, content, empno)"
 				+ " values(production_mgmt_seq.nextval, ?, ?, ?, ?, ?, '비고', ?)";
 		
 		try(Connection conn = dataFactory.getConnection();
@@ -143,72 +140,5 @@ public class ProductionManagementDAO {
 		System.out.println("insertDAO 예외 발생");
 			return 0;
 		}
-	
-	public List<ProductionManagementDTO> selectall(ProductionManagementDTO dto) {
-		List<ProductionManagementDTO> list = new ArrayList();
-		
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		try {
-			Context ctx = new InitialContext();
-			
-			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
-//			System.out.println("DAOMODselect:"+dto.getMod());
-			conn = dataFactory.getConnection();
-			String query = "SELECT * from productionmanagement";
-			
-			//수정
-			ps = conn.prepareStatement(query);
-			rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				ProductionManagementDTO DTO = new ProductionManagementDTO();
-				int order_num = rs.getInt("order_num");
-				Date work_date = rs.getDate("work_date");
-				int prod_num = rs.getInt("prod_num");
-				int daily_target = rs.getInt("daily_target");
-				int empno = rs.getInt("empno");
-				String work_order_title = rs.getString("work_order_title");
-				String status = rs.getString("status");
-				
-				DTO.setOrder_num(order_num);
-				DTO.setWork_date(work_date);
-				DTO.setProd_num(prod_num);
-				DTO.setDaily_target(daily_target);
-				DTO.setEmpno(empno);
-				DTO.setWork_order_title(work_order_title);
-				DTO.setStatus(status);
-				list.add(DTO);
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (ps != null) {
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return list;
-	}
 	
 }///클래스 닫음

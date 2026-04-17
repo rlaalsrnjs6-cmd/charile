@@ -4,10 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import WorkOrder.WorkOrderDAO;
-import WorkOrder.WorkOrderDTO;
-import WorkOrder.WorkOrderService;
-
 public class ProductionManagementService {
 	ProductionManagementDAO dao = new ProductionManagementDAO();
 
@@ -67,12 +63,6 @@ public class ProductionManagementService {
 				map.put("currentPage", page); //현재 페이지가 데이터
 				
 		return map;
-	}
-	
-	public List<ProductionManagementDTO> selectall(ProductionManagementDTO dto){
-		ProductionManagementDAO dao = new ProductionManagementDAO();
-		List list = dao.selectall(dto);
-		return list;
 	}
 	
 	// insert

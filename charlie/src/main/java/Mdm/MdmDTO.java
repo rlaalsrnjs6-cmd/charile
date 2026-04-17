@@ -15,20 +15,15 @@ public class MdmDTO {
 	int price;
 	int quantity;
 	
-	String can_use;
+	String canUse;
 
 	
 	public Date getExp_date() {
 		return exp_date;
 	}
+
 	public void setExp_date(Date exp_date) {
 		this.exp_date = exp_date;
-	}
-	public String getCan_use() {
-		return can_use;
-	}
-	public void setCan_use(String can_use) {
-		this.can_use = can_use;
 	}
 	public int getQuantity() {
 		return quantity;
@@ -78,12 +73,17 @@ public class MdmDTO {
 	public void setPrice(int price) {
 		this.price = price;
 	}
+	public String getCanUse() {
+		return canUse;
+	}
+	public void setCanUse(String canUse) {
+		this.canUse = canUse;
+	}
+	
 	@Override
 	public String toString() {
 		return "MdmDTO [mdm_num=" + mdm_num + ", code=" + code + ", name=" + name + ", unit=" + unit + ", type=" + type
 				+ ", received_date=" + received_date + ", exp_date=" + exp_date + ", price=" + price + ", quantity="
-				+ quantity + ", can_use=" + can_use + "]";
+				+ quantity + ", canUse=" + canUse + "]";
 	}
-	
-	
 }

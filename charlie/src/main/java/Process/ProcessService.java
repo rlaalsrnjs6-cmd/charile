@@ -36,7 +36,7 @@ public class ProcessService extends ParentService2<ProcessDTO, CommonDTO> {
 		commonDTO.setEnd(end);
 		commonDTO.setStart(start);
 		Map map = new HashMap();
-		// 생산관리에 있는 기존 DB만 select
+		
 		List list = processDAO.selectDB(dto, commonDTO);
 		System.out.println("서비스의 list: " + list);
 
@@ -51,7 +51,11 @@ public class ProcessService extends ParentService2<ProcessDTO, CommonDTO> {
 	@Override
 	public ProcessDTO selectOne(ProcessDTO dto, CommonDTO commonDTO) {
 		System.out.println("service selectOne : " + dto);
-		return processDAO.selectOne(dto, commonDTO);
+		
+		// SET QUERY
+		commonDTO.setWhere("tableA.process_num = ?");
+		ProcessDTO result = processDAO.selectOne(dto, commonDTO);
+		return result;
 	}
 	@Override
 	public ProcessDTO insertDB(ProcessDTO dto) {

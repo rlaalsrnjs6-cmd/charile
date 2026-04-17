@@ -12,9 +12,10 @@ public class CommonDTO {
 	String where="";
 	String groupBy="";
 	String orderBy=""; // set column Name
+	int paramCnt = 0; // ? 개수 세는 것
+	
 	
 	// paging
-
 	// contents row 개수 설정
 	int size = 10; // page당 보여줄 컬럼 개수
 	int page = 1; // 해당 page 

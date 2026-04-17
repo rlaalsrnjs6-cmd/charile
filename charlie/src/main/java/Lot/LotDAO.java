@@ -138,9 +138,8 @@ public int lotDAO(LotDTO dto) {
 					   + "lot_count, "
 					   + "order_num, "
 					   + "qc_chk, "
-					   + "material_num, "
-					   + "mdm_num) "
-					   + "VALUES (?, ?, ?, ?, ?, ?)";
+					   + "material_num) "
+					   + "VALUES (lot_seq.nextval, ?, ?, ?, ?)";
 			}
 			// 딜리트
 			if("delete".equals(dto.getMod())) { //만드는중
@@ -163,12 +162,10 @@ public int lotDAO(LotDTO dto) {
 			
 			if("add".equals(dto.getMod())) {
 				System.out.println("addps");
-				ps.setInt(1, dto.getLot_num());
-				ps.setInt(2, dto.getLot_count());
-				ps.setInt(3, dto.getOrder_num());
-				ps.setString(4, dto.getQc_chk());
-				ps.setInt(5, dto.getMaterial_num());
-				ps.setInt(6, dto.getMdm_num());
+				ps.setInt(1, dto.getLot_count());
+				ps.setInt(2, dto.getOrder_num());
+				ps.setString(3, dto.getQc_chk());
+				ps.setInt(4, dto.getMaterial_num());
 			}
 			
 			if("delete".equals(dto.getMod())) {

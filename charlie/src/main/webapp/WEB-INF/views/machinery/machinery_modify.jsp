@@ -135,6 +135,7 @@
 		</c:if>
 	</select> <br>
 		
+		 <input type="hidden" name="mdm_num" value="${machineryDTO.mdm_num}">
 		 <input type="submit" value="수정"> <br>
 		
 	</form>

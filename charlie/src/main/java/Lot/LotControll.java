@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Emp.EmpDTO;
-import Emp.EmpService;
+import WorkOrder.WorkOrderDTO;
+import WorkOrder.WorkOrderService;
 
 @WebServlet("/lot")
 public class LotControll extends HttpServlet {
@@ -39,6 +39,11 @@ public class LotControll extends HttpServlet {
 			request.getRequestDispatcher("WEB-INF/views/lot/lotUp.jsp").forward(request, response);
 			return;
 		} else if ("add".equals(mod)) {
+			WorkOrderService ordersv = new WorkOrderService();
+			WorkOrderDTO orderDTO = new WorkOrderDTO();
+			List order = ordersv.selectall(orderDTO);
+			System.out.println("로트add가기전세팅:ㅣ "+order);
+			request.setAttribute("order", order);
 			request.getRequestDispatcher("WEB-INF/views/lot/lotAdd.jsp").forward(request, response);
 			return;
 		} else if ("delete".equals(mod)) {
@@ -99,27 +104,21 @@ protected void lotAdd(HttpServletRequest request, HttpServletResponse response)
 	response.setContentType("text/html; charset=utf-8;");
 
 	String sdefective_num = request.getParameter("defective_num");
-	String slot_num = request.getParameter("lot_num");
 	String slot_count = request.getParameter("lot_count");
 	String sorder_num = request.getParameter("order_num");
 	String qc_chk = request.getParameter("qc_chk");
 	String smaterial_num = request.getParameter("material_num");
-	String smdm_num = request.getParameter("mdm_num");
 	String mod = request.getParameter("mod");
 	System.out.println("up:" + mod);
-	int mdm_num = Integer.parseInt(smdm_num);
-	int lot_num = Integer.parseInt(slot_num);
 	int lot_count = Integer.parseInt(slot_count);
 	int order_num = Integer.parseInt(sorder_num);
 	int material_num = Integer.parseInt(smaterial_num);
 
 	LotDTO lotDTO = new LotDTO();
-	lotDTO.setLot_num(lot_num);
 	lotDTO.setLot_count(lot_count);
 	lotDTO.setOrder_num(order_num);
 	lotDTO.setQc_chk(qc_chk);
 	lotDTO.setMaterial_num(material_num);
-	lotDTO.setMdm_num(mdm_num);
 	lotDTO.setMod(mod);
 
 	LotService service = new LotService();
