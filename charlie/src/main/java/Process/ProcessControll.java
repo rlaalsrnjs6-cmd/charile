@@ -90,6 +90,9 @@ public class ProcessControll extends HttpServlet {
 		request.setAttribute("map", map);
 		request.setAttribute("servletName", "process");
 		
+		List joinList = service.selectJoinInfo();
+		request.setAttribute("joinList", joinList);
+		
 		request.getRequestDispatcher("WEB-INF/views/process/process_list.jsp").forward(request, response);
 
 	}

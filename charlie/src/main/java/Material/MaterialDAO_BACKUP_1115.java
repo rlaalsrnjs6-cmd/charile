@@ -11,6 +11,8 @@ import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
@@ -20,7 +22,7 @@ import Material.MaterialDTO;
 import fileLibrary.CommonDTO;
 import fileLibrary.ParentDAO2;
 
-public class MaterialDAO extends ParentDAO2<MaterialDTO, CommonDTO> {
+public class MaterialDAO_BACKUP_1115 extends ParentDAO2<MaterialDTO, CommonDTO> {
 
 	@Override
 	protected String tableName() {
@@ -210,4 +212,5 @@ public class MaterialDAO extends ParentDAO2<MaterialDTO, CommonDTO> {
         }
         return list;
     }
+
 }

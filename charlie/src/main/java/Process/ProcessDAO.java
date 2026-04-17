@@ -138,6 +138,8 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 		dto.setName(rs.getString("name"));
 		dto.setCode(rs.getString("code"));
 		
+		System.out.println("setJoinDTO 정상 작동");
+		System.out.println(dto.getName());
 		return dto;
 	}
 	

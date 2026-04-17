@@ -16,17 +16,21 @@
 	<a href="bom?cmd=list">뒤로</a> <br>
 	<hr>
 	
-	${ bomInfo[0] }
 	<form method="post" action="bom">
 	
 		<input type="hidden" name="cmd" value="update">
-		<input type="hidden" name="bom_num" value="${ bomInfo[0].bom_num }">
+		<input type="hidden" name="bom_num" value="${ bomDTO.bom_num }">
+		<input type="hidden" name="mdm_num" value="${ bomDTO.mdm_num }">
+		<input type="hidden" name="target_mdm_num" value="${ bomDTO.target_mdm_num }">
 		
-		bom번호 : ${ bomInfo[0].bom_num } <br>
-		요구량 : <input name="required_weight" value="${ bomInfo[0].required_weight }"> <br>
-		이름 : <input name="mdm_num" value="${ bomInfo[0].mdm_num }"> <br>
+    	재료명 : ${ bomDTO.name } <br>
+    	재료코드 : ${ bomDTO.code } <br>
+		
+		BOM번호 : ${ bomDTO.bom_num } <br>
+		요구량 : <input name="required_weight" value="${ bomDTO.required_weight }">${ bomDTO.unit } <br>
+		요구 제품 : ${ bomDTO.target_name } <br>
+		
 		 <input type="submit" value="수정"> <br>
-		
 		</form>
 		
 	

@@ -23,11 +23,6 @@
 		text-decoration: none;
 		color: inherit;
 	}
-	
-		.a-title{
-	text-decoration: underline;
-	text-underline-offset: 5px;
-	}
 
 	hr {
 		display: none;
@@ -78,7 +73,6 @@
 		font-size: 1rem;
 		cursor: pointer;
 		transition: background-color 0.3s;
-		margin-bottom: 1.5rem;
 	}
 
 	.btn-sch:hover, .btn-wr:hover {
@@ -237,7 +231,7 @@
 					<td data-label="관리번호">${ row.mdm_num }</td>
 					<td data-label="관리코드">${ row.code }</td>
 					<td data-label="명칭">
-						<a href="mdm?cmd=detail&mdm_num=${ row.mdm_num }" class="a-title">
+						<a href="mdm?cmd=detail&mdm_num=${ row.mdm_num }">
 							<c:if test="${ empty row.name }"> Null </c:if>
 							<c:if test="${ not empty row.name }"> ${ row.name } </c:if>
 						</a>

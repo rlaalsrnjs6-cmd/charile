@@ -1,195 +1,163 @@
 package Warehouse;
 
-import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
+import fileLibrary.CommonDTO;
+import fileLibrary.ParentDAO3;
 
-import Lot.LotDTO;
+public class WarehouseDAO extends ParentDAO3<WarehouseDTO, CommonDTO>{
 
-public class WarehouseDAO {
-	public List<WarehouseDTO> select(WarehouseDTO dto) {
-		List<WarehouseDTO> list = new ArrayList();
-		
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
+	@Override
+	protected String tableName() {
+		return "Warehouse";
+	}
 
-		try {
-			Context ctx = new InitialContext();
+	@Override
+	protected String pk_Coulum_Name() {
+		return "Warehouse_num";
+	}
 
-			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
-//			System.out.println("DAOMODselect:"+dto.getMod());
-			conn = dataFactory.getConnection();
-			String query = "select * from warehouse ";
+	@Override
+	protected int setDTONum(WarehouseDTO dto) {
+		return dto.getWarehouse_num();
+	}
 
-			if(dto.getWarehouse_num()!=-1) {
-				query += "where warehouse_num = ?";
-			}
-			ps = conn.prepareStatement(query);
+	@Override
+	protected String insertQuery() {
+		return "INSERT INTO " + tableName() + " ( " + pk_Coulum_Name() 
+			 + ", wh_section, floor_level, temperature, humidity, wh_status_chk) " 
+				+ " VALUES ( warehouse_seq.nextval, ?, ?, ?, ?, ? )";
+	}
 
-			if(dto.getWarehouse_num()!=-1) {
-				ps.setInt(1,dto.getWarehouse_num());
-			}
-			
-			rs = ps.executeQuery();
-			
-			while(rs.next()) {
-				WarehouseDTO DTO = new WarehouseDTO();
-				int warehouse_num = rs.getInt("warehouse_num");
-				String section = rs.getString("section");
-				String floor_level = rs.getString("floor_level");
-				int temperature = rs.getInt("temperature");
-				String humidity = rs.getString("humidity");
-				String wh_status_chk = rs.getString("wh_status_chk");
-				
-				DTO.setWarehouse_num(warehouse_num);
-				DTO.setSection(section);
-				DTO.setFloor_level(floor_level);
-				DTO.setTemperature(temperature);
-				DTO.setHumidity(humidity);
-				DTO.setWh_status_chk(wh_status_chk);
-				
-				list.add(DTO);
-			}
-//			System.out.println("DAOlist:"+list);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (ps != null) {
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return list;
+	@Override
+	protected String modifyQuery() {
+		return
+				"UPDATE " + tableName() + " SET "
+				+ "wh_section = ?, "
+				+ "floor_level = ?, "
+				+ "temperature = ?, "
+				+ "humidity = ?, "
+				+ "wh_status_chk = ? "
+				+ " where " + pk_Coulum_Name() + " = ? "
+			;
 	}
 	
-public int warehouseDAO(WarehouseDTO dto) {
-		
-		int result = -1;
-		
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
+	@Override
+	protected PreparedStatement setPs(PreparedStatement ps, WarehouseDTO dto, String selector) {
 		
 		try {
-			Context ctx = new InitialContext();
-			
-			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
-//			System.out.println("DAOMODselect:"+dto.getMod());
-			conn = dataFactory.getConnection();
-			
-			String query = "";
-			System.out.println("QCDAOmod:"+dto.getMod());
-			// 업데이트
-			if("up".equals(dto.getMod())) {
-				  query = "UPDATE  warehouse "
-						+ "SET warehouse_num = ?, "
-						+ "section = ?, "
-						+ "floor_level = ?, "
-						+ "temperature = ?, "
-						+ "humidity = ?, "
-						+ "wh_status_chk = ? "
-						+ "where warehouse_num = ?";
-			}
-			// 인서트
-			if("add".equals(dto.getMod())) {
-				 query = "INSERT INTO warehouse "//아직안만듬
-					   + "(warehouse_num, "
-					   + "section, "
-					   + "floor_level, "
-					   + "temperature, "
-					   + "humidity, "
-					   + "wh_status_chk) "
-					   + "VALUES (?, ?, ?, ?, ?, ?)";
-			}
-			// 딜리트
-			if("delete".equals(dto.getMod())) { //만드는중
-				query = "DELETE FROM warehouse "
-					  + "WHERE warehouse_num = ?";
-			}
-			ps = conn.prepareStatement(query);
-			
-			if("up".equals(dto.getMod())) {
-				System.out.println("upps");
-				ps.setInt(1, dto.getWarehouse_num());
-				ps.setString(2, dto.getSection());
-				ps.setString(3, dto.getFloor_level());
-				ps.setInt(4, dto.getTemperature());
-				ps.setString(5, dto.getHumidity());
-				ps.setString(6, dto.getWh_status_chk());
-				ps.setInt(7, dto.getWarehouse_num());
-				
-			}
-			
-			if("add".equals(dto.getMod())) {
-				System.out.println("addps");
-				ps.setInt(1, dto.getWarehouse_num());
-				ps.setString(2, dto.getSection());
-				ps.setString(3, dto.getFloor_level());
-				ps.setInt(4, dto.getTemperature());
-				ps.setString(5, dto.getHumidity());
-				ps.setString(6, dto.getWh_status_chk());
-			}
-			
-			if("delete".equals(dto.getMod())) {
-				System.out.println("deleteps");
-				ps.setInt(1, dto.getWarehouse_num());
-			}
-			
-			result = ps.executeUpdate();
-			
-			System.out.println("lotDAO리솔트:"+result);
-			
-			
-		} catch (Exception e) {
+			ps.setString(1, dto.getWh_section());
+			ps.setString(2, dto.getFloor_level());
+			ps.setDouble(3, dto.getTemperature());
+			ps.setDouble(4, dto.getHumidity());
+			ps.setString(5, dto.getWh_status_chk());
+			if ("update".equals(selector)) { ps.setInt(6, dto.getWarehouse_num()); }
+
+		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (ps != null) {
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
-		return result;
+		return ps;
 	}
+	
+	@Override
+	protected WarehouseDTO setDTO(ResultSet rs) {
+		WarehouseDTO dto = new WarehouseDTO();
+		
+		// DTO > SET number 
+		try {
+			
+			int warehouse_num = rs.getInt("warehouse_num");
+			String wh_section = rs.getString("wh_section");
+			String floor_level = rs.getString("floor_level");
+			double temperature = rs.getDouble("temperature");
+			double humidity = rs.getDouble("humidity");
+			Date wh_chk_date = rs.getDate("wh_chk_date");
+			String wh_status_chk = rs.getString("wh_status_chk");
+			
+			dto.setWarehouse_num(warehouse_num);
+			dto.setWh_section(wh_section);
+			dto.setFloor_level(floor_level);
+			dto.setTemperature(temperature);
+			dto.setHumidity(humidity);
+			dto.setWh_chk_date(wh_chk_date);
+			dto.setWh_status_chk(wh_status_chk);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return dto;
+	}
+	
+	// SELECT MAIN QUERY FOR LIST 
+		@Override // NEEDCHECKED
+		protected String selectQuery(WarehouseDTO dto, CommonDTO commonDTO) {
+
+			String query = // 고정 사용
+						"SELECT * FROM ( "
+	                + "  SELECT rownum AS rnum, subqry.* FROM ( "
+					+ "" // MAIN TABLE A	
+	                + "    SELECT tableA.* FROM warehouse tableA ";
+	               
+		    			
+		    	// tableA = warehouse / tableB = mdm (재료용) / tableC = mdm (제품용)
+			
+		    // 고정
+		    String where = commonDTO.getWhere();
+		    if(("".equals(commonDTO.getWhere()))) where = "where 1 = 1";  
+
+		    String orderBy = commonDTO.getOrderBy();
+		    if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
+		    		
+		 // 가변 조건
+			if ( dto != null ) {
+			
+				if(commonDTO.getSearch() != "") {
+					switch(commonDTO.getSelector()) {
+					
+					// 전체검색
+//					case "search_all": where = " where tableB.code = " 
+//											+ "'" + commonDTO.getSearch() + "'"
+//											+ " or tableB.name = '" + commonDTO.getSearch() + "'"; break;	
+//					/* 컬럼별 검색 */			 
+//					case "code" : where = " where tableB.code = '" +  commonDTO.getSearch() + "'"; break;
+//					case "name" : where = " where tableA.name = '" +  commonDTO.getSearch() + "'"; break;
+					default : break;
+					}
+				}
+			}
+
+		    String groupBy = "";
+		    // 추가 조건 붙일 때
+		    query += where 
+		    	  + groupBy
+		    	  + " ORDER BY " + orderBy + " ) subqry )"
+		    	  + " WHERE rnum >= ? AND rnum <= ?";
+		    return query;
+		}
+
+	protected PreparedStatement selectPs(PreparedStatement ps, CommonDTO commonDTO) throws SQLException {
+		ps.setInt(1, commonDTO.getStart());
+		ps.setInt(2, commonDTO.getEnd());
+		return ps;
+	}
+
+
+	@Override
+	protected String selectAllQuery() {
+		return null;
+	}
+
+	@Override // CHECKED
+	protected WarehouseDTO setJoinDTO(ResultSet rs) throws SQLException {
+		
+		WarehouseDTO dto = new WarehouseDTO();
+		return dto;
+	}
+
+
+
+
 }

@@ -11,9 +11,6 @@ import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 
 import Emp.EmpDTO;
 import Material.MaterialDTO;
@@ -50,7 +47,7 @@ public class MaterialDAO extends ParentDAO2<MaterialDTO, CommonDTO> {
 			dto.setCode(rs.getString("code"));
 			dto.setName(rs.getString("name"));
 			dto.setUnit(rs.getString("unit"));
-			dto.setTotal_price(rs.getLong("total_price_sum")); // Alias와 매칭
+			dto.setTotal_price(rs.getInt("total_price_sum")); // Alias와 매칭
 
 			// warehouse
 			//dto.setWarehouse_num(rs.getInt("warehouse_num"));
@@ -80,20 +77,32 @@ public class MaterialDAO extends ParentDAO2<MaterialDTO, CommonDTO> {
 		String query =
 				  "   SELECT * from (   "
 				+ "   SELECT rownum as rnum, subqry.* from (   "
-				+ " SELECT   "
-				+ "    m.code, "
-				+ "    m.name, "
-				+ "    SUM(mt.total_quantity) AS total_quantity, "
-				+ "    m.unit, "
-				+ "    SUM(mt.total_price * mt.total_quantity) AS total_price, "
-				+ "    MAX(w.temperature) AS temperature, "
-				+ "    MAX(w.humidity) AS humidity, "
-				+ "    MAX(w.wh_section) AS wh_section "
-				+ "FROM mdm m "
-				+ "LEFT JOIN material mt ON m.mdm_num = mt.mdm_num "
-				+ "LEFT JOIN warehouse w ON mt.warehouse_num = w.warehouse_num "
-				+ "WHERE m.canuse = 'Y' "
-				+ "GROUP BY m.code, m.name, m.unit "
+				+ "SELECT   "
+				+ "	tableA.code,   "
+				+ "	tableA.name,   "
+				+ "    SUM(tableA.quantity) AS total_quantity,  "
+				+ "    tableA.unit,  "
+				+ "    SUM(tableA.price * tableA.quantity) AS total_price_sum,  "
+				+ "    tableC.wh_status_chk,  "
+				+ "    tableC.temperature,  "
+				+ "    tableC.humidity,  "
+				+ "    tableC.wh_section,  "
+				+ "   	tableC.floor_level  "
+				+ "FROM mdm tableA  "
+				+ "LEFT OUTER JOIN material tableB  "
+				+ "ON (tableA.mdm_num = tableB.mdm_num)  "
+				+ "LEFT OUTER JOIN warehouse tableC  "
+				+ "ON (tableB.warehouse_num = tableC.warehouse_num)  "
+				+ "WHERE UPPER(tableA.canuse) = 'Y'  "
+				+ "GROUP BY tableA.code,   "
+				+ "		 tableA.name,   "
+				+ "		 tableA.unit,   "
+				+ "		 tableC.wh_status_chk,   "
+				+ "		 tableC.temperature,   "
+				+ "		 tableC.humidity,  "
+				+ " 		 tableC.wh_section,   "
+				+ " 		 tableC.floor_level  "
+				+ " 		ORDER BY tableA.code ASC  "
 				+ " 	) subqry   "
 				+ " ) ";
 	    query += " WHERE rnum >= ? AND rnum <= ?";
@@ -146,68 +155,69 @@ public class MaterialDAO extends ParentDAO2<MaterialDTO, CommonDTO> {
 	    }
 	    return ps;
 	}
-	
-	//////////민권쓰
+	/////////////////////////////////////////////////////////////////
 	public List<MaterialDTO> selectall(MaterialDTO dto) {
-        List<MaterialDTO> list = new ArrayList();
-
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            Context ctx = new InitialContext();
-
-            DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
-//            System.out.println("DAOMODselect:"+dto.getMod());
-            conn = dataFactory.getConnection();
-            String query ="SELECT * from material";
-
-
-            ps = conn.prepareStatement(query);
-
-
-
-            rs = ps.executeQuery();
-            while(rs.next()) {
-                MaterialDTO DTO = new MaterialDTO();
-                int total_quantity = rs.getInt("total_quantity");
-                int material_num = rs.getInt("material_num");
-                int warehouse_num = rs.getInt("warehouse_num");
-                int mdm_num = rs.getInt("mdm_num");
-
-                DTO.setTotal_quantity(total_quantity);
-                DTO.setMaterial_num(material_num);
-                DTO.setWarehouse_num(warehouse_num);
-                DTO.setMdm_num(mdm_num);
-                list.add(DTO);
-            }
-//            System.out.println("DAOlist:"+list);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return list;
-    }
+		List<MaterialDTO> list = new ArrayList();
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			Context ctx = new InitialContext();
+			
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+//			System.out.println("DAOMODselect:"+dto.getMod());
+			conn = dataFactory.getConnection();
+			String query ="SELECT * from material";
+			
+			
+			ps = conn.prepareStatement(query);
+			
+			
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				MaterialDTO DTO = new MaterialDTO();
+				int total_quantity = rs.getInt("total_quantity");
+				int material_num = rs.getInt("material_num");
+				int warehouse_num = rs.getInt("warehouse_num");
+				int mdm_num = rs.getInt("mdm_num");
+				
+				DTO.setTotal_quantity(total_quantity);
+				DTO.setMaterial_num(material_num);
+				DTO.setWarehouse_num(warehouse_num);
+				DTO.setMdm_num(mdm_num);
+				list.add(DTO);
+			}
+//			System.out.println("DAOlist:"+list);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	/////////////////////////////////////////////////////////////////////////
 }
