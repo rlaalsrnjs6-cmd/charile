@@ -35,7 +35,7 @@ public class QCControll extends HttpServlet {
 		}
 		int qc_num = -1;
 		if (sqc_num != null) {
-			System.out.println("qcif확인");
+			System.out.println("qcif�솗�씤");
 			qc_num = Integer.parseInt(sqc_num);
 		}
 		QCDTO qcDTO = new QCDTO();
@@ -45,14 +45,15 @@ public class QCControll extends HttpServlet {
 		qcDTO.setQc_num(qc_num);
 		qcDTO.setMod(mod);
 		QCService service = new QCService();
-		// 수정 
+		// �닔�젙 
 		
 		Map map = service.select(qcDTO, commonDTO);
-		System.out.println("qc컨트롤map: " + map);
+		System.out.println("qc而⑦듃濡쨗ap: " + map);
 		request.setAttribute("map", map);
 		
-		if ("detail".equals(mod)) {
-			System.out.println("디테일로고고씽");
+		if ("detail".equals(mod)) 
+		{
+			System.out.println("qc디테일입장들어가요오오오오오오오오오오옹");
 			request.getRequestDispatcher("WEB-INF/views/qc/qcDetail.jsp").forward(request, response);
 			return;
 		}else if ("delete".equals(mod)) {
@@ -60,25 +61,26 @@ public class QCControll extends HttpServlet {
 			return;
 		} else {
 
-			System.out.println("qcadd작동");
+			System.out.println("qcadd�옉�룞");
 			LotService lotservice = new LotService();
 			EmpService empservice = new EmpService();
+			List qc = service.selectall(qcDTO);
 			EmpDTO empDTO = new EmpDTO();
 			LotDTO lotDTO = new LotDTO();
 			if ("up".equals(mod)) {
 				lotDTO.setQc_num(qc_num);
 				lotDTO.setMod(mod);
-				List<LotDTO> lotlist = lotservice.select(lotDTO);
-				Map emplist = empservice.select(empDTO,commonDTO);
+				List<LotDTO> lotlist = lotservice.selectall(lotDTO);
+				List emplist = empservice.selectall(empDTO);
 				request.setAttribute("lot", lotlist);
 				request.setAttribute("emp", emplist);
-				System.out.println("qc출발 emp:" + emplist);
-				System.out.println("qc출발 lot:" + lotlist);
+				System.out.println("qc리스트 emp:" + emplist);
+				System.out.println("qc리스트 lot:" + lotlist);
 				request.getRequestDispatcher("WEB-INF/views/qc/qcUp.jsp").forward(request, response);
 				return;
 			} else if ("add".equals(mod)) {
 				
-				List<LotDTO> lotlist = lotservice.select(lotDTO);
+				List<LotDTO> lotlist = lotservice.selectall(lotDTO);
 				List emplist = empservice.selectall(empDTO);
 				request.setAttribute("lot", lotlist);
 				request.setAttribute("emp", emplist);
@@ -86,7 +88,6 @@ public class QCControll extends HttpServlet {
 				return;
 			} 
 		}
-		System.out.println("리스트로 고고씽");
 		request.getRequestDispatcher("WEB-INF/views/qc/qcList.jsp").forward(request, response);
 	}
 
@@ -164,7 +165,7 @@ public class QCControll extends HttpServlet {
 
 		QCService service = new QCService();
 
-		System.out.println("qcAdd마지막: " + service.qcService(qcDTO));
+		System.out.println("qcAdd留덉�留�: " + service.qcService(qcDTO));
 
 		response.sendRedirect("qc");
 	}
@@ -180,7 +181,7 @@ public class QCControll extends HttpServlet {
 		qcDTO.setQc_num(qc_num);
 		qcDTO.setMod(mod);
 		QCService service = new QCService();
-		System.out.println("qcAdd마지막: " + service.qcService(qcDTO));
+		System.out.println("qcAdd留덉�留�: " + service.qcService(qcDTO));
 		response.sendRedirect("qc");
 	}
 }

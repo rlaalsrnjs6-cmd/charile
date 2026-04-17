@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
-    import = ""
     %>
     
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -14,30 +13,53 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%@ include file="/header.jsp" %>
 <form method="post" action="defective">
 	<table border=1>
 		<tr>
-			<th>불량번호</th>
 			<th>불량카테고리</th>
 			<th>개수</th>
-			<th>qc번호</th>
 			<th>불량조치방법</th>
-			<th>mdm번호</th>
+			<th>qc번호</th>
 		</tr>
-		
+		${q.qc_chk}${qc}
 		<tr>
 			<input type="hidden" name="mod" value="add">
-			<td><input type="text" name="defective_num"></td>
-			<td><input type="text" name="category"></td>
+			<td>
+				<select name="category">
+            			<option value="깨짐" selected>
+               	 			깨짐
+             			</option>
+            			<option value="녹음" selected>
+               	 			녹음
+             			</option>
+            			<option value="이물질" selected>
+               	 			이물질
+             			</option>
+    			</select>
+    		</td>
 			<td><input type="text" name="count"></td>
-			<td><input type="text" name="qc_num"></td>
-			<td><input type="text" name="action"></td>
-			<td><input type="text" name="mdm_num"></td>
+			<td>
+				<select name="action">
+            			<option value="폐기" selected>
+               	 			폐기
+             			</option>
+            			<option value="통과" selected>
+               	 			통과
+             			</option>
+    			</select>
+    		</td>
+			<td>
+				<select name="qc_num">
+       				 <c:forEach var="q" items="${qc}">
+            			<option value="${q.qc_num}" selected>
+               	 			${q.qc_num}
+             			</option>
+        			</c:forEach>
+    			</select>
+    		</td>
 		</tr>
-		<input type="submit" value="작성">
 	</table>
+		<input type="submit" value="작성">
 </form>
-<%@ include file="/footer.jsp" %>
 </body>
 </html>
