@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +13,13 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import WorkOrder.WorkOrderDTO;
+
 
 
 
 public class ProductionManagementDAO {
-	private DataSource dataFactory; //캡슐화를 위해 private
+	private DataSource dataFactory; //罹≪뒓�솕瑜� �쐞�빐 private
 	
 	ProductionManagementDAO(){
 		try {
@@ -25,13 +28,13 @@ public class ProductionManagementDAO {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-	}//생성자 닫음
+	}//�깮�꽦�옄 �떕�쓬
 	
 	
 	
 
 	
-	//페이지에서 보여줄 항목 몇개인지 개수 리턴
+	//�럹�씠吏��뿉�꽌 蹂댁뿬以� �빆紐� 紐뉕컻�씤吏� 媛쒖닔 由ы꽩
 	public int getTotalCount(ProductionManagementDTO dto) {
 		
 		int total = 0;
@@ -70,9 +73,9 @@ public class ProductionManagementDAO {
 	    query.append("  SELECT rownum AS rnum, a.* FROM (");
 	    query.append("    SELECT ");
 	    query.append("        P.prod_num, P.title, ");
-	    query.append("        P.WEEKLY_TARGET AS \"전체목표\", ");
-	    query.append("        NVL(SUM(L.lot_count), 0) AS \"현재까지_만든_총합\", "); // null일 경우 0처리
-	    query.append("        (P.WEEKLY_TARGET - NVL(SUM(L.lot_count), 0)) AS \"남은목표_수량\" ");
+	    query.append("        P.WEEKLY_TARGET AS \"�쟾泥대ぉ�몴\", ");
+	    query.append("        NVL(SUM(L.lot_count), 0) AS \"�쁽�옱源뚯�_留뚮뱺_珥앺빀\", "); // null�씪 寃쎌슦 0泥섎━
+	    query.append("        (P.WEEKLY_TARGET - NVL(SUM(L.lot_count), 0)) AS \"�궓��紐⑺몴_�닔�웾\" ");
 	    query.append("    FROM production_management P ");
 	    query.append("    LEFT JOIN work_order W ON P.prod_num = W.prod_num ");
 	    query.append("    LEFT JOIN lot L ON W.order_num = L.order_num ");
@@ -102,9 +105,9 @@ public class ProductionManagementDAO {
 						ProductionManagementDTO dto2 = new ProductionManagementDTO();
 						dto2.setProd_num(rs.getInt("prod_num"));
 		                dto2.setTitle(rs.getString("title"));
-		                dto2.setTarget_quantity(rs.getInt("전체목표"));
-		                dto2.setCurrentCount(rs.getInt("현재까지_만든_총합"));
-		                dto2.setRemainCount(rs.getInt("남은목표_수량"));
+		                dto2.setTarget_quantity(rs.getInt("�쟾泥대ぉ�몴"));
+		                dto2.setCurrentCount(rs.getInt("�쁽�옱源뚯�_留뚮뱺_珥앺빀"));
+		                dto2.setRemainCount(rs.getInt("�궓��紐⑺몴_�닔�웾"));
 						list.add(dto2);
 					}
 				}
@@ -112,20 +115,20 @@ public class ProductionManagementDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("DAO의 list: " + list);
+		System.out.println("DAO�쓽 list: " + list);
 		return list;
 	}
 
-	//insert하는 메서드
+	//insert�븯�뒗 硫붿꽌�뱶
 	public int insertData(ProductionManagementDTO dto) {
 	
 		String query = "insert into production_management (prod_num, WEEKLY_TARGET, work_start, work_end, title, mdm_num, content, empno)"
-				+ " values(production_mgmt_seq.nextval, ?, ?, ?, ?, ?, '비고', ?)";
+				+ " values(production_mgmt_seq.nextval, ?, ?, ?, ?, ?, '鍮꾧퀬', ?)";
 		
 		try(Connection conn = dataFactory.getConnection();
 				PreparedStatement ps = conn.prepareStatement(query);)
 			{
-				//inser into다음 values에 들어갈 ?에 해당하는 값을 순서대로 넣음
+				//inser into�떎�쓬 values�뿉 �뱾�뼱媛� ?�뿉 �빐�떦�븯�뒗 媛믪쓣 �닚�꽌��濡� �꽔�쓬
 				ps.setInt(1, dto.getTarget_quantity());
 				ps.setDate(2, dto.getWork_start());
 				ps.setDate(3, dto.getWork_end());
@@ -137,8 +140,72 @@ public class ProductionManagementDAO {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
-		System.out.println("insertDAO 예외 발생");
+		System.out.println("insertDAO �삁�쇅 諛쒖깮");
 			return 0;
 		}
-	
-}///클래스 닫음
+	public List<ProductionManagementDTO> selectall(ProductionManagementDTO dto) {
+		List<ProductionManagementDTO> list = new ArrayList();
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			Context ctx = new InitialContext();
+			
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+//			System.out.println("DAOMODselect:"+dto.getMod());
+			conn = dataFactory.getConnection();
+			String query = "SELECT * from production_management";
+			
+			//�닔�젙
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				ProductionManagementDTO DTO = new ProductionManagementDTO();
+				int prod_num = rs.getInt("prod_num");
+				int weekly_target = rs.getInt("weekly_target");
+				Date work_start = rs.getDate("work_start");
+				Date work_end = rs.getDate("work_end");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				int empno = rs.getInt("empno");
+				
+				DTO.setProd_num(prod_num);
+				DTO.setTarget_quantity(weekly_target);
+				DTO.setWork_start(work_start);
+				DTO.setWork_end(work_end);
+				DTO.setTitle(title);
+				DTO.setEmpno(empno);
+				list.add(DTO);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+}///�겢�옒�뒪 �떕�쓬

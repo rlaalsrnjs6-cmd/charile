@@ -47,7 +47,7 @@ public class WorkOrderControll extends HttpServlet {
 		Map map = service.select(orderDTO, pageing);
 		request.setAttribute("map", map);
 		if("detail".equals(mod)) {
-			System.out.println("detail로");
+			System.out.println("detail濡�");
 			request.getRequestDispatcher("/WEB-INF/views/order/orderDetail.jsp").forward(request, response);
 		}else if("add".equals(mod)){
 			ProductionManagementService sv = new ProductionManagementService();
@@ -59,13 +59,12 @@ public class WorkOrderControll extends HttpServlet {
 				prod_num = Integer.parseInt(sprod_num);
 			}
 			pmdto.setProd_num(prod_num);
-			Map pmlist = sv.loadPM(pmdto);
-			Map emplist = empservice.select(empDTO,commonDTO);
+			List pmlist = sv.selectall(pmdto);
+			List emplist = empservice.selectall(empDTO);
 			request.setAttribute("pm", pmlist);
 			request.setAttribute("emp", emplist);
-			System.out.println("wo출발 emp:" + emplist);
-			System.out.println("wo출발 pm:" + pmlist);
-			System.out.println("add로");
+			System.out.println("wo컨트롤 emp:" + emplist);
+			System.out.println("wo컨트롤 pm:" + pmlist);
 			request.getRequestDispatcher("/WEB-INF/views/order/orderAdd.jsp").forward(request, response);
 		}
 		else if("up".equals(mod)){
@@ -73,13 +72,13 @@ public class WorkOrderControll extends HttpServlet {
 			EmpDTO empDTO = new EmpDTO();
 			List emplist = empservice.selectall(empDTO);
 			request.setAttribute("emp", emplist);
-			System.out.println("wo출발 emp:" + emplist);
-			System.out.println("UP로");
+			System.out.println("wo異쒕컻 emp:" + emplist);
+			System.out.println("UP濡�");
 			request.getRequestDispatcher("/WEB-INF/views/order/orderUp.jsp").forward(request, response);
 		}else if("delete".equals(mod)){
 			orderDelete(request, response);
 		}else {
-			System.out.println("리스트로");
+			System.out.println("由ъ뒪�듃濡�");
 			request.getRequestDispatcher("/WEB-INF/views/order/orderList.jsp").forward(request, response);
 		}
 
@@ -116,7 +115,7 @@ public class WorkOrderControll extends HttpServlet {
 		int empno = Integer.parseInt(sempno);
 		int daily_target = Integer.parseInt(sdaily_target);
 		Date work_date = Date.valueOf(swork_date);
-		System.out.println("업출발");
+		System.out.println("�뾽異쒕컻");
 		WorkOrderDTO orderDTO = new WorkOrderDTO();
 		orderDTO.setWork_date(work_date);
 		orderDTO.setOrder_num(order_num);
@@ -127,7 +126,7 @@ public class WorkOrderControll extends HttpServlet {
 		orderDTO.setMod(mod);
 		
 		WorkOrderService service = new WorkOrderService();
-		System.out.println("order업마지막: "+service.orderService(orderDTO));
+		System.out.println("order�뾽留덉�留�: "+service.orderService(orderDTO));
 		response.sendRedirect("order");
 	}
 	

@@ -15,34 +15,34 @@ public class WorkOrderService {
 
 		pageing.setTableName("work_order");
 
-        // 페이지에서 보여줄 항목 몇개인지 개수 리턴
+        // �럹�씠吏��뿉�꽌 蹂댁뿬以� �빆紐� 紐뉕컻�씤吏� 媛쒖닔 由ы꽩
         int totalCount = dao.getTotalCount();
-        System.out.println("토탈사이즈: " + totalCount);
+        System.out.println("토탈카운트 " + totalCount);
         
 
-        int size = pageing.getSize(); // 한 페이지에서 보여줄 개수
-        int page = pageing.getPage(); // 시작 페이지
+        int size = pageing.getSize(); // �븳 �럹�씠吏��뿉�꽌 蹂댁뿬以� 媛쒖닔
+        int page = pageing.getPage(); // �떆�옉 �럹�씠吏�
 
-        int section = pageing.getSection(); // N 페이지씩 하기
+        int section = pageing.getSection(); // N �럹�씠吏��뵫 �븯湲�
 
         int start = 0, end = 0;
 
-        System.out.println("서비스사이즈:"+size);
-        System.out.println("서비스페이지:"+page);
-        // 페이지에서 보여줄 마지막 번호
+        System.out.println("order서비스사이즈:"+size);
+        System.out.println("order서비스페이지:"+page);
+        // �럹�씠吏��뿉�꽌 蹂댁뿬以� 留덉�留� 踰덊샇
         end = size * page;
-        // 페이지에서 보여줄 시작 번호
+        // �럹�씠吏��뿉�꽌 蹂댁뿬以� �떆�옉 踰덊샇
         start = end - (size - 1);
 
         pageing.setEnd(end);
         pageing.setStart(start);
-        System.out.println("서비스end: " + pageing.getEnd());
-        System.out.println("서비스end: " + pageing.getStart());
+        System.out.println("order서비스end: " + pageing.getEnd());
+        System.out.println("order서비스start: " + pageing.getStart());
         Map map = new HashMap();
-        // 생산관리에 있는 기존 DB만 select
-        System.out.println("order서비스mod: " + dto.getMod());
+        // �깮�궛愿�由ъ뿉 �엳�뒗 湲곗〈 DB留� select
+        System.out.println("order�꽌鍮꾩뒪mod: " + dto.getMod());
         List<WorkOrderDTO> list = dao.select(dto, pageing);
-        System.out.println("서비스의 list: " + list);
+        System.out.println("�꽌鍮꾩뒪�쓽 list: " + list);
 
         map.put("list", list); // list
         map.put("totalCount", totalCount);

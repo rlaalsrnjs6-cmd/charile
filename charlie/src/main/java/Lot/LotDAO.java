@@ -31,7 +31,7 @@ public class LotDAO {
 
 			System.out.println("lotadomod:"+dto.getMod());
 			if("up".equals(dto.getMod())) {
-				System.out.println("실행됐나?");
+				System.out.println("�떎�뻾�릱�굹?");
 				query = "select * "
 						+ "from qc q "
 						+ "join lot l "
@@ -62,14 +62,12 @@ public class LotDAO {
 				int order_num = rs.getInt("order_num");
 				String qc_chk = rs.getString("qc_chk");
 				int material_num = rs.getInt("material_num");
-				int mdm_num = rs.getInt("mdm_num");
 				
 				DTO.setLot_num(lot_num);
 				DTO.setLot_count(lot_count);
 				DTO.setOrder_num(order_num);
 				DTO.setQc_chk(qc_chk);
 				DTO.setMaterial_num(material_num);
-				DTO.setMdm_num(mdm_num);
 				
 				list.add(DTO);
 			}
@@ -119,9 +117,9 @@ public int lotDAO(LotDTO dto) {
 			
 			String query = "";
 			System.out.println("QCDAOmod:"+dto.getMod());
-			// 업데이트
+			// �뾽�뜲�씠�듃
 			if("up".equals(dto.getMod())) {
-				System.out.println("qc수정으로lot실행");
+				System.out.println("qc�닔�젙�쑝濡쐋ot�떎�뻾");
 				  query = "UPDATE lot "
 						+ "SET lot_num = ?, "
 						+ "lot_count = ?, "
@@ -131,9 +129,9 @@ public int lotDAO(LotDTO dto) {
 						+ "mdm_num = ? "
 						+ "where lot_num = ?";
 			}
-			// 인서트
+			// �씤�꽌�듃
 			if("add".equals(dto.getMod())) {
-				 query = "INSERT INTO lot "//아직안만듬
+				 query = "INSERT INTO lot "//�븘吏곸븞留뚮벉
 					   + "(lot_num, "
 					   + "lot_count, "
 					   + "order_num, "
@@ -141,8 +139,8 @@ public int lotDAO(LotDTO dto) {
 					   + "material_num) "
 					   + "VALUES (lot_seq.nextval, ?, ?, ?, ?)";
 			}
-			// 딜리트
-			if("delete".equals(dto.getMod())) { //만드는중
+			// �뵜由ы듃
+			if("delete".equals(dto.getMod())) { //留뚮뱶�뒗以�
 				query = "DELETE FROM lot "
 					  + "WHERE lot_num = ?";
 			}
@@ -175,7 +173,7 @@ public int lotDAO(LotDTO dto) {
 			
 			result = ps.executeUpdate();
 			
-			System.out.println("lotDAO리솔트:"+result);
+			System.out.println("lotDAO由ъ넄�듃:"+result);
 			
 			
 		} catch (Exception e) {
@@ -238,7 +236,7 @@ public int lotQcDAO(LotDTO dto) {
 		
 		result = ps.executeUpdate();
 		
-		System.out.println("lotDAO리솔트:"+result);
+		System.out.println("lotDAO由ъ넄�듃:"+result);
 		
 		
 	} catch (Exception e) {
