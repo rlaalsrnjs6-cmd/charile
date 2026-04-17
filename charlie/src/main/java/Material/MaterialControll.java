@@ -20,7 +20,6 @@ import fileLibrary.CommonDTO;
 public class MaterialControll extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("/material [doGet] 실행");
 
 		response.setContentType("text/html; charset=utf-8;");
 
@@ -40,7 +39,7 @@ public class MaterialControll extends HttpServlet {
 		
 		case "search": search(request, response); return;
 		
-		default: System.out.println("잘못된 접근입니다"); return;
+		default: System.out.println("�옒紐삳맂 �젒洹쇱엯�땲�떎"); return;
 		
 		}
 
@@ -116,7 +115,6 @@ public class MaterialControll extends HttpServlet {
 	protected void detail(HttpServletRequest request, HttpServletResponse response, String selector)
 			throws ServletException, IOException {
 
-		System.out.println("/detail 실행");
 
 		// Service > DAO - selectOne
 		MaterialService service = new MaterialService();
@@ -125,12 +123,12 @@ public class MaterialControll extends HttpServlet {
 		// Forward > DTO
 		request.setAttribute("materialDTO", materialDTO);
 		
-		if("detail".equals(selector)) { // 상세 페이지
+		if("detail".equals(selector)) { 
 			
 			request.getRequestDispatcher("WEB-INF/views/material/material_detail.jsp")
 				.forward(request, response);
 		
-		} else { // 수정 페이지
+		} else { 
 			
 			request.getRequestDispatcher("WEB-INF/views/material/material_modify.jsp")
 				.forward(request, response);
@@ -145,7 +143,7 @@ public class MaterialControll extends HttpServlet {
 
 			
 			MaterialService service = new MaterialService();
-			// 검색 내용받음
+			
 			
 			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
 
@@ -154,10 +152,7 @@ public class MaterialControll extends HttpServlet {
 
 		}
 
-	// 거의 고정해서 사용
 	
-	// set primarykey & return DTO 
-		// set primarykey & return DTO 
 		protected MaterialDTO setDTO(HttpServletRequest request) throws ServletException, IOException {
 			
 			MaterialDTO materialDTO = new MaterialDTO();
@@ -207,24 +202,20 @@ public class MaterialControll extends HttpServlet {
 			return materialDTO;
 		}
 	
-	// 공통 변수
 		protected CommonDTO setCommonDTO(HttpServletRequest request, String cmd)
 				throws ServletException, IOException {
 			
 			CommonDTO commonDTO = new CommonDTO();
 			
-			// 검색 기능 [ search_content ]
 			if("search".equals(cmd)) {
 				commonDTO.setSelector(request.getParameter("search_select"));
 				commonDTO.setSearch(request.getParameter("search_content"));
 			}
 			
-			// orderBy [ column ]
 			String orderBy = request.getParameter("orderBy");
 			commonDTO.setOrderBy(orderBy);
 			
 			
-			// paging 
 			int size= 10, page= 1;
 			
 			try {
