@@ -33,7 +33,7 @@
 		<c:forEach var="row" items="${ map.list }">
 			<tr>
 				<td>${ row.code }</td>
-				<td>${ row.name }</td>
+				<td><a href="${ row.material_num }">${ row.name }</a></td>
 				<td>${ row.total_quantity }</td>
 				<td>${ row.unit }</td>
 				<td>${ row.total_price }</td>
