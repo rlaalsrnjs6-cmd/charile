@@ -5,12 +5,15 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
+
+import WorkOrder.WorkOrderDTO;
 
 
 
@@ -140,5 +143,70 @@ public class ProductionManagementDAO {
 		System.out.println("insertDAO 예외 발생");
 			return 0;
 		}
+	
+	public List<ProductionManagementDTO> selectall(ProductionManagementDTO dto) {
+		List<ProductionManagementDTO> list = new ArrayList();
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			Context ctx = new InitialContext();
+			
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+			conn = dataFactory.getConnection();
+			String query = "SELECT * from production_management";
+			
+			ps = conn.prepareStatement(query);
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				ProductionManagementDTO DTO = new ProductionManagementDTO();
+				int prod_num = rs.getInt("prod_num");
+				int weekly_target = rs.getInt("weekly_target");
+				Date work_start = rs.getDate("work_start");
+				Date work_end = rs.getDate("work_end");
+				int empno = rs.getInt("empno");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				
+				DTO.setProd_num(prod_num);
+				DTO.setTarget_quantity(weekly_target);
+				DTO.setWork_start(work_start);
+				DTO.setWork_end(work_end);
+				DTO.setEmpno(empno);
+				DTO.setTitle(title);
+				DTO.setContent(content);
+				list.add(DTO);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
 	
 }///클래스 닫음

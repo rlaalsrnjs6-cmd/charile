@@ -59,8 +59,8 @@ public class WorkOrderControll extends HttpServlet {
 				prod_num = Integer.parseInt(sprod_num);
 			}
 			pmdto.setProd_num(prod_num);
-			Map pmlist = sv.loadPM(pmdto);
-			Map emplist = empservice.select(empDTO,commonDTO);
+			List pmlist = sv.selectall(pmdto);
+			List emplist = empservice.selectall(empDTO);
 			request.setAttribute("pm", pmlist);
 			request.setAttribute("emp", emplist);
 			System.out.println("wo출발 emp:" + emplist);
