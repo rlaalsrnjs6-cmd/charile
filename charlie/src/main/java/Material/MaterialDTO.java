@@ -5,7 +5,7 @@ public class MaterialDTO {
 	// material
 	int material_num;
 	int total_quantity;
-	int total_price;
+	long total_price;
 	
 	// join warehouse
 	int warehouse_num;
@@ -32,12 +32,6 @@ public class MaterialDTO {
 	}
 	public void setTotal_quantity(int total_quantity) {
 		this.total_quantity = total_quantity;
-	}
-	public int getTotal_price() {
-		return total_price;
-	}
-	public void setTotal_price(int total_price) {
-		this.total_price = total_price;
 	}
 	public int getWarehouse_num() {
 		return warehouse_num;
@@ -100,6 +94,12 @@ public class MaterialDTO {
 		this.unit = unit;
 	}
 	
+	public long getTotal_price() {
+		return total_price;
+	}
+	public void setTotal_price(long total_price) {
+		this.total_price = total_price;
+	}
 	@Override
 	public String toString() {
 		return "MaterialDTO [material_num=" + material_num + ", total_quantity=" + total_quantity + ", total_price="

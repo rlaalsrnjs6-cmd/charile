@@ -1,7 +1,9 @@
 package Warehouse;
 
+
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,132 +11,235 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Lot.LotDTO;
-import Lot.LotService;
+import Warehouse.WarehouseDTO;
+import Warehouse.WarehouseService;
+import Warehouse.WarehouseService;
+import Warehouse.WarehouseService;
+import fileLibrary.CommonDTO;
+
 
 @WebServlet("/warehouse")
 public class WarehouseControll extends HttpServlet {
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		System.out.println("/warehouse [doGet] �떎�뻾");
+
+		response.setContentType("text/html; charset=utf-8;");
+
+		String cmd = request.getParameter("cmd");
+
+		if ("".equals(cmd) || cmd == null) { list(request, response); return; }
+
+		switch (cmd) {
+
+		case "insertPage": insertPage(request, response); return;
+		case "insert": insert(request, response); return;
+		case "list": list(request, response); return;
+		case "detail": detail(request, response, "detail"); return;
+		case "modify": detail(request, response, "modify"); return;
+		case "update": update(request, response); return;
+		case "delete": delete(request, response); return;
+		
+		case "search": search(request, response); return;
+		
+		default: System.out.println("�옒紐삳맂 �젒洹쇱엯�땲�떎"); return;
+		
+		}
+
+	}
+	
+	protected void insertPage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		request.getRequestDispatcher("WEB-INF/views/warehouse/warehouse_insert.jsp")
+														.forward(request, response);
+		
+	}
+
+	protected void insert(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
-		String swarehouse_num = request.getParameter("warehouse_num");
-		String mod = request.getParameter("mod");
 
-		int warehouse_num = -1;
-		if (swarehouse_num != null) {
-			warehouse_num = Integer.parseInt(swarehouse_num);
-		}
-		WarehouseDTO warehouseDTO = new WarehouseDTO();
-		warehouseDTO.setWarehouse_num(warehouse_num);
-		warehouseDTO.setMod(mod);
+		// setDTO > Service > DAO
 		WarehouseService service = new WarehouseService();
-		List<WarehouseDTO> list = service.select(warehouseDTO);
-		System.out.println("warehouse컨트롤마지막: "+list);
-		request.setAttribute("warehouse", list);
-		if ("detail".equals(mod)) {
-			System.out.println("디테일로고고씽");
-			request.getRequestDispatcher("WEB-INF/views/warehouse/warehouseDetail.jsp").forward(request, response);
-			return;
-		} else if ("up".equals(mod)) {
-			request.getRequestDispatcher("WEB-INF/views/warehouse/warehouseUp.jsp").forward(request, response);
-			return;
-		} else if ("add".equals(mod)) {
-			request.getRequestDispatcher("WEB-INF/views/warehouse/warehouseAdd.jsp").forward(request, response);
-			return;
-		} else if ("delete".equals(mod)) {
-			warehouseDelete(request, response);
-			return;
-		}
-		System.out.println("리스트로 고고씽");
-		request.getRequestDispatcher("WEB-INF/views/warehouse/warehouseList.jsp").forward(request, response);
+		service.insertDB(setDTO(request));
+
+		// list page
+		response.sendRedirect("warehouse?cmd=list");
 	}
+
+	// list
+		protected void list(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+			
+			response.setContentType("text/html; charset=utf-8;");
+
+			WarehouseService service = new WarehouseService();
+			Map map = service.selectDB(setDTO(request), setCommonDTO(request, ""));
+			
+			request.setAttribute("map", map);
+			request.setAttribute("servletName", "warehouse");
+			
+			request.getRequestDispatcher("WEB-INF/views/warehouse/warehouse_list.jsp").forward(request, response);
+
+		}
+	
+	// delete
+	protected void delete(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		WarehouseService service = new WarehouseService();
+		service.deleteDB(setDTO(request));
+		
+		response.sendRedirect("warehouse?cmd=list");
+	}
+	
+	// update
+	protected void update(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		WarehouseService service = new WarehouseService();
+		service.modifyDB(setDTO(request));
+		
+		response.sendRedirect("warehouse?cmd=list");
+	}
+	
+
+	// detail
+	protected void detail(HttpServletRequest request, HttpServletResponse response, String selector)
+			throws ServletException, IOException {
+
+		System.out.println("/detail �떎�뻾");
+
+		// Service > DAO - selectOne
+		WarehouseService service = new WarehouseService();
+		WarehouseDTO warehouseDTO = service.selectOne(setDTO(request), setCommonDTO(request, ""));
+
+		// Forward > DTO
+		request.setAttribute("warehouseDTO", warehouseDTO);
+		
+		if("detail".equals(selector)) { // �긽�꽭 �럹�씠吏�
+			
+			request.getRequestDispatcher("WEB-INF/views/warehouse/warehouse_detail.jsp")
+				.forward(request, response);
+		
+		} else { 
+			
+//			List list = service.selectJoinInfo();
+//			request.setAttribute("list", list);
+			
+			request.getRequestDispatcher("WEB-INF/views/warehouse/warehouse_modify.jsp")
+				.forward(request, response);
+			
+		}
+		
+	}
+	
+	// search
+	protected void search(HttpServletRequest request, HttpServletResponse response)
+							throws ServletException, IOException {
+
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8;");
+		
+			WarehouseService service = new WarehouseService();
+			// 寃��깋 �궡�슜諛쏆쓬
+				
+			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
+
+			request.setAttribute("map", map);
+			request.getRequestDispatcher("WEB-INF/views/warehouse/warehouse_list.jsp").forward(request, response);
+
+			}
+
+
+	// 嫄곗쓽 怨좎젙�빐�꽌 �궗�슜
+	
+	// set primarykey & return DTO 
+	protected WarehouseDTO setDTO(HttpServletRequest request) throws ServletException, IOException {
+		
+		WarehouseDTO warehouseDTO = new WarehouseDTO();
+		
+		int warehouse_num = -1; double temperature = 1.0; double humidity = -1.1;
+		if (request.getParameter("warehouse_num") != null 
+				&& !("".equals(request.getParameter("warehouse_num")))) {
+			
+			warehouse_num = Integer.parseInt(request.getParameter("warehouse_num"));
+		
+			System.out.println( "/set warehouse warehouse_num : " + warehouse_num );
+		} 
+		
+		if (request.getParameter("temperature") != null 
+				&& !("".equals(request.getParameter("temperature")))) {
+			
+			temperature = Double.parseDouble(request.getParameter("temperature"));
+			
+		} 
+		
+		if (request.getParameter("humidity") != null 
+				&& !("".equals(request.getParameter("humidity")))) {
+			
+			humidity = Double.parseDouble(request.getParameter("humidity"));
+			
+		} 
+		
+	
+		warehouseDTO.setWarehouse_num(warehouse_num);
+		warehouseDTO.setTemperature(temperature);
+		warehouseDTO.setHumidity(humidity);
+		
+		warehouseDTO.setWh_section(request.getParameter("wh_section"));
+		warehouseDTO.setFloor_level(request.getParameter("floor_level"));
+		warehouseDTO.setWh_status_chk(request.getParameter("wh_status_chk"));
+		
+		return warehouseDTO;
+	}
+	
+	// 怨듯넻 蹂��닔
+			protected CommonDTO setCommonDTO(HttpServletRequest request, String cmd)
+					throws ServletException, IOException {
+				
+				CommonDTO commonDTO = new CommonDTO();
+				
+				// ORDER BY [COLUMN]
+				String orderBy = "wh_chk_date DESC ";
+				commonDTO.setOrderBy(orderBy);
+				// GROUP BY 遺��꽣 �옉�꽦
+				String groupBy = ""; 
+				commonDTO.setGroupBy(groupBy);
+				// WHERE 1=1
+				String where = ""; 
+				commonDTO.setWhere(where);
+				
+				// 寃��깋 湲곕뒫 [ search_content ]
+				if("search".equals(cmd)) {
+					commonDTO.setSelector(request.getParameter("search_select"));
+					commonDTO.setSearch(request.getParameter("search_content"));
+					System.out.println(commonDTO.getSelector());
+					System.out.println(commonDTO.getSearch());
+				}
+				
+				// paging 
+				int size= 10, page= 1;
+				
+				try {
+					size = Integer.parseInt(request.getParameter("size"));
+				} catch(Exception e) { }
+				try {
+					page = Integer.parseInt(request.getParameter("page"));
+				} catch(Exception e) { }
+				
+				commonDTO.setSize(size);
+				commonDTO.setPage(page);
+				
+				return commonDTO;
+			}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8;");
-		String mod = request.getParameter("mod");
-		if ("add".equals(mod)) {
-			warehouseAdd(request, response);
-		} else if ("up".equals(mod)) {
-			warehouseUP(request, response);
-		} else if ("delete".equals(mod)) {
-			warehouseDelete(request, response);
-		}
-
+		doGet(request, response);
 	}
-
-	protected void warehouseUP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8;");
-		String swarehouse_num = request.getParameter("warehouse_num");
-		String section = request.getParameter("section");
-		String floor_level = request.getParameter("floor_level");
-		String stemperature = request.getParameter("temperature");
-		String humidity = request.getParameter("humidity");
-		String wh_status_chk = request.getParameter("wh_status_chk");
-		String mod = request.getParameter("mod");
-		int warehouse_num = Integer.parseInt(swarehouse_num);
-		int temperature = Integer.parseInt(stemperature);
-		WarehouseDTO warehouseDTO = new WarehouseDTO();
-		warehouseDTO.setWarehouse_num(warehouse_num);
-		warehouseDTO.setSection(section);
-		warehouseDTO.setFloor_level(floor_level);
-		warehouseDTO.setTemperature(temperature);
-		warehouseDTO.setHumidity(humidity);
-		warehouseDTO.setWh_status_chk(wh_status_chk);
-		warehouseDTO.setMod(mod);
-		WarehouseService service = new WarehouseService();
-		service.warehouseService(warehouseDTO);
-		response.sendRedirect("warehouse");
-
-	}
-
-	protected void warehouseAdd(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8;");
-
-		String swarehouse_num = request.getParameter("warehouse_num");
-		String section = request.getParameter("section");
-		String floor_level = request.getParameter("floor_level");
-		String stemperature = request.getParameter("temperature");
-		String humidity = request.getParameter("humidity");
-		String wh_status_chk = request.getParameter("wh_status_chk");
-		String mod = request.getParameter("mod");
-		System.out.println("up:" + mod);
-		int warehouse_num = Integer.parseInt(swarehouse_num);
-		int temperature = Integer.parseInt(stemperature);
-
-		WarehouseDTO warehouseDTO = new WarehouseDTO();
-		warehouseDTO.setWarehouse_num(warehouse_num);
-		warehouseDTO.setSection(section);
-		warehouseDTO.setFloor_level(floor_level);
-		warehouseDTO.setTemperature(temperature);
-		warehouseDTO.setHumidity(humidity);
-		warehouseDTO.setWh_status_chk(wh_status_chk);
-		warehouseDTO.setMod(mod);
-
-		WarehouseService service = new WarehouseService();
-
-		System.out.println("lotadd마지막: " + service.warehouseService(warehouseDTO));
-
-		response.sendRedirect("warehouse");
-	}
-
-	protected void warehouseDelete(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8;");
-		String swarehouse_num = request.getParameter("warehouse_num");
-		String mod = request.getParameter("mod");
-		int warehouse_num = Integer.parseInt(swarehouse_num);
-		WarehouseDTO warehouseDTO = new WarehouseDTO();
-		warehouseDTO.setWarehouse_num(warehouse_num);
-		warehouseDTO.setMod(mod);
-		WarehouseService service = new WarehouseService();
-		System.out.println("lotAdd마지막: " + service.warehouseService(warehouseDTO));
-		response.sendRedirect("warehouse");
-	}
-
 }

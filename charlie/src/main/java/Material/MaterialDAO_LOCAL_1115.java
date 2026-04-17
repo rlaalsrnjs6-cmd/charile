@@ -1,7 +1,6 @@
 package Material;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,12 +10,7 @@ import java.util.List;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
 
-import Emp.EmpDTO;
-import Material.MaterialDTO;
 import fileLibrary.CommonDTO;
 import fileLibrary.ParentDAO2;
 

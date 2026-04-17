@@ -24,10 +24,7 @@
 				<th>자재명</th>
 				<th>총수량</th>
 				<th>단위</th>
-				<th>총가격(매출)</th>
-				<th>창고확인</th>
-				<th>기온</th>
-				<th>습도</th>
+				<th>총가격</th>
 				<th>섹션구분</th>
 				<th>층구분</th>
 			</tr>
@@ -40,9 +37,6 @@
 				<td>${ row.total_quantity }</td>
 				<td>${ row.unit }</td>
 				<td>${ row.total_price }</td>
-				<td>${ row.wh_status_chk }</td>
-				<td>${ row.temperature }</td>
-				<td>${ row.humidity }</td>
 				<td>${ row.wh_section }</td>
 				<td>${ row.floor_level }</td>
 			</tr>
