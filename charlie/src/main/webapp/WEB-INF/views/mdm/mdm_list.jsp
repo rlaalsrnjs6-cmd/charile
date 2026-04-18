@@ -219,8 +219,6 @@
 					<th>단위</th>
 					<th>타입</th>
 					<th>가격</th>
-					<th>입고날짜</th>
-					<th>사용기한</th>
 					<th>가용 여부</th>
 				</tr>
 			</thead>
@@ -240,8 +238,6 @@
 					<td data-label="단위">${ row.unit }</td>
 					<td data-label="타입">${ row.type }</td>
 					<td data-label="가격">${ row.price }</td>
-					<td data-label="입고날짜">${ row.received_date }</td>
-					<td data-label="사용기한">${ row.exp_date }</td>
 					<td data-label="가용 여부">${ row.canUse }</td>
 				</tr>
 			</c:forEach>

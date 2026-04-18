@@ -16,11 +16,21 @@
 
 <form method="post" action="material">
 
-	총수량 : <input type="text" name="total_quantity" value="1"> <br>
-	창고 번호 : <input type="number" name=warehouse_num value="1"> <br>
+	자재개수 : <input type="number" name="area_quantity" value="1"> <br>
+	
+	창고 번호 :
+	<select name="warehouse_num">
+		<c:forEach var="item" items="${map.whList}">
+			<option value="${item.warehouse_num}" selected>
+          		  ${item.wh_section} / ${item.floor_level}
+       	 	 </option>
+		</c:forEach>
+    </select>
+    <br>
+    
 	품목 : 
 	<select name="mdm_num">
-		<c:forEach var="item" items="${list}">
+		<c:forEach var="item" items="${map.mdmList}">
 			<option value="${item.mdm_num}" selected>
           		  ${item.code} / ${item.name}
        	 	 </option>

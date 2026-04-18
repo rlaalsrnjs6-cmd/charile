@@ -37,20 +37,18 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 		try {
 			
 			// material
-			//dto.setMaterial_num(rs.getInt("material_num"));
-			dto.setTotal_quantity(rs.getInt("total_quantity"));
+			dto.setMaterial_num(rs.getInt("material_num"));
+			dto.setArea_quantity(rs.getInt("area_quantity"));
+			dto.setWarehouse_num(rs.getInt("warehouse_num"));
+			dto.setMdm_num(rs.getInt("mdm_num"));
 			
 			// mdm
 			dto.setCode(rs.getString("code"));
 			dto.setName(rs.getString("name"));
 			dto.setUnit(rs.getString("unit"));
-			dto.setTotal_price(rs.getLong("total_price")); // Alias와 매칭
+			//dto.setTotal_price(rs.getLong("total_price")); // Alias와 매칭
 
 			// warehouse
-			//dto.setWarehouse_num(rs.getInt("warehouse_num"));
-//			dto.setWh_status_chk(rs.getString("wh_status_chk"));
-//			dto.setTemperature(rs.getInt("temperature"));
-//			dto.setHumidity(rs.getInt("humidity"));
 			dto.setWh_section(rs.getString("wh_section"));
 			dto.setFloor_level(rs.getString("floor_level"));
 			
@@ -61,37 +59,46 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 	}
 
 
+
+
+	@Override
+	protected String selectQuery(MaterialDTO dto, CommonDTO commonDTO) {
+		// 고정
+		String query =
+		   "   SELECT * from (   "
+		 + "   SELECT rownum as rnum, subqry.* from (   "
+		 + ""
+		 + " SELECT tableA.*, tableB.code, tableB.name, tableB.unit, "
+		 + "tableC.wh_section, tableC.floor_level"
+		 + " FROM material tableA"
+		 + ""
+		 + " JOIN mdm tableB ON tableA.mdm_num = tableB.mdm_num "
+		 + " JOIN warehouse tableC ON tableA.warehouse_num = tableC.warehouse_num ";
+
+				    
+		   // 고정
+	    String where = commonDTO.getWhere();
+	    if("".equals(where)) where = "";  
+
+		String orderBy = commonDTO.getOrderBy();
+		if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
+		   
+		// 추가 조건 붙일 때
+		query += where ;
+		query += " order by " + orderBy + " ) subqry )";
+	    query += " WHERE rnum >= ? AND rnum <= ?";
+	    return query;
+	}
+	
 	@Override
 	protected PreparedStatement selectPs(PreparedStatement ps, CommonDTO commonDTO) throws SQLException {
 		ps.setInt(1, commonDTO.getStart());
 		ps.setInt(2, commonDTO.getEnd());
 		return ps;
 	}
-
-	@Override
-	protected String selectQuery(MaterialDTO dto, CommonDTO commonDTO) {
-		// 고정
-		String query =
-				  "   SELECT * from (   "
-				+ "   SELECT rownum as rnum, subqry.* from (   "
-				+ " SELECT   "
-				+ "    m.code AS code, "
-				+ "    m.name AS name, "
-				+ "    SUM(m.quantity) AS total_quantity, "
-				+ "    m.unit, "
-				+ "    SUM(m.price * m.quantity) AS total_price, "
-				+ "    MAX(w.wh_section) AS wh_section, "
-				+ "    MAX(w.floor_level) AS floor_level " 
-				+ "FROM mdm m "
-				+ "LEFT JOIN material mt ON m.mdm_num = mt.mdm_num "
-				+ "LEFT JOIN warehouse w ON mt.warehouse_num = w.warehouse_num "
-				+ "WHERE m.canuse = 'Y' "
-				+ "GROUP BY m.code, m.name, m.unit "
-				+ " 	) subqry   "
-				+ " ) ";
-	    query += " WHERE rnum >= ? AND rnum <= ?";
-	    return query;
-	}
+	
+	
+	
 	@Override
 	protected String selectAllQuery() {
 	    return "SELECT mdm_num, code, name FROM mdm " +
@@ -109,24 +116,16 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 		
 		return dto;
 	}
-		@Override
+		@Override // INSERT QUERY
 	protected String insertQuery() {
-		return "INSERT INTO material (material_num, total_quantity, warehouse_num, mdm_num) "
-				+ "SELECT  "
-				+ "    material_seq.nextval, "
-				+ "    SUM(mt.total_quantity), "
-				+ "    MAX(mt.warehouse_num), "
-				+ "    m.mdm_num "
-				+ "FROM mdm m "
-				+ "LEFT JOIN material mt ON m.mdm_num = mt.mdm_num "
-				+ "WHERE m.canuse = 'Y' "
-				+ "GROUP BY m.mdm_num;";
+		return "INSERT INTO material (material_num, area_quantity, warehouse_num, mdm_num) "
+				+ " VALUES ( material_seq.nextval, ?, ?, ?)" ; 
 	}
 
 	@Override
 	protected String modifyQuery() {
 		return "UPDATE " + tableName() + " SET "
-			 + " total_quantity = ?, "
+			 + " area_quantity = ?, "
 			 + " warehouse_num = ?, "
 			 + " mdm_num = ? "
 			 + " WHERE " + pk_Coulum_Name() + " = ?";
@@ -134,7 +133,7 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 
 	protected PreparedStatement setPs(PreparedStatement ps, MaterialDTO dto, String selector) throws SQLException {
 	    try {
-	        ps.setInt(1, dto.getTotal_quantity());
+	        ps.setInt(1, dto.getArea_quantity());
 	        ps.setInt(2, dto.getWarehouse_num());
 	        ps.setInt(3, dto.getMdm_num());
 	        if ("update".equals(selector)) {
@@ -176,7 +175,7 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
                 int warehouse_num = rs.getInt("warehouse_num");
                 int mdm_num = rs.getInt("mdm_num");
 
-                DTO.setTotal_quantity(total_quantity);
+                DTO.setArea_quantity(total_quantity);
                 DTO.setMaterial_num(material_num);
                 DTO.setWarehouse_num(warehouse_num);
                 DTO.setMdm_num(mdm_num);

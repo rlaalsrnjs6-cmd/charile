@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Material.MaterialDTO;
-import Material.MaterialDTO;
+import Warehouse.WarehouseDAO;
 import fileLibrary.CommonDTO;
-import fileLibrary.ParentService2;
+import fileLibrary.ParentService3;
 
-public class MaterialService extends ParentService2<MaterialDTO, CommonDTO> {
+public class MaterialService extends ParentService3<MaterialDTO, CommonDTO> {
 
 	MaterialDAO materialDAO = new MaterialDAO();
 
@@ -60,7 +59,7 @@ public class MaterialService extends ParentService2<MaterialDTO, CommonDTO> {
 	@Override
 	public MaterialDTO selectOne(MaterialDTO dto, CommonDTO commonDTO) {
 		
-		commonDTO.setWhere("mt.material_num = ?");
+		commonDTO.setWhere("where material_num = ?");
 		MaterialDTO result = materialDAO.selectOne(dto, commonDTO);
 		return result;
 	}
@@ -83,9 +82,18 @@ public class MaterialService extends ParentService2<MaterialDTO, CommonDTO> {
 	}
 
 	@Override
-	public List selectJoinInfo() {
-		System.out.println("select JoinInfo");
-		return materialDAO.selectJoinInfo();
+	public Map selectJoinInfo() {
+		
+		Map map = new HashMap();
+		List mdmList = materialDAO.selectJoinInfo();
+		
+		WarehouseDAO whDAO = new WarehouseDAO();
+		List whList = whDAO.selectAll();
+		
+		map.put("mdmList", mdmList);
+		map.put("whList", whList);
+		
+		return map;
 	}
 
 }

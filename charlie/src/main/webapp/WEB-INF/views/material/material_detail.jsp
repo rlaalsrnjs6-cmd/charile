@@ -17,18 +17,37 @@
 	<hr>
 	<a href="material?cmd=list">뒤로</a> <br>
 	<hr>
-	<c:forEach var="row" items="${ materialInfo }">
-	
-<%-- 		material_num : ${ row.material_num } <br> --%>
-<%-- 		material_type : ${ row.total_quantity } <br> --%>
-<%-- 		material_status : ${ row.warehouse_num } <br> --%>
-<%-- 		mdm_num : ${ row.mdm_num } <br> --%>
+		<table border="1px">
 		
-	</c:forEach>
+		<thead>
+			<tr>
+				<th>자재관리번호</th>
+				<th>코드</th>
+				<th>자재명</th>
+				<th>자재량</th>
+				<th>자재위치</th>
+				<th>층 구분</th>
+				<th>기준관리번호</th>
+				<th>창고번호</th>
+				</tr>
+		</thead>
+		
+		<tr>
+			<td>${ materialDTO.material_num }</td>
+			<td>${ materialDTO.code }</td>
+			<td>${ materialDTO.name }</td>
+			<td>${ materialDTO.area_quantity } ${ materialDTO.unit }</td>
+			<td>${ materialDTO.wh_section }</td>
+			<td>${ materialDTO.floor_level }</td>
+			<td>${ materialDTO.mdm_num }</td>
+			<td>${ materialDTO.warehouse_num }</td>
+		</tr>
+		
+	</table>	
 	
 	<hr>
-	<a href="material?cmd=modify&material_num=${ materialInfo[0].material_num }">수정</a>
-	<a href="material?cmd=delete&material_num=${ materialInfo[0].material_num }">삭제</a>
+	
+	<a href="material?cmd=delete&material_num=${ materialDTO.material_num }">삭제</a>
 	
 </body>
 </html>

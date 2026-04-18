@@ -20,28 +20,38 @@
 		
 		<thead>
 			<tr>
+				<th>자재관리번호</th>
 				<th>코드</th>
 				<th>자재명</th>
-				<th>총수량</th>
+				<th>자재량</th>
 				<th>단위</th>
-				<th>총가격</th>
-				<th>섹션구분</th>
-				<th>층구분</th>
+<!-- 				<th>창고 넘버</th> -->
+				<th>자재위치</th>
+				<th>층 구분</th>
+<!-- 				<th>기준관리 넘버</th> -->
 			</tr>
 		</thead>
 
 		<c:forEach var="row" items="${ map.list }">
 			<tr>
+				<td>${ row.material_num }</td>
 				<td>${ row.code }</td>
-				<td><a href="${ row.material_num }">${ row.name }</a></td>
-				<td>${ row.total_quantity }</td>
+				<td>
+					<a href="material?cmd=modify&material_num=${ row.material_num }">
+						${ row.name }
+					</a>
+				</td>
+				<td>${ row.area_quantity }</td>
 				<td>${ row.unit }</td>
-				<td>${ row.total_price }</td>
+<%-- 				<td>${ row.warehouse_num }</td> --%>
 				<td>${ row.wh_section }</td>
 				<td>${ row.floor_level }</td>
+<%-- 				<td>${ row.mdm_num }</td> --%>
 			</tr>
 		</c:forEach>
 		</table>
+		
+		<a href="material?cmd=insertPage">등록페이지로</a>
 		
 		<hr>
 	<%@ include file="/footer.jsp" %>
