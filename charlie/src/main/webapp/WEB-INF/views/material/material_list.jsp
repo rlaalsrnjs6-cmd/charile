@@ -23,8 +23,8 @@
 				<th>자재관리번호</th>
 				<th>코드</th>
 				<th>자재명</th>
-				<th>자재량</th>
-				<th>단위</th>
+				<th>총량</th>
+				<th>가격</th>
 <!-- 				<th>창고 넘버</th> -->
 				<th>자재위치</th>
 				<th>층 구분</th>
@@ -41,8 +41,8 @@
 						${ row.name }
 					</a>
 				</td>
-				<td>${ row.area_quantity }</td>
-				<td>${ row.unit }</td>
+				<td>${ row.total_quantity }${ row.unit }</td>
+				<td>${ row.total_price }</td>
 <%-- 				<td>${ row.warehouse_num }</td> --%>
 				<td>${ row.wh_section }</td>
 				<td>${ row.floor_level }</td>

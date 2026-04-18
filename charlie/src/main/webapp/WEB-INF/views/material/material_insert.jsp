@@ -16,9 +16,8 @@
 
 <form method="post" action="material">
 
-	자재개수 : <input type="number" name="area_quantity" value="1"> <br>
 	
-	창고 번호 :
+	섹션/층구분 :
 	<select name="warehouse_num">
 		<c:forEach var="item" items="${map.whList}">
 			<option value="${item.warehouse_num}" selected>

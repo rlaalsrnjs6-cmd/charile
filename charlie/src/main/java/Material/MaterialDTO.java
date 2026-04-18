@@ -6,12 +6,13 @@ public class MaterialDTO {
 	int material_num;
 	int area_quantity;
 	long total_price;
+	long total_quantity;
 	
 	// join warehouse
 	int warehouse_num;
-	String wh_status_chk;
-	int temperature;
-	int humidity;
+	//String wh_status_chk;
+//	int temperature;
+//	int humidity;
 	String wh_section;
 	String floor_level;
 	
@@ -21,6 +22,12 @@ public class MaterialDTO {
 	String name; 
 	String unit;
 	
+	public long getTotal_quantity() {
+		return total_quantity;
+	}
+	public void setTotal_quantity(long total_quantity) {
+		this.total_quantity = total_quantity;
+	}
 	public int getMaterial_num() {
 		return material_num;
 	}
@@ -34,24 +41,24 @@ public class MaterialDTO {
 	public void setWarehouse_num(int warehouse_num) {
 		this.warehouse_num = warehouse_num;
 	}
-	public String getWh_status_chk() {
-		return wh_status_chk;
-	}
-	public void setWh_status_chk(String wh_status_chk) {
-		this.wh_status_chk = wh_status_chk;
-	}
-	public int getTemperature() {
-		return temperature;
-	}
-	public void setTemperature(int temperature) {
-		this.temperature = temperature;
-	}
-	public int getHumidity() {
-		return humidity;
-	}
-	public void setHumidity(int humidity) {
-		this.humidity = humidity;
-	}
+//	public String getWh_status_chk() {
+//		return wh_status_chk;
+//	}
+//	public void setWh_status_chk(String wh_status_chk) {
+//		this.wh_status_chk = wh_status_chk;
+//	}
+//	public int getTemperature() {
+//		return temperature;
+//	}
+//	public void setTemperature(int temperature) {
+//		this.temperature = temperature;
+//	}
+//	public int getHumidity() {
+//		return humidity;
+//	}
+//	public void setHumidity(int humidity) {
+//		this.humidity = humidity;
+//	}
 	public String getWh_section() {
 		return wh_section;
 	}

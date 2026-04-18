@@ -130,6 +130,10 @@ public class WarehouseDAO extends ParentDAO3<WarehouseDTO, CommonDTO>{
 			}
 
 		    String groupBy = "";
+		    if(!(commonDTO.getGroupBy() == null && "".equals(commonDTO.getGroupBy()))) {
+		    	groupBy = commonDTO.getGroupBy();
+		    }
+		    	
 		    // 추가 조건 붙일 때
 		    query += where 
 		    	  + groupBy

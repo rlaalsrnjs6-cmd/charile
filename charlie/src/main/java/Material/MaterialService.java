@@ -15,7 +15,7 @@ public class MaterialService extends ParentService3<MaterialDTO, CommonDTO> {
 	@Override
 	public Map selectDB(MaterialDTO dto, CommonDTO commonDTO) {
 		
-
+		commonDTO.setWhere("WHERE tableB.canuse = 'Y'");
 		commonDTO.setTableName(materialDAO.tableName());
 
 		// 페이지에서 보여줄 항목 몇개인지 개수 리턴
@@ -86,7 +86,8 @@ public class MaterialService extends ParentService3<MaterialDTO, CommonDTO> {
 		
 		Map map = new HashMap();
 		List mdmList = materialDAO.selectJoinInfo();
-		
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// 창고가 material에 있어야하고, 관리만 warehouse에서 해야함
 		WarehouseDAO whDAO = new WarehouseDAO();
 		List whList = whDAO.selectAll();
 		
