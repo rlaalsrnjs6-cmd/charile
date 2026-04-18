@@ -54,11 +54,13 @@ public class IOLogDAO {
 				int log_num = rs.getInt("log_num");
 				Date io_time = rs.getDate("io_time");
 				String io_type = rs.getString("io_type");
+				Date exp_date = rs.getDate("exp_date");
 				int lot_num = rs.getInt("lot_num");
 				
 				DTO.setLog_num(log_num);
 				DTO.setIo_time(io_time);
 				DTO.setIo_type(io_type);
+				DTO.setExp_date(exp_date);
 				DTO.setLot_num(lot_num);
 				list.add(DTO);
 			}
@@ -119,11 +121,13 @@ public class IOLogDAO {
 				int log_num = rs.getInt("log_num");
 				Date io_time = rs.getDate("io_time");
 				String io_type = rs.getString("io_type");
+				Date exp_date = rs.getDate("exp_date");
 				int lot_num = rs.getInt("lot_num");
 				
 				DTO.setLog_num(log_num);
 				DTO.setIo_time(io_time);
 				DTO.setIo_type(io_type);
+				DTO.setExp_date(exp_date);
 				DTO.setLot_num(lot_num);
 				list.add(DTO);
 			}
@@ -179,6 +183,7 @@ public int logDAO(IOLogDTO dto) {
 						+ "SET log_num = ?, "
 						+ "io_time = ?, "
 						+ "io_type = ?, "
+						+ "exp_date = ?, "
 						+ "lot_num = ? "
 						+ "where log_num = ?";
 			}
@@ -188,11 +193,13 @@ public int logDAO(IOLogDTO dto) {
 					   + "(log_num, "
 					   + "io_type, "
 					   + "io_time, "
+					   + "exp_date, "
 					   + "lot_num) "
-					   + "VALUES (io_log_SEQ.nextval, ?, ?, ?)";
+					   + "VALUES (io_log_SEQ.nextval, ?, ?, ?, ?)";
 			}
-			// �뵜由ы듃
-			if("delete".equals(dto.getMod())) { //留뚮뱶�뒗以�
+
+			if("delete".equals(dto.getMod())) { 
+				System.out.println("로그 딜리트1");
 				query = "DELETE FROM io_log "
 					  + "WHERE log_num = ?";
 			}
@@ -203,8 +210,9 @@ public int logDAO(IOLogDTO dto) {
 				ps.setInt(1, dto.getLog_num());
 				ps.setDate(2, dto.getIo_time());
 				ps.setString(3, dto.getIo_type());
-				ps.setInt(4, dto.getLot_num());
-				ps.setInt(5, dto.getLog_num());
+				ps.setDate(4, dto.getExp_date());
+				ps.setInt(5, dto.getLot_num());
+				ps.setInt(6, dto.getLog_num());
 				
 			}
 			
@@ -212,11 +220,12 @@ public int logDAO(IOLogDTO dto) {
 				System.out.println("addps");
 				ps.setString(1, dto.getIo_type());
 				ps.setDate(2, dto.getIo_time());
-				ps.setInt(3, dto.getLot_num());
+				ps.setDate(3, dto.getExp_date());
+				ps.setInt(4, dto.getLot_num());
 			}
 			
 			if("delete".equals(dto.getMod())) {
-				System.out.println("deleteps");
+				System.out.println("로그 딜리트2");
 				ps.setInt(1, dto.getLog_num());
 			}
 			

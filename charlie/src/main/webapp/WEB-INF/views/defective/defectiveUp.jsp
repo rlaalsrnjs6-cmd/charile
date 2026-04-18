@@ -18,7 +18,7 @@
 			<th>불량카테고리</th>
 			<th>개수</th>
 			<th>불량조치방법</th>
-			<th>qc번호</th>
+			<th>lot번호</th>
 		</tr>
 		
 		<tr>
@@ -49,10 +49,10 @@
     			</select>
     		</td>
 			<td>
-				<select name="qc_num">
-       				 <c:forEach var="q" items="${qc}">
-            			<option value="${q.qc_num}" selected>
-               	 			${q.qc_num}
+				<select name="lot_num">
+       				 <c:forEach var="l" items="${lot}">
+            			<option value="${l.lot_num}" selected>
+               	 			${l.lot_num}${l.qc_chk}${l.lot_count}
              			</option>
         			</c:forEach>
     			</select>

@@ -51,9 +51,8 @@ public class MaterialControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 
 		MaterialService service = new MaterialService();
-		List list = service.selectJoinInfo();
-		
-		request.setAttribute("list", list);
+		Map map = service.selectJoinInfo();
+		request.setAttribute("map", map);
 		
 		request.getRequestDispatcher("WEB-INF/views/material/material_insert.jsp")
 														.forward(request, response);
@@ -157,7 +156,7 @@ public class MaterialControll extends HttpServlet {
 			
 			MaterialDTO materialDTO = new MaterialDTO();
 			
-			int material_num = -1;  int total_quantity= -1; 
+			int material_num = -1;  int area_quantity= -1; 
 			int mdm_num = -1; int warehouse_num = -1;
 			
 			if (request.getParameter("material_num") != null 
@@ -169,12 +168,12 @@ public class MaterialControll extends HttpServlet {
 			} 
 			
 			
-			if (request.getParameter("total_quantity") != null 
-					&& !("".equals(request.getParameter("total_quantity")))) {
+			if (request.getParameter("area_quantity") != null 
+					&& !("".equals(request.getParameter("area_quantity")))) {
 				
-				total_quantity = Integer.parseInt(request.getParameter("total_quantity"));
+				area_quantity = Integer.parseInt(request.getParameter("area_quantity"));
 				
-				System.out.println( "/set material total_quantity : " + total_quantity );
+				System.out.println( "/set material total_quantity : " + area_quantity );
 			} 
 			
 			if (request.getParameter("warehouse_num") != null 
@@ -195,7 +194,7 @@ public class MaterialControll extends HttpServlet {
 		
 			
 			materialDTO.setMaterial_num(material_num);
-			materialDTO.setTotal_quantity(total_quantity);
+			materialDTO.setArea_quantity(area_quantity);
 			materialDTO.setWarehouse_num(warehouse_num);
 			materialDTO.setMdm_num(mdm_num);
 			

@@ -14,7 +14,7 @@ import fileLibrary.CommonDTO;
 public class IOLogservice {
 	Map select(IOLogDTO dto, CommonDTO pageing){
 		IOLogDAO dao = new IOLogDAO();
-		System.out.println("defective서비스 시작");
+		System.out.println("log서비스 시작");
 
 		pageing.setTableName("io_log");
 
@@ -61,6 +61,7 @@ public class IOLogservice {
 	}
 	
 	int logService(IOLogDTO dto){
+		System.out.println("로그딜리트서비스");
 		IOLogDAO dao = new IOLogDAO();
 		int list = dao.logDAO(dto);
 		return list ;

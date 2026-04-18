@@ -37,7 +37,7 @@ public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
 				+ "	machinery_status = ?, "
 				+ "	error_sign = ?, "
 				+ "	m_action = ?, "
-				+ "	mdm_num = ?, "
+				+ "	mdm_num = ? "
 				+ " where " + pk_Coulum_Name() + " = ? "
 			;
 	}
@@ -46,7 +46,7 @@ public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
 	@Override // CHECKED
 	protected String insertQuery() {
 		return "INSERT INTO " + tableName() + " ( " + pk_Coulum_Name() 
-		+ ", machinery_type, machinery_status, error_sign, m_action, mdm_num, name, code) " 
+		+ ", machinery_type, machinery_status, error_sign, m_action, mdm_num) " 
 		+ " VALUES ( machinery_seq.nextval, ?, ?, ?, ?, ?)";
 	}
 	

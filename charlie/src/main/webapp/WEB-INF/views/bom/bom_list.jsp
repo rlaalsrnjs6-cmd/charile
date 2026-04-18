@@ -15,22 +15,16 @@
 
 <h1>bom list</h1>
 <hr>
-select JS로 해당 제품의 필요 BOM 보여주기
 
-<form action="bom?cmd=search" method="post">
-
-<select name="search_select">
-	<option value="search_all">전체</option>
-	<option value="code">코드</option>
-	<option value="name">명칭</option>
-</select>
-
-	<input name="search_content">
-	<input type="submit" value="검색">
-</form>
-
-
-<form action="bom?cmd=search" method="post">
+	<br>
+	제품별:
+    <select name="target_mdm_num">
+        <c:forEach var="item" items="${ list }">
+        	<c:if test="${ item.type eq 'product' }">
+            	<option value="${ item.mdm_num }"> ${ item.name } </option>
+        	</c:if>
+        </c:forEach>
+    </select> <br>
 
 <table border="1px">
 		<thead>

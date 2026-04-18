@@ -91,6 +91,10 @@ public class BomControll extends HttpServlet {
 			request.setAttribute("map", map);
 			request.setAttribute("servletName", "Bom");
 			
+			// 셀렉트바
+			List list = service.selectJoinInfo();
+			request.setAttribute("list", list);
+			
 			request.getRequestDispatcher("WEB-INF/views/bom/bom_list.jsp").forward(request, response);
 
 		}

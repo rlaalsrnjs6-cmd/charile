@@ -18,6 +18,7 @@
 			<th>log_번호</th>
 			<th>입출고날짜</th>
 			<th>구분</th>
+			<th>사용기한</th>
 			<th>lot번호</th>
 		</tr>
 		
@@ -26,6 +27,7 @@
 				<td>${l.log_num}</td>
 				<td><a href="http://localhost:8080/charlie/log?log_num=${l.log_num}&mod=detail">${l.io_time}</td>
 				<td>${l.io_type}</td>
+				<td>${l.exp_date}</td>
 				<td>${l.lot_num}</td>
 			</tr>
 		</c:forEach>

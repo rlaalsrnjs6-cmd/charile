@@ -12,6 +12,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<%@ include file="/header.jsp" %>
 <table border=1>
 		<tr>
 			<th>개인위생넘버</th>
@@ -22,19 +23,21 @@
 			<th>책임자체크</th>
 			<th>메모</th>
 		</tr>
-		<c:forEach var="dto" items="${hygiene}">
+		<c:forEach var="h" items="${map.list}">
 			<tr>
-				<td>${dto.ph_num}</td>
-				<td><a href="http://localhost:8080/charlie/hygiene?ph_num=${dto.ph_num}&mod=detail">${dto.empno}</a></td>
-				<td>${dto.body_temper}</td>
-				<td>${dto.regist_time}</td>
-				<td>${dto.washed}</td>
-				<td>${dto.supervisor_chk}</td>
-				<td>${dto.memo}</td>
+				<td>${h.ph_num}</td>
+				<td><a href="http://localhost:8080/charlie/hygiene?ph_num=${h.ph_num}&mod=detail">${h.empno}</a></td>
+				<td>${h.body_temper}</td>
+				<td>${h.regist_time}</td>
+				<td>${h.washed}</td>
+				<td>${h.supervisor_chk}</td>
+				<td>${h.memo}</td>
 			</tr>
 		</c:forEach>
 	</table>
 	<a href="http://localhost:8080/charlie/hygiene?mod=add">작성</a>
+	<jsp:include page="/WEB-INF/views/paging.jsp" />
+	<%@ include file="/footer.jsp" %>
 <!-- 	<form method="post" action="hygiene"> -->
 <!-- 		<input type="hidden" name="mod" value="detele.jsp"> -->
 <!-- 		<input type="submit" value="삭제"> -->

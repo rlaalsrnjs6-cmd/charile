@@ -210,6 +210,30 @@ public abstract class ParentDAO3<T, C> {
 			System.out.println("/DAO select list : " + list);
 			return list;
 		}
+		
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 수정 필요
+		// select all 고정 사용 // join table에 다라 setDTO(rs)가 다르기 때문에 고장날 우려 있음
+		public List selectAll() {
+			
+			List list = new ArrayList();
+			
+			try ( Connection conn = getConn();
+				  PreparedStatement ps = new LoggableStatement(conn, "select * from " + tableName()); ) {
+				
+				try ( ResultSet rs = ps.executeQuery(); ) { 
+					while (rs.next()) {
+						
+						list.add(setDTO(rs));
+						
+					}
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println("/DAO select list : " + list);
+			return list;
+		}
 	
 	
 }

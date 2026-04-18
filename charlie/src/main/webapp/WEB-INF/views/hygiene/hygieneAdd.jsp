@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>    
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +15,6 @@
 <form method="post" action="hygiene">
 	<table border=1>
 		<tr>
-			<th>개인위생넘버</th>
 			<th>사원번호</th>
 			<th>체온</th>
 			<th>위생체크</th>
@@ -20,16 +24,40 @@
 		
 		<tr>
 			<input type="hidden" name="mod" value="add">
-			<td><input type="text" name="ph_num"></td>
-			<td><input type="text" name="empno"></td>
+			<td>
+				<select name="empno">
+					<c:forEach var="e" items="${emp}">
+            			<option value="${e.empno}" selected>
+               	 			${e.ename}(${e.empno})
+             			</option>
+             		</c:forEach>
+    			</select>
+    		</td>
 			<td><input type="text" name="body_temper"></td>
-			<td><input type="text" name="washed"></td>
-			<td><input type="text" name="supervisor_chk"></td>
+			<td>
+				<select name="washed">
+            			<option value="F">
+               	 			F
+             			</option>
+            			<option value="T" selected>
+               	 			T
+             			</option>
+    			</select>
+    		</td>
+			<td>
+				<select name="supervisor_chk">
+            			<option value="Y" selected>
+               	 			Y
+             			</option>
+            			<option value="N">
+               	 			N
+             			</option>
+    			</select>
+    		</td>
 			<td><input type="text" name="memo"></td>
 		</tr>
-		<input type="submit" value="작성">
-		
 	</table>
+		<input type="submit" value="작성">
 	</form>
 </body>
 </html>

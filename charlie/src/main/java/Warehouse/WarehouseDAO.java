@@ -12,12 +12,12 @@ public class WarehouseDAO extends ParentDAO3<WarehouseDTO, CommonDTO>{
 
 	@Override
 	protected String tableName() {
-		return "Warehouse";
+		return "warehouse";
 	}
 
 	@Override
 	protected String pk_Coulum_Name() {
-		return "Warehouse_num";
+		return "warehouse_num";
 	}
 
 	@Override
