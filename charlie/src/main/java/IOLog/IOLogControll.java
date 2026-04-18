@@ -49,6 +49,9 @@ public class IOLogControll extends HttpServlet {
 			request.getRequestDispatcher("WEB-INF/views/log/logDetail.jsp").forward(request, response);
 			return;
 		} else if ("delete".equals(mod)) {
+			
+			System.out.println("get딜리트가는길넘버"+LogDTO.getLog_num());
+			System.out.println("get딜리트가는길모드"+LogDTO.getMod());
 			logDelete(request, response);
 			return;
 		} else {
@@ -89,16 +92,19 @@ public class IOLogControll extends HttpServlet {
 		String slog_num = request.getParameter("log_num");
 		String sio_time = request.getParameter("io_time");
 		String io_type = request.getParameter("io_type");
+		String sexp_date = request.getParameter("exp_date");
 		String slot_num = request.getParameter("lot_num");
 		String mod = request.getParameter("mod");
 		
 		Date io_time = Date.valueOf(sio_time);
+		Date exp_date = Date.valueOf(sexp_date);
 		int lot_num = Integer.parseInt(slot_num);
 		int log_num = Integer.parseInt(slog_num);
 		IOLogDTO logDTO = new IOLogDTO();
 		logDTO.setLog_num(log_num);
 		logDTO.setIo_time(io_time);
 		logDTO.setIo_type(io_type);
+		logDTO.setExp_date(exp_date);
 		logDTO.setLot_num(lot_num);
 		logDTO.setMod(mod);
 		IOLogservice service = new IOLogservice();
@@ -114,13 +120,16 @@ public class IOLogControll extends HttpServlet {
 
 		String sio_time = request.getParameter("io_time");
 		String io_type = request.getParameter("io_type");
+		String sexp_date = request.getParameter("exp_date");
 		String slot_num = request.getParameter("lot_num");
 		String mod = request.getParameter("mod");
 		Date io_time = Date.valueOf(sio_time);
+		Date exp_date = Date.valueOf(sexp_date);
 		int lot_num = Integer.parseInt(slot_num);
 		IOLogDTO logDTO = new IOLogDTO();
 		logDTO.setIo_time(io_time);
 		logDTO.setIo_type(io_type);
+		logDTO.setExp_date(exp_date);
 		logDTO.setLot_num(lot_num);
 		logDTO.setMod(mod);
 		IOLogservice service = new IOLogservice();
@@ -138,8 +147,9 @@ public class IOLogControll extends HttpServlet {
 		IOLogDTO logDTO = new IOLogDTO();
 		logDTO.setLog_num(log_num);
 		logDTO.setMod(mod);
+		System.out.println("서비스 키러가는길"+logDTO.getMod());
 		IOLogservice service = new IOLogservice();
-		System.out.println("logAdd留덉�留�: " + service.logService(logDTO));
+		service.logService(logDTO);
 		response.sendRedirect("log");
 	}
 

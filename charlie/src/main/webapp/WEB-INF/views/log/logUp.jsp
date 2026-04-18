@@ -17,6 +17,7 @@
 		<tr>
 			<th>입출고날짜</th>
 			<th>구분</th>
+			<th>사용기한</th>
 			<th>lot번호</th>
 		</tr>
 		
@@ -34,6 +35,7 @@
              			</option>
     			</select>
     		</td>
+    		<td><input type="date" name="exp_date" value="${map.list[0].exp_date}"></td>
 			<td>
 				<select name="lot_num">
        				 <c:forEach var="l" items="${lot}">

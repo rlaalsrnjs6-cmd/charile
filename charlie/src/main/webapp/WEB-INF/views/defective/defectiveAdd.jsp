@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"
     %>
     
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
@@ -19,9 +19,8 @@
 			<th>불량카테고리</th>
 			<th>개수</th>
 			<th>불량조치방법</th>
-			<th>qc번호</th>
+			<th>qc체크</th>
 		</tr>
-		${q.qc_chk}${qc}
 		<tr>
 			<input type="hidden" name="mod" value="add">
 			<td>
@@ -49,10 +48,10 @@
     			</select>
     		</td>
 			<td>
-				<select name="qc_num">
-       				 <c:forEach var="q" items="${qc}">
-            			<option value="${q.qc_num}" selected>
-               	 			${q.qc_num}
+				<select name="lot_num">
+       				 <c:forEach var="l" items="${lot}">
+            			<option value="${l.lot_num}" selected>
+               	 			${l.lot_num}${l.qc_chk}${l.lot_count}
              			</option>
         			</c:forEach>
     			</select>
