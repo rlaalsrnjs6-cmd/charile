@@ -288,7 +288,15 @@ public class PersonalHygieneDAO {
 			Context ctx = new InitialContext();
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 
-			String query = "select count(*) from personal_hygiene";
+			String query = "select count(*) from personal_hygiene "
+					+ "WHERE REGIST_TIME >= CASE "
+					+ "WHEN to_char(sysdate, 'HH24') < 12 THEN trunc(sysdate) "
+					+ "ELSE trunc(sysdate) + 0.5 "
+					+ "END "
+					+ "AND REGIST_TIME < CASE "
+					+ "WHEN to_char(sysdate, 'HH24') < 12 THEN trunc(sysdate) + 0.5 "
+					+ "ELSE trunc(sysdate) + 1 "
+					+ "END";
 
 			try (Connection conn = dataFactory.getConnection();
 					PreparedStatement ps = conn.prepareStatement(query);
