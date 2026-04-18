@@ -164,7 +164,7 @@ html, body {
 				<li><a href="${pageContext.request.contextPath}/order">작업지시서</a></li>
 				<li><a
 					href="${pageContext.request.contextPath}/production/management">생산관리</a></li>
-				<li><a href="${pageContext.request.contextPath}/qc">품질관리</a></li>
+<%-- 				<li><a href="${pageContext.request.contextPath}/qc">품질관리</a></li> --%>
 				<li><a
 					href="${pageContext.request.contextPath}/notice/controller">공지사항</a></li>
 				<c:if test="${sessionScope.level < 3}">

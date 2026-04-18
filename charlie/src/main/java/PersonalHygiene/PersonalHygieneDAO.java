@@ -31,7 +31,19 @@ public class PersonalHygieneDAO {
 			conn = dataFactory.getConnection();
 			String query = "SELECT * from ( "
 							+ "SELECT rownum as rnum, subqry.* from ( "
-							+ 		"select * from personal_hygiene ";
+							+ 		"select * from personal_hygiene "
+							//REGIST_TIME이 오늘 00시 혹은 12시 보다 크거나 같은것
+							+ "WHERE REGIST_TIME >= CASE "
+							+ "WHEN to_char(sysdate, 'HH24') < 12 THEN trunc(sysdate) "//현재시간이 오전이면
+							+ "ELSE trunc(sysdate) + 0.5 "//현재시간이 오후면
+							+ "END "
+							//--REGIST_TIME이 오늘 12시 혹은 내일00시 보다 작은것		
+							+ "AND REGIST_TIME < CASE "
+							+ "WHEN to_char(sysdate, 'HH24') < 12 THEN trunc(sysdate) + 0.5 "//현재시간이 오전이면
+							+ "ELSE trunc(sysdate) + 1 "//현재시간이 오후면
+							//즉 현재시간이 오전시간대면 오늘00시이후~12시 이전시간대 정보를 보여주고
+							// 현재시간이 오후시간대면 오늘12이후~내일00시이전시간대 정보를 보여줘라
+							+ "END";
 
 			if(dto.getPh_num() != -1) {
 				query += "where ph_num = ?";
@@ -201,7 +213,7 @@ public class PersonalHygieneDAO {
 				 query = "INSERT INTO personal_hygiene "
 					   + "(ph_num, empno, body_temper, regist_time, "
 					   + "washed, supervisor_chk, memo) "
-					   + "VALUES (hygiene_SEQ.nextval, ?, ?, SYSDATE, ?, ?, ?)";
+					   + "VALUES (hygiene_SEQ.nextval, ?, ?, SYSDATE+9/24, ?, ?, ?)";
 			}
 			// �뵜由ы듃
 			if("delete".equals(dto.getMod())) {
