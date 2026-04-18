@@ -55,13 +55,9 @@ public class DefectiveControll extends HttpServlet {
 			defectiveDelete(request, response);
 			return;
 		} else {
-			QCDTO qcDTO = new QCDTO();
 			LotDTO LotDTO = new LotDTO();
-			QCService qcSV = new QCService();
 			LotService lotSV = new LotService();
-			List<QCDTO> qc = qcSV.selectall(qcDTO);
 			List<LotDTO> lot = lotSV.selectall(LotDTO);
-			request.setAttribute("qc", qc);
 			request.setAttribute("lot", lot);
 			if ("up".equals(mod)) {
 				request.getRequestDispatcher("WEB-INF/views/defective/defectiveUp.jsp").forward(request, response);
@@ -97,17 +93,17 @@ public class DefectiveControll extends HttpServlet {
 		String sdefective_num = request.getParameter("defective_num");
 		String category = request.getParameter("category");
 		String scount = request.getParameter("count");
-		String sqc_num = request.getParameter("qc_num");
+		String slot_num = request.getParameter("lot_num");
 		String action = request.getParameter("action");
 		String mod = request.getParameter("mod");
 		int defective_num = Integer.parseInt(sdefective_num);
 		int count = Integer.parseInt(scount);
-		int qc_num = Integer.parseInt(sqc_num);
+		int lot_num = Integer.parseInt(slot_num);
 		DefectiveDTO defectiveDTO = new DefectiveDTO();
 		defectiveDTO.setDefective_num(defective_num);
 		defectiveDTO.setCategory(category);
 		defectiveDTO.setCount(count);
-		defectiveDTO.setQc_num(qc_num);
+		defectiveDTO.setLot_num(lot_num);
 		defectiveDTO.setAction(action);
 		defectiveDTO.setMod(mod);
 		DefectiveService service = new DefectiveService();
@@ -121,20 +117,20 @@ public class DefectiveControll extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
 
-		String sqc_num = request.getParameter("qc_num");
+		String slot_num = request.getParameter("lot_num");
 		String category = request.getParameter("category");
 		String scount = request.getParameter("count");
 		String action = request.getParameter("action");
 		String mod = request.getParameter("mod");
 		System.out.println("up:" + mod);
 		int count = Integer.parseInt(scount);
-		int qc_num = Integer.parseInt(sqc_num);
+		int lot_num = Integer.parseInt(slot_num);
 
 		DefectiveDTO defectiveDTO = new DefectiveDTO();
 		defectiveDTO.setCategory(category);
 		defectiveDTO.setCount(count);
 		defectiveDTO.setAction(action);
-		defectiveDTO.setQc_num(qc_num);
+		defectiveDTO.setLot_num(lot_num);
 		defectiveDTO.setMod(mod);
 
 		DefectiveService service = new DefectiveService();

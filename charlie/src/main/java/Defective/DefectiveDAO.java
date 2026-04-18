@@ -57,14 +57,14 @@ public class DefectiveDAO {
 				int defective_num = rs.getInt("defective_num");
 				String category = rs.getString("category");
 				int count = rs.getInt("count");
-				int qc_num = rs.getInt("qc_num");
+				int lot_num = rs.getInt("lot_num");
 				String action = rs.getString("action");
 //				String status = rs.getString("status");
 				
 				DTO.setDefective_num(defective_num);
 				DTO.setCategory(category);
 				DTO.setCount(count);
-				DTO.setQc_num(qc_num);
+				DTO.setLot_num(lot_num);
 				DTO.setAction(action);
 //				DTO.setStatus(status);
 				list.add(DTO);
@@ -126,14 +126,14 @@ public class DefectiveDAO {
 				int defective_num = rs.getInt("defective_num");
 				String category = rs.getString("category");
 				int count = rs.getInt("count");
-				int qc_num = rs.getInt("qc_num");
+				int lot_num = rs.getInt("lot_num");
 				String action = rs.getString("action");
 //				String status = rs.getString("status");
 				
 				DTO.setDefective_num(defective_num);
 				DTO.setCategory(category);
 				DTO.setCount(count);
-				DTO.setQc_num(qc_num);
+				DTO.setLot_num(lot_num);
 				DTO.setAction(action);
 //				DTO.setStatus(status);
 				list.add(DTO);
@@ -190,14 +190,14 @@ public class DefectiveDAO {
 							+ "SET defective_num = ?, "
 							+ "category = ?, "
 							+ "count = ?, "
-							+ "qc_num = ?, "
+							+ "lot_num = ?, "
 							+ "action = ? "
 							+ "where defective_num = ?";
 				}
 				// �씤�꽌�듃
 				if("add".equals(dto.getMod())) {
 					 query = "INSERT INTO defective "//�븘吏곸븞留뚮벉
-						   + "(defective_num, category, count, qc_num, action) "
+						   + "(defective_num, category, count, lot_num, action) "
 						   + "VALUES (defective_SEQ.nextval, ?, ?, ?, ?)";
 				}
 				// �뵜由ы듃
@@ -212,7 +212,7 @@ public class DefectiveDAO {
 					ps.setInt(1, dto.getDefective_num());
 					ps.setString(2, dto.getCategory());
 					ps.setInt(3, dto.getCount());
-					ps.setInt(4, dto.getQc_num());
+					ps.setInt(4, dto.getLot_num());
 					ps.setString(5, dto.getAction());
 					ps.setInt(6, dto.getDefective_num());
 				}
@@ -221,7 +221,7 @@ public class DefectiveDAO {
 					System.out.println("addps");
 					ps.setString(1, dto.getCategory());
 					ps.setInt(2, dto.getCount());
-					ps.setInt(3, dto.getQc_num());
+					ps.setInt(3, dto.getLot_num());
 					ps.setString(4, dto.getAction());
 					
 				}

@@ -19,7 +19,7 @@
 			<th>불량카테고리</th>
 			<th>개수</th>
 			<th>불량조치방법</th>
-			<th>qc번호</th>
+			<th>로트번호</th>
 		</tr>
 		${map.list}
 		<c:forEach var="d" items="${map.list}">
@@ -28,7 +28,7 @@
 				<td><a href="http://localhost:8080/charlie/defective?defective_num=${d.defective_num}&mod=detail">${d.category}</td>
 				<td>${d.count}</td>
 				<td>${d.action}</td>
-				<td>${d.qc_num}</td>
+				<td>${d.lot_num}</td>
 			</tr>
 		</c:forEach>
 	</table>

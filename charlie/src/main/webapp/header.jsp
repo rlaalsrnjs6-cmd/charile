@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+1<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
 request.setCharacterEncoding("utf-8");
@@ -152,7 +152,10 @@ html, body {
 				</a>
 			</h1>
 			<ul class="hd-nav">
-
+				<c:if test="${sessionScope.level < 3}">
+					<li><a href="${pageContext.request.contextPath}/emp">사원</a></li>
+				</c:if>
+				<li><a href="${pageContext.request.contextPath}/hygiene">위생관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/log">입출고이력</a></li>
 				<li><a href="${pageContext.request.contextPath}/defective">불량관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/lot">로트관리</a></li>

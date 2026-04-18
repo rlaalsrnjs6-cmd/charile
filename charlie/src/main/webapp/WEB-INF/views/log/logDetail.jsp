@@ -10,6 +10,7 @@
 log_번호 : ${map.list[0].log_num}<br>
 입출고날짜 : ${map.list[0].io_time}<br>
 구분 : ${map.list[0].io_type}<br>
+사용기한 : ${map.list[0].exp_date}<br>
 lot번호 : ${map.list[0].lot_num}<br>
 <a href="http://localhost:8080/charlie/log?log_num=${map.list[0].log_num}&mod=up">수정</a>
 <a href="http://localhost:8080/charlie/log?log_num=${map.list[0].log_num}&mod=delete">삭제</a>
