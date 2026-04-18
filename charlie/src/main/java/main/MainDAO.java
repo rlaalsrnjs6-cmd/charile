@@ -71,7 +71,6 @@ List list = new ArrayList();
 						list.add(dto);
 					}
 				}
-				System.out.println("Main DAO에서 list" + list);
 				return list;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -81,7 +80,50 @@ List list = new ArrayList();
 	} //loadLs() 닫음
 	
 	
+	//기계 정비 및 상태 update 로직
+	public int lineUpdateStatus(MainDTO dto) {
+		
+		String query = "update line set line_status=? where line_name=?";
+		
+		try(Connection conn = dataFactory.getConnection();
+				PreparedStatement ps = conn.prepareStatement(query);){
+						ps.setInt(1, dto.getLineStatus());
+						ps.setString(2, dto.getLineName());
 	
+						int result = ps.executeUpdate();
+						return result  ;
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				System.out.println("기계 정비 및 상태 update 로직 예외처리 됨");
+			return 0;
+		}//updatePM()닫음
+	
+	public List loadWh() {
+		List list =  new ArrayList();
+		String query = "select * from warehouse";
+		
+		try (Connection conn = dataFactory.getConnection(); 
+				PreparedStatement ps =  conn.prepareStatement(query)) {
+
+				try (ResultSet rs = ps.executeQuery()) {
+					while (rs.next()) {
+						MainDTO dto = new MainDTO();
+						dto.setWhSection(rs.getString("wh_section"));
+		                dto.setFloorLevel(rs.getString("floor_level"));
+		                dto.setTemperature(rs.getDouble("temperature"));
+		                dto.setHumidity(rs.getDouble("humidity"));
+						list.add(dto);
+					}
+				}
+				System.out.println("Main DAO loadWh()의 list:  " + list);
+				return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("MainDAO loadWh() 예외 발생");
+		return null;
+	}
 	
 	
 	

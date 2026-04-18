@@ -19,7 +19,7 @@ public class MainController extends HttpServlet {
 		System.out.println("/mainController의 doGet 실행!!");
 		MainService ms = new MainService();
 		
-
+		
 		Map map = ms.select();
 		
 		
