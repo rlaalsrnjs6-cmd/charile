@@ -25,6 +25,7 @@ public class BomControll extends HttpServlet {
 
 		System.out.println("/bom [doGet] 실행");
 
+		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8;");
 
 		String cmd = request.getParameter("cmd");
@@ -86,7 +87,7 @@ public class BomControll extends HttpServlet {
 			response.setContentType("text/html; charset=utf-8;");
 
 			BomService service = new BomService();
-			Map map = service.selectDB(setDTO(request), setCommonDTO(request, ""));
+			Map map = service.selectDB(setDTO(request), setCommonDTO(request, response, ""));
 			
 			request.setAttribute("map", map);
 			request.setAttribute("servletName", "Bom");
@@ -128,7 +129,7 @@ public class BomControll extends HttpServlet {
 
 		// Service > DAO - selectOne
 		BomService service = new BomService();
-		BomDTO bomDTO = service.selectOne(setDTO(request), setCommonDTO(request, ""));
+		BomDTO bomDTO = service.selectOne(setDTO(request), setCommonDTO(request, response, ""));
 
 		// Forward > DTO
 		request.setAttribute("bomDTO", bomDTO);
@@ -157,15 +158,18 @@ public class BomControll extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
 		
-			BomService service = new BomService();
-			// 검색 내용받음
+		BomService service = new BomService();
+		// 검색 내용받음
 				
-			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
+		Map map = service.selectDB(setDTO(request), setCommonDTO(request, response, "search"));
 
-			request.setAttribute("map", map);
-			request.getRequestDispatcher("WEB-INF/views/bom/bom_list.jsp").forward(request, response);
+		List list = service.selectJoinInfo();
+		request.setAttribute("list", list);
+		
+		request.setAttribute("map", map);
+		request.getRequestDispatcher("WEB-INF/views/bom/bom_list.jsp").forward(request, response);
 
-			}
+		}
 
 
 	// 거의 고정해서 사용
@@ -209,7 +213,7 @@ public class BomControll extends HttpServlet {
 			
 			System.out.println( "/set bom target_mdm_num : " + target_mdm_num );
 		} 
-	
+		
 		bomDTO.setTarget_mdm_num(target_mdm_num);
 		bomDTO.setBom_num(bom_num);
 		bomDTO.setRequired_weight(required_weight);
@@ -219,8 +223,11 @@ public class BomControll extends HttpServlet {
 	}
 	
 	// 공통 변수
-			protected CommonDTO setCommonDTO(HttpServletRequest request, String cmd)
+			protected CommonDTO setCommonDTO(HttpServletRequest request, HttpServletResponse response, String cmd)
 					throws ServletException, IOException {
+				
+				request.setCharacterEncoding("utf-8");
+				response.setContentType("text/html; charset=utf-8;");
 				
 				CommonDTO commonDTO = new CommonDTO();
 				
@@ -231,17 +238,16 @@ public class BomControll extends HttpServlet {
 				String groupBy = ""; 
 				commonDTO.setGroupBy(groupBy);
 				// WHERE 1=1
-				String where = ""; 
-				commonDTO.setWhere(where);
+				
+				
 				
 				// 검색 기능 [ search_content ]
 				if("search".equals(cmd)) {
-					commonDTO.setSelector(request.getParameter("search_select"));
-					commonDTO.setSearch(request.getParameter("search_content"));
-					System.out.println(commonDTO.getSelector());
-					System.out.println(commonDTO.getSearch());
+					String where = request.getParameter("selectName");
+					if (where!=null && "".equals(where)) { 
+						commonDTO.setSearch("where tableC.name = '" + where + "'") ; 
+						}
 				}
-				
 				// paging 
 				int size= 10, page= 1;
 				

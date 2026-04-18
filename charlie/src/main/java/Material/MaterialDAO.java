@@ -38,7 +38,7 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 			
 			// material
 			dto.setMaterial_num(rs.getInt("material_num"));
-			dto.setArea_quantity(rs.getInt("area_quantity"));
+			//dto.setArea_quantity(rs.getInt("area_quantity"));
 			dto.setWarehouse_num(rs.getInt("warehouse_num"));
 			dto.setMdm_num(rs.getInt("mdm_num"));
 			
@@ -46,7 +46,9 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 			dto.setCode(rs.getString("code"));
 			dto.setName(rs.getString("name"));
 			dto.setUnit(rs.getString("unit"));
-			//dto.setTotal_price(rs.getLong("total_price")); // Alias와 매칭
+			
+			dto.setTotal_price(rs.getLong("total_price")); // Alias와 매칭
+			dto.setTotal_quantity(rs.getLong("total_quantity")); // Alias와 매칭
 
 			// warehouse
 			dto.setWh_section(rs.getString("wh_section"));
@@ -68,8 +70,13 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 		   "   SELECT * from (   "
 		 + "   SELECT rownum as rnum, subqry.* from (   "
 		 + ""
-		 + " SELECT tableA.*, tableB.code, tableB.name, tableB.unit, "
-		 + "tableC.wh_section, tableC.floor_level"
+		 + " SELECT tableA.material_num, "
+		 + " tableB.mdm_num, "
+		 + " tableB.code, tableB.name, tableB.unit, "
+		 + " SUM(tableB.quantity) AS total_quantity, "
+		 + " SUM(tableB.price * tableB.quantity) AS total_price, "
+		 + " tableC.warehouse_num, "
+		 + " tableC.wh_section, tableC.floor_level "
 		 + " FROM material tableA"
 		 + ""
 		 + " JOIN mdm tableB ON tableA.mdm_num = tableB.mdm_num "
@@ -85,8 +92,16 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 		   
 		// 추가 조건 붙일 때
 		query += where ;
-		query += " order by " + orderBy + " ) subqry )";
-	    query += " WHERE rnum >= ? AND rnum <= ?";
+		
+		query += " GROUP BY "
+				+ "tableA.material_num, "
+				+ "tableB.mdm_num, "
+				+ "tableB.code, tableB.name, tableB.unit, "
+				+ "tableC.warehouse_num, "
+				+ "tableC.wh_section, tableC.floor_level ";
+		
+		query += " order by " + orderBy + " ) subqry )"
+		 	  + " WHERE rnum >= ? AND rnum <= ?";
 	    return query;
 	}
 	
@@ -118,14 +133,13 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 	}
 		@Override // INSERT QUERY
 	protected String insertQuery() {
-		return "INSERT INTO material (material_num, area_quantity, warehouse_num, mdm_num) "
-				+ " VALUES ( material_seq.nextval, ?, ?, ?)" ; 
+		return "INSERT INTO material (material_num, warehouse_num, mdm_num) "
+				+ " VALUES ( material_seq.nextval, ?, ?)" ; 
 	}
 
 	@Override
 	protected String modifyQuery() {
 		return "UPDATE " + tableName() + " SET "
-			 + " area_quantity = ?, "
 			 + " warehouse_num = ?, "
 			 + " mdm_num = ? "
 			 + " WHERE " + pk_Coulum_Name() + " = ?";
@@ -133,11 +147,10 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 
 	protected PreparedStatement setPs(PreparedStatement ps, MaterialDTO dto, String selector) throws SQLException {
 	    try {
-	        ps.setInt(1, dto.getArea_quantity());
-	        ps.setInt(2, dto.getWarehouse_num());
-	        ps.setInt(3, dto.getMdm_num());
+	        ps.setInt(1, dto.getWarehouse_num());
+	        ps.setInt(2, dto.getMdm_num());
 	        if ("update".equals(selector)) {
-	            ps.setInt(4, dto.getMaterial_num());
+	            ps.setInt(3, dto.getMaterial_num());
 	        }
 	    } catch (SQLException e) {
 	        System.out.println("MaterialDAO setPs 에러 발생: " + e.getMessage());

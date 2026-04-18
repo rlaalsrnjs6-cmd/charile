@@ -16,15 +16,17 @@
 <h1>bom list</h1>
 <hr>
 
-	<br>
-	제품별:
-    <select name="target_mdm_num">
+	<form action="bom?cmd=search" method="post">
+    <select name="selectName">
+    		<option value="" selected> 전체보기 </option>
         <c:forEach var="item" items="${ list }">
         	<c:if test="${ item.type eq 'product' }">
-            	<option value="${ item.mdm_num }"> ${ item.name } </option>
+            	<option value="${ item.name }"> ${ item.name } </option>
         	</c:if>
         </c:forEach>
-    </select> <br>
+    </select> 
+    <input type="submit" value="검색">
+    </form>
 
 <table border="1px">
 		<thead>

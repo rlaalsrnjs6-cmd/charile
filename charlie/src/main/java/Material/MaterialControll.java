@@ -129,6 +129,9 @@ public class MaterialControll extends HttpServlet {
 		
 		} else { 
 			
+			Map map = service.selectJoinInfo();
+			request.setAttribute("map", map);
+			
 			request.getRequestDispatcher("WEB-INF/views/material/material_modify.jsp")
 				.forward(request, response);
 			
@@ -189,6 +192,11 @@ public class MaterialControll extends HttpServlet {
 				
 				mdm_num = Integer.parseInt(request.getParameter("mdm_num"));
 				
+				System.out.println( "/set material mdm_num : " + mdm_num );
+				System.out.println( "/set material mdm_num : " + mdm_num );
+				System.out.println( "/set material mdm_num : " + mdm_num );
+				System.out.println( "/set material mdm_num : " + mdm_num );
+				System.out.println( "/set material mdm_num : " + mdm_num );
 				System.out.println( "/set material mdm_num : " + mdm_num );
 			} 
 		
