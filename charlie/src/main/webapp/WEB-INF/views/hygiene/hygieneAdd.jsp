@@ -21,18 +21,12 @@
 			<th>책임자체크</th>
 			<th>메모</th>
 		</tr>
-		
+		<%session.getAttribute("empno"); %>
+		<%session.getAttribute("name"); %>
 		<tr>
 			<input type="hidden" name="mod" value="add">
-			<td>
-				<select name="empno">
-					<c:forEach var="e" items="${emp}">
-            			<option value="${e.empno}" selected>
-               	 			${e.ename}(${e.empno})
-             			</option>
-             		</c:forEach>
-    			</select>
-    		</td>
+			<input type="hidden" name="empno" value="${empno }">
+			<td>${name}(${empno})</td>
 			<td><input type="text" name="body_temper"></td>
 			<td>
 				<select name="washed">

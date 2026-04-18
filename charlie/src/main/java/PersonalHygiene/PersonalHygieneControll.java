@@ -76,7 +76,7 @@ public class PersonalHygieneControll extends HttpServlet {
 		if ("up".equals(mod)) {
 			HygieneUp(request, response);
 		} else if ("add".equals(mod)) {
-			HygieneUp(request, response);
+			HygieneAdd(request, response);
 		} else if ("delete".equals(mod)) {
 			HygieneDelete(request, response);
 		}
@@ -86,6 +86,7 @@ public class PersonalHygieneControll extends HttpServlet {
 			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
+		System.out.println("이게 갑자기 왜 실행되노");
 		String sph_num = request.getParameter("ph_num");
 		String sbody_temper = request.getParameter("body_temper");
 		String washed = request.getParameter("washed");

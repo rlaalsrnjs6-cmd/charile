@@ -12,7 +12,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<%-- <%@ include file="/header.jsp" %> --%>
+<%@ include file="/header.jsp" %>
 <table border=1>
 		<tr>
 			<th>log_번호</th>
@@ -34,6 +34,6 @@
 	</table>
 	<a href = "http://localhost:8080/charlie/log?mod=add">작성</a>
 	<jsp:include page="/WEB-INF/views/paging.jsp" />
-<%-- 	<%@ include file="/footer.jsp" %> --%>
+	<%@ include file="/footer.jsp" %>
 </body>
 </html>

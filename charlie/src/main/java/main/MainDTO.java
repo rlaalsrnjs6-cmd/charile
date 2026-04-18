@@ -14,6 +14,53 @@ public class MainDTO {
 	private int lineStatus;
 	private String lineContent;
 	//////////////////////////////////////
+	
+	//웨어하우스
+	private String whSection; 	//냉장창고 이름
+	private String floorLevel; 	//냉장창고 위치
+	private double temperature;	//온도
+	private double humidity;	//습도
+	
+	public String getWhSection() {
+		return whSection;
+	}
+
+
+	public void setWhSection(String whSection) {
+		this.whSection = whSection;
+	}
+
+
+	public String getFloorLevel() {
+		return floorLevel;
+	}
+
+
+	public void setFloorLevel(String floorLevel) {
+		this.floorLevel = floorLevel;
+	}
+
+
+	public double getTemperature() {
+		return temperature;
+	}
+
+
+	public void setTemperature(double temperature) {
+		this.temperature = temperature;
+	}
+
+
+	public double getHumidity() {
+		return humidity;
+	}
+
+
+	public void setHumidity(double humidity) {
+		this.humidity = humidity;
+	}
+
+
 	public int getDsNum() {
 		return dsNum;
 	}
@@ -97,7 +144,8 @@ public class MainDTO {
 	public String toString() {
 		return "MainDTO [dsNum=" + dsNum + ", dsLine=" + dsLine + ", dsDate=" + dsDate + ", dsStatus=" + dsStatus
 				+ ", lineNum=" + lineNum + ", lineName=" + lineName + ", lineStatus=" + lineStatus + ", lineContent="
-				+ lineContent + "]";
+				+ lineContent + ", whSection=" + whSection + ", floorLevel=" + floorLevel + ", temperature="
+				+ temperature + ", humidity=" + humidity + "]";
 	}
 
 }

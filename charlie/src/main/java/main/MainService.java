@@ -18,9 +18,20 @@ public class MainService {
 		//lineStatus select
 		List ls = dao.loadLs();
 		
+		//warehiuse select
+		List wh = dao.loadWh();
 		
 		map.put("dn", dn);//dash_notice
-		map.put("ls", ls);
+		map.put("ls", ls);//lineStatus
+		map.put("wh", wh);//warehouse
 		return map;
 	}
+	
+	public int lineUpdate(MainDTO dto) {
+		
+		int result = dao.lineUpdateStatus(dto);
+		return result;
+	}
+	
+	
 }
