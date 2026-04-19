@@ -1,12 +1,20 @@
 package Machinery;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 import fileLibrary.CommonDTO;
-import fileLibrary.ParentDAO3;
+import fileLibrary.LoggableStatement;
+import fileLibrary.ParentDAO4;
 
-public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
+public class MachineryDAO extends ParentDAO4<MachineryDTO, CommonDTO>{
 
 	// TABLE
 	@Override // CHECKED
@@ -99,20 +107,20 @@ public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
 	protected String selectQuery(MachineryDTO dto, CommonDTO commonDTO) {
 
 		// 고정
-	    String query = " select * from ( "
-	                 + " select rownum as rnum, subqry.* from ( "
+	    String query = " SELECT * from ( "
+	                 + " SELECT rownum as rnum, subqry.* from ( "
 	                 // rownum 용 subquery 껍데기 고정
 	                 
 	                 
 	                 // join data
-	                 + " select tableA.*, tableB.name, tableB.code"
+	                 + " SELECT tableA.*, tableB.name, tableB.code"
 	                 + " from machinery tableA "
 	                 // join on
 	                 + " JOIN mdm tableB ON tableA.mdm_num = tableB.mdm_num ";
 	    
 	    // 고정
 	    String where = commonDTO.getWhere();
-	    if(("".equals(commonDTO.getWhere()))) where = " LOWER(TRIM(tableB.type)) = 'equip'";  
+	    if(("".equals(commonDTO.getWhere()))) where = "WHERE LOWER(TRIM(tableB.type)) = 'equip'";  
 
 	    String orderBy = commonDTO.getOrderBy();
 	    if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
@@ -120,14 +128,49 @@ public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
 
 	    String groupBy = "";
 	    
+	    String where2 = commonDTO.getSearch();
+	    if (where2 == null || "".equals(where2)) {
+	        where2 = "";
+	    }
 	    
-
 	    // 추가 조건 붙일 때
-	    query += "Where " + where ;
-	    query += " order by " + orderBy + " ) subqry )";
-	    query += " WHERE rnum >= ? AND rnum <= ?";
+	    query += where 
+	    	  +  where2
+	    	  +  groupBy
+	    	  +" ORDER BY " + orderBy + " ) subqry )"
+	    	  +" WHERE rnum >= ? AND rnum <= ?";
 	    return query;
 	}
+	
+	
+	
+	
+	// SELECT QUERY 받아서 사용 
+			public List selectCustom() {
+				
+				List list = new ArrayList();
+				
+				try ( Connection conn = getConn();
+					  PreparedStatement ps = new LoggableStatement(conn, 
+							  "SELECT DISTINCT name FROM mdm WHERE type = 'equip'"); ) {
+					try (  ResultSet rs = ps.executeQuery(); ) { // 
+						
+						while (rs.next()) {
+							
+							MachineryDTO dto = new MachineryDTO();
+							dto.setName(rs.getString("name"));
+							
+							list.add(dto);
+						}
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				System.out.println("/DAO select list : " + list);
+				return list;
+			}
+	
 	
 	
 	
@@ -149,6 +192,16 @@ public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// PAGING IN SELECTQUERY
 	@Override // CHECKED
 	protected PreparedStatement selectPs(PreparedStatement ps, CommonDTO commonDTO) throws SQLException {
@@ -156,5 +209,20 @@ public class MachineryDAO extends ParentDAO3<MachineryDTO, CommonDTO>{
 		ps.setInt(2, commonDTO.getEnd());
 		return ps;
 	}
+	
+	
+	// DB link
+		private Connection getConn() {
+			Connection conn = null;
+			try {
+				Context ctx = new InitialContext();
+				DataSource dataFactory = (DataSource) ctx.lookup("java:comp/env/jdbc/charlie");
+				conn = dataFactory.getConnection();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return conn;
+		}
+	
 
 }

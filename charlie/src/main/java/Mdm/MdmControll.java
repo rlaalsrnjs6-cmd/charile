@@ -213,8 +213,16 @@ public class MdmControll extends HttpServlet {
 		if("search".equals(cmd)) {
 			commonDTO.setSelector(request.getParameter("search_select"));
 			commonDTO.setSearch(request.getParameter("search_content"));
-			System.out.println(commonDTO.getSelector());
-			System.out.println(commonDTO.getSearch());
+
+			String where2 = request.getParameter("selectName");
+			if (where2!=null && !"".equals(where2)) { 
+				commonDTO.setWhere2("AND type = '" + where2 + "'") ; 
+				}
+			
+			String where3 = request.getParameter("selectChk");
+			if (where3!=null && !"".equals(where3)) { 
+				commonDTO.setWhere3("AND canUse = '" + where3 + "'") ; 
+			}
 		}
 		
 		// orderBy [ column ]

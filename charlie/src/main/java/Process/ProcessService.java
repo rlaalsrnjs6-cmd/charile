@@ -53,7 +53,7 @@ public class ProcessService extends ParentService2<ProcessDTO, CommonDTO> {
 		System.out.println("service selectOne : " + dto);
 		
 		// SET QUERY
-		commonDTO.setWhere("tableA.process_num = ?");
+		commonDTO.setWhere("WHERE tableA.process_num = ?");
 		ProcessDTO result = processDAO.selectOne(dto, commonDTO);
 		return result;
 	}

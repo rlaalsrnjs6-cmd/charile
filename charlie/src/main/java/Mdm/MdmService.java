@@ -44,6 +44,9 @@ public class MdmService extends ParentService2<MdmDTO, CommonDTO>{
 		map.put("list", list); // list 
 		map.put("totalCount", totalCount);
 		map.put("commonDTO", commonDTO); // common DTO
+		
+		map.put("select1", mdmDAO.selectCustom());
+		map.put("select2", mdmDAO.selectCustom2());
 
 		return map;
 	}

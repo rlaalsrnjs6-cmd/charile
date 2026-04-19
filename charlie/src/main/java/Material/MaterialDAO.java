@@ -11,7 +11,9 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import Warehouse.WarehouseDTO;
 import fileLibrary.CommonDTO;
+import fileLibrary.LoggableStatement;
 import fileLibrary.ParentDAO3;
 
 public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
@@ -46,6 +48,7 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 			dto.setCode(rs.getString("code"));
 			dto.setName(rs.getString("name"));
 			dto.setUnit(rs.getString("unit"));
+			dto.setType(rs.getString("type"));
 			
 			dto.setTotal_price(rs.getLong("total_price")); // Alias와 매칭
 			dto.setTotal_quantity(rs.getLong("total_quantity")); // Alias와 매칭
@@ -72,7 +75,7 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 		 + ""
 		 + " SELECT tableA.material_num, "
 		 + " tableB.mdm_num, "
-		 + " tableB.code, tableB.name, tableB.unit, "
+		 + " tableB.code, tableB.name, tableB.unit, tableB.type, "
 		 + " SUM(tableB.quantity) AS total_quantity, "
 		 + " SUM(tableB.price * tableB.quantity) AS total_price, "
 		 + " tableC.warehouse_num, "
@@ -86,17 +89,22 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 		   // 고정
 	    String where = commonDTO.getWhere();
 	    if("".equals(where)) where = "";  
+	    String where2 = commonDTO.getWhere2();
+	    if (where2 == null || "".equals(where2)) {
+	        where2 = "";
+	    }
 
 		String orderBy = commonDTO.getOrderBy();
 		if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
 		   
 		// 추가 조건 붙일 때
-		query += where ;
+		query += where 
+			  +  where2;
 		
 		query += " GROUP BY "
 				+ "tableA.material_num, "
 				+ "tableB.mdm_num, "
-				+ "tableB.code, tableB.name, tableB.unit, "
+				+ "tableB.code, tableB.name, tableB.unit, tableB.type, "
 				+ "tableC.warehouse_num, "
 				+ "tableC.wh_section, tableC.floor_level ";
 		
@@ -158,6 +166,46 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 	    }
 	    return ps;
 	}
+	
+	// SELECT QUERY 받아서 사용 
+	public List selectCustom() {
+		
+		List list = new ArrayList();
+		
+		try ( Connection conn = getConn();
+			  PreparedStatement ps = new LoggableStatement(conn, 
+					  "SELECT DISTINCT type FROM mdm "); ) {
+			try (  ResultSet rs = ps.executeQuery(); ) { // 
+				
+				while (rs.next()) {
+					
+					MaterialDTO dto = new MaterialDTO();
+					dto.setType(rs.getString("type"));
+					
+					list.add(dto);
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("/DAO select list : " + list);
+		return list;
+	}
+	
+	// DB link
+			private Connection getConn() {
+				Connection conn = null;
+				try {
+					Context ctx = new InitialContext();
+					DataSource dataFactory = (DataSource) ctx.lookup("java:comp/env/jdbc/charlie");
+					conn = dataFactory.getConnection();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return conn;
+			}
+
 	
 	//////////민권쓰
 	public List<MaterialDTO> selectall(MaterialDTO dto) {

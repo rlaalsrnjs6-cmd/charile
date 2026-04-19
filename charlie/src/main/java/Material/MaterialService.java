@@ -43,6 +43,8 @@ public class MaterialService extends ParentService3<MaterialDTO, CommonDTO> {
 		map.put("list", list); // list
 		map.put("totalCount", totalCount);
 		map.put("commonDTO", commonDTO); // common DTO
+		
+		map.put("select1", materialDAO.selectCustom());
 
 		return map;
 

@@ -18,6 +18,16 @@
 <hr>
 <hr>
 
+	<form action="machinery?cmd=search" method="post">
+    <select name="selectName">
+    		<option value="" selected> 전체보기 </option>
+        <c:forEach var="item" items="${ map.select1 }">
+            	<option value="${ item.name }"> ${ item.name } </option>
+        </c:forEach>
+    </select> 
+    <input type="submit" value="검색">
+    </form>
+
 <table border="1px">
 		<thead>
 			<tr>

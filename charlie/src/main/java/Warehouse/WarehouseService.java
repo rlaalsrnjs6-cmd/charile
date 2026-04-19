@@ -45,7 +45,10 @@ public class WarehouseService extends ParentService2<WarehouseDTO, CommonDTO> {
 		map.put("list", list); // list
 		map.put("totalCount", totalCount);
 		map.put("commonDTO", commonDTO); // common DTO
-
+		
+		map.put("select1", warehouseDAO.selectCustom());
+		map.put("select2", warehouseDAO.selectCustom2());
+		
 		return map;
 
 	}
@@ -82,5 +85,9 @@ public class WarehouseService extends ParentService2<WarehouseDTO, CommonDTO> {
 		System.out.println("select JoinInfo");
 		return warehouseDAO.selectJoinInfo();
 	}
+	
+//	public List selectCustom() {
+//		return warehouseDAO.selectCustom();
+//	}
 
 }

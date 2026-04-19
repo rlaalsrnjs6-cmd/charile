@@ -130,6 +130,12 @@ public class ProcessControll extends HttpServlet {
 
 		// Forward > DTO
 		request.setAttribute("processDTO", processDTO);
+		System.out.println(processDTO);
+		System.out.println(processDTO);
+		System.out.println(processDTO);
+		System.out.println(processDTO);
+		System.out.println(processDTO);
+		System.out.println(processDTO);
 		
 		if("detail".equals(selector)) { // 상세 페이지
 			
@@ -158,6 +164,9 @@ public class ProcessControll extends HttpServlet {
 			
 			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
 
+			List list = service.selectJoinInfo();
+			request.setAttribute("joinList", list);
+			
 			request.setAttribute("map", map);
 			request.getRequestDispatcher("WEB-INF/views/process/process_list.jsp").forward(request, response);
 
@@ -223,16 +232,14 @@ public class ProcessControll extends HttpServlet {
 			// GROUP BY 부터 작성
 			String groupBy = ""; 
 			commonDTO.setGroupBy(groupBy);
-			// WHERE 1=1
-			String where = ""; 
-			commonDTO.setWhere(where);
+			
 			
 			// 검색 기능 [ search_content ]
 			if("search".equals(cmd)) {
-				commonDTO.setSelector(request.getParameter("search_select"));
-				commonDTO.setSearch(request.getParameter("search_content"));
-				System.out.println(commonDTO.getSelector());
-				System.out.println(commonDTO.getSearch());
+				String where = request.getParameter("selectName");
+				if (where!=null && !"".equals(where)) { 
+					commonDTO.setSearch("AND tableB.name = '" + where + "'") ; 
+					}
 			}
 			
 			// paging 
