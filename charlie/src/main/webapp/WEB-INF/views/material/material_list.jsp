@@ -61,7 +61,7 @@
 			</tr>
 		</c:forEach>
 		</table>
-		
+		<jsp:include page="/WEB-INF/views/paging.jsp" />
 		<a href="material?cmd=insertPage">등록페이지로</a>
 		
 		<hr>

@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Bom.BomDTO;
 import Bom.BomService;
@@ -87,7 +88,21 @@ public class BomControll extends HttpServlet {
 			response.setContentType("text/html; charset=utf-8;");
 
 			BomService service = new BomService();
-			Map map = service.selectDB(setDTO(request), setCommonDTO(request, response, ""));
+			
+			CommonDTO commonDTO = setCommonDTO(request, "");
+			
+			HttpSession session = request.getSession();
+			
+			CommonDTO sessionDTO = (CommonDTO) session.getAttribute("bomCommonDTO");
+			
+			if(sessionDTO != null) {
+				sessionDTO.setPage(commonDTO.getPage());
+				sessionDTO.setSize(commonDTO.getSize());
+				
+				commonDTO = sessionDTO;
+			}
+			
+			Map map = service.selectDB(setDTO(request), commonDTO);
 			
 			request.setAttribute("map", map);
 			request.setAttribute("servletName", "Bom");
@@ -129,7 +144,7 @@ public class BomControll extends HttpServlet {
 
 		// Service > DAO - selectOne
 		BomService service = new BomService();
-		BomDTO bomDTO = service.selectOne(setDTO(request), setCommonDTO(request, response, ""));
+		BomDTO bomDTO = service.selectOne(setDTO(request), setCommonDTO(request, ""));
 
 		// Forward > DTO
 		request.setAttribute("bomDTO", bomDTO);
@@ -160,8 +175,15 @@ public class BomControll extends HttpServlet {
 		
 		BomService service = new BomService();
 		// 검색 내용받음
+		
+		// 검색 내용받음
+		CommonDTO commonDTO = setCommonDTO(request, "search");
+								
+		HttpSession session = request.getSession();
+		session.setAttribute("bomCommonDTO", commonDTO);
+					
 				
-		Map map = service.selectDB(setDTO(request), setCommonDTO(request, response, "search"));
+		Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
 
 		List list = service.selectJoinInfo();
 		request.setAttribute("list", list);
@@ -223,11 +245,10 @@ public class BomControll extends HttpServlet {
 	}
 	
 	// 공통 변수
-			protected CommonDTO setCommonDTO(HttpServletRequest request, HttpServletResponse response, String cmd)
+			protected CommonDTO setCommonDTO(HttpServletRequest request, String cmd)
 					throws ServletException, IOException {
 				
 				request.setCharacterEncoding("utf-8");
-				response.setContentType("text/html; charset=utf-8;");
 				
 				CommonDTO commonDTO = new CommonDTO();
 				

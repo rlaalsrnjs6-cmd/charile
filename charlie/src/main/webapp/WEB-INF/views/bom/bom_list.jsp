@@ -59,7 +59,9 @@
 		
 		</table>
 		
-		<hr>
+		<jsp:include page="/WEB-INF/views/paging.jsp" />
 	<a href="bom?cmd=insertPage">등록페이지로</a>
+	
+	<%@ include file="/footer.jsp" %>
 </body>
 </html>

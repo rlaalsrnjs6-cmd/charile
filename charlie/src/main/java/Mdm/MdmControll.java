@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import fileLibrary.CommonDTO;
 
@@ -60,23 +61,51 @@ public class MdmControll extends HttpServlet {
 	}
 
 	// list
+//	protected void list(HttpServletRequest request, HttpServletResponse response)
+//			throws ServletException, IOException {
+//		
+//		request.setCharacterEncoding("utf-8");
+//		response.setContentType("text/html; charset=utf-8;");
+//
+//		MdmService service = new MdmService();
+//
+//		Map map = service.selectDB(setDTO(request), setCommonDTO(request, ""));
+//		System.out.println("/ctrl map : " + map);
+//		
+//		request.setAttribute("map", map);
+//		request.setAttribute("servletName", "mdm");
+//		
+//		
+//		request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list.jsp").forward(request, response);
+//
+//	}
+	
 	protected void list(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8;");
+	        throws ServletException, IOException {
 
-		MdmService service = new MdmService();
+	    request.setCharacterEncoding("utf-8");
 
-		Map map = service.selectDB(setDTO(request), setCommonDTO(request, ""));
-		System.out.println("/ctrl map : " + map);
-		
-		request.setAttribute("map", map);
-		request.setAttribute("servletName", "mdm");
-		
-		
-		request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list.jsp").forward(request, response);
+	    MdmService service = new MdmService();
 
+	    CommonDTO commonDTO = setCommonDTO(request, "");
+
+	    HttpSession session = request.getSession();
+
+	    CommonDTO sessionDTO = (CommonDTO) session.getAttribute("mdmCommonDTO");
+
+	    if (sessionDTO != null) {
+	        sessionDTO.setPage(commonDTO.getPage());
+	        sessionDTO.setSize(commonDTO.getSize());
+
+	        commonDTO = sessionDTO;
+	    }
+
+	    Map map = service.selectDB(setDTO(request), commonDTO);
+
+	    request.setAttribute("map", map);
+	    request.setAttribute("servletName", "mdm");
+
+	    request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list.jsp").forward(request, response);
 	}
 	
 	// delete
@@ -127,20 +156,38 @@ public class MdmControll extends HttpServlet {
 	}
 	
 	// search
-	protected void search(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		
-		MdmService service = new MdmService();
-		// 검색 내용받음
-		
-		Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
-
-		request.setAttribute("map", map);
-		request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list.jsp").forward(request, response);
-
-	}
+//	protected void search(HttpServletRequest request, HttpServletResponse response)
+//			throws ServletException, IOException {
+//
+//		
+//		MdmService service = new MdmService();
+//		// 검색 내용받음
+//		
+//		Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
+//
+//		//HttpSession session = request.getSession();
+//		request.setAttribute("map", map);
+//		request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list.jsp").forward(request, response);
+//
+//	}
 	
+	protected void search(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+
+	    MdmService service = new MdmService();
+
+	    CommonDTO commonDTO = setCommonDTO(request, "search");
+
+	    HttpSession session = request.getSession();
+	    session.setAttribute("mdmCommonDTO", commonDTO);
+
+	    Map map = service.selectDB(setDTO(request), commonDTO);
+
+	    request.setAttribute("map", map);
+	    request.setAttribute("servletName", "mdm");
+
+	    request.getRequestDispatcher("WEB-INF/views/mdm/mdm_list.jsp").forward(request, response);
+	}
 
 	// 거의 고정해서 사용
 	

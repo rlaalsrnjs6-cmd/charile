@@ -20,7 +20,7 @@ public class BomService extends ParentService2<BomDTO, CommonDTO> {
 		commonDTO.setTableName(bomDAO.tableName());
 
 		// 페이지에서 보여줄 항목 몇개인지 개수 리턴
-		int totalCount = bomDAO.getTotalCount();
+		int totalCount = bomDAO.getTotalCount(dto, commonDTO);
 
 		int size = commonDTO.getSize(); // 한 페이지에서 보여줄 개수
 		int page = commonDTO.getPage(); // 시작 페이지
