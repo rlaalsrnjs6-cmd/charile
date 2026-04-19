@@ -12,7 +12,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import Machinery.MachineryDTO;
 import fileLibrary.CommonDTO;
 import fileLibrary.LoggableStatement;
 import fileLibrary.ParentDAO3;
@@ -100,47 +99,52 @@ public class WarehouseDAO extends ParentDAO3<WarehouseDTO, CommonDTO>{
 		return dto;
 	}
 	
+	String innerQuery(WarehouseDTO dto, CommonDTO commonDTO) {
+		String query =
+         "    SELECT tableA.* FROM warehouse tableA ";
+       
+			
+		// tableA = warehouse / tableB = mdm (재료용) / tableC = mdm (제품용)
+
+		// 고정
+		String where = commonDTO.getWhere();
+		if(("".equals(commonDTO.getWhere()))) where = "where 1 = 1";  
+		
+		String groupBy = "";
+		if(!(commonDTO.getGroupBy() == null && "".equals(commonDTO.getGroupBy()))) {
+			groupBy = commonDTO.getGroupBy();
+		}
+
+		String where2 = commonDTO.getWhere2();
+		if (where2 == null || "".equals(where2)) {
+			where2 = "";
+		}
+		String where3 = commonDTO.getWhere3();
+		if (where3 == null || "".equals(where3)) {
+			where3 = "";
+		}
+	
+		// 추가 조건 붙일 때
+		query += where 
+				+  where2
+				+  where3
+				+ groupBy;
+		
+		return query;
+	}
 	// SELECT MAIN QUERY FOR LIST 
 		@Override // NEEDCHECKED
 		protected String selectQuery(WarehouseDTO dto, CommonDTO commonDTO) {
 
+			String orderBy = commonDTO.getOrderBy();
+			if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
+			
 			String query = // 고정 사용
 						"SELECT * FROM ( "
 	                + "  SELECT rownum AS rnum, subqry.* FROM ( "
-					+ "" // MAIN TABLE A	
-	                + "    SELECT tableA.* FROM warehouse tableA ";
-	               
-		    			
-		    	// tableA = warehouse / tableB = mdm (재료용) / tableC = mdm (제품용)
-			
-		    // 고정
-		    String where = commonDTO.getWhere();
-		    if(("".equals(commonDTO.getWhere()))) where = "where 1 = 1";  
-
-		    String orderBy = commonDTO.getOrderBy();
-		    if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
-		    		
-		    String groupBy = "";
-		    if(!(commonDTO.getGroupBy() == null && "".equals(commonDTO.getGroupBy()))) {
-		    	groupBy = commonDTO.getGroupBy();
-		    }
-		    
-		    String where2 = commonDTO.getWhere2();
-		    if (where2 == null || "".equals(where2)) {
-		        where2 = "";
-		    }
-		    String where3 = commonDTO.getWhere3();
-		    if (where3 == null || "".equals(where3)) {
-		    	where3 = "";
-		    }
-		    	
-		    // 추가 조건 붙일 때
-		    query += where 
-		    	  +  where2
-		    	  +  where3
-		    	  + groupBy
-		    	  + " ORDER BY " + orderBy + " ) subqry )"
-		    	  + " WHERE rnum >= ? AND rnum <= ?";
+	                + 	 innerQuery(dto, commonDTO) 
+	                + "  ORDER BY " + orderBy + " ) subqry )"
+	                + "  WHERE rnum >= ? AND rnum <= ?";
 		    return query;
 		}
 
@@ -227,6 +231,35 @@ public class WarehouseDAO extends ParentDAO3<WarehouseDTO, CommonDTO>{
 				return conn;
 			}
 
+			
+			// Use paging 
+		public int getTotalCount(WarehouseDTO dto, CommonDTO commonDTO) {
+					
+			int total = 0;
+					
+			try {
+				//자원을 가지러 가기 위해 문을 열고
+				Context ctx = new InitialContext();
+				//열어둔 문을 통해 어디로 갈지 경로를 정함
+				DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+				        
+				String query = "SELECT COUNT(*) FROM ( "
+				                 + innerQuery(dto, commonDTO)
+				                 + " )";
+				        
+				        try(Connection conn = dataFactory.getConnection();
+				        	PreparedStatement ps = conn.prepareStatement(query);	
+				        		ResultSet rs = ps.executeQuery()){
+				        	
+				        	if(rs.next()) { // count 1줄 return
+				        		total = rs.getInt(1);
+				        	}
+				        }
+					}catch (Exception e) {
+						e.printStackTrace();
+					}
+					return total;
+				}
 
 
 }

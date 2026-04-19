@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Process.ProcessDTO;
 import Process.ProcessService;
@@ -85,6 +86,20 @@ public class ProcessControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 
 		ProcessService service = new ProcessService();
+		
+		CommonDTO commonDTO = setCommonDTO(request, "");
+		
+		HttpSession session = request.getSession();
+		
+		CommonDTO sessionDTO = (CommonDTO) session.getAttribute("processCommonDTO");
+		
+		if(sessionDTO != null) {
+			sessionDTO.setPage(commonDTO.getPage());
+			sessionDTO.setSize(commonDTO.getSize());
+			
+			commonDTO = sessionDTO;
+		}
+		
 		Map map = service.selectDB(setDTO(request), setCommonDTO(request, ""));
 		
 		request.setAttribute("map", map);
@@ -162,8 +177,13 @@ public class ProcessControll extends HttpServlet {
 			ProcessService service = new ProcessService();
 			// 검색 내용받음
 			
-			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
-
+			CommonDTO commonDTO = setCommonDTO(request, "search");
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("processCommonDTO", commonDTO);
+			
+			Map map = service.selectDB(setDTO(request), commonDTO);
+			
 			List list = service.selectJoinInfo();
 			request.setAttribute("joinList", list);
 			

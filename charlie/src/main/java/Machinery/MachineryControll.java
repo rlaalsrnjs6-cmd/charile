@@ -9,10 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import Machinery.MachineryDTO;
-import Machinery.MachineryService;
-import Mdm.MdmService;
 import fileLibrary.CommonDTO;
 
 @WebServlet("/machinery")
@@ -82,7 +80,21 @@ public class MachineryControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 
 		MachineryService service = new MachineryService();
-		Map map = service.selectDB(setDTO(request), setCommonDTO(request, ""));
+		
+		CommonDTO commonDTO = setCommonDTO(request, "");
+		
+		HttpSession session = request.getSession();
+		
+		CommonDTO sessionDTO = (CommonDTO) session.getAttribute("machineryCommonDTO");
+		
+		if(sessionDTO != null) {
+			sessionDTO.setPage(commonDTO.getPage());
+			sessionDTO.setSize(commonDTO.getSize());
+			
+			commonDTO = sessionDTO;
+		}
+		
+		Map map = service.selectDB(setDTO(request), commonDTO);
 		
 		request.setAttribute("map", map);
 		request.setAttribute("servletName", "machinery");
@@ -146,10 +158,13 @@ public class MachineryControll extends HttpServlet {
 			
 			MachineryService service = new MachineryService();
 			// 검색 내용받음
+			CommonDTO commonDTO = setCommonDTO(request, "search");
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("machineryCommonDTO", commonDTO);
 			
 			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
-			
-			
+
 			request.setAttribute("map", map);
 			request.getRequestDispatcher("WEB-INF/views/machinery/machinery_list.jsp").forward(request, response);
 

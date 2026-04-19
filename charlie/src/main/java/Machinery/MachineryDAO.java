@@ -10,6 +10,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import Process.ProcessDTO;
 import fileLibrary.CommonDTO;
 import fileLibrary.LoggableStatement;
 import fileLibrary.ParentDAO4;
@@ -102,43 +103,51 @@ public class MachineryDAO extends ParentDAO4<MachineryDTO, CommonDTO>{
 			return dto;
 		}
 
+	String innerQuery(MachineryDTO dto, CommonDTO commonDTO) {
+		String query =
+		           // join data
+                 " SELECT tableA.*, tableB.name, tableB.code"
+                + " from machinery tableA "
+                // join on
+                + " JOIN mdm tableB ON tableA.mdm_num = tableB.mdm_num ";
+   
+				// 고정
+				String where = commonDTO.getWhere();
+				if(("".equals(commonDTO.getWhere()))) where = "WHERE LOWER(TRIM(tableB.type)) = 'equip'";  
+
+				
+
+				String groupBy = "";
+   
+				String where2 = commonDTO.getSearch();
+				if (where2 == null || "".equals(where2)) {
+					where2 = "";
+				}
+   
+				// 추가 조건 붙일 때
+				query += where 
+						+  where2
+						+  groupBy;
+				
+   		return query;
+	}
+	
 	// SELECT MAIN QUERY FOR LIST 
 	@Override // CHECKED
 	protected String selectQuery(MachineryDTO dto, CommonDTO commonDTO) {
 
+		String orderBy = commonDTO.getOrderBy();
+		if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
+		orderBy = " tableA.machinery_num DESC ";
+		
 		// 고정
 	    String query = " SELECT * from ( "
 	                 + " SELECT rownum as rnum, subqry.* from ( "
 	                 // rownum 용 subquery 껍데기 고정
-	                 
-	                 
-	                 // join data
-	                 + " SELECT tableA.*, tableB.name, tableB.code"
-	                 + " from machinery tableA "
-	                 // join on
-	                 + " JOIN mdm tableB ON tableA.mdm_num = tableB.mdm_num ";
-	    
-	    // 고정
-	    String where = commonDTO.getWhere();
-	    if(("".equals(commonDTO.getWhere()))) where = "WHERE LOWER(TRIM(tableB.type)) = 'equip'";  
-
-	    String orderBy = commonDTO.getOrderBy();
-	    if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
-	    orderBy = " tableA.machinery_num DESC ";
-
-	    String groupBy = "";
-	    
-	    String where2 = commonDTO.getSearch();
-	    if (where2 == null || "".equals(where2)) {
-	        where2 = "";
-	    }
-	    
-	    // 추가 조건 붙일 때
-	    query += where 
-	    	  +  where2
-	    	  +  groupBy
-	    	  +" ORDER BY " + orderBy + " ) subqry )"
-	    	  +" WHERE rnum >= ? AND rnum <= ?";
+	                 + innerQuery(dto, commonDTO)
+	                 +" ORDER BY " + orderBy + " ) subqry )"
+	                 +" WHERE rnum >= ? AND rnum <= ?";
+	  
 	    return query;
 	}
 	
@@ -222,6 +231,34 @@ public class MachineryDAO extends ParentDAO4<MachineryDTO, CommonDTO>{
 				e.printStackTrace();
 			}
 			return conn;
+		}
+		
+		public int getTotalCount(MachineryDTO dto, CommonDTO commonDTO) {
+			
+			int total = 0;
+			
+			try {
+				//자원을 가지러 가기 위해 문을 열고
+				Context ctx = new InitialContext();
+				//열어둔 문을 통해 어디로 갈지 경로를 정함
+		        DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+		        
+		        String query = "SELECT COUNT(*) FROM ( "
+		                 + innerQuery(dto, commonDTO)
+		                 + " )";
+		        
+		        try(Connection conn = dataFactory.getConnection();
+		        	PreparedStatement ps = conn.prepareStatement(query);	
+		        		ResultSet rs = ps.executeQuery()){
+		        	
+		        	if(rs.next()) { // count 1줄 return
+		        		total = rs.getInt(1);
+		        	}
+		        }
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			return total;
 		}
 	
 

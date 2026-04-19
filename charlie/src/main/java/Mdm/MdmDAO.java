@@ -34,56 +34,63 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 		return dto.getMdm_num();
 	}
 	
+	String innerQuery(MdmDTO dto, CommonDTO commonDTO) {
+
+		 String query =  " select " + tableName() + ".* from " + tableName() ;
+			
+		 // SET WHERE
+		 String where = commonDTO.getWhere();
+		 if(("".equals(commonDTO.getWhere()))) where = " WHERE 1 = 1 ";  
+		 
+		 // 가변 조건
+		 if(commonDTO.getSearch() != null
+				 && !"".equals(commonDTO.getSearch())) {
+		
+		switch(commonDTO.getSelector()) {
+			
+		// 전체검색
+		case "search_all": where += " AND code LIKE " 
+									+ "'%" + commonDTO.getSearch() + "%'"
+									+ " or name LIKE '%" + commonDTO.getSearch() + "%'" 
+									+ " or unit LIKE '%" + commonDTO.getSearch() + "%'"
+		/* 컬럼별 검색 */			    + " or type LIKE '%" + commonDTO.getSearch() + "%'"; break;	
+		case "code" : where += " AND code LIKE '%" +  commonDTO.getSearch() + "%'"; break;
+		case "name" : where += " AND name LIKE '%" +  commonDTO.getSearch() + "%'"; break;
+		case "unit" : where += " AND unit LIKE '%" +  commonDTO.getSearch() + "%'"; break;
+		case "type" : where += " AND type LIKE '%" +  commonDTO.getSearch() + "%'"; break;
+		default : break;
+		}
+	}
 	
+	String where2 = commonDTO.getWhere2();
+   if (where2 == null || "".equals(where2)) {
+       where2 = "";
+   }
+   String where3 = commonDTO.getWhere3();
+   if (where3 == null || "".equals(where3)) {
+   	where3 = "";
+   }
+	// 추가 내용
+	query += where
+		  +  where2
+	      +  where3;
+	      
+		
+		return query;
+	}
 	
 	@Override
 	protected String selectQuery(MdmDTO dto, CommonDTO commonDTO) {
-		
-		// SET QUERY
-		String query = " select * from ( "
-					 + "	 select rownum as rnum, subqry.* from ( "
-					 + "	 select " + tableName() + ".* from " + tableName() ;
-		
-		// SET WHERE
-		String where = commonDTO.getWhere();
-	    if(("".equals(commonDTO.getWhere()))) where = " WHERE 1 = 1 ";  
 		// SET ORDERBY
 		String orderBy = pk_Coulum_Name();
 		if ( commonDTO.getOrderBy() != null ) orderBy = commonDTO.getOrderBy();
-		
-		// 가변 조건
-		if(commonDTO.getSearch() != null
-				&& !"".equals(commonDTO.getSearch())) {
 			
-			switch(commonDTO.getSelector()) {
-				
-			// 전체검색
-			case "search_all": where = " WHERE code LIKE " 
-										+ "'%" + commonDTO.getSearch() + "%'"
-										+ " or name LIKE '%" + commonDTO.getSearch() + "%'" 
-										+ " or unit LIKE '%" + commonDTO.getSearch() + "%'"
-			/* 컬럼별 검색 */			    + " or type LIKE '%" + commonDTO.getSearch() + "%'"; break;	
-			case "code" : where = " where code LIKE '%" +  commonDTO.getSearch() + "%'"; break;
-			case "name" : where = " where name LIKE '%" +  commonDTO.getSearch() + "%'"; break;
-			case "unit" : where = " where unit LIKE '%" +  commonDTO.getSearch() + "%'"; break;
-			case "type" : where = " where type LIKE '%" +  commonDTO.getSearch() + "%'"; break;
-			default : break;
-			}
-		}
-		
-		String where2 = commonDTO.getWhere2();
-	    if (where2 == null || "".equals(where2)) {
-	        where2 = "";
-	    }
-	    String where3 = commonDTO.getWhere3();
-	    if (where3 == null || "".equals(where3)) {
-	    	where3 = "";
-	    }
-		// 추가 내용
-		query += where
-			  +  where2
-		      +  where3
-		      +" ORDER BY "+ orderBy +" ) subqry )"
+		// SET QUERY
+		String query = " SELECT * FROM ( "
+					 + "	 SELECT rownum as rnum, subqry.* from ( "
+					 + innerQuery(dto, commonDTO)
+					 +" ORDER BY " + orderBy
+					 + " ) subqry )"
 		 	  +" WHERE rnum >= ? AND rnum <= ?" ;
 		return query;
 		
@@ -230,9 +237,9 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 		return null;
 	}
 
-	@Override
+	
 	// Use paging 
-		public int getTotalCount() {
+		public int getTotalCount(MdmDTO dto, CommonDTO commonDTO) {
 			
 			int total = 0;
 			
@@ -242,7 +249,9 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 				//열어둔 문을 통해 어디로 갈지 경로를 정함
 		        DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 		        
-		        String query ="select count(*) from " + tableName(); 
+		        String query = "SELECT COUNT(*) FROM ( "
+		                 + innerQuery(dto, commonDTO)
+		                 + " )";
 		        
 		        try(Connection conn = dataFactory.getConnection();
 		        	PreparedStatement ps = conn.prepareStatement(query);	

@@ -6,6 +6,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%-- 차트 전용 맵으로 재정의 --%>
+<c:set var="map" value="${chartData}" scope="request" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>

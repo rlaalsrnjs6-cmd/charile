@@ -11,6 +11,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import Mdm.MdmDTO;
 import Warehouse.WarehouseDTO;
 import fileLibrary.CommonDTO;
 import fileLibrary.LoggableStatement;
@@ -66,48 +67,54 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 
 
 
+	String innerQuery(MaterialDTO dto, CommonDTO commonDTO) {
+		String query = 
+				   " SELECT tableA.material_num, "
+				 + " tableB.mdm_num, "
+				 + " tableB.code, tableB.name, tableB.unit, tableB.type, "
+				 + " SUM(tableB.quantity) AS total_quantity, "
+				 + " SUM(tableB.price * tableB.quantity) AS total_price, "
+				 + " tableC.warehouse_num, "
+				 + " tableC.wh_section, tableC.floor_level "
+				 + " FROM material tableA"
+				 + " JOIN mdm tableB ON tableA.mdm_num = tableB.mdm_num "
+				 + " JOIN warehouse tableC ON tableA.warehouse_num = tableC.warehouse_num ";
+
+								    
+						   // 고정
+				String where = commonDTO.getWhere();
+				if("".equals(where)) where = "";  
+				String where2 = commonDTO.getWhere2();
+				if (where2 == null || "".equals(where2)) {
+					    where2 = "";
+					}
+
+				 
+						   
+				// 추가 조건 붙일 때
+				query += where 
+					  +  where2;
+						
+				query += " GROUP BY "
+					   + " tableA.material_num, "
+					   + " tableB.mdm_num, "
+					   + " tableB.code, tableB.name, tableB.unit, tableB.type, "
+					   + " tableC.warehouse_num, "
+					   + " tableC.wh_section, tableC.floor_level ";
+					
+				return query;
+	}
 	@Override
 	protected String selectQuery(MaterialDTO dto, CommonDTO commonDTO) {
 		// 고정
+		
+		String orderBy = commonDTO.getOrderBy();
+		if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name(); 
+		
 		String query =
 		   "   SELECT * from (   "
 		 + "   SELECT rownum as rnum, subqry.* from (   "
-		 + ""
-		 + " SELECT tableA.material_num, "
-		 + " tableB.mdm_num, "
-		 + " tableB.code, tableB.name, tableB.unit, tableB.type, "
-		 + " SUM(tableB.quantity) AS total_quantity, "
-		 + " SUM(tableB.price * tableB.quantity) AS total_price, "
-		 + " tableC.warehouse_num, "
-		 + " tableC.wh_section, tableC.floor_level "
-		 + " FROM material tableA"
-		 + ""
-		 + " JOIN mdm tableB ON tableA.mdm_num = tableB.mdm_num "
-		 + " JOIN warehouse tableC ON tableA.warehouse_num = tableC.warehouse_num ";
-
-				    
-		   // 고정
-	    String where = commonDTO.getWhere();
-	    if("".equals(where)) where = "";  
-	    String where2 = commonDTO.getWhere2();
-	    if (where2 == null || "".equals(where2)) {
-	        where2 = "";
-	    }
-
-		String orderBy = commonDTO.getOrderBy();
-		if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
-		   
-		// 추가 조건 붙일 때
-		query += where 
-			  +  where2;
-		
-		query += " GROUP BY "
-				+ "tableA.material_num, "
-				+ "tableB.mdm_num, "
-				+ "tableB.code, tableB.name, tableB.unit, tableB.type, "
-				+ "tableC.warehouse_num, "
-				+ "tableC.wh_section, tableC.floor_level ";
-		
+		 + 	   innerQuery( dto, commonDTO ) ; 
 		query += " order by " + orderBy + " ) subqry )"
 		 	  + " WHERE rnum >= ? AND rnum <= ?";
 	    return query;
@@ -205,6 +212,35 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 				}
 				return conn;
 			}
+			
+	// Use paging 
+		public int getTotalCount(MaterialDTO dto, CommonDTO commonDTO) {
+			
+			int total = 0;
+			
+			try {
+				//자원을 가지러 가기 위해 문을 열고
+				Context ctx = new InitialContext();
+				//열어둔 문을 통해 어디로 갈지 경로를 정함
+		        DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+		        
+		        String query = "SELECT COUNT(*) FROM ( "
+		                 + innerQuery(dto, commonDTO)
+		                 + " )";
+		        
+		        try(Connection conn = dataFactory.getConnection();
+		        	PreparedStatement ps = conn.prepareStatement(query);	
+		        		ResultSet rs = ps.executeQuery()){
+		        	
+		        	if(rs.next()) { // count 1줄 return
+		        		total = rs.getInt(1);
+		        	}
+		        }
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			return total;
+		}
 
 	
 	//////////민권쓰

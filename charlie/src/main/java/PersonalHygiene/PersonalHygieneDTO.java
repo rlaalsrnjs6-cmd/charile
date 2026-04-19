@@ -10,8 +10,8 @@ public class PersonalHygieneDTO {
 	String memo;
 	String supervisor_chk;
 	int empno;
-	String Ename;
 	String mod;
+	String ename;
 	public int getPh_num() {
 		return ph_num;
 	}
@@ -54,23 +54,23 @@ public class PersonalHygieneDTO {
 	public void setEmpno(int empno) {
 		this.empno = empno;
 	}
-	public String getEname() {
-		return Ename;
-	}
-	public void setEname(String ename) {
-		Ename = ename;
-	}
 	public String getMod() {
 		return mod;
 	}
 	public void setMod(String mod) {
 		this.mod = mod;
 	}
+	public String getEname() {
+		return ename;
+	}
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
 	@Override
 	public String toString() {
 		return "PersonalHygieneDTO [ph_num=" + ph_num + ", body_temper=" + body_temper + ", regist_time=" + regist_time
 				+ ", washed=" + washed + ", memo=" + memo + ", supervisor_chk=" + supervisor_chk + ", empno=" + empno
-				+ ", Ename=" + Ename + ", mod=" + mod + "]";
+				+ ", mod=" + mod + ", ename=" + ename + "]";
 	}
 
 	
