@@ -121,6 +121,7 @@ public class PersonalHygieneControll extends HttpServlet {
 		String washed = request.getParameter("washed");
 		String memo = request.getParameter("memo");
 		String upervisor_chk = request.getParameter("supervisor_chk");
+		String ename = request.getParameter("ename");
 		String sempno = request.getParameter("empno");
 		String mod = request.getParameter("mod");
 		System.out.println("up:" + mod);
@@ -129,6 +130,7 @@ public class PersonalHygieneControll extends HttpServlet {
 
 		PersonalHygieneDTO hygieneDTO = new PersonalHygieneDTO();
 		hygieneDTO.setBody_temper(body_temper);
+		hygieneDTO.setEname(ename);
 		hygieneDTO.setWashed(washed);
 		hygieneDTO.setMemo(memo);
 		hygieneDTO.setSupervisor_chk(upervisor_chk);

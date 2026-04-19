@@ -35,13 +35,13 @@ public class PersonalHygieneDAO {
 							+ 		"select * from personal_hygiene "
 							//REGIST_TIME이 오늘 00시 혹은 12시 보다 크거나 같은것
 							+ "WHERE REGIST_TIME >= CASE "
-							+ "WHEN to_char(sysdate, 'HH24') < 12 THEN trunc(sysdate) "//현재시간이 오전이면
-							+ "ELSE trunc(sysdate) + 0.5 "//현재시간이 오후면
+							+ "WHEN to_char(sysdate+9/24, 'HH24') < 12 THEN trunc(sysdate+9/24) "//현재시간이 오전이면
+							+ "ELSE trunc(sysdate+9/24) + 0.5 "//현재시간이 오후면
 							+ "END "
 							//--REGIST_TIME이 오늘 12시 혹은 내일00시 보다 작은것		
 							+ "AND REGIST_TIME < CASE "
-							+ "WHEN to_char(sysdate, 'HH24') < 12 THEN trunc(sysdate) + 0.5 "//현재시간이 오전이면
-							+ "ELSE trunc(sysdate) + 1 "//현재시간이 오후면
+							+ "WHEN to_char(sysdate+9/24, 'HH24') < 12 THEN trunc(sysdate+9/24) + 0.5 "//현재시간이 오전이면
+							+ "ELSE trunc(sysdate+9/24) + 1 "//현재시간이 오후면
 							//즉 현재시간이 오전시간대면 오늘00시이후~12시 이전시간대 정보를 보여주고
 							// 현재시간이 오후시간대면 오늘12이후~내일00시이전시간대 정보를 보여줘라
 							+ "END ";
@@ -70,6 +70,7 @@ public class PersonalHygieneDAO {
 				String washed = rs.getString("washed");
 				String memo = rs.getString("memo");
 				String supervisor_chk = rs.getString("supervisor_chk");
+				String ename = rs.getString("ename");
 				int empno = rs.getInt("empno");
 				
 				DTO.setPh_num(ph_num);
@@ -78,6 +79,7 @@ public class PersonalHygieneDAO {
 				DTO.setWashed(washed);
 				DTO.setMemo(memo);
 				DTO.setSupervisor_chk(supervisor_chk);
+				DTO.setEname(ename);
 				DTO.setEmpno(empno);
 				list.add(DTO);
 			}
@@ -213,8 +215,8 @@ public class PersonalHygieneDAO {
 			if("add".equals(dto.getMod())) {
 				 query = "INSERT INTO personal_hygiene "
 					   + "(ph_num, empno, body_temper, regist_time, "
-					   + "washed, supervisor_chk, memo) "
-					   + "VALUES (hygiene_SEQ.nextval, ?, ?, SYSDATE+9/24, ?, ?, ?)";
+					   + "washed, supervisor_chk, memo, ename) "
+					   + "VALUES (hygiene_SEQ.nextval, ?, ?, SYSDATE+9/24, ?, ?, ?, ?)";
 			}
 			// �뵜由ы듃
 			if("delete".equals(dto.getMod())) {
@@ -241,6 +243,7 @@ public class PersonalHygieneDAO {
 				ps.setString(3, dto.getWashed());
 				ps.setString(4, dto.getSupervisor_chk());
 				ps.setString(5, dto.getMemo());
+				ps.setString(6, dto.getEname());
 			}
 			
 			if("delete".equals(dto.getMod())) {
@@ -291,12 +294,12 @@ public class PersonalHygieneDAO {
 
 			String query = "select count(*) from personal_hygiene "
 					+ "WHERE REGIST_TIME >= CASE "
-					+ "WHEN to_char(sysdate, 'HH24') < 12 THEN trunc(sysdate) "
-					+ "ELSE trunc(sysdate) + 0.5 "
+					+ "WHEN to_char(sysdate+9/24, 'HH24') < 12 THEN trunc(sysdate+9/24) "
+					+ "ELSE trunc(sysdate+9/24) + 0.5 "
 					+ "END "
 					+ "AND REGIST_TIME < CASE "
-					+ "WHEN to_char(sysdate, 'HH24') < 12 THEN trunc(sysdate) + 0.5 "
-					+ "ELSE trunc(sysdate) + 1 "
+					+ "WHEN to_char(sysdate+9/24, 'HH24') < 12 THEN trunc(sysdate+9/24) + 0.5 "
+					+ "ELSE trunc(sysdate+9/24) + 1 "
 					+ "END";
 
 			try (Connection conn = dataFactory.getConnection();

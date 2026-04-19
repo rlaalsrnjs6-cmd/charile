@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Lot.LotDTO;
 import Lot.LotService;
@@ -20,14 +21,22 @@ import fileLibrary.CommonDTO;
 public class DefectiveControll extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		response.setContentType("text/html; charset=utf-8;");
+		HttpSession session = request.getSession();
 		String sdefective_num = request.getParameter("defective_num");
 		String category = request.getParameter("category");
 		String ssize = request.getParameter("size");
 		String spage = request.getParameter("page");
 		String mod = request.getParameter("mod");
-
+		if(category !=null) {
+			session.setAttribute("category", category);
+		}else {
+			category = (String) session.getAttribute("category");
+		}
+		if ("select".equals(mod)) {
+		    session.setAttribute("savedMod", mod);
+		} else if (mod == null) {
+		    mod = (String) session.getAttribute("savedMod");
+		}
 		int size = 10;
 		int page = 1;
 		if (ssize != null && spage != null) {
@@ -49,6 +58,8 @@ public class DefectiveControll extends HttpServlet {
 		DefectiveService service = new DefectiveService();
 		Map list = service.select(defectiveDTO, pageing);
 		request.setAttribute("map", list);
+		request.setAttribute("category", category);
+		
 		System.out.println("디펜시브 확인:"+list);
 		if ("detail".equals(mod)) {
 			request.getRequestDispatcher("WEB-INF/views/defective/defectiveDetail.jsp").forward(request, response);
@@ -56,11 +67,7 @@ public class DefectiveControll extends HttpServlet {
 		} else if ("delete".equals(mod)) {
 			defectiveDelete(request, response);
 			return;
-		} else if("select".equals(mod)){
-			request.setAttribute("map", list);
-			request.getRequestDispatcher("WEB-INF/views/defective/defectiveTable.jsp").forward(request, response);	
-			return;
-		}else {
+		} else {
 			LotDTO LotDTO = new LotDTO();
 			LotService lotSV = new LotService();
 			List<LotDTO> lot = lotSV.selectall(LotDTO);
