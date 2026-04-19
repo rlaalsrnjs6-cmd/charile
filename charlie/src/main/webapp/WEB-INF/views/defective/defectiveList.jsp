@@ -22,6 +22,7 @@
 	<hr>
 	${map.list}
 	<%@ include file="/header.jsp"%>
+	<div id="tableDiv">
 	<select id="select" name="category">
 		<option value="전체보기">전체보기</option>
 		<option value="깨짐">깨짐</option>
@@ -53,6 +54,7 @@
 	</table>
 	<a href="http://localhost:8080/charlie/defective?mod=add">작성</a>
 	<jsp:include page="/WEB-INF/views/paging.jsp" />
+	</div>
 	<%@ include file="/footer.jsp"%>
 
 	<script>
@@ -61,7 +63,7 @@
 			fetch(`defective?mod=select&category=\${category}`)
 			.then(response => response.text())
 			.then(html => {
-				document.querySelector('#defectiveTable').innerHTML = html;
+				document.querySelector('#tableDiv').innerHTML = html;
 			})
 			.catch(error => console.error('Error:', error));
 		})

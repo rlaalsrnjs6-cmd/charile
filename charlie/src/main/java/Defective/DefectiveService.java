@@ -17,13 +17,13 @@ public class DefectiveService {
 		pageing.setTableName("defective");
 
         // 페이지에서 보여줄 항목 몇개인지 개수 리턴
-        int totalCount = dao.getTotalCount();
+        int totalCount = dao.getTotalCount(dto);
         System.out.println("토탈사이즈: " + totalCount);
         
 
         int size = pageing.getSize(); // 한 페이지에서 보여줄 개수
         int page = pageing.getPage(); // 시작 페이지
-
+        
         int section = pageing.getSection(); // N 페이지씩 하기
 
         int start = 0, end = 0;

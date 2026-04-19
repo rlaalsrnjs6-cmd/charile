@@ -13,7 +13,15 @@
 </head>
 <body>
 <%@ include file="header.jsp"%>
-<%@ include file="dashboard.jsp"%>
-<%@ include file="footer.jsp"%>
+    
+    <div id="dashboard-section">
+        <%@ include file="dashboard.jsp"%>
+    </div>
+    
+    <div id="chart-section">
+        <%@ include file="chart.jsp"%>
+    </div>
+    
+    <%@ include file="footer.jsp"%>
 </body>
 </html>
