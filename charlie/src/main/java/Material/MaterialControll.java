@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Material.MaterialDTO;
 import Material.MaterialService;
@@ -80,7 +81,21 @@ public class MaterialControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 
 		MaterialService service = new MaterialService();
-		Map map = service.selectDB(setDTO(request), setCommonDTO(request, ""));
+		
+		CommonDTO commonDTO = setCommonDTO(request, "");
+		
+		HttpSession session = request.getSession();
+		
+		CommonDTO sessionDTO = (CommonDTO) session.getAttribute("materialCommonDTO");
+		
+		if(sessionDTO != null) {
+			sessionDTO.setPage(commonDTO.getPage());
+			sessionDTO.setSize(commonDTO.getSize());
+			
+			commonDTO = sessionDTO;
+		}
+		
+		Map map = service.selectDB(setDTO(request), commonDTO);
 		
 		request.setAttribute("map", map);
 		request.setAttribute("servletName", "material");
@@ -146,6 +161,11 @@ public class MaterialControll extends HttpServlet {
 			
 			MaterialService service = new MaterialService();
 			
+			// 검색 내용받음
+			CommonDTO commonDTO = setCommonDTO(request, "search");
+						
+		    HttpSession session = request.getSession();
+			session.setAttribute("materialCommonDTO", commonDTO);
 			
 			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
 
@@ -192,12 +212,6 @@ public class MaterialControll extends HttpServlet {
 				
 				mdm_num = Integer.parseInt(request.getParameter("mdm_num"));
 				
-				System.out.println( "/set material mdm_num : " + mdm_num );
-				System.out.println( "/set material mdm_num : " + mdm_num );
-				System.out.println( "/set material mdm_num : " + mdm_num );
-				System.out.println( "/set material mdm_num : " + mdm_num );
-				System.out.println( "/set material mdm_num : " + mdm_num );
-				System.out.println( "/set material mdm_num : " + mdm_num );
 			} 
 		
 			

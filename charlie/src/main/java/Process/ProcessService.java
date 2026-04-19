@@ -19,7 +19,7 @@ public class ProcessService extends ParentService2<ProcessDTO, CommonDTO> {
 		commonDTO.setTableName(processDAO.tableName());
 
 		// 페이지에서 보여줄 항목 몇개인지 개수 리턴
-		int totalCount = processDAO.getTotalCount();
+		int totalCount = processDAO.getTotalCount(dto, commonDTO);
 
 		int size = commonDTO.getSize(); // 한 페이지에서 보여줄 개수
 		int page = commonDTO.getPage(); // 시작 페이지

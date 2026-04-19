@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Warehouse.WarehouseDTO;
 import Warehouse.WarehouseService;
@@ -72,18 +73,32 @@ public class WarehouseControll extends HttpServlet {
 	}
 
 	// list
-		protected void list(HttpServletRequest request, HttpServletResponse response)
+	protected void list(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
 			
-			response.setContentType("text/html; charset=utf-8;");
+		response.setContentType("text/html; charset=utf-8;");
 
-			WarehouseService service = new WarehouseService();
-			Map map = service.selectDB(setDTO(request), setCommonDTO(request, ""));
+		WarehouseService service = new WarehouseService();
+		
+		CommonDTO commonDTO = setCommonDTO(request, "");
+		
+		HttpSession session = request.getSession();
+		
+		CommonDTO sessionDTO = (CommonDTO) session.getAttribute("whCommonDTO");
+		
+		if(sessionDTO != null) {
+			sessionDTO.setPage(commonDTO.getPage());
+			sessionDTO.setSize(commonDTO.getSize());
 			
-			request.setAttribute("map", map);
-			request.setAttribute("servletName", "warehouse");
+			commonDTO = sessionDTO;
+		}
+		
+		Map map = service.selectDB(setDTO(request), commonDTO);
 			
-			request.getRequestDispatcher("WEB-INF/views/warehouse/warehouse_list.jsp").forward(request, response);
+		request.setAttribute("map", map);
+		request.setAttribute("servletName", "warehouse");
+			
+		request.getRequestDispatcher("WEB-INF/views/warehouse/warehouse_list.jsp").forward(request, response);
 
 		}
 	
@@ -112,7 +127,6 @@ public class WarehouseControll extends HttpServlet {
 	protected void detail(HttpServletRequest request, HttpServletResponse response, String selector)
 			throws ServletException, IOException {
 
-		System.out.println("/detail �떎�뻾");
 
 		// Service > DAO - selectOne
 		WarehouseService service = new WarehouseService();
@@ -148,7 +162,12 @@ public class WarehouseControll extends HttpServlet {
 			WarehouseService service = new WarehouseService();
 			// 寃��깋 �궡�슜諛쏆쓬
 				
-			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
+			CommonDTO commonDTO = setCommonDTO(request, "search");
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("whCommonDTO", commonDTO);
+			
+			Map map = service.selectDB(setDTO(request), commonDTO);
 
 			request.setAttribute("map", map);
 			

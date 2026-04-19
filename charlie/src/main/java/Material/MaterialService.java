@@ -19,7 +19,7 @@ public class MaterialService extends ParentService3<MaterialDTO, CommonDTO> {
 		commonDTO.setTableName(materialDAO.tableName());
 
 		// 페이지에서 보여줄 항목 몇개인지 개수 리턴
-		int totalCount = materialDAO.getTotalCount();
+		int totalCount = materialDAO.getTotalCount(dto, commonDTO);
 
 		int size = commonDTO.getSize(); // 한 페이지에서 보여줄 개수
 		int page = commonDTO.getPage(); // 시작 페이지

@@ -17,7 +17,7 @@ public class MdmService extends ParentService2<MdmDTO, CommonDTO>{
 		commonDTO.setTableName(mdmDAO.tableName());		
 
 		//페이지에서 보여줄 항목 몇개인지 개수 리턴
-		int totalCount = mdmDAO.getTotalCount();
+		int totalCount = mdmDAO.getTotalCount(dto, commonDTO);
 		
 		int size = commonDTO.getSize(); // 한 페이지에서 보여줄 개수
 		int page = commonDTO.getPage(); // 시작 페이지

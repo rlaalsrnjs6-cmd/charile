@@ -1,8 +1,13 @@
 package Bom;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 import Mdm.MdmDAO;
 import Mdm.MdmDTO;
@@ -69,44 +74,48 @@ public class BomDAO extends ParentDAO3<BomDTO, CommonDTO>{
 		return dto;
 	}
 	
+	
+	String innerQuery(BomDTO dto, CommonDTO commonDTO) {
+		String query =
+                  " SELECT tableA.*, tableB.code, tableB.name, tableB.unit, tableB.type, tableC.name AS target_name, tableC.code AS target_code "
+                + " FROM bom tableA "
+                + "" // JOIN TABLE B
+                + " LEFT OUTER JOIN mdm tableB "
+                + " ON tableA.mdm_num = tableB.mdm_num "
+                + " LEFT JOIN mdm tableC "
+                + " ON tableA.target_mdm_num = tableC.mdm_num ";
+	    			
+	    // 고정
+	    String where = commonDTO.getWhere();
+	    if(("".equals(where))) where = "where 1 = 1";  
+
+	
+	    String where2 = commonDTO.getSearch();
+	    if (where2 == null || "".equals(where2)) {
+	        where2 = "";
+	    }
+	  
+	    String groupBy = "";
+	    // 추가 조건 붙일 때
+	    query += where 
+	    	  +  where2
+	    	  + groupBy;
+	    return query;
+	}
 	// SELECT MAIN QUERY FOR LIST 
 		@Override // NEEDCHECKED
 		protected String selectQuery(BomDTO dto, CommonDTO commonDTO) {
-
+			
+		    String orderBy = commonDTO.getOrderBy();
+		    if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();
+		    
+		 
 			String query = // 고정 사용
 						"SELECT * FROM ( "
 	                + "  SELECT rownum AS rnum, subqry.* FROM ( "
-					+ "" // MAIN TABLE A	
-	                + "    SELECT tableA.*, tableB.code, tableB.name, tableB.unit, tableB.type, tableC.name AS target_name, tableC.code AS target_code "
-	                + " FROM bom tableA "
-	                + "" // JOIN TABLE B
-	                + " LEFT OUTER JOIN mdm tableB "
-	                + " ON tableA.mdm_num = tableB.mdm_num "
-	                + " LEFT JOIN mdm tableC "
-	                + " ON tableA.target_mdm_num = tableC.mdm_num ";
-		    			
-		    	// tableA = bom / tableB = mdm (재료용) / tableC = mdm (제품용)
-			
-		    // 고정
-		    String where = commonDTO.getWhere();
-		    if(("".equals(where))) where = "where 1 = 1";  
-
-		    String orderBy = commonDTO.getOrderBy();
-		    if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
-		 
-		    String where2 = commonDTO.getSearch();
-		    if (where2 == null || "".equals(where2)) {
-		        where2 = "";
-		    }
-		  
-		    String groupBy = "";
-		    // 추가 조건 붙일 때
-		    query += where 
-		    	  +  where2
-		    	  + groupBy
-		    	  + " ORDER BY " + orderBy + " ) subqry )"
-		    	  + " WHERE rnum >= ? AND rnum <= ?";
-		    
+	                + innerQuery(dto, commonDTO)
+		    	 	+ " ORDER BY " + orderBy + " ) subqry )"
+		    	 	+ " WHERE rnum >= ? AND rnum <= ?";
 		    
 		    return query;
 		}
@@ -157,7 +166,34 @@ public class BomDAO extends ParentDAO3<BomDTO, CommonDTO>{
 		return dto;
 	}
 
-
+	// Use paging 
+	public int getTotalCount(BomDTO dto, CommonDTO commonDTO) {
+		
+		int total = 0;
+		
+		try {
+			//자원을 가지러 가기 위해 문을 열고
+			Context ctx = new InitialContext();
+			//열어둔 문을 통해 어디로 갈지 경로를 정함
+	        DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+	        
+	        String query = "SELECT COUNT(*) FROM ( "
+	                 + innerQuery(dto, commonDTO)
+	                 + " )";
+	        
+	        try(Connection conn = dataFactory.getConnection();
+	        	PreparedStatement ps = conn.prepareStatement(query);	
+	        		ResultSet rs = ps.executeQuery()){
+	        	
+	        	if(rs.next()) { // count 1줄 return
+	        		total = rs.getInt(1);
+	        	}
+	        }
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return total;
+	}
 
 
 }
