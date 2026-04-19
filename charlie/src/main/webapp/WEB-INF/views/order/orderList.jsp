@@ -14,6 +14,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+	<%session.getAttribute("level"); %>
 	<%@ include file="/header.jsp" %>
 	<SELECT>
 		<option name="total" value="전체">전체</option>
@@ -44,8 +45,9 @@
 			</tr>
 		</c:forEach>
 	</table>
+	<c:if test="${sessionScope.level < 3 }">
 	<a href = "http://localhost:8080/charlie/order?mod=add">작성</a>
-	
+	</c:if>
 	<jsp:include page="/WEB-INF/views/paging.jsp" />
 	<%@ include file="/footer.jsp" %>
 </body>
