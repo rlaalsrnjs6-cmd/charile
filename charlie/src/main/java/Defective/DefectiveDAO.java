@@ -36,17 +36,27 @@ public class DefectiveDAO {
 							+ "SELECT rownum as rnum, subqry.* from ( "
 							+ 		"select * from defective ";
 
-			if(dto.getDefective_num() != -1) {
+			if(!("select".equals(dto.getMod())) && dto.getDefective_num()!=-1) {
 				query += "where defective_num = ?";
+			}
+			if("select".equals(dto.getMod()) && !("전체보기".equals(dto.getCategory()))) {
+				query += "where category = ?";
+			}
+			if("select".equals(dto.getMod()) && "전체보기".equals(dto.getCategory())) {
+				query = "SELECT * from ( "
+						+ "SELECT rownum as rnum, subqry.* from ( "
+						+ "select * from defective ";
 			}
 			query +=") subqry) "
 					+ "WHERE rnum >= ? AND rnum <= ?";
 			//�닔�젙
 			ps = conn.prepareStatement(query);
 			int idx = 1;
-			if(dto.getDefective_num() != -1) {
-				
+			if(!("select".equals(dto.getMod())) && dto.getDefective_num()!=-1) {	
 				ps.setInt(idx++, dto.getDefective_num());
+			}
+			if("select".equals(dto.getMod()) && !("전체보기".equals(dto.getCategory()))) {
+				ps.setString(idx++, dto.getCategory());
 			}
 			ps.setInt(idx++, pageing.getStart());
 			ps.setInt(idx++, pageing.getEnd());

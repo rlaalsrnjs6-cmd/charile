@@ -43,10 +43,10 @@ public class PersonalHygieneDAO {
 							+ "ELSE trunc(sysdate) + 1 "//현재시간이 오후면
 							//즉 현재시간이 오전시간대면 오늘00시이후~12시 이전시간대 정보를 보여주고
 							// 현재시간이 오후시간대면 오늘12이후~내일00시이전시간대 정보를 보여줘라
-							+ "END";
+							+ "END ";
 
 			if(dto.getPh_num() != -1) {
-				query += "where ph_num = ?";
+				query += "and ph_num = ? ";
 			}
 			query +=") subqry) "
 					+ "WHERE rnum >= ? AND rnum <= ?";
