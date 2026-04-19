@@ -17,6 +17,7 @@
 		<tr>
 			<th>개인위생넘버</th>
 			<th>사원번호</th>
+			<th>사원이름</th>
 			<th>체온</th>
 			<th>등록시간</th>
 			<th>위생체크</th>
@@ -27,6 +28,7 @@
 			<tr>
 				<td>${h.ph_num}</td>
 				<td><a href="http://localhost:8080/charlie/hygiene?ph_num=${h.ph_num}&mod=detail">${h.empno}</a></td>
+				<td>${h.ename}</td>
 				<td>${h.body_temper}</td>
 				<td>${h.regist_time}</td>
 				<td>${h.washed}</td>

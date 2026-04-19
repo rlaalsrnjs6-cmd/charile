@@ -26,6 +26,7 @@
 		<tr>
 			<input type="hidden" name="mod" value="add">
 			<input type="hidden" name="empno" value="${empno }">
+			<input type="hidden" name="ename" value="${name }">
 			<td>${name}(${empno})</td>
 			<td><input type="text" name="body_temper"></td>
 			<td>
