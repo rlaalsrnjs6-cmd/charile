@@ -94,22 +94,15 @@ public class BomDAO extends ParentDAO3<BomDTO, CommonDTO>{
 		    String orderBy = commonDTO.getOrderBy();
 		    if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
 		 
-		    System.out.println("test getWhere : " + commonDTO.getWhere());
-		    System.out.println(commonDTO.getWhere());
-		    System.out.println(commonDTO.getWhere());
-		    System.out.println(commonDTO.getWhere());
-		    System.out.println(commonDTO.getWhere());
-		    System.out.println(commonDTO.getWhere());
-		
 		    String where2 = commonDTO.getSearch();
 		    if (where2 == null || "".equals(where2)) {
 		        where2 = "";
 		    }
-			
+		  
 		    String groupBy = "";
 		    // 추가 조건 붙일 때
 		    query += where 
-		    	  + where2
+		    	  +  where2
 		    	  + groupBy
 		    	  + " ORDER BY " + orderBy + " ) subqry )"
 		    	  + " WHERE rnum >= ? AND rnum <= ?";

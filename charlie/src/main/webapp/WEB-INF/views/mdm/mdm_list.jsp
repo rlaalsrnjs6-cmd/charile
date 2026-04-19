@@ -191,7 +191,26 @@
 <body>
 <%@ include file="/header.jsp" %>
 
+<form action="mdm?cmd=search" method="post">
+    <select name="selectName">
+		<option value="" selected> 전체보기 </option>
+		<c:forEach var="item" items="${ map.select1 }"> 
+			<option>${ item.type }</option>
+		</c:forEach>
+	</select>
+	
+    <select name="selectChk">
+    	<option value="" selected> 확인상태 </option>
+		<c:forEach var="item" items="${ map.select2 }">  
+			<option>${ item.canUse }</option>
+		</c:forEach>
+	</select>
+	
+	<input type="submit" value="검색">
+</form>
+
 <hr>
+
 <div class="mdm-all">
 	<form class="sch-fm" action="mdm?cmd=search" method="post">
 		<select class="sch-sel" name="search_select">

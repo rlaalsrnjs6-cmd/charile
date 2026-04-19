@@ -21,6 +21,7 @@ public class MachineryControll extends HttpServlet {
 
 		System.out.println("/machinery [doGet] 실행");
 
+		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
 
 		String cmd = request.getParameter("cmd");
@@ -147,7 +148,8 @@ public class MachineryControll extends HttpServlet {
 			// 검색 내용받음
 			
 			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
-
+			
+			
 			request.setAttribute("map", map);
 			request.getRequestDispatcher("WEB-INF/views/machinery/machinery_list.jsp").forward(request, response);
 
@@ -204,10 +206,10 @@ public class MachineryControll extends HttpServlet {
 			
 			// 검색 기능 [ search_content ]
 			if("search".equals(cmd)) {
-				commonDTO.setSelector(request.getParameter("search_select"));
-				commonDTO.setSearch(request.getParameter("search_content"));
-				System.out.println(commonDTO.getSelector());
-				System.out.println(commonDTO.getSearch());
+				String where = request.getParameter("selectName");
+				if (where!=null && !"".equals(where)) { 
+					commonDTO.setSearch("AND tableB.name = '" + where + "'") ; 
+					}
 			}
 			
 			// orderBy [ column ]

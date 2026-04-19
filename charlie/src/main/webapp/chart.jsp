@@ -16,7 +16,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-    /* UI 전용 컬러 (차트는 별도 색상 적용) */
     :root {
         --c-main: #4B2C20;
         --c-sub: #5C6BC0;
@@ -79,7 +78,7 @@
         font-size: 1.1rem;
     }
     .chart-info strong {
-        color: #43A047; /* 달성률 강조색 */
+        color: #43A047; 
         font-size: 1.3rem;
     }
     .chart-desc {
@@ -113,7 +112,7 @@
     }
     .rank-bar-fill {
         height: 100%;
-        background-color: var(--c-sub); /* 바 차트 게이지 서브컬러 활용 */
+        background-color: var(--c-sub); 
         display: flex;
         align-items: center;
         padding-left: 0.5rem;
@@ -137,7 +136,7 @@
 </head>
 <body>
 
-<%-- JSTL 연산 영역 (수정 없음) --%>
+<%-- JSTL 연산 --%>
 <c:set var="productTotalPrice" value="0" />
 <c:forEach var="i" items="${map.product }">
     <c:set var="productTotalPrice" value="${productTotalPrice + i.mdmPrice }"/>
@@ -157,7 +156,7 @@
 
 <c:set var="totalM" value="${ (allPrice + assembleTotalPrice + materialTotalPrice)*1.25 }"/>
 
-<%-- 렌더링 화면 --%>
+
 <div class="wrap">
     <div class="top-head">경영 분석 리포트</div>
 
@@ -177,11 +176,10 @@
             
             <div class="chart-info">
                 <c:if test="${map.dto.target_quantity > 0}">
-                    <c:set var="rate" value="${(map.dto.currentCount / map.dto.target_quantity) * 100}" />
-                    <strong>생산 목표 달성률: <fmt:formatNumber value="${rate}" pattern="0.00"/>%</strong>
+                    <strong>생산 목표 달성률: <span id="dynamicRate">0.00</span>%</strong>
                     <div class="chart-desc">
                         [ 총 목표: <fmt:formatNumber value="${map.dto.target_quantity}" type="number"/>개 / 
-                          현재 생산: <fmt:formatNumber value="${map.dto.currentCount}" type="number"/>개 ]
+                          양품 생산: <span id="dynamicGood">0</span>개 (불량: <span id="dynamicDefect">0</span>개) ]
                     </div>
                 </c:if>
             </div>
@@ -214,9 +212,7 @@
     </div>
 </div>
 
-<%-- 
-    기존 코드 은닉 영역 (서버 에러 방지용)
---%>
+
 <div style="display: none;">
     <h1>product</h1><br>
     <c:forEach var="i" items="${map.product }">
@@ -243,23 +239,33 @@
 </div>
 
 <script>
-    /* [JS 연산 및 차트 세팅]
-       숫자에 콤마가 있어도 안전하게 변환하며, 순이익이 마이너스가 되지 않게 Math.max 처리 
-    */
     const salesTotal = Number('${productTotalPrice}'.replace(/,/g, '')) || 0;
     const expensesTotal = Number('${totalM}'.replace(/,/g, '')) || 0;
-    
-    // 발표 시 마이너스 실적이 나오지 않게 안전장치(0 이하로 떨어지면 0으로 고정)
     const profitNet = Math.max(0, salesTotal - expensesTotal);
 
-    // 생산량
+    // 생산 데이터 처리
     const targetQty = Number('${map.dto.target_quantity}'.replace(/,/g, '')) || 0;
     const currentQty = Number('${map.dto.currentCount}'.replace(/,/g, '')) || 0;
-    const defectQty = Math.floor(currentQty * 0.02); // 임시 불량률 2%
+    
+    // 불량 수량 (임의로 총 생산량의 2%로 계산)
+    const defectQty = Math.floor(currentQty * 0.02); 
+    // 양품 수량 = 총 생산량 - 불량 수량
     const goodQty = currentQty - defectQty;
 
-    // 선 그래프의 시각적 효과를 위해 임의의 이전 데이터 비율 적용 (우상향하는 느낌)
-    // 실제 데이터는 배열의 마지막 [당월] 에 적용됨
+    // 🔥 핵심 수정: 남은 목표량은 전체 생산량이 아닌 '양품'만을 기준으로 계산
+    const remainingQty = (targetQty > goodQty) ? (targetQty - goodQty) : 0;
+
+    // 🔥 달성률 텍스트도 양품 기준으로 계산하여 화면에 반영
+    const rateEl = document.getElementById('dynamicRate');
+    const goodEl = document.getElementById('dynamicGood');
+    const defectEl = document.getElementById('dynamicDefect');
+    
+    if (rateEl && targetQty > 0) {
+        rateEl.innerText = ((goodQty / targetQty) * 100).toFixed(2);
+        goodEl.innerText = goodQty.toLocaleString();
+        defectEl.innerText = defectQty.toLocaleString();
+    }
+
     const salesData = [salesTotal * 0.75, salesTotal * 0.88, salesTotal];
     const expData = [expensesTotal * 0.8, expensesTotal * 0.9, expensesTotal];
     const profitData = [
@@ -268,7 +274,7 @@
         profitNet
     ];
 
-    /* 1. 매출 현황 선 그래프 (모두 Line으로 구성) */
+    /* 1. 매출 현황 선 그래프 */
     const ctxSales = document.getElementById('salesLineChart').getContext('2d');
     new Chart(ctxSales, {
         type: 'line',
@@ -278,7 +284,7 @@
                 {
                     label: '총 매출',
                     data: salesData,
-                    borderColor: '#1E88E5', // 전문적인 비즈니스 블루
+                    borderColor: '#1E88E5', 
                     backgroundColor: '#1E88E5',
                     borderWidth: 3,
                     pointRadius: 5,
@@ -287,7 +293,7 @@
                 {
                     label: '지출 (비용)',
                     data: expData,
-                    borderColor: '#E53935', // 경고/지출의 레드
+                    borderColor: '#E53935', 
                     backgroundColor: '#E53935',
                     borderWidth: 3,
                     pointRadius: 5,
@@ -296,7 +302,7 @@
                 {
                     label: '순이익',
                     data: profitData,
-                    borderColor: '#43A047', // 긍정/수익의 그린
+                    borderColor: '#43A047', 
                     backgroundColor: '#43A047',
                     borderWidth: 3,
                     pointRadius: 5,
@@ -309,7 +315,7 @@
             maintainAspectRatio: false,
             interaction: {
                 mode: 'index',
-                intersect: false, // 마우스 오버 시 같은 선상 데이터 툴팁 동시 표시
+                intersect: false, 
             },
             scales: { 
                 y: { beginAtZero: true } 
@@ -319,7 +325,6 @@
 
     /* 2. 생산 효율 도넛 차트 */
     const ctxDonut = document.getElementById('donutChart').getContext('2d');
-    const remainingQty = (targetQty > currentQty) ? (targetQty - currentQty) : 0;
 
     new Chart(ctxDonut, {
         type: 'doughnut',
@@ -330,7 +335,7 @@
                 backgroundColor: [
                     '#43A047', // 양품 - 초록
                     '#E53935', // 불량 - 빨강
-                    '#E0E0E0'  // 목표 - 회색
+                    '#E0E0E0'  // 남은 목표 - 회색
                 ],
                 borderWidth: 1,
                 borderColor: '#ffffff'

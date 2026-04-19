@@ -26,13 +26,17 @@
 
 
 <hr>
-1. img 태그에 \${ el 태그 }로 넣어서 이미지 띄우기 <br>
-2. js select로 이름 선택시 해당 제품의 공정 과정만 보여주기 <br>
-<select>
-	<c:forEach var="join" items="${ joinList }"> 
-		<option>${ join.name }</option>
-	</c:forEach>
-</select>
+
+<form action="process?cmd=search" method="post">
+   	 	<select name="selectName">
+   	 		<option value="" selected> 전체보기 </option>
+			<c:forEach var="join" items="${ joinList }"> 
+				<option>${ join.name }</option>
+			</c:forEach>
+		</select>
+ 	<input type="submit" value="검색">
+</form>
+
 <hr>
 
 <table border="1px">

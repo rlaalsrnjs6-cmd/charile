@@ -14,15 +14,25 @@
 <body>
 
 <h1>warehouse list</h1>
-
-
 <hr>
-<!-- <select> -->
-<%-- 	<c:forEach var="join" items="${ joinList }">  --%>
-<%-- 		<option>${ join.name }</option> --%>
-<%-- 	</c:forEach> --%>
-<!-- </select> -->
-<!-- <hr> -->
+<form action="warehouse?cmd=search" method="post">
+    <select name="selectName">
+		<option value="" selected> 전체보기 </option>
+		<c:forEach var="item" items="${ map.select1 }"> 
+			<option>${ item.wh_section }</option>
+		</c:forEach>
+	</select>
+	
+    <select name="selectChk">
+    	<option value="" selected> 확인상태 </option>
+		<c:forEach var="item" items="${ map.select2 }">  
+			<option>${ item.wh_status_chk }</option>
+		</c:forEach>
+	</select>
+	
+	<input type="submit" value="검색">
+</form>
+<hr>
 
 <table border="1px">
 		<thead>
@@ -32,7 +42,7 @@
 				<th>온도</th>
 				<th>습도</th>
 				<th>층구분</th>
-				<th>정상체크</th>
+				<th>확인</th>
 			</tr>
 		</thead>
 

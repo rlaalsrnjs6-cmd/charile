@@ -16,6 +16,17 @@
 <h1>material list</h1>
 <hr>
 
+<form action="material?cmd=search" method="post">
+    <select name="selectName">
+		<option value="" selected> 타입선택 </option>
+		<c:forEach var="item" items="${ map.select1 }"> 
+			<option>${ item.type }</option>
+		</c:forEach>
+	</select>
+	
+	<input type="submit" value="검색">
+</form>
+
 <table border="1px">
 		
 		<thead>
