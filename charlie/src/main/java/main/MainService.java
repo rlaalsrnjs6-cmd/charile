@@ -21,6 +21,10 @@ public class MainService {
 		//warehiuse select
 		List wh = dao.loadWh();
 		
+		
+		List ph = dao.select();
+		map.put("ph", ph);//위생관리
+
 		map.put("dn", dn);//dash_notice
 		map.put("ls", ls);//lineStatus
 		map.put("wh", wh);//warehouse

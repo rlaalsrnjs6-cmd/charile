@@ -25,6 +25,7 @@ public class ChartService {
 		map.put("assemble", assemble);
 		map.put("dto", dto);
 		map.put("def", defective);
+
 		return map;
 	}
 }

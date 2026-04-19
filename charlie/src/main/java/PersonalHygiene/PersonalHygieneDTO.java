@@ -11,6 +11,13 @@ public class PersonalHygieneDTO {
 	String supervisor_chk;
 	int empno;
 	String mod;
+	String ename;
+	public String getEname() {
+		return ename;
+	}
+	public void setEname(String ename) {
+		this.ename = ename;
+	}
 	public int getPh_num() {
 		return ph_num;
 	}
@@ -63,7 +70,7 @@ public class PersonalHygieneDTO {
 	public String toString() {
 		return "PersonalHygieneDTO [ph_num=" + ph_num + ", body_temper=" + body_temper + ", regist_time=" + regist_time
 				+ ", washed=" + washed + ", memo=" + memo + ", supervisor_chk=" + supervisor_chk + ", empno=" + empno
-				+ ", mod=" + mod + "]";
+				+ ", mod=" + mod + ", ename=" + ename + "]";
 	}
 	
 	
