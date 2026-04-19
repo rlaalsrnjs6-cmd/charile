@@ -12,14 +12,38 @@
 <title>Insert title here</title>
 </head>
 <body>
-<c:forEach var="d" items="${map.list}">
+<div id="tableDiv">
+	<select id="select" name="category">
+		<option value="전체보기">전체보기</option>
+		<option value="깨짐">깨짐</option>
+		<option value="녹음">녹음</option>
+		<option value="이물질">이물질</option>
+	</select>
+	<table border=1>
+		<thead>
 			<tr>
-				<td>${d.defective_num}</td>
-				<td><a href="http://localhost:8080/charlie/defective?defective_num=${d.defective_num}&mod=detail">${d.category}</td>
-				<td>${d.count}</td>
-				<td>${d.action}</td>
-				<td>${d.lot_num}</td>
+				<th>불량번호</th>
+				<th>불량카테고리</th>
+				<th>개수</th>
+				<th>불량조치방법</th>
+				<th>로트번호</th>
 			</tr>
-		</c:forEach>
+		</thead>
+		<tbody id="defectiveTable">
+			<c:forEach var="d" items="${map.list}">
+				<tr>
+					<td>${d.defective_num}</td>
+					<td><a
+						href="http://localhost:8080/charlie/defective?defective_num=${d.defective_num}&mod=detail">${d.category}</td>
+					<td>${d.count}</td>
+					<td>${d.action}</td>
+					<td>${d.lot_num}</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
+	<a href="http://localhost:8080/charlie/defective?mod=add">작성</a>
+	<jsp:include page="/WEB-INF/views/paging.jsp" />
+	</div>
 </body>
 </html>

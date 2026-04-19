@@ -273,7 +273,7 @@ public class DefectiveDAO {
 			return result;
 		}
 	
-	public int getTotalCount() {
+	public int getTotalCount(DefectiveDTO dto) {
 
 		int total = 0;
 
@@ -281,19 +281,31 @@ public class DefectiveDAO {
 			Context ctx = new InitialContext();
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 
-			String query = "select count(*) from defective";
-
+			String query = "select count(*) from defective ";
+			System.out.println("토탈카운트mod"+dto.getMod());
+			System.out.println("토탈카운트카테고리"+dto.getCategory());
+			if("select".equals(dto.getMod()) && !("전체보기".equals(dto.getCategory()))) {
+				query += "where category = ?";
+			}
 			try (Connection conn = dataFactory.getConnection();
 					PreparedStatement ps = conn.prepareStatement(query);
-					ResultSet rs = ps.executeQuery()) {
-
-				if (rs.next()) { 
-					total = rs.getInt(1);
+					) {
+			
+				if("select".equals(dto.getMod()) && !("전체보기".equals(dto.getCategory()))) {
+					ps.setString(1, dto.getCategory());
+				}
+				
+				try(ResultSet rs = ps.executeQuery()){
+					if (rs.next()) { 
+						total = rs.getInt(1);
+					}
 				}
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("불량DAO토탈:"+total);
 		return total;
 	}
 	
