@@ -44,7 +44,6 @@ public class BomDAO extends ParentDAO3<BomDTO, CommonDTO>{
 	@Override
 	protected BomDTO setDTO(ResultSet rs) {
 		BomDTO dto = new BomDTO();
-		
 		// DTO > SET number 
 		try {
 			
@@ -90,35 +89,32 @@ public class BomDAO extends ParentDAO3<BomDTO, CommonDTO>{
 			
 		    // 고정
 		    String where = commonDTO.getWhere();
-		    if(("".equals(commonDTO.getWhere()))) where = "where 1 = 1";  
+		    if(("".equals(where))) where = "where 1 = 1";  
 
 		    String orderBy = commonDTO.getOrderBy();
 		    if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
-		    		
-		 // 가변 조건
-			if ( dto != null ) {
+		 
+		    System.out.println("test getWhere : " + commonDTO.getWhere());
+		    System.out.println(commonDTO.getWhere());
+		    System.out.println(commonDTO.getWhere());
+		    System.out.println(commonDTO.getWhere());
+		    System.out.println(commonDTO.getWhere());
+		    System.out.println(commonDTO.getWhere());
+		
+		    String where2 = commonDTO.getSearch();
+		    if (where2 == null || "".equals(where2)) {
+		        where2 = "";
+		    }
 			
-				if(commonDTO.getSearch() != "") {
-					switch(commonDTO.getSelector()) {
-					
-					// 전체검색
-					case "search_all": where = " where tableB.code = " 
-											+ "'" + commonDTO.getSearch() + "'"
-											+ " or tableB.name = '" + commonDTO.getSearch() + "'"; break;	
-					/* 컬럼별 검색 */			 
-					case "code" : where = " where tableB.code = '" +  commonDTO.getSearch() + "'"; break;
-					case "name" : where = " where tableB.name = '" +  commonDTO.getSearch() + "'"; break;
-					default : break;
-					}
-				}
-			}
-
 		    String groupBy = "";
 		    // 추가 조건 붙일 때
 		    query += where 
+		    	  + where2
 		    	  + groupBy
 		    	  + " ORDER BY " + orderBy + " ) subqry )"
 		    	  + " WHERE rnum >= ? AND rnum <= ?";
+		    
+		    
 		    return query;
 		}
 

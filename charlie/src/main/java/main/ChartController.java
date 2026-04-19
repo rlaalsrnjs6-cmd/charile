@@ -10,30 +10,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/main")
-public class MainController extends HttpServlet {
-
-
+@WebServlet("/chart")
+public class ChartController extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("/mainController의 doGet 실행!!");
-		MainService ms = new MainService();
+		System.out.println("/chart의 doGet실행!");
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8;");
+		ChartService cs = new ChartService();
 		
-		
-		Map map = ms.select();
-		
-		
-		
+		Map map = cs. selectMdm();
 		
 		request.setAttribute("map", map);
-		request.getRequestDispatcher("/dashboard.jsp").forward(request, response);
+		request.getRequestDispatcher("/chart.jsp").forward(request, response);
 		
+		
+
 	}
 
-	
-	
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
