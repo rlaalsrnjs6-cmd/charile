@@ -23,6 +23,7 @@ public class DefectiveControll extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
 		String sdefective_num = request.getParameter("defective_num");
+		String category = request.getParameter("category");
 		String ssize = request.getParameter("size");
 		String spage = request.getParameter("page");
 		String mod = request.getParameter("mod");
@@ -43,6 +44,7 @@ public class DefectiveControll extends HttpServlet {
 		pageing.setSize(size);
 		pageing.setPage(page);
 		defectiveDTO.setDefective_num(defective_num);
+		defectiveDTO.setCategory(category);
 		defectiveDTO.setMod(mod);
 		DefectiveService service = new DefectiveService();
 		Map list = service.select(defectiveDTO, pageing);
@@ -54,7 +56,11 @@ public class DefectiveControll extends HttpServlet {
 		} else if ("delete".equals(mod)) {
 			defectiveDelete(request, response);
 			return;
-		} else {
+		} else if("select".equals(mod)){
+			request.setAttribute("map", list);
+			request.getRequestDispatcher("WEB-INF/views/defective/defectiveTable.jsp").forward(request, response);	
+			return;
+		}else {
 			LotDTO LotDTO = new LotDTO();
 			LotService lotSV = new LotService();
 			List<LotDTO> lot = lotSV.selectall(LotDTO);

@@ -237,15 +237,13 @@ public class BomControll extends HttpServlet {
 				// GROUP BY 부터 작성
 				String groupBy = ""; 
 				commonDTO.setGroupBy(groupBy);
-				// WHERE 1=1
-				
-				
+
 				
 				// 검색 기능 [ search_content ]
 				if("search".equals(cmd)) {
 					String where = request.getParameter("selectName");
-					if (where!=null && "".equals(where)) { 
-						commonDTO.setSearch("where tableC.name = '" + where + "'") ; 
+					if (where!=null && !"".equals(where)) { 
+						commonDTO.setSearch("AND tableC.name = '" + where + "'") ; 
 						}
 				}
 				// paging 

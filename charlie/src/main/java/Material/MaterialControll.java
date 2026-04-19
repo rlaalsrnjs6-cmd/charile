@@ -39,7 +39,7 @@ public class MaterialControll extends HttpServlet {
 		
 		case "search": search(request, response); return;
 		
-		default: System.out.println("�옒紐삳맂 �젒洹쇱엯�땲�떎"); return;
+		default: return;
 		
 		}
 
@@ -214,13 +214,14 @@ public class MaterialControll extends HttpServlet {
 			
 			CommonDTO commonDTO = new CommonDTO();
 			
-			if("search".equals(cmd)) {
-				commonDTO.setSelector(request.getParameter("search_select"));
-				commonDTO.setSearch(request.getParameter("search_content"));
-			}
+			String where2 = request.getParameter("selectName");
+			if (where2!=null && !"".equals(where2)) { 
+				commonDTO.setWhere2("AND type = '" + where2 + "'") ; 
+				}
 			
 			String orderBy = request.getParameter("orderBy");
 			commonDTO.setOrderBy(orderBy);
+			
 			
 			
 			int size= 10, page= 1;

@@ -151,13 +151,12 @@ public class WarehouseControll extends HttpServlet {
 			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
 
 			request.setAttribute("map", map);
+			
 			request.getRequestDispatcher("WEB-INF/views/warehouse/warehouse_list.jsp").forward(request, response);
 
 			}
 
 
-	// 嫄곗쓽 怨좎젙�빐�꽌 �궗�슜
-	
 	// set primarykey & return DTO 
 	protected WarehouseDTO setDTO(HttpServletRequest request) throws ServletException, IOException {
 		
@@ -210,16 +209,19 @@ public class WarehouseControll extends HttpServlet {
 				// GROUP BY 遺��꽣 �옉�꽦
 				String groupBy = ""; 
 				commonDTO.setGroupBy(groupBy);
-				// WHERE 1=1
-				String where = ""; 
-				commonDTO.setWhere(where);
 				
-				// 寃��깋 湲곕뒫 [ search_content ]
 				if("search".equals(cmd)) {
-					commonDTO.setSelector(request.getParameter("search_select"));
-					commonDTO.setSearch(request.getParameter("search_content"));
-					System.out.println(commonDTO.getSelector());
-					System.out.println(commonDTO.getSearch());
+					
+					String where2 = request.getParameter("selectName");
+					if (where2!=null && !"".equals(where2)) { 
+						commonDTO.setWhere2("AND wh_section = '" + where2 + "'") ; 
+						}
+					
+					String where3 = request.getParameter("selectChk");
+					if (where3!=null && !"".equals(where3)) { 
+						commonDTO.setWhere3("AND wh_status_chk = '" + where3 + "'") ; 
+					}
+					
 				}
 				
 				// paging 

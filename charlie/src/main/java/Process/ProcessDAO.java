@@ -105,15 +105,20 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 	    
 	    // 고정
 	    String where = commonDTO.getWhere();
-	    if(("".equals(commonDTO.getWhere()))) where = "1 = 1";  
+	    if(("".equals(commonDTO.getWhere()))) where = "WHERE 1 = 1";  
 
 	    String orderBy = commonDTO.getOrderBy();
 	    if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
 	    		
+	    String where2 = commonDTO.getSearch();
+	    if (where2 == null || "".equals(where2)) {
+	        where2 = "";
+	    }
 
 	    String groupBy = "";
 	    // 추가 조건 붙일 때
-	    query += "Where " + where 
+	    query += where 
+	    	  +  where2
 	    	  + groupBy
 	    	  + " ORDER BY " + orderBy + " ) subqry )"
 	    	  + " WHERE rnum >= ? AND rnum <= ?";
