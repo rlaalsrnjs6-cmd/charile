@@ -78,6 +78,10 @@ public class IoService extends ParentService2<IoDTO, CommonDTO>{
 	public List selectJoinInfo() {
 		return ioDAO.selectJoinInfo();
 	}
+	
+	public List totalSelect() {
+		return ioDAO.selectCustom();
+	}
 
 
 

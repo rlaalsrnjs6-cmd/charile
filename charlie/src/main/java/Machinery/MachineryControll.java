@@ -83,17 +83,6 @@ public class MachineryControll extends HttpServlet {
 		
 		CommonDTO commonDTO = setCommonDTO(request, "");
 		
-		HttpSession session = request.getSession();
-		
-		CommonDTO sessionDTO = (CommonDTO) session.getAttribute("machineryCommonDTO");
-		
-		if(sessionDTO != null) {
-			sessionDTO.setPage(commonDTO.getPage());
-			sessionDTO.setSize(commonDTO.getSize());
-			
-			commonDTO = sessionDTO;
-		}
-		
 		Map map = service.selectDB(setDTO(request), commonDTO);
 		
 		request.setAttribute("map", map);
@@ -160,10 +149,7 @@ public class MachineryControll extends HttpServlet {
 			// 검색 내용받음
 			CommonDTO commonDTO = setCommonDTO(request, "search");
 			
-			HttpSession session = request.getSession();
-			session.setAttribute("machineryCommonDTO", commonDTO);
-			
-			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
+			Map map = service.selectDB(setDTO(request), commonDTO);
 
 			request.setAttribute("map", map);
 			request.getRequestDispatcher("WEB-INF/views/machinery/machinery_list.jsp").forward(request, response);

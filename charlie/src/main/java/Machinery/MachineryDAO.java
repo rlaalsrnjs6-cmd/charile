@@ -221,7 +221,7 @@ public class MachineryDAO extends ParentDAO4<MachineryDTO, CommonDTO>{
 	
 	
 	// DB link
-		private Connection getConn() {
+		protected Connection getConn() {
 			Connection conn = null;
 			try {
 				Context ctx = new InitialContext();

@@ -1,11 +1,14 @@
 package io;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-import Mdm.MdmDTO;
 import fileLibrary.CommonDTO;
+import fileLibrary.LoggableStatement;
 import fileLibrary.ParentDAO4;
 
 public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
@@ -156,44 +159,68 @@ public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
 	}
 	
 	// SELECT QUERY 받아서 사용 
-//		public List selectCustom() {
-//			
-//			List list = new ArrayList();
-//			
-//			try ( Connection conn = getConn();
-//				  PreparedStatement ps = new LoggableStatement(conn, 
-//						  "SELECT DISTINCT type FROM io "); ) {
-//				try (  ResultSet rs = ps.executeQuery(); ) { // 
-//					
-//					while (rs.next()) {
-//						
-//						IoDTO dto = new IoDTO();
-//						dto.setType(rs.getString("type"));
-//						
-//						list.add(dto);
-//					}
-//				}
-//				
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			System.out.println("/DAO select list : " + list);
-//			return list;
-//		}
-//		
+		public List selectCustom() {
+			
+			List list = new ArrayList();
+			
+			try ( Connection conn = getConn();
+				  PreparedStatement ps = new LoggableStatement(conn,
+						  "    SELECT   "
+				  		+ "    m.mdm_num,  "
+				  		+ "    m.name,  "
+				  		+ "    m.unit,  "
+				  		+ "    SUM(i.quantity) AS total_quantity,  "
+				  		+ "    SUM(i.quantity * m.price) AS total_price  "
+				  		+ "    FROM mdm m  "
+				  		+ "    JOIN io i   "
+				  		+ "    ON m.mdm_num = i.mdm_num  "
+				  		+ "	   WHERE m.type IN ('assemble', 'material', 'product')  "
+				  		+ "    GROUP BY m.mdm_num, m.name, m.unit" ); ) {
+				try (  ResultSet rs = ps.executeQuery(); ) { // 
+					
+					while (rs.next()) {
+						
+						IoDTO dto = new IoDTO();
+						dto.setMdm_num(rs.getInt("mdm_num"));
+						dto.setName(rs.getString("name"));
+						dto.setUnit(rs.getString("unit"));
+						dto.setTotal_quantity(rs.getLong("total_quantity"));
+						dto.setTotal_price(rs.getLong("total_price"));
+						
+						list.add(dto);
+					}
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			System.out.println("/DAO select list : " + list);
+			return list;
+		}
+		
 //		public List selectCustom2() {
 //			
 //			List list = new ArrayList();
 //			
 //			try ( Connection conn = getConn();
 //					PreparedStatement ps = new LoggableStatement(conn, 
-//							"SELECT DISTINCT canuse FROM io "); ) {
+//							"SELECT  "
+//							+ "    m.mdm_num, "
+//							+ "    m.name, "
+//							+ "    SUM(i.quantity) AS total_quantity, "
+//							+ "    SUM(i.quantity * m.price) AS total_price "
+//							+ "FROM mdm m "
+//							+ "JOIN io i  "
+//							+ "    ON m.mdm_num = i.mdm_num "
+//							+ "WHERE m.type IN ('assemble', 'material', 'product') "
+//							+ "GROUP BY m.mdm_num, m.name "
+//							); ) {
 //				try (  ResultSet rs = ps.executeQuery(); ) { // 
 //					
 //					while (rs.next()) {
 //						
 //						IoDTO dto = new IoDTO();
-//						dto.setCanUse(rs.getString("canuse"));
+////						dto.setCanUse(rs.getString("canuse"));
 //						
 //						list.add(dto);
 //					}

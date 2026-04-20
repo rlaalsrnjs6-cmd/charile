@@ -38,6 +38,7 @@ public class IoController extends HttpServlet {
 		case "modify": detail(request, response, "modify"); return;
 		case "update": update(request, response); return;
 		case "delete": delete(request, response); return;
+		case "total": total(request, response); return;
 		
 		case "search": search(request, response); return;
 		
@@ -76,6 +77,22 @@ public class IoController extends HttpServlet {
 		
 		// list page
 		response.sendRedirect("io?cmd=list");
+	}
+	
+	
+	protected void total(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		request.setCharacterEncoding("utf-8");
+		response.setContentType("text/html; charset=utf-8;");
+		
+		// setDTO > Service > DAO
+		IoService service = new IoService();
+		List list = service.totalSelect();
+		
+		request.setAttribute("list", list);
+		// list page
+		request.getRequestDispatcher("WEB-INF/views/io/total.jsp").forward(request, response);
 	}
 
 	// list

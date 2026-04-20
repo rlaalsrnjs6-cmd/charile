@@ -19,8 +19,25 @@ public class IoDTO {
 	String code;
 	String unit;
 	
+	// total
+	long total_quantity;
+	long total_price;
+	
+
 	
 	
+	public long getTotal_quantity() {
+		return total_quantity;
+	}
+	public void setTotal_quantity(long total_quantity) {
+		this.total_quantity = total_quantity;
+	}
+	public long getTotal_price() {
+		return total_price;
+	}
+	public void setTotal_price(long total_price) {
+		this.total_price = total_price;
+	}
 	public int getPrice() {
 		return price;
 	}

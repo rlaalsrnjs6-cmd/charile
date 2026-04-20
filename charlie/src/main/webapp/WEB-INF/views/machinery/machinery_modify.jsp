@@ -178,22 +178,17 @@
 
                 <div class="mod-row">
                     <span class="mod-lb">장비 타입</span>
-                    <select name="machinery_type" class="mod-in">
-                        <option value="Mixer" ${ machineryDTO.machinery_type eq 'Mixer' ? 'selected' : ''}>혼합기</option>
-                        <option value="Heater / Melter" ${ machineryDTO.machinery_type eq 'Heater / Melter' ? 'selected' : ''}>가열기(용해기)</option>
-                        <option value="Cooler" ${ machineryDTO.machinery_type eq 'Cooler' ? 'selected' : ''}>냉각기</option>
-                        <option value="Packing Machine" ${ machineryDTO.machinery_type eq 'Packing Machine' ? 'selected' : ''}>포장기</option>
-                    </select>
+                     <span class="mod-txt">${ machineryDTO.machinery_type }</span>
                 </div>
 
                 <div class="mod-row">
                     <span class="mod-lb">동작 상태</span>
                     <div class="mod-rd-grp">
                         <label class="mod-rd-item">
-                            <input type="radio" name="machinery_status" value="T" ${ machineryDTO.machinery_status eq 'T' ? 'checked' : ''}> 동작 (T)
+                            <input type="radio" name="machinery_status" value="T" ${ machineryDTO.machinery_status eq 'T' ? 'checked' : ''}> 동작
                         </label>
                         <label class="mod-rd-item">
-                            <input type="radio" name="machinery_status" value="F" ${ machineryDTO.machinery_status eq 'F' ? 'checked' : ''}> 정지 (F)
+                            <input type="radio" name="machinery_status" value="F" ${ machineryDTO.machinery_status eq 'F' ? 'checked' : ''}> 정지
                         </label>
                     </div>
                 </div>
