@@ -14,6 +14,7 @@ public class WorkOrderDTO {
 	String mod;
 	int weekly_target;
 	
+	int mdm_num;
 	String search;
 	String timefilter;
 	String statustitle;
@@ -85,6 +86,12 @@ public class WorkOrderDTO {
 	public void setWeekly_target(int weekly_target) {
 		this.weekly_target = weekly_target;
 	}
+	public int getMdm_num() {
+		return mdm_num;
+	}
+	public void setMdm_num(int mdm_num) {
+		this.mdm_num = mdm_num;
+	}
 	public String getSearch() {
 		return search;
 	}
@@ -150,9 +157,9 @@ public class WorkOrderDTO {
 		return "WorkOrderDTO [order_num=" + order_num + ", work_date=" + work_date + ", daily_target=" + daily_target
 				+ ", status=" + status + ", ename=" + ename + ", prod_num=" + prod_num + ", empno=" + empno
 				+ ", work_order_title=" + work_order_title + ", mod=" + mod + ", weekly_target=" + weekly_target
-				+ ", search=" + search + ", timefilter=" + timefilter + ", statustitle=" + statustitle
-				+ ", required_weight=" + required_weight + ", name=" + name + ", code=" + code + ", unit=" + unit
-				+ ", process_content=" + process_content + ", flow=" + flow + ", img_url=" + img_url + "]";
+				+ ", mdm_num=" + mdm_num + ", search=" + search + ", timefilter=" + timefilter + ", statustitle="
+				+ statustitle + ", required_weight=" + required_weight + ", name=" + name + ", code=" + code + ", unit="
+				+ unit + ", process_content=" + process_content + ", flow=" + flow + ", img_url=" + img_url + "]";
 	}
 	
 	

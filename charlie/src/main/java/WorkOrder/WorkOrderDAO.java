@@ -13,6 +13,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import fileLibrary.CommonDTO;
+import io.IoDTO;
 
 public class WorkOrderDAO {
 	public List<WorkOrderDTO> select(WorkOrderDTO dto, CommonDTO pageing) {
@@ -129,6 +130,7 @@ public class WorkOrderDAO {
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 			conn = dataFactory.getConnection();
 			String query = "SELECT "
+						+ 		"pm.mdm_num, "
 						+ 		"wo.empno, "
 						+ 		"wo.status, "
 						+		"wo.order_num, "
@@ -157,6 +159,7 @@ public class WorkOrderDAO {
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				WorkOrderDTO DTO = new WorkOrderDTO();
+				int mdm_num = rs.getInt("mdm_num");
 				int order_num = rs.getInt("order_num");
 				int empno = rs.getInt("empno");
 				String status = rs.getString("status");
@@ -170,6 +173,7 @@ public class WorkOrderDAO {
 				int flow = rs.getInt("flow");
 				String img_url = rs.getString("img_url");
 				
+				DTO.setMdm_num(mdm_num);
 				DTO.setOrder_num(order_num);
 				DTO.setEmpno(empno);
 				DTO.setStatus(status);
@@ -183,6 +187,7 @@ public class WorkOrderDAO {
 				DTO.setFlow(flow);
 				DTO.setImg_url(img_url);
 				list.add(DTO);
+				System.out.println("mdmmdmmdmmdmmdmmdm:::"+DTO.getMdm_num());
 			}
 			
 		} catch (Exception e) {
@@ -286,6 +291,71 @@ public class WorkOrderDAO {
 
 			System.out.println("orderDAO:" + result);
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+
+	public int ioInsert(IoDTO dto) {
+		
+		int result = -1;
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			Context ctx = new InitialContext();
+			
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+//			System.out.println("DAOMODselect:"+dto.getMod());
+			conn = dataFactory.getConnection();
+			String query = "insert into io "
+					+ "(io_num, io_type, storage_sec, exp_date, quantity, mdm_num) "
+					+ "select "
+					+ "io_seq.nextval, "
+					+ "'출고', "
+					+ "null, "
+					+ "null, "
+					+ "(wo.daily_target * b.required_weight) "
+					+ "? "
+					+ "from work_order wo "
+					+ "join production_management pm on (wo.prod_num = pm.prod_num) "
+					+ "join mdm m on (pm.mdm_num = m.mdm_num) "
+					+ "join bom b on (m.mdm_num = b.mdm_num) ";
+				
+
+				ps = conn.prepareStatement(query);
+			
+				ps.setInt(1, dto.getOrder_num());
+			
+			result = ps.executeUpdate();
+			
+			System.out.println("orderDAO:" + result);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
