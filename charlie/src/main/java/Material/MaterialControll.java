@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Material.MaterialDTO;
 import Material.MaterialService;
@@ -20,7 +21,6 @@ import fileLibrary.CommonDTO;
 public class MaterialControll extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("/material [doGet] 실행");
 
 		response.setContentType("text/html; charset=utf-8;");
 
@@ -40,7 +40,7 @@ public class MaterialControll extends HttpServlet {
 		
 		case "search": search(request, response); return;
 		
-		default: System.out.println("잘못된 접근입니다"); return;
+		default: return;
 		
 		}
 
@@ -52,9 +52,8 @@ public class MaterialControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 
 		MaterialService service = new MaterialService();
-		List list = service.selectJoinInfo();
-		
-		request.setAttribute("list", list);
+		Map map = service.selectJoinInfo();
+		request.setAttribute("map", map);
 		
 		request.getRequestDispatcher("WEB-INF/views/material/material_insert.jsp")
 														.forward(request, response);
@@ -82,7 +81,21 @@ public class MaterialControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 
 		MaterialService service = new MaterialService();
-		Map map = service.selectDB(setDTO(request), setCommonDTO(request, ""));
+		
+		CommonDTO commonDTO = setCommonDTO(request, "");
+		
+		HttpSession session = request.getSession();
+		
+		CommonDTO sessionDTO = (CommonDTO) session.getAttribute("materialCommonDTO");
+		
+		if(sessionDTO != null) {
+			sessionDTO.setPage(commonDTO.getPage());
+			sessionDTO.setSize(commonDTO.getSize());
+			
+			commonDTO = sessionDTO;
+		}
+		
+		Map map = service.selectDB(setDTO(request), commonDTO);
 		
 		request.setAttribute("map", map);
 		request.setAttribute("servletName", "material");
@@ -116,7 +129,6 @@ public class MaterialControll extends HttpServlet {
 	protected void detail(HttpServletRequest request, HttpServletResponse response, String selector)
 			throws ServletException, IOException {
 
-		System.out.println("/detail 실행");
 
 		// Service > DAO - selectOne
 		MaterialService service = new MaterialService();
@@ -125,12 +137,15 @@ public class MaterialControll extends HttpServlet {
 		// Forward > DTO
 		request.setAttribute("materialDTO", materialDTO);
 		
-		if("detail".equals(selector)) { // 상세 페이지
+		if("detail".equals(selector)) { 
 			
 			request.getRequestDispatcher("WEB-INF/views/material/material_detail.jsp")
 				.forward(request, response);
 		
-		} else { // 수정 페이지
+		} else { 
+			
+			Map map = service.selectJoinInfo();
+			request.setAttribute("map", map);
 			
 			request.getRequestDispatcher("WEB-INF/views/material/material_modify.jsp")
 				.forward(request, response);
@@ -145,7 +160,12 @@ public class MaterialControll extends HttpServlet {
 
 			
 			MaterialService service = new MaterialService();
+			
 			// 검색 내용받음
+			CommonDTO commonDTO = setCommonDTO(request, "search");
+						
+		    HttpSession session = request.getSession();
+			session.setAttribute("materialCommonDTO", commonDTO);
 			
 			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
 
@@ -154,15 +174,12 @@ public class MaterialControll extends HttpServlet {
 
 		}
 
-	// 거의 고정해서 사용
 	
-	// set primarykey & return DTO 
-		// set primarykey & return DTO 
 		protected MaterialDTO setDTO(HttpServletRequest request) throws ServletException, IOException {
 			
 			MaterialDTO materialDTO = new MaterialDTO();
 			
-			int material_num = -1;  int total_quantity= -1; 
+			int material_num = -1;  int area_quantity= -1; 
 			int mdm_num = -1; int warehouse_num = -1;
 			
 			if (request.getParameter("material_num") != null 
@@ -174,12 +191,12 @@ public class MaterialControll extends HttpServlet {
 			} 
 			
 			
-			if (request.getParameter("total_quantity") != null 
-					&& !("".equals(request.getParameter("total_quantity")))) {
+			if (request.getParameter("area_quantity") != null 
+					&& !("".equals(request.getParameter("area_quantity")))) {
 				
-				total_quantity = Integer.parseInt(request.getParameter("total_quantity"));
+				area_quantity = Integer.parseInt(request.getParameter("area_quantity"));
 				
-				System.out.println( "/set material total_quantity : " + total_quantity );
+				System.out.println( "/set material total_quantity : " + area_quantity );
 			} 
 			
 			if (request.getParameter("warehouse_num") != null 
@@ -195,36 +212,32 @@ public class MaterialControll extends HttpServlet {
 				
 				mdm_num = Integer.parseInt(request.getParameter("mdm_num"));
 				
-				System.out.println( "/set material mdm_num : " + mdm_num );
 			} 
 		
 			
 			materialDTO.setMaterial_num(material_num);
-			materialDTO.setTotal_quantity(total_quantity);
+			materialDTO.setArea_quantity(area_quantity);
 			materialDTO.setWarehouse_num(warehouse_num);
 			materialDTO.setMdm_num(mdm_num);
 			
 			return materialDTO;
 		}
 	
-	// 공통 변수
 		protected CommonDTO setCommonDTO(HttpServletRequest request, String cmd)
 				throws ServletException, IOException {
 			
 			CommonDTO commonDTO = new CommonDTO();
 			
-			// 검색 기능 [ search_content ]
-			if("search".equals(cmd)) {
-				commonDTO.setSelector(request.getParameter("search_select"));
-				commonDTO.setSearch(request.getParameter("search_content"));
-			}
+			String where2 = request.getParameter("selectName");
+			if (where2!=null && !"".equals(where2)) { 
+				commonDTO.setWhere2("AND type = '" + where2 + "'") ; 
+				}
 			
-			// orderBy [ column ]
 			String orderBy = request.getParameter("orderBy");
 			commonDTO.setOrderBy(orderBy);
 			
 			
-			// paging 
+			
 			int size= 10, page= 1;
 			
 			try {

@@ -51,7 +51,7 @@ public class WorkOrderService {
         return map;
 	}
 	 
-	public List<WorkOrderService> selectall(WorkOrderDTO dto){
+	public List<WorkOrderDTO> selectall(WorkOrderDTO dto){
 		WorkOrderDAO dao = new WorkOrderDAO();
 		List list = dao.selectall(dto);
 		return list;

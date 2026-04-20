@@ -194,18 +194,13 @@
 				<option value="g">g</option>
 				<option value="kg">kg</option>
 				<option value="L">L</option>
-				<option value="ea">ea</option>
+				<option value="EA">EA</option>
 			</select>
 		</div>
 
 		<div class="reg-row">
 			<label class="reg-lb">가격 (Price)</label>
 			<input type="number" name="price" class="reg-in" value="2000">
-		</div>
-
-		<div class="reg-row">
-			<label class="reg-lb">사용기한 (Expiration Date)</label>
-			<input id="exp_date" type="date" name="exp_date" class="reg-in">
 		</div>
 
 		<div class="reg-row">

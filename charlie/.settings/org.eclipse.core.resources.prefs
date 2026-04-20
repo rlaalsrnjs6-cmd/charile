@@ -1,10 +1,35 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=e124ec05b1e36bae3d429dea70d1089892bcce00
 eclipse.preferences.version=1
+encoding//src/main/java/Defective/DefectiveControll.java=UTF-8
+encoding//src/main/java/Defective/DefectiveDAO.java=UTF-8
 encoding//src/main/java/Emp=UTF-8
 encoding//src/main/java/Emp/EmpDAO.java=UTF-8
 encoding//src/main/java/Emp/EmpDTO.java=UTF-8
+<<<<<<< HEAD
 encoding//src/main/java/Inspection/InspectionDAO.java=UTF-8
 encoding//src/main/java/Inspection/InspectionServlet.java=UTF-8
+=======
+encoding//src/main/java/IOLog/IOLogControll.java=UTF-8
+encoding//src/main/java/IOLog/IOLogDAO.java=UTF-8
+encoding//src/main/java/Lot/LotControll.java=UTF-8
+encoding//src/main/java/Lot/LotDAO.java=UTF-8
+encoding//src/main/java/Material/MaterialControll.java=UTF-8
+encoding//src/main/java/PersonalHygiene/PersonalHygieneControll.java=UTF-8
+encoding//src/main/java/PersonalHygiene/PersonalHygieneDAO.java=UTF-8
+encoding//src/main/java/ProductionManagement/ProductionManagementDAO.java=UTF-8
+encoding//src/main/java/ProductionManagement/ProductionManagementService.java=UTF-8
+encoding//src/main/java/QC/QCControll.java=UTF-8
+encoding//src/main/java/QC/QCDAO.java=UTF-8
+encoding//src/main/java/QC/QCService.java=UTF-8
+encoding//src/main/java/WorkOrder/WorkOrderControll.java=UTF-8
+encoding//src/main/java/WorkOrder/WorkOrderDAO.java=UTF-8
+encoding//src/main/java/WorkOrder/WorkOrderService.java=UTF-8
+encoding//src/main/java/charile_filter/charile_filter.java=UTF-8
+>>>>>>> ad569beedbe96bf466e6cf99ac666d4b34726bc2
 encoding//src/main/java/fileLibrary/ParentDAO.java=UTF-8
 encoding//src/main/java/fileLibrary/ParentDAO2.java=UTF-8
 encoding//src/main/java/fileLibrary/ParentDAO3.java=UTF-8
+encoding//src/main/java/fileLibrary/ParentDAO4.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/emp/emp_signin.jsp=UTF-8

@@ -204,7 +204,7 @@
 						<option value="g" ${mdmDTO.unit == 'g' ? 'selected' : ''}>g</option>
 						<option value="kg" ${mdmDTO.unit == 'kg' ? 'selected' : ''}>kg</option>
 						<option value="L" ${mdmDTO.unit == 'L' ? 'selected' : ''}>L</option>
-						<option value="ea" ${mdmDTO.unit == 'EA' ? 'selected' : ''}>EA</option>
+						<option value="EA" ${mdmDTO.unit == 'EA' ? 'selected' : ''}>EA</option>
 					</select>
 				</div>
 
@@ -230,15 +230,6 @@
 						value="${ mdmDTO.price }" class="mod-in">
 				</div>
 
-				<div class="mod-row">
-					<span class="mod-lb">입고날짜</span> <span class="mod-txt">${ mdmDTO.received_date }</span>
-				</div>
-
-				<div class="mod-row">
-					<span class="mod-lb">사용기한</span> <span class="mod-txt">${ mdmDTO.exp_date }</span>
-					<input type="hidden" name="exp_date" value="${ mdmDTO.exp_date }">
-				</div>
-				
 				<div class="mod-row">
 					<span class="mod-lb">가용확인</span>
 					<div class="mod-rd-grp">

@@ -26,7 +26,6 @@ public class WorkOrderDAO {
 			Context ctx = new InitialContext();
 
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
-//			System.out.println("DAOMODselect:"+dto.getMod());
 			conn = dataFactory.getConnection();
 			String query = "SELECT * from ( "
 							+ "SELECT rownum as rnum, subqry.* from ( "
@@ -37,7 +36,7 @@ public class WorkOrderDAO {
 			}
 			query +=") subqry) "
 					+ "WHERE rnum >= ? AND rnum <= ?";
-			//수정
+			//�닔�젙
 			ps = conn.prepareStatement(query);
 			int idx = 1;
 			if(dto.getOrder_num() != -1) {
@@ -107,11 +106,9 @@ public class WorkOrderDAO {
 			Context ctx = new InitialContext();
 			
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
-//			System.out.println("DAOMODselect:"+dto.getMod());
 			conn = dataFactory.getConnection();
 			String query = "SELECT * from work_order";
 			
-			//수정
 			ps = conn.prepareStatement(query);
 			rs = ps.executeQuery();
 			
@@ -177,10 +174,7 @@ public class WorkOrderDAO {
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 //			System.out.println("DAOMODselect:"+dto.getMod());
 			conn = dataFactory.getConnection();
-			System.out.println("최상단DAO:" + dto.getMod());
-			System.out.println("일일목표 : "+dto.getDaily_target());
 			String query = "";
-			// 업데이트
 			if ("up".equals(dto.getMod())) {
 				query = "UPDATE work_order " 
 						+ "SET work_order_title = ?, " 
@@ -190,7 +184,6 @@ public class WorkOrderDAO {
 						+ "status = ? " 
 						+ "where order_num = ?";
 			}
-			// 인서트
 			if ("add".equals(dto.getMod())) {
 				query = "INSERT INTO work_order " 
 						+ "(order_num, prod_num, work_order_title, work_date, daily_target, empno, status) "
@@ -204,7 +197,6 @@ public class WorkOrderDAO {
 						+ "? "
 						+ ") ";
 			}
-			// 딜리트
 			if ("delete".equals(dto.getMod())) {
 				query = "DELETE FROM work_order " + "WHERE order_num = ?";
 			}
@@ -268,15 +260,12 @@ public class WorkOrderDAO {
 
 	
 	
-//Use paging 수정
 	public int getTotalCount() {
 
 		int total = 0;
 
 		try {
-			// 자원을 가지러 가기 위해 문을 열고
 			Context ctx = new InitialContext();
-			// 열어둔 문을 통해 어디로 갈지 경로를 정함
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 
 			String query = "select count(*) from work_order";
@@ -285,7 +274,7 @@ public class WorkOrderDAO {
 					PreparedStatement ps = conn.prepareStatement(query);
 					ResultSet rs = ps.executeQuery()) {
 
-				if (rs.next()) { // count 1줄 return
+				if (rs.next()) { 
 					total = rs.getInt(1);
 				}
 			}

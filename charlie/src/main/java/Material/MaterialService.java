@@ -4,22 +4,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Material.MaterialDTO;
+import Warehouse.WarehouseDAO;
 import fileLibrary.CommonDTO;
-import fileLibrary.ParentService2;
+import fileLibrary.ParentService3;
 
-public class MaterialService extends ParentService2<MaterialDTO, CommonDTO> {
+public class MaterialService extends ParentService3<MaterialDTO, CommonDTO> {
 
 	MaterialDAO materialDAO = new MaterialDAO();
 
 	@Override
 	public Map selectDB(MaterialDTO dto, CommonDTO commonDTO) {
 		
-
+		commonDTO.setWhere("WHERE tableB.canuse = 'Y'");
 		commonDTO.setTableName(materialDAO.tableName());
 
 		// 페이지에서 보여줄 항목 몇개인지 개수 리턴
-		int totalCount = materialDAO.getTotalCount();
+		int totalCount = materialDAO.getTotalCount(dto, commonDTO);
 
 		int size = commonDTO.getSize(); // 한 페이지에서 보여줄 개수
 		int page = commonDTO.getPage(); // 시작 페이지
@@ -43,21 +43,27 @@ public class MaterialService extends ParentService2<MaterialDTO, CommonDTO> {
 		map.put("list", list); // list
 		map.put("totalCount", totalCount);
 		map.put("commonDTO", commonDTO); // common DTO
+		
+		map.put("select1", materialDAO.selectCustom());
 
 		return map;
 
 	}
-//////////////////////////////////////////////////////////////
-	List<MaterialDTO> selectall(MaterialDTO dto){
+	
+	//////////////////////////////////////////////////////////////
+	public List<MaterialDTO> selectall(MaterialDTO dto){
 		MaterialDAO dao = new MaterialDAO();
 		List list = dao.selectall(dto);
 		return list;
 	}
 	////////////////////////////////////////////////////////////
+
 	@Override
 	public MaterialDTO selectOne(MaterialDTO dto, CommonDTO commonDTO) {
-		System.out.println("service selectOne : " + dto);
-		return materialDAO.selectOne(dto, commonDTO);
+		
+		commonDTO.setWhere("where material_num = ?");
+		MaterialDTO result = materialDAO.selectOne(dto, commonDTO);
+		return result;
 	}
 	@Override
 	public MaterialDTO insertDB(MaterialDTO dto) {
@@ -78,9 +84,19 @@ public class MaterialService extends ParentService2<MaterialDTO, CommonDTO> {
 	}
 
 	@Override
-	public List selectJoinInfo() {
-		System.out.println("select JoinInfo");
-		return materialDAO.selectJoinInfo();
+	public Map selectJoinInfo() {
+		
+		Map map = new HashMap();
+		List mdmList = materialDAO.selectJoinInfo();
+		// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// 창고가 material에 있어야하고, 관리만 warehouse에서 해야함
+		WarehouseDAO whDAO = new WarehouseDAO();
+		List whList = whDAO.selectAll();
+		
+		map.put("mdmList", mdmList);
+		map.put("whList", whList);
+		
+		return map;
 	}
 
 }

@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Bom.BomDTO;
+import Mdm.MdmDAO;
+import Mdm.MdmDTO;
 import fileLibrary.CommonDTO;
 import fileLibrary.ParentService2;
 
@@ -19,7 +20,7 @@ public class BomService extends ParentService2<BomDTO, CommonDTO> {
 		commonDTO.setTableName(bomDAO.tableName());
 
 		// 페이지에서 보여줄 항목 몇개인지 개수 리턴
-		int totalCount = bomDAO.getTotalCount();
+		int totalCount = bomDAO.getTotalCount(dto, commonDTO);
 
 		int size = commonDTO.getSize(); // 한 페이지에서 보여줄 개수
 		int page = commonDTO.getPage(); // 시작 페이지
@@ -38,6 +39,7 @@ public class BomService extends ParentService2<BomDTO, CommonDTO> {
 		Map map = new HashMap();
 		
 		List list = bomDAO.selectDB(dto, commonDTO);
+		
 		System.out.println("서비스의 list: " + list);
 
 		map.put("list", list); // list

@@ -1,7 +1,9 @@
 package IOLog;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,43 +11,62 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import Warehouse.WarehouseDTO;
-import Warehouse.WarehouseService;
+import Lot.LotDTO;
+import Lot.LotService;
+import fileLibrary.CommonDTO;
 
 @WebServlet("/log")
 public class IOLogControll extends HttpServlet {
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
 		String slog_num = request.getParameter("log_num");
+		String ssize = request.getParameter("size");
+		String spage = request.getParameter("page");
 		String mod = request.getParameter("mod");
-
+		int size = 10;
+		int page = 1;
+		if (ssize != null && spage != null) {
+			size = Integer.parseInt(ssize);
+			page = Integer.parseInt(spage);
+		}
 		int log_num = -1;
 		if (slog_num != null) {
 			log_num = Integer.parseInt(slog_num);
 		}
 		IOLogDTO LogDTO = new IOLogDTO();
+		CommonDTO pageing = new CommonDTO();
+		pageing.setSize(size);
+		pageing.setPage(page);
 		LogDTO.setLog_num(log_num);
 		LogDTO.setMod(mod);
 		IOLogservice service = new IOLogservice();
-		List<IOLogDTO> list = service.select(LogDTO);
-		System.out.println("Log컨트롤마지막: "+list);
-		request.setAttribute("log", list);
+		Map list = service.select(LogDTO, pageing);
+		System.out.println("Log마지막 " + list);
+		request.setAttribute("map", list);
 		if ("detail".equals(mod)) {
-			System.out.println("디테일로고고씽");
 			request.getRequestDispatcher("WEB-INF/views/log/logDetail.jsp").forward(request, response);
 			return;
-		} else if ("up".equals(mod)) {
-			request.getRequestDispatcher("WEB-INF/views/log/logUp.jsp").forward(request, response);
-			return;
-		} else if ("add".equals(mod)) {
-			request.getRequestDispatcher("WEB-INF/views/log/logAdd.jsp").forward(request, response);
-			return;
 		} else if ("delete".equals(mod)) {
+			
+			System.out.println("get딜리트가는길넘버"+LogDTO.getLog_num());
+			System.out.println("get딜리트가는길모드"+LogDTO.getMod());
 			logDelete(request, response);
 			return;
+		} else {
+			LotDTO LotDTO = new LotDTO();
+			LotService lotSV = new LotService();
+			List<LotDTO> lot = lotSV.selectall(LotDTO);
+			request.setAttribute("lot", lot);
+			if ("up".equals(mod)) {
+				request.getRequestDispatcher("WEB-INF/views/log/logUp.jsp").forward(request, response);
+				return;
+			} else if ("add".equals(mod)) {
+				request.getRequestDispatcher("WEB-INF/views/log/logAdd.jsp").forward(request, response);
+				return;
+			}
 		}
-		System.out.println("리스트로 고고씽");
 		request.getRequestDispatcher("WEB-INF/views/log/logList.jsp").forward(request, response);
 	}
 
@@ -64,22 +85,27 @@ public class IOLogControll extends HttpServlet {
 
 	}
 
-	protected void logUP(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void logUP(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
 		String slog_num = request.getParameter("log_num");
+		String sio_time = request.getParameter("io_time");
 		String io_type = request.getParameter("io_type");
+		String sexp_date = request.getParameter("exp_date");
 		String slot_num = request.getParameter("lot_num");
-		String smdm_num = request.getParameter("mdm_num");
 		String mod = request.getParameter("mod");
-		int log_num = Integer.parseInt(slog_num);
+		
+		Date io_time = Date.valueOf(sio_time);
+		Date exp_date = Date.valueOf(sexp_date);
 		int lot_num = Integer.parseInt(slot_num);
-		int mdm_num = Integer.parseInt(smdm_num);
+		int log_num = Integer.parseInt(slog_num);
 		IOLogDTO logDTO = new IOLogDTO();
 		logDTO.setLog_num(log_num);
+		logDTO.setIo_time(io_time);
 		logDTO.setIo_type(io_type);
+		logDTO.setExp_date(exp_date);
 		logDTO.setLot_num(lot_num);
-		logDTO.setMdm_num(mdm_num);
 		logDTO.setMod(mod);
 		IOLogservice service = new IOLogservice();
 		service.logService(logDTO);
@@ -92,19 +118,19 @@ public class IOLogControll extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
 
-		String slog_num = request.getParameter("log_num");
+		String sio_time = request.getParameter("io_time");
 		String io_type = request.getParameter("io_type");
+		String sexp_date = request.getParameter("exp_date");
 		String slot_num = request.getParameter("lot_num");
-		String smdm_num = request.getParameter("mdm_num");
 		String mod = request.getParameter("mod");
-		int log_num = Integer.parseInt(slog_num);
+		Date io_time = Date.valueOf(sio_time);
+		Date exp_date = Date.valueOf(sexp_date);
 		int lot_num = Integer.parseInt(slot_num);
-		int mdm_num = Integer.parseInt(smdm_num);
 		IOLogDTO logDTO = new IOLogDTO();
-		logDTO.setLog_num(log_num);
+		logDTO.setIo_time(io_time);
 		logDTO.setIo_type(io_type);
+		logDTO.setExp_date(exp_date);
 		logDTO.setLot_num(lot_num);
-		logDTO.setMdm_num(mdm_num);
 		logDTO.setMod(mod);
 		IOLogservice service = new IOLogservice();
 		service.logService(logDTO);
@@ -121,8 +147,9 @@ public class IOLogControll extends HttpServlet {
 		IOLogDTO logDTO = new IOLogDTO();
 		logDTO.setLog_num(log_num);
 		logDTO.setMod(mod);
+		System.out.println("서비스 키러가는길"+logDTO.getMod());
 		IOLogservice service = new IOLogservice();
-		System.out.println("logAdd마지막: " + service.logService(logDTO));
+		service.logService(logDTO);
 		response.sendRedirect("log");
 	}
 

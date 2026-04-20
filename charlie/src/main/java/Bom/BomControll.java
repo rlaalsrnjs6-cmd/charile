@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import Bom.BomDTO;
 import Bom.BomService;
@@ -25,6 +26,7 @@ public class BomControll extends HttpServlet {
 
 		System.out.println("/bom [doGet] 실행");
 
+		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8;");
 
 		String cmd = request.getParameter("cmd");
@@ -86,10 +88,28 @@ public class BomControll extends HttpServlet {
 			response.setContentType("text/html; charset=utf-8;");
 
 			BomService service = new BomService();
-			Map map = service.selectDB(setDTO(request), setCommonDTO(request, ""));
+			
+			CommonDTO commonDTO = setCommonDTO(request, "");
+			
+			HttpSession session = request.getSession();
+			
+			CommonDTO sessionDTO = (CommonDTO) session.getAttribute("bomCommonDTO");
+			
+			if(sessionDTO != null) {
+				sessionDTO.setPage(commonDTO.getPage());
+				sessionDTO.setSize(commonDTO.getSize());
+				
+				commonDTO = sessionDTO;
+			}
+			
+			Map map = service.selectDB(setDTO(request), commonDTO);
 			
 			request.setAttribute("map", map);
 			request.setAttribute("servletName", "Bom");
+			
+			// 셀렉트바
+			List list = service.selectJoinInfo();
+			request.setAttribute("list", list);
 			
 			request.getRequestDispatcher("WEB-INF/views/bom/bom_list.jsp").forward(request, response);
 
@@ -153,15 +173,25 @@ public class BomControll extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html; charset=utf-8;");
 		
-			BomService service = new BomService();
-			// 검색 내용받음
+		BomService service = new BomService();
+		// 검색 내용받음
+		
+		// 검색 내용받음
+		CommonDTO commonDTO = setCommonDTO(request, "search");
+								
+		HttpSession session = request.getSession();
+		session.setAttribute("bomCommonDTO", commonDTO);
+					
 				
-			Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
+		Map map = service.selectDB(setDTO(request), setCommonDTO(request, "search"));
 
-			request.setAttribute("map", map);
-			request.getRequestDispatcher("WEB-INF/views/bom/bom_list.jsp").forward(request, response);
+		List list = service.selectJoinInfo();
+		request.setAttribute("list", list);
+		
+		request.setAttribute("map", map);
+		request.getRequestDispatcher("WEB-INF/views/bom/bom_list.jsp").forward(request, response);
 
-			}
+		}
 
 
 	// 거의 고정해서 사용
@@ -172,6 +202,7 @@ public class BomControll extends HttpServlet {
 		BomDTO bomDTO = new BomDTO();
 		
 		int bom_num = -1; int required_weight= -1; int mdm_num = -1;
+		int target_mdm_num = -1; 
 		
 		if (request.getParameter("bom_num") != null 
 				&& !("".equals(request.getParameter("bom_num")))) {
@@ -196,8 +227,16 @@ public class BomControll extends HttpServlet {
 			
 			System.out.println( "/set bom mdm_num : " + mdm_num );
 		} 
-	
 		
+		if (request.getParameter("target_mdm_num") != null 
+				&& !("".equals(request.getParameter("target_mdm_num")))) {
+			
+			target_mdm_num = Integer.parseInt(request.getParameter("target_mdm_num"));
+			
+			System.out.println( "/set bom target_mdm_num : " + target_mdm_num );
+		} 
+		
+		bomDTO.setTarget_mdm_num(target_mdm_num);
 		bomDTO.setBom_num(bom_num);
 		bomDTO.setRequired_weight(required_weight);
 		bomDTO.setMdm_num(mdm_num);
@@ -209,6 +248,8 @@ public class BomControll extends HttpServlet {
 			protected CommonDTO setCommonDTO(HttpServletRequest request, String cmd)
 					throws ServletException, IOException {
 				
+				request.setCharacterEncoding("utf-8");
+				
 				CommonDTO commonDTO = new CommonDTO();
 				
 				// ORDER BY [COLUMN]
@@ -217,18 +258,15 @@ public class BomControll extends HttpServlet {
 				// GROUP BY 부터 작성
 				String groupBy = ""; 
 				commonDTO.setGroupBy(groupBy);
-				// WHERE 1=1
-				String where = ""; 
-				commonDTO.setWhere(where);
+
 				
 				// 검색 기능 [ search_content ]
 				if("search".equals(cmd)) {
-					commonDTO.setSelector(request.getParameter("search_select"));
-					commonDTO.setSearch(request.getParameter("search_content"));
-					System.out.println(commonDTO.getSelector());
-					System.out.println(commonDTO.getSearch());
+					String where = request.getParameter("selectName");
+					if (where!=null && !"".equals(where)) { 
+						commonDTO.setSearch("AND tableC.name = '" + where + "'") ; 
+						}
 				}
-				
 				// paging 
 				int size= 10, page= 1;
 				

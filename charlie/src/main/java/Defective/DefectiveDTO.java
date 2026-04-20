@@ -4,10 +4,12 @@ public class DefectiveDTO {
 	int defective_num = -1;
 	String category;
 	int count;
-	int qc_num;
+	int lot_num;
 	String action;
 	int mdm_num;
+//	String status;
 	String mod;
+	
 	public int getDefective_num() {
 		return defective_num;
 	}
@@ -26,11 +28,11 @@ public class DefectiveDTO {
 	public void setCount(int count) {
 		this.count = count;
 	}
-	public int getQc_num() {
-		return qc_num;
+	public int getLot_num() {
+		return lot_num;
 	}
-	public void setQc_num(int qc_num) {
-		this.qc_num = qc_num;
+	public void setLot_num(int lot_num) {
+		this.lot_num = lot_num;
 	}
 	public String getAction() {
 		return action;
@@ -42,7 +44,7 @@ public class DefectiveDTO {
 		return mdm_num;
 	}
 	public void setMdm_num(int mdm_num) {
-		this.mdm_num= mdm_num;
+		this.mdm_num = mdm_num;
 	}
 	public String getMod() {
 		return mod;
@@ -53,10 +55,8 @@ public class DefectiveDTO {
 	@Override
 	public String toString() {
 		return "DefectiveDTO [defective_num=" + defective_num + ", category=" + category + ", count=" + count
-				+ ", qc_num=" + qc_num + ", action=" + action + ", mdm_num=" + mdm_num + ", mod=" + mod + "]";
+				+ ", lot_num=" + lot_num + ", action=" + action + ", mdm_num=" + mdm_num + ", mod=" + mod + "]";
 	}
-	
-	
 	
 	
 }

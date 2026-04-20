@@ -192,16 +192,6 @@
 	</div>
 	
 	<div class="dt-row">
-		<span class="dt-lb">입고날짜</span> 
-		<span class="dt-val">${ mdmDTO.received_date }</span>
-	</div>
-	
-	<div class="dt-row">
-		<span class="dt-lb">사용기한</span> 
-		<span class="dt-val">${ mdmDTO.exp_date }</span>
-	</div>
-	
-	<div class="dt-row">
 		<span class="dt-lb">가용 여부</span> 
 		<span class="dt-val">
 			<c:if test="${ mdmDTO.canUse eq 'Y'}">가능</c:if>

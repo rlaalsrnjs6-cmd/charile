@@ -3,10 +3,11 @@ package IOLog;
 import java.sql.Date;
 
 public class IOLogDTO {
-	int log_num;
+	int log_num = -1;
 	Date io_time;
 	String io_type;
 	int lot_num;
+	Date exp_date;
 	int mdm_num;
 	String mod;
 	public int getLog_num() {
@@ -33,6 +34,12 @@ public class IOLogDTO {
 	public void setLot_num(int lot_num) {
 		this.lot_num = lot_num;
 	}
+	public Date getExp_date() {
+		return exp_date;
+	}
+	public void setExp_date(Date exp_date) {
+		this.exp_date = exp_date;
+	}
 	public int getMdm_num() {
 		return mdm_num;
 	}
@@ -48,7 +55,7 @@ public class IOLogDTO {
 	@Override
 	public String toString() {
 		return "IOLogDTO [log_num=" + log_num + ", io_time=" + io_time + ", io_type=" + io_type + ", lot_num=" + lot_num
-				+ ", mdm_num=" + mdm_num + ", mod=" + mod + "]";
+				+ ", exp_date=" + exp_date + ", mdm_num=" + mdm_num + ", mod=" + mod + "]";
 	}
 	
 	

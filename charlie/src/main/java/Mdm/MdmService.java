@@ -17,7 +17,7 @@ public class MdmService extends ParentService2<MdmDTO, CommonDTO>{
 		commonDTO.setTableName(mdmDAO.tableName());		
 
 		//페이지에서 보여줄 항목 몇개인지 개수 리턴
-		int totalCount = mdmDAO.getTotalCount();
+		int totalCount = mdmDAO.getTotalCount(dto, commonDTO);
 		
 		int size = commonDTO.getSize(); // 한 페이지에서 보여줄 개수
 		int page = commonDTO.getPage(); // 시작 페이지
@@ -44,6 +44,9 @@ public class MdmService extends ParentService2<MdmDTO, CommonDTO>{
 		map.put("list", list); // list 
 		map.put("totalCount", totalCount);
 		map.put("commonDTO", commonDTO); // common DTO
+		
+		map.put("select1", mdmDAO.selectCustom());
+		map.put("select2", mdmDAO.selectCustom2());
 
 		return map;
 	}
