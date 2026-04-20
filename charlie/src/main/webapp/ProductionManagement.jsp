@@ -176,21 +176,25 @@
 <%@ include file="header.jsp" %>
 
 <div class="pm-all">
-<%-- 	<form class="sch-fm" action="${pageContext.request.contextPath}/production/management" method="get"> --%>
-<%-- 	    <input class="sch-in" type="text" name="selectTitle" placeholder="검색하실 제목을 입력하세요" value="${param.selectTitle}"> --%>
-<!-- 	    <button class="btn-sch" type="submit">검색</button> -->
-<!-- 	</form> -->
+	<form class="sch-fm" action="${pageContext.request.contextPath}/production/management" method="get">
+	    <input class="sch-in" type="text" name="selectTitle" placeholder="검색하실 제목을 입력하세요" value="${param.selectTitle}">
+	    <button class="btn-sch" type="submit">검색</button>
+	</form>
 
-<form class="sch-fm" action="${pageContext.request.contextPath}/production/management" method="get">
-    <select class="sch-in" name="selectTitle">
-        <option value="">== 제품을 선택하세요 ==</option>
-        <option value="productA" ${param.selectTitle == 'productA' ? 'selected' : ''}>제품 A</option>
-        <option value="productB" ${param.selectTitle == 'productB' ? 'selected' : ''}>제품 B</option>
-        <option value="productC" ${param.selectTitle == 'productC' ? 'selected' : ''}>제품 C</option>
-    </select>
+<%-- <form class="sch-fm" action="${pageContext.request.contextPath}/production/management" method="get"> --%>
+<!--     <select class="sch-in" name="mdmNum"> -->
+<!--         <option value="0">== 제품을 선택하세요 ==</option> -->
+        
+<%--         <c:forEach var="item" items="${productList}"> --%>
+<%--             <option value="${item.mdmNum}" ${param.mdmNum == item.mdmNum ? 'selected' : ''}> --%>
+<%--                 ${item.mdmName} --%>
+<!--             </option> -->
+<%--         </c:forEach> --%>
+<!--     </select> -->
     
     <button class="btn-sch" type="submit">검색</button>
 </form>
+    
 
 	<table class="pm-tb">
 		<tr>

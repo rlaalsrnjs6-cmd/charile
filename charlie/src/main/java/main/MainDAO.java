@@ -142,11 +142,10 @@ List list = new ArrayList();
 	        conn = dataFactory.getConnection();
 	        
 
-	     String query = "SELECT p.ph_num, p.body_temper, p.regist_time, p.washed, p.memo, p.supervisor_chk, p.empno, e.ename "
-	                  + "FROM personal_hygiene p "
-	                  + "JOIN emp e ON p.empno = e.empno "
-	                  + "WHERE p.regist_time >= trunc(sysdate) "
-	                  + "AND p.regist_time < trunc(sysdate) + 1";  
+	        String query = "SELECT p.ph_num, p.body_temper, p.regist_time, p.washed, p.memo, p.supervisor_chk, p.empno, p.ename "
+	                + "FROM personal_hygiene p "
+	                + "WHERE p.regist_time >= trunc(sysdate + 9/24) " 
+	                + "AND p.regist_time < trunc(sysdate + 9/24) + 1"; 
 
 	        ps = conn.prepareStatement(query);
 	        rs = ps.executeQuery();

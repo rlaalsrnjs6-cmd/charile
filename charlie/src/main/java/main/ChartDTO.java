@@ -7,16 +7,32 @@ public class ChartDTO {
 	private String mdmType;	//구분
 	private int mdmPrice;	//가격 및 금액
 	private int mdmQuantity; 	//개수
-	
+	private int totalSales;
+	private String IoDate;
 	//불량품
 	private int okay;
 
+	
 	/////////emp///////////////////
 	private int sal;
 	////////////////////////////////생산관리꺼
 	private int target_quantity;//전체목표량
 	private int currentCount; // 전체실적
 	
+	
+	public String getIoDate() {
+		return IoDate;
+	}
+	public void setIoDate(String ioDate) {
+		IoDate = ioDate;
+	}
+	public int getTotalSales() {
+		return totalSales;
+	}
+	public void setTotalSales(int totalSales) {
+		this.totalSales = totalSales;
+	}
+
 	public int getOkay() {
 		return okay;
 	}
@@ -74,7 +90,8 @@ public class ChartDTO {
 	@Override
 	public String toString() {
 		return "ChartDTO [mdmName=" + mdmName + ", mdmUnit=" + mdmUnit + ", mdmType=" + mdmType + ", mdmPrice="
-				+ mdmPrice + ", mdmQuantity=" + mdmQuantity + ", okay=" + okay + ", sal=" + sal + ", target_quantity="
-				+ target_quantity + ", currentCount=" + currentCount + "]";
+				+ mdmPrice + ", mdmQuantity=" + mdmQuantity + ", totalSales=" + totalSales + ", IoDate=" + IoDate
+				+ ", okay=" + okay + ", sal=" + sal + ", target_quantity=" + target_quantity + ", currentCount="
+				+ currentCount + "]";
 	}
 }

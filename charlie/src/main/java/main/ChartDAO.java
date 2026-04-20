@@ -31,7 +31,18 @@ public class ChartDAO {
 	//mdm에 있는 product 데이터 불러오기
 	public List selectProduct() {
 		List list =  new ArrayList();
-		String query = "select * from mdm where type='product'";
+		String query = "SELECT " +
+                "    m.NAME, " +
+                "    m.TYPE, " + 
+                "    i.QUANTITY, " +
+                "    m.PRICE, " +
+                "    (i.QUANTITY * m.PRICE) AS TOTAL_SALES, " +
+                "    TO_CHAR(i.IO_DATE, 'YYYY-MM-DD HH24:MI:SS') AS IO_DATE " +
+                "FROM io i " +
+                "JOIN mdm m ON i.MDM_NUM = m.MDM_NUM " +
+                "WHERE m.TYPE = 'product' " +
+                "  AND i.IO_TYPE = 'OUT' " +
+                "ORDER BY i.IO_DATE DESC";
 		
 		try (Connection conn = dataFactory.getConnection(); 
 				PreparedStatement ps =  conn.prepareStatement(query)) {
@@ -39,15 +50,20 @@ public class ChartDAO {
 				try (ResultSet rs = ps.executeQuery()) {
 					while (rs.next()) {
 						ChartDTO dto = new ChartDTO();
-						dto.setMdmName(rs.getString("name"));
-		                dto.setMdmUnit(rs.getString("unit"));
-		                dto.setMdmType(rs.getString("type"));
-		                dto.setMdmPrice(rs.getInt("price"));
-		                dto.setMdmQuantity(rs.getInt("quantity"));
+						dto.setMdmName(rs.getString("NAME")); 
+						dto.setMdmPrice(rs.getInt("PRICE"));
+						dto.setMdmType(rs.getString("TYPE")); 
+
+						dto.setMdmQuantity(rs.getInt("QUANTITY")); // 현재 출고된 수량
+
+						dto.setTotalSales(rs.getInt("TOTAL_SALES")); 
+
+						dto.setIoDate(rs.getString("IO_DATE"));
 						list.add(dto);
+//						System.out.println("list: == " + list);
 					}
 				}
-				System.out.println("ChartDAO selectMeterial()의 list:  " + list);
+//				System.out.println("ChartDAO selectMeterial()의 list:  " + list);
 				return list;
 		} catch (Exception e) {
 			e.printStackTrace();
