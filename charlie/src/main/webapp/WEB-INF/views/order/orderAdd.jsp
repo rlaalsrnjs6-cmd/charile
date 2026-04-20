@@ -146,11 +146,6 @@
             </div>
 
             <div class="reg-row">
-                <label class="reg-lb">작업완료기한 (종료일)</label>
-                <input type="date" id="end_date" name="end_date" class="reg-in">
-            </div>
-
-            <div class="reg-row">
                 <label class="reg-lb">일일목표수량</label>
                 <input type="number" name="daily_target" class="reg-in" placeholder="수량을 입력하세요">
             </div>

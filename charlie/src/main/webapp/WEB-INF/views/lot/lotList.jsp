@@ -179,7 +179,7 @@
         </div>
 
         <div style="margin-top: 2vh; text-align: right;">
-            <a class="btn-main" href="lot?mod=add">작성하기</a>
+            	<a class="btn-main" href="lot?mod=add">작성하기</a>
         </div>
 
         <jsp:include page="/WEB-INF/views/paging.jsp" />

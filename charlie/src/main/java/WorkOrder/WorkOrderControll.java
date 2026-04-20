@@ -27,6 +27,8 @@ public class WorkOrderControll extends HttpServlet {
 		String spage= request.getParameter("page");
 		String mod = request.getParameter("mod");
 		String sprod_num = request.getParameter("prod_num");
+		String time_filter = request.getParameter("time_filter");
+		String statustitle = request.getParameter("statustitle");
 		int size = 10;
 		int page = 1;
 		if (ssize != null && spage != null) {
@@ -42,6 +44,8 @@ public class WorkOrderControll extends HttpServlet {
 		pageing.setSize(size);
 		pageing.setPage(page);
 		orderDTO.setOrder_num(order_num);
+		orderDTO.setTimefilter(time_filter);
+		orderDTO.setStatustitle(statustitle);
 		orderDTO.setMod(mod);
 		WorkOrderService service = new WorkOrderService();
 		Map map = service.select(orderDTO, pageing);

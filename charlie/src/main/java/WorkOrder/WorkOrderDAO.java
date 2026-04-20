@@ -30,18 +30,47 @@ public class WorkOrderDAO {
 			String query = "SELECT * from ( "
 							+ "SELECT rownum as rnum, subqry.* from ( "
 							+ 		"select * from work_order ";
-
-			if(dto.getOrder_num() != -1) {
-				query += "where order_num = ?";
+			
+							System.out.println("오전오후: "+dto.getTimefilter());
+			if(!("select".equals(dto.getMod())) && dto.getOrder_num() != -1) {
+				query += "where order_num = ? ";
 			}
-			query +=") subqry) "
-					+ "WHERE rnum >= ? AND rnum <= ?";
+			
+			if("select".equals(dto.getMod()) && "am".equals(dto.getTimefilter())) {
+				System.out.println("셀렉트 오전");
+				query += "WHERE work_date >= TRUNC(SYSDATE+9/24) "
+						+ "AND work_date < TRUNC(SYSDATE+9/24) + 0.5 ";
+			}
+			if("select".equals(dto.getMod()) && "pm".equals(dto.getTimefilter())) {
+				System.out.println("셀렉트 오후");
+				query += "where work_date >= TRUNC(SYSDATE+9/24) + 0.5 "
+						+ "AND work_date < TRUNC(SYSDATE+9/24) + 1 ";
+			}
+			if("select".equals(dto.getMod()) && ("Y".equals(dto.getStatustitle()) || "N".equals(dto.getStatustitle())) && !("total".equals(dto.getTimefilter()))) {
+					System.out.println("스테이터스 yN AND:" + dto.getStatustitle());
+				query+= "and status = ? ";
+			}
+			if("select".equals(dto.getMod()) && ("Y".equals(dto.getStatustitle()) || "N".equals(dto.getStatustitle())) && "total".equals(dto.getTimefilter())) {
+				System.out.println("스테이터스 yN WHERE:" + dto.getStatustitle());
+				query+= "WHERE status = ? ";
+			}
+			
+			query +=" order by work_date asc "
+					+ " ) subqry) "
+					+ " WHERE rnum >= ? AND rnum <= ? ";
 			//�닔�젙
 			ps = conn.prepareStatement(query);
 			int idx = 1;
-			if(dto.getOrder_num() != -1) {
+			if(!("select".equals(dto.getMod())) && dto.getOrder_num() != -1) {
 				
 				ps.setInt(idx++, dto.getOrder_num());
+			}
+			
+			if("select".equals(dto.getMod()) && ("Y".equals(dto.getStatustitle()) || "N".equals(dto.getStatustitle())) && !("total".equals(dto.getTimefilter()))) {
+				ps.setString(idx++, dto.getStatustitle());
+			}
+			if("select".equals(dto.getMod()) && ("Y".equals(dto.getStatustitle()) || "N".equals(dto.getStatustitle())) && "total".equals(dto.getTimefilter())) {
+				ps.setString(idx++, dto.getStatustitle());
 			}
 			ps.setInt(idx++, pageing.getStart());
 			ps.setInt(idx++, pageing.getEnd());

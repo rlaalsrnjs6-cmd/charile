@@ -12,6 +12,10 @@ public class WorkOrderDTO {
 	int empno;
 	String work_order_title;
 	String mod;
+	
+	String search;
+	String timefilter;
+	String statustitle;
 	public int getOrder_num() {
 		return order_num;
 	}
@@ -66,11 +70,30 @@ public class WorkOrderDTO {
 	public void setMod(String mod) {
 		this.mod = mod;
 	}
+	public String getSearch() {
+		return search;
+	}
+	public void setSearch(String search) {
+		this.search = search;
+	}
+	public String getTimefilter() {
+		return timefilter;
+	}
+	public void setTimefilter(String timefilter) {
+		this.timefilter = timefilter;
+	}
+	public String getStatustitle() {
+		return statustitle;
+	}
+	public void setStatustitle(String statustitle) {
+		this.statustitle = statustitle;
+	}
 	@Override
 	public String toString() {
 		return "WorkOrderDTO [order_num=" + order_num + ", work_date=" + work_date + ", daily_target=" + daily_target
 				+ ", status=" + status + ", ename=" + ename + ", prod_num=" + prod_num + ", empno=" + empno
-				+ ", work_order_title=" + work_order_title + ", mod=" + mod + "]";
+				+ ", work_order_title=" + work_order_title + ", mod=" + mod + ", search=" + search + ", timefilter="
+				+ timefilter + ", statustitle=" + statustitle + "]";
 	}
 	
 	
