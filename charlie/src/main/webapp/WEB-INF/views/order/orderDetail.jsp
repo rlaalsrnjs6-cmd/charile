@@ -155,7 +155,7 @@
                 <span class="dt-lb">과정</span>
                 <div class="dt-val">
                     <c:forEach var="o" items="${order}" varStatus="st">
-                        ${o.flow}${!st.last ? ' &gt; ' : ''}
+                        ${o.flow}${o.img_url}
                     </c:forEach>
                 </div>
             </div>
