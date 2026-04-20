@@ -168,7 +168,7 @@
         <div class="ctrl-box">
             <form class="flt-fm" action="process?cmd=search" method="post">
                 <select class="c-sel" name="selectName">
-                    <option value="" ${empty param.selectName ? 'selected' : ''}> 전체보기 </option>
+                    <option value="" ${empty param.selectName ? 'selected' : ''}> --전체보기-- </option>
                     <c:forEach var="join" items="${ joinList }"> 
                         <option value="${join.name}" ${param.selectName == join.name ? 'selected' : ''}>${ join.name }</option>
                     </c:forEach>
@@ -206,9 +206,12 @@
             </table>
         </div>
 
-        <a href="process?cmd=insertPage" class="btn-main btn-wr">등록하기</a>
-
         <jsp:include page="/WEB-INF/views/paging.jsp" />
+        
+	<c:if test="${sessionScope.level < 3 }">
+        <a href="process?cmd=insertPage" class="btn-main btn-wr">등록하기</a>
+	</c:if>
+	
     </div>
 
     <%@ include file="/footer.jsp" %>
