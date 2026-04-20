@@ -212,9 +212,14 @@
 	<div class="ctrl-box">
 		<form class="sch-fm" action="material?cmd=search" method="post" onsubmit="return validateSearch(this)">
 			<select class="c-sel" name="selectName">
-				<option value="" ${empty param.selectName ? 'selected' : ''}> 타입선택 </option>
+				<option value="" ${empty param.selectName ? 'selected' : ''}> --타입선택-- </option>
 				<c:forEach var="item" items="${ map.select1 }"> 
-					<option value="${item.type}" ${param.selectName == item.type ? 'selected' : ''}>${ item.type }</option>
+					<option value="${item.type}" ${param.selectName == item.type ? 'selected' : ''}>
+						<c:if test="${ item.type eq 'assemble' }">반제품</c:if>
+						<c:if test="${ item.type eq 'equip' }">장비</c:if>
+						<c:if test="${ item.type eq 'material' }">원재료</c:if>
+						<c:if test="${ item.type eq 'product' }">제품</c:if>
+					</option>
 				</c:forEach>
 			</select>
 			
@@ -260,7 +265,9 @@
 
 	<jsp:include page="/WEB-INF/views/paging.jsp" />
 	
-	<a class="btn-main btn-wr" href="material?cmd=insertPage">작성하기</a>
+	<c:if test="${sessionScope.level < 3 }">
+		<a class="btn-main btn-wr" href="material?cmd=insertPage">작성하기</a>
+	</c:if>
 </div>
 
 <%@ include file="/footer.jsp" %>
