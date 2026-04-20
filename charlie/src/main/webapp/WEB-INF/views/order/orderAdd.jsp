@@ -154,7 +154,7 @@
                 <label class="reg-lb">담당 사원</label>
                 <select name="empno" class="reg-in">
                     <c:forEach var="e" items="${emp}">
-                        <option value="${e.empno}">사원번호:${e.ename}(${e.empno})</option>
+                        <option value="${e.empno}">${e.ename}(${e.empno})</option>
                     </c:forEach>
                 </select>
             </div>

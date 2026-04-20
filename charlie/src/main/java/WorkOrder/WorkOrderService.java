@@ -4,9 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Emp.EmpDAO;
-import Emp.EmpDTO;
 import fileLibrary.CommonDTO;
+import io.IoDTO;
 
 public class WorkOrderService {
 	Map select(WorkOrderDTO dto, CommonDTO pageing){
@@ -60,6 +59,11 @@ public class WorkOrderService {
 	int orderService(WorkOrderDTO dto){
 		WorkOrderDAO dao = new WorkOrderDAO();
 		int list = dao.orderDAO(dto);
+		if ("add".equals(dto.getMod())) {
+			IoDTO ioDTO = new IoDTO();
+			ioDTO.setMdm_num()
+			dao.ioInsert(ioDTO);
+		}
 		return list ;
 	}
 }
