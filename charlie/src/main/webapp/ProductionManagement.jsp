@@ -192,7 +192,7 @@
 <%--         </c:forEach> --%>
 <!--     </select> -->
     
-    <button class="btn-sch" type="submit">검색</button>
+   
 </form>
     
 
