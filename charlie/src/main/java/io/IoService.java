@@ -76,8 +76,7 @@ public class IoService extends ParentService2<IoDTO, CommonDTO>{
 
 	@Override
 	public List selectJoinInfo() {
-		// TODO Auto-generated method stub
-		return null;
+		return ioDAO.selectJoinInfo();
 	}
 
 

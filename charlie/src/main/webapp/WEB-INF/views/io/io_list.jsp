@@ -299,14 +299,13 @@
 		<table class="mdm-tb">
 			<thead>
 				<tr>
+					<th>이름</th>
 					<th>관리번호</th>
 					<th>자재량</th>
 					<th>구분</th>
 					<th>저장위치</th>
 					<th>입/출고날짜</th>
 					<th>사용기한</th>
-					<th>이름</th>
-					<th>코드</th>
 				</tr>
 			</thead>
 
@@ -314,17 +313,20 @@
 			<c:forEach var="row" items="${ map.list }">
 				<tr>
 					<td data-label="관리번호">${ row.io_num }</td>
-					<td data-label="자재량">${ row.quantity } ${ row.unit }</td>
-					<td data-label="관리코드">${ row.io_type }</td>
+					<td data-label="명칭">
+						<a href="io?cmd=detail&io_num=${ row.mdm_num }">
+							 ${ row.code }: ${ row.name }
+						</a>
+					</td>
+					<td data-label="자재량">${ row.quantity }${ row.unit }</td>
+					<td data-label="관리코드">
+						${ row.io_type eq 'IN' ? '입고' : '출고' }
+					</td>
 					<td data-label="관리코드">${ row.storage_sec }</td>
 					<td data-label="관리코드">${ row.io_date }</td>
 					<td data-label="관리코드">${ row.exp_date }</td>
-					<td data-label="명칭">
-						<a href="mdm?cmd=detail&mdm_num=${ row.mdm_num }">
-							 ${ row.name }
-						</a>
-					</td>
-					<td data-label="코드">${ row.code }</td>
+	
+					<td data-label="코드"></td>
 				</tr>
 			</c:forEach>
 			</tbody>

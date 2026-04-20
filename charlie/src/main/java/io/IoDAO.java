@@ -28,7 +28,14 @@ public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
 	
 	protected String innerQuery(IoDTO dto, CommonDTO commonDTO) {
 
-		 String query =  " select " + tableName() + ".* from " + tableName() ;
+		 String query = 
+				   " SELECT i.io_num, i.quantity, i.io_type, i.storage_sec, "
+				   + "i.io_date, i.exp_date, i.mdm_num, "
+				   + "m.unit, m.name, m.code  "
+				 
+				 + " FROM io i "
+				 + " JOIN mdm m "
+				 + " ON i.mdm_num = m.mdm_num ";
 			
 		 // SET WHERE
 		 String where = commonDTO.getWhere();
@@ -136,7 +143,6 @@ public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
 			dto.setName(rs.getString("name"));
 			dto.setCode(rs.getString("code"));
 			dto.setUnit(rs.getString("unit"));
-			dto.setPrice(rs.getInt("price"));
 			
 		return dto;
 	}
@@ -206,8 +212,8 @@ public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
 	@Override
 	protected String selectAllQuery() {
 		return 
-				"  SELECT io_num, name, code, unit "
-				+ "FROM io "
+				"  SELECT mdm_num, name, code, unit "
+				+ "FROM mdm "
 				+ "WHERE LOWER(type) IN ( 'material', 'assemble' ) ";
 	}
 
