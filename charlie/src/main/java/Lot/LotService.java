@@ -60,11 +60,17 @@ public class LotService{
 		List list = dao.selectall(dto);
 		return list;
 	}
+	public List<LotDTO> selectalll(LotDTO dto){
+		LotDAO dao = new LotDAO();
+		List list = dao.selectalll(dto);
+		return list;
+	}
 	
 	
 	public int lotService(LotDTO dto){
 		LotDAO dao = new LotDAO();
-		int list = dao.lotDAO(dto);
+		WorkOrderDTO order = dao.selectallll(dto);
+		int list = dao.lotDAO(dto, order);
 		return list ;
 	}
 	

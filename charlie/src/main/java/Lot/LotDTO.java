@@ -3,7 +3,7 @@ package Lot;
 public class LotDTO {
 	int lot_num = -1;
 	int lot_count;
-	int order_num;
+	int order_num = -1;
 	String qc_chk;
 	int material_num;
 	int mdm_num;

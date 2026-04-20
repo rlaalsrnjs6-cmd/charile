@@ -146,7 +146,7 @@
 				<label class="reg-lb">LOT당 제품개수</label>
 				<select name="order_num" class="reg-in">
 					<c:forEach var="o" items="${order}">
-						<option value="${o.daily_target}">${o.daily_target}</option>
+						<option value="${o.order_num}">${o.work_order_title}(${o.order_num})</option>
 					</c:forEach>
 				</select>
 			</div>
@@ -159,23 +159,6 @@
 				</select>
 			</div>
 
-			<div class="reg-row">
-				<label class="reg-lb">자재관리번호</label>
-				<select name="material_num" class="reg-in">
-					<c:forEach var="m" items="${material}">
-						<option value="${m.material_num}">${m.material_num}</option>
-					</c:forEach>
-				</select>
-			</div>
-
-			<div class="reg-row">
-				<label class="reg-lb">작업지시서</label>
-				<select name="order_num" class="reg-in">
-					<c:forEach var="o" items="${order}">
-						<option value="${o.order_num}">${o.work_order_title}</option>
-					</c:forEach>
-				</select>
-			</div>
 
 			<div class="btn-grp">
 				<a href="lot?mod=list" class="btn-can">등록취소</a>

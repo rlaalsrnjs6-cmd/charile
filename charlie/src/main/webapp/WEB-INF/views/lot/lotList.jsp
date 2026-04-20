@@ -159,7 +159,6 @@
                         <th>lot당제품개수</th>
                         <th>작업지시번호</th>
                         <th>품질체크전후번호</th>
-                        <th>자재관리번호</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -171,7 +170,6 @@
                             </td>
                             <td data-label="작업지시번호">${l.order_num}</td>
                             <td data-label="품질체크전후번호">${l.qc_chk}</td>
-                            <td data-label="자재관리번호">${l.material_num}</td>
                         </tr>
                     </c:forEach>
                 </tbody>

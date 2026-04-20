@@ -34,8 +34,7 @@ public class LotDAO {
 							+ 		"SELECT l.lot_num, "
 							+ "(l.lot_count - NVL(d.count, 0)) AS lot_count, "
 							+ "l.order_num, "
-							+ "l.qc_chk, "
-							+ "l.material_num "
+							+ "l.qc_chk "
 							+ "from lot l "
 							+ "LEFT JOIN ( "
 							+ "SELECT lot_num, SUM(count) AS count "
@@ -63,14 +62,12 @@ public class LotDAO {
 				LotDTO DTO = new LotDTO();
 				int lot_num = rs.getInt("lot_num");
 				int lot_count = rs.getInt("lot_count");
-				int material_num = rs.getInt("material_num");
 				int order_num = rs.getInt("order_num");
 				String qc_chk = rs.getString("qc_chk");
 				
 				DTO.setOrder_num(order_num);
 				DTO.setLot_num(lot_num);
 				DTO.setLot_count(lot_count);
-				DTO.setMaterial_num(material_num);
 				DTO.setOrder_num(order_num);
 				DTO.setQc_chk(qc_chk);
 				list.add(DTO);
@@ -119,8 +116,7 @@ public class LotDAO {
 			String query = "SELECT l.lot_num, "
 						+ "(l.lot_count - NVL(d.count, 0)) AS lot_count, "
 						+ "l.order_num, "
-						+ "l.qc_chk, "
-						+ "l.material_num "
+						+ "l.qc_chk "
 						+ "from lot l "
 						+ "LEFT JOIN ( "
 						+ "SELECT lot_num, SUM(count) AS count "
@@ -141,14 +137,12 @@ public class LotDAO {
 				LotDTO DTO = new LotDTO();
 				int lot_num = rs.getInt("lot_num");
 				int lot_count = rs.getInt("lot_count");
-				int material_num = rs.getInt("material_num");
 				int order_num = rs.getInt("order_num");
 				String qc_chk = rs.getString("qc_chk");
 				
 				DTO.setOrder_num(order_num);
 				DTO.setLot_num(lot_num);
 				DTO.setLot_count(lot_count);
-				DTO.setMaterial_num(material_num);
 				DTO.setOrder_num(order_num);
 				DTO.setQc_chk(qc_chk);
 				list.add(DTO);
@@ -181,8 +175,134 @@ public class LotDAO {
 		}
 		return list;
 	}
+	public List<WorkOrderDTO> selectalll(LotDTO dto) {
+		List<WorkOrderDTO> list = new ArrayList();
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			Context ctx = new InitialContext();
+			
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+			conn = dataFactory.getConnection();
+			String query = "SELECT * from work_order ";
+					if(dto.getOrder_num() != -1) {
+						query += "where order_num = ?";
+					}
+			
+			ps = conn.prepareStatement(query);
+			
+			if(dto.getOrder_num() != -1) {
+				ps.setInt(1, dto.getOrder_num());
+			}
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				WorkOrderDTO DTO = new WorkOrderDTO();
+				int order_num = rs.getInt("order_num");
+				int daily_target = rs.getInt("daily_target");
+				String work_order_title = rs.getString("work_order_title");
+				
+				DTO.setOrder_num(order_num);
+				DTO.setDaily_target(daily_target);
+				DTO.setWork_order_title(work_order_title);
+				list.add(DTO);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
 	
-public int lotDAO(LotDTO dto) {
+	public WorkOrderDTO selectallll(LotDTO dto) {
+		WorkOrderDTO result = null;
+		
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			Context ctx = new InitialContext();
+			
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+			conn = dataFactory.getConnection();
+			String query = "SELECT * from work_order ";
+					if(dto.getOrder_num() != -1) {
+						query += "where order_num = ?";
+					}
+			
+			ps = conn.prepareStatement(query);
+			
+			if(dto.getOrder_num() != -1) {
+				ps.setInt(1, dto.getOrder_num());
+			}
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				WorkOrderDTO DTO = new WorkOrderDTO();
+				int order_num = rs.getInt("order_num");
+				int daily_target = rs.getInt("daily_target");
+				String work_order_title = rs.getString("work_order_title");
+				
+				DTO.setOrder_num(order_num);
+				DTO.setDaily_target(daily_target);
+				DTO.setWork_order_title(work_order_title);
+				result = DTO;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+	
+public int lotDAO(LotDTO dto, WorkOrderDTO woDTO) {
 		
 		int result = -1;
 		
@@ -212,13 +332,13 @@ public int lotDAO(LotDTO dto) {
 			}
 			// 인서트
 			if("add".equals(dto.getMod())) {
-				 query = "INSERT INTO lot "//아직안만듬
+				 query = "INSERT INTO lot "
 					   + "(lot_num, "
 					   + "lot_count, "
 					   + "order_num, "
 					   + "qc_chk, "
-					   + "material_num) "
-					   + "VALUES (lot_seq.nextval, ?, ?, ?, ?)";
+					   + "empno) "
+					   + "  VALUES (lot_seq.nextval, ?, ?, ?, ?)";
 			}
 			// 딜리트
 			if("delete".equals(dto.getMod())) { //만드는중
@@ -240,10 +360,10 @@ public int lotDAO(LotDTO dto) {
 			
 			if("add".equals(dto.getMod())) {
 				System.out.println("addps");
-				ps.setInt(1, dto.getLot_count());
-				ps.setInt(2, dto.getOrder_num());
+				ps.setInt(1, woDTO.getDaily_target());
+				ps.setInt(2, woDTO.getOrder_num());
 				ps.setString(3, dto.getQc_chk());
-				ps.setInt(4, dto.getMaterial_num());
+				ps.setInt(4, woDTO.getEmpno());
 			}
 			
 			if("delete".equals(dto.getMod())) {

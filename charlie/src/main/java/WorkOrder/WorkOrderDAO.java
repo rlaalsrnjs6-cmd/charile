@@ -233,11 +233,15 @@ public class WorkOrderDAO {
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 			conn = dataFactory.getConnection();
 			String query = "SELECT * from work_order ";
-					
+					if(dto.getOrder_num() != -1) {
+						query += "where order_num = ?";
+					}
 			
 			ps = conn.prepareStatement(query);
 			
-			
+			if(dto.getOrder_num() != -1) {
+				ps.setInt(1, dto.getOrder_num());
+			}
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				WorkOrderDTO DTO = new WorkOrderDTO();
@@ -472,7 +476,7 @@ public class WorkOrderDAO {
 			}
 
 			ps.executeUpdate();
-			
+			System.out.println();
 			result = dto;
 
 			System.out.println("orderDAO:" + result);
@@ -505,69 +509,7 @@ public class WorkOrderDAO {
 		return result;
 	}
 
-	public int lotInsert(WorkOrderDTO wodto) {
-		int result = -1;
-		
-		Connection conn = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		try {
-			Context ctx = new InitialContext();
-			
-			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
-//			System.out.println("DAOMODselect:"+dto.getMod());
-			conn = dataFactory.getConnection();
-			String query = "insert into lot "
-					+ "(lot_num, lot_count, order_num, qc_date, qc_chk, empno) "
-					+ "values ( "
-					+ "lot_seq.nextval, "
-					+ "?, "
-					+ "?, "
-					+ "sysdate+9/24, "
-					+ "'Y', "
-					+ "?) ";
-			
-			
-			ps = conn.prepareStatement(query);
-			System.out.println("DAOlot1번::::::"+wodto.getDaily_target());
-			System.out.println("DAOlot2번::::::"+wodto.getOrder_num());
-			System.out.println("DAOlot3번::::::"+wodto.getEmpno());
-			ps.setInt(1, wodto.getDaily_target());
-			ps.setInt(2, wodto.getOrder_num());
-			ps.setInt(3, wodto.getEmpno());
-			
-			result = ps.executeUpdate();
-			
-			System.out.println("orderDAO:" + result);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (rs != null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (ps != null) {
-				try {
-					ps.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return result;
-	}
+	
 	public int ioInsert(WorkOrderDTO wodto, BomDTO dto) {
 		int result = -1;
 		

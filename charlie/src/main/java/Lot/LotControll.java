@@ -53,6 +53,7 @@ public class LotControll extends HttpServlet {
 		List<DefectiveDTO> defective = defectiveSv.selectall(defectiveDTO);
 		request.setAttribute("defective", defective);
 		request.setAttribute("map", list);
+		System.out.println(list);
 		System.out.println("디테일 들어가기전");
 		if ("detail".equals(mod)) {
 			System.out.println("들어갓나?");
@@ -137,26 +138,22 @@ public class LotControll extends HttpServlet {
 		response.setContentType("text/html; charset=utf-8;");
 
 		String sdefective_num = request.getParameter("defective_num");
-		String slot_count = request.getParameter("lot_count");
+//		String slot_count = request.getParameter("lot_count");
 		String sorder_num = request.getParameter("order_num");
 		String qc_chk = request.getParameter("qc_chk");
-		String smaterial_num = request.getParameter("material_num");
 		String mod = request.getParameter("mod");
 		System.out.println("up:" + mod);
-		int lot_count = Integer.parseInt(slot_count);
+//		int lot_count = Integer.parseInt(slot_count);
 		int order_num = Integer.parseInt(sorder_num);
-		int material_num = Integer.parseInt(smaterial_num);
-
 		LotDTO lotDTO = new LotDTO();
-		lotDTO.setLot_count(lot_count);
+//		lotDTO.setLot_count(lot_count);
 		lotDTO.setOrder_num(order_num);
 		lotDTO.setQc_chk(qc_chk);
-		lotDTO.setMaterial_num(material_num);
 		lotDTO.setMod(mod);
-
+		
 		LotService service = new LotService();
-
-		System.out.println("lotadd留덉�留�: " + service.lotService(lotDTO));
+		
+		service.lotService(lotDTO);
 
 		response.sendRedirect("lot");
 	}
