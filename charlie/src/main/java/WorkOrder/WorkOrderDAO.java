@@ -505,7 +505,7 @@ public class WorkOrderDAO {
 		return result;
 	}
 
-	public int lotInsert(WorkOrderDTO wodto, LotDTO dto) {
+	public int lotInsert(WorkOrderDTO wodto) {
 		int result = -1;
 		
 		Connection conn = null;
@@ -523,18 +523,19 @@ public class WorkOrderDAO {
 					+ "values ( "
 					+ "lot_seq.nextval, "
 					+ "?, "
-					+ "? "
-					+ "sysdate+9/24, "
 					+ "?, "
+					+ "sysdate+9/24, "
+					+ "'Y', "
 					+ "?) ";
 			
 			
 			ps = conn.prepareStatement(query);
-			
+			System.out.println("DAOlot1번::::::"+wodto.getDaily_target());
+			System.out.println("DAOlot2번::::::"+wodto.getOrder_num());
+			System.out.println("DAOlot3번::::::"+wodto.getEmpno());
 			ps.setInt(1, wodto.getDaily_target());
 			ps.setInt(2, wodto.getOrder_num());
-			ps.setString(3, dto.getQc_chk());
-			ps.setInt(4, wodto.getEmpno());
+			ps.setInt(3, wodto.getEmpno());
 			
 			result = ps.executeUpdate();
 			

@@ -86,7 +86,7 @@ public class WorkOrderService {
 //				bomDTO.getRequired_weight(); 필요량!
 				
 				dao.ioInsert(dto, bomDTO);
-				
+				dao.lotInsert(dto);
 			}
 		}
 		return list ;
