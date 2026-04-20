@@ -213,7 +213,7 @@ html, body {
 /* 4. 본문 영역 상단 여백 처리 */
 .mes-cont {
 	padding-top: 6.5rem; 
-	min-height: 100vh;
+/* 	min-height: 100vh; */
 }
 
 /* 5. 반응형 */
