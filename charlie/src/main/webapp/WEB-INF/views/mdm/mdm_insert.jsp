@@ -183,10 +183,6 @@
 			<input type="text" name="code" class="reg-in" value="AAABBC001">
 		</div>
 
-		<div class="reg-row">
-			<label class="reg-lb">수량 (Quantity)</label>
-			<input type="text" name="quantity" class="reg-in" value="1">
-		</div>
 
 		<div class="reg-row">
 			<label class="reg-lb">단위 (Unit)</label>

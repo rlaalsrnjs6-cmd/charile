@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Defective.DefectiveDTO;
+import Defective.DefectiveService;
 import Material.MaterialDTO;
 import Material.MaterialService;
 import WorkOrder.WorkOrderDTO;
@@ -38,13 +40,18 @@ public class LotControll extends HttpServlet {
 			lot_num = Integer.parseInt(slot_num);
 		}
 		LotDTO lotDTO = new LotDTO();
+		DefectiveDTO defectiveDTO = new DefectiveDTO();
 		CommonDTO pageing = new CommonDTO();
+		defectiveDTO.setLot_num(lot_num);
 		pageing.setSize(size);
 		pageing.setPage(page);
 		lotDTO.setLot_num(lot_num);
 		lotDTO.setMod(mod);
+		DefectiveService defectiveSv = new DefectiveService();
 		LotService service = new LotService();
 		Map list = service.select(lotDTO,pageing);
+		List<DefectiveDTO> defective = defectiveSv.selectall(defectiveDTO);
+		request.setAttribute("defective", defective);
 		request.setAttribute("map", list);
 		System.out.println("디테일 들어가기전");
 		if ("detail".equals(mod)) {

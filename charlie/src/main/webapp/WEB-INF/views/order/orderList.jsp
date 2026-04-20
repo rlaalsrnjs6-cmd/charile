@@ -175,16 +175,18 @@
 
 	<div class="mat-all">
 		<div class="ctrl-box">
-			<form class="sch-fm" action="order" method="get">
-				<input type="hidden" name="mod" value="list">
+			<form class="sch-fm" method="get" action="order">
+				<input type="hidden" name="mod" value="select">
 				
 				<select class="c-sel" name="time_filter">
 					<option value="total" ${param.time_filter == 'total' ? 'selected' : ''}>전체</option>
 					<option value="am" ${param.time_filter == 'am' ? 'selected' : ''}>오전</option>
 					<option value="pm" ${param.time_filter == 'pm' ? 'selected' : ''}>오후</option>
 				</select>
-				
-				<input type="text" class="c-in" name="search" placeholder="제목/날짜/작성자 검색" value="${param.search}">
+				<select class="c-sel" name="statustitle">S
+					<option value="Y" ${param.statustitle == 'Y' ? 'selected' : ''}>Y</option>
+					<option value="N" ${param.statustitle == 'N' ? 'selected' : ''}>N</option>
+				</select>
 				<button type="submit" class="btn-main">검색</button>
 			</form>
 		</div>

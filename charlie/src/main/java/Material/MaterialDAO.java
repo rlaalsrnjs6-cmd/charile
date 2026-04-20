@@ -72,13 +72,19 @@ public class MaterialDAO extends ParentDAO3<MaterialDTO, CommonDTO> {
 				   " SELECT tableA.material_num, "
 				 + " tableB.mdm_num, "
 				 + " tableB.code, tableB.name, tableB.unit, tableB.type, "
-				 + " SUM(tableB.quantity) AS total_quantity, "
-				 + " SUM(tableB.price * tableB.quantity) AS total_price, "
+				 
 				 + " tableC.warehouse_num, "
 				 + " tableC.wh_section, tableC.floor_level "
 				 + " FROM material tableA"
-				 + " JOIN mdm tableB ON tableA.mdm_num = tableB.mdm_num "
-				 + " JOIN warehouse tableC ON tableA.warehouse_num = tableC.warehouse_num ";
+				 + " JOIN mdm tableB "
+				 + " ON tableA.mdm_num = tableB.mdm_num "
+				 + " JOIN warehouse tableC "
+				 + " ON tableA.warehouse_num = tableC.warehouse_num "
+				 + " JOIN lot tableD "
+				 + " ON tableA";
+		
+		
+	    
 
 								    
 						   // 고정

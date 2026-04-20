@@ -122,12 +122,18 @@ public class DefectiveDAO {
 			conn = dataFactory.getConnection();
 			String query = "SELECT * from defective ";
 			if(dto.getDefective_num() != -1) {
-				query += "where lot_num = ?";
+				query += "where defective_num = ?";
+			}
+			if(dto.getLot_num() != -1) {
+				query += "where defective_num = ?";
 			}
 			ps = conn.prepareStatement(query);
 			
 			if(dto.getDefective_num() != -1) {
 				ps.setInt(1,dto.getDefective_num());
+			}
+			if(dto.getLot_num() != -1) {
+				ps.setInt(1,dto.getLot_num());
 			}
 			rs = ps.executeQuery();
 			
