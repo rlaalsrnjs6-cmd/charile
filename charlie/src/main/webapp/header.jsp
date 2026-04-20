@@ -294,7 +294,7 @@ html, body {
 		<div class="drop-box" id="dropBox">
 			<ul class="drop-grid">
 				<c:if test="${sessionScope.level < 3}">
-					<li><a href="${pageContext.request.contextPath}/select.report">리포트</a></li>
+					<li><a href="${pageContext.request.contextPath}/select.report">보고서 게시판</a></li>
 				</c:if>
 				<li><a href="${pageContext.request.contextPath}/notice/controller">공지사항</a></li>
 				<li><a href="${pageContext.request.contextPath}/mdm">기준관리</a></li>

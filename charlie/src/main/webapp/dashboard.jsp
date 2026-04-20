@@ -422,13 +422,17 @@ response.setContentType("text/html; charset=utf-8;");
 				return;
 			}
 			
+			//아작스 사용: checkbox 클릭하여 DB 값 바꾸기
+			// 비동기처리 해서 화면 깜박임 없이 데이터 베이스 수정하고 화면 변화
 			fetch('/charlie/LineUpdate', {
 			    method: 'POST',
 			    headers: {
+			    	//서버에 데이터 보낼 때 형식을 알려주는 로직
 			        'Content-Type': 'application/x-www-form-urlencoded',
 			    },
+			    //객체를 form 방식 문자열로 바꿔서 서버에 파라미터로 보내는 로직임
 			    body: new URLSearchParams({
-			        lineName: lineName,
+			        lineName: lineName, // 키값 : 벨류
 			        lineStatus: statusValue
 			    }) // <--- 객체 닫기
 			}) // <--- fetch 닫기
@@ -437,6 +441,7 @@ response.setContentType("text/html; charset=utf-8;");
 			        console.log("서버 응답 성공!"); 
 			        
 			        console.log("인덱스==" + `${index}`);
+			        //가동중이었으면 비가동으로 비가동이었으면 가동으로 span텍스트 변경
 			        const statusDiv = document.getElementById("status-text-" + index);
 			        statusDiv.innerHTML = isChecked ? "<span>가동 중</span>" : "<span>정지</span>";
 			        console.log("기계상태 DB업데이트 성공");
