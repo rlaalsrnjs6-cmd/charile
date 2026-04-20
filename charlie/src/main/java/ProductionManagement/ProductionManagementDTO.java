@@ -3,8 +3,8 @@ package ProductionManagement;
 import java.sql.Date;
 
 public class ProductionManagementDTO {
-	private int currentCount; //현재까지 만든 개수
-	private int remainCount; //남은 개수
+	private int currentCount; //�쁽�옱源뚯� 留뚮뱺 媛쒖닔
+	private int remainCount; //�궓�� 媛쒖닔
 	private int mdmNum;
 	private String mdmName;
 	String selectTitle;
@@ -25,6 +25,7 @@ public class ProductionManagementDTO {
 	String content;
 	String code;
 	int empno = 1;
+	int mdm_num;
 	
 	private int size = 10;
 	private int page = 1;
@@ -33,6 +34,12 @@ public class ProductionManagementDTO {
 	private int end = 0;
 	
 	
+	public int getMdm_num() {
+		return mdm_num;
+	}
+	public void setMdm_num(int mdm_num) {
+		this.mdm_num = mdm_num;
+	}
 	public int getMdmNum() {
 		return mdmNum;
 	}

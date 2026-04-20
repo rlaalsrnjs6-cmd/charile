@@ -278,6 +278,7 @@ html, body {
 				</c:if>
 				<li><a href="${pageContext.request.contextPath}/io">입출고이력</a></li>
 				<li><a href="${pageContext.request.contextPath}/io?cmd=total">자재관리</a></li>
+								<li><a href="${pageContext.request.contextPath}/mdm">기준관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/order">작업지시서</a></li>
 				<li><a href="${pageContext.request.contextPath}/production/management">생산관리</a></li>
 				
@@ -297,7 +298,7 @@ html, body {
 					<li><a href="${pageContext.request.contextPath}/select.report">보고서 게시판</a></li>
 				</c:if>
 				<li><a href="${pageContext.request.contextPath}/notice/controller">공지사항</a></li>
-				<li><a href="${pageContext.request.contextPath}/mdm">기준관리</a></li>
+
 				<li><a href="${pageContext.request.contextPath}/lot">로트관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/defective">불량관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/process">공정관리</a></li>
