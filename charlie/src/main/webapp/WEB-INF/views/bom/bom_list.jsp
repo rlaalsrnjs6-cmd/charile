@@ -204,7 +204,7 @@
 		<div class="ctrl-box">
 			<form class="sch-fm" action="bom?cmd=search" method="post" id="schForm">
 				<select class="c-sel" name="selectName">
-					<option value="" ${empty param.selectName ? 'selected' : ''}> 전체보기 </option>
+					<option value="" ${empty param.selectName ? 'selected' : ''}> ---------------전체보기-------------- </option>
 					<c:forEach var="item" items="${ list }">
 						<c:if test="${ item.type eq 'product' }">
 							<option value="${ item.name }" ${param.selectName == item.name ? 'selected' : ''}> ${ item.name } </option>
@@ -246,7 +246,10 @@
 		
 		<jsp:include page="/WEB-INF/views/paging.jsp" />
 		
-		<a class="btn-main btn-wr" href="bom?cmd=insertPage">등록페이지로</a>
+		<c:if test="${sessionScope.level < 3 }">
+			<a class="btn-main btn-wr" href="bom?cmd=insertPage">작성하기</a>
+		</c:if>
+		
 	</div>
 
 	<%@ include file="/footer.jsp" %>

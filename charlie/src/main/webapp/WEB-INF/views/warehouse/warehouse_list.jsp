@@ -168,7 +168,7 @@
         <div class="ctrl-box">
             <form class="flt-fm" action="warehouse?cmd=search" method="post">
                 <select class="c-sel" name="selectName">
-                    <option value="" ${empty param.selectName ? 'selected' : ''}> 전체보기 </option>
+                    <option value="" ${empty param.selectName ? 'selected' : ''}> --전체보기-- </option>
                     <c:forEach var="item" items="${ map.select1 }"> 
                         <option value="${item.wh_section}" ${param.selectName == item.wh_section ? 'selected' : ''}>${ item.wh_section }</option>
                     </c:forEach>

@@ -73,6 +73,7 @@ public class charile_filter implements Filter {
 				if("add".equals(mod)||"add".equals(dto.getMod())) {
 					chain.doFilter(request, response);
 				}
+//				resp.sendRedirect(req.getContextPath() + "/charlie");
 				resp.sendRedirect(req.getContextPath() + "/charlie");
 				return;
 				

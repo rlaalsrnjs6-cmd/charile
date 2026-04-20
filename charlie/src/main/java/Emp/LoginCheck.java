@@ -58,9 +58,9 @@ public class LoginCheck extends HttpServlet {
 				session.setAttribute("level", empList.get(0).getEmp_level());
 				Integer level = (Integer) session.getAttribute("level");
 				if(level==1) {
-					response.sendRedirect("emp");
+					response.sendRedirect("main");
 				} else {
-					response.sendRedirect("order");
+					response.sendRedirect("main");
 				}
 			}
 		} 

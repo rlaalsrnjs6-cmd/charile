@@ -16,10 +16,6 @@ response.setContentType("text/html; charset=utf-8;");
 <body>
 	<%@ include file="header.jsp"%>
 
-	<div id="dashboard-section">
-		<%@ include file="dashboard.jsp"%>
-	</div>
-
 
 	<c:choose>
 		<c:when test="${sessionScope.level == 1 || sessionScope.level eq '1'}">
@@ -29,6 +25,14 @@ response.setContentType("text/html; charset=utf-8;");
 		</c:when>
 
 	</c:choose>
+	
+	
+	<div id="dashboard-section">
+		<%@ include file="dashboard.jsp"%>
+	</div>
+
+
+
 
 
 
