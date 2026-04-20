@@ -28,6 +28,7 @@ public class DashBoardController extends HttpServlet {
         
         // 3. ★ 중요: JSP에서 헷갈리지 않게 각각 다른 이름으로 setAttribute
         request.setAttribute("dashData", dMap);
+        
         request.setAttribute("chartData", cMap);
         
         // 4. main.jsp로 이동

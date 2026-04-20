@@ -6,17 +6,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%-- 차트 전용 맵으로 재정의 --%>
+
+<%-- 도넛 차트와 매출 차트 모두를 살리는 핵심 생명줄 --%>
 <c:set var="map" value="${chartData}" scope="request" />
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MES 경영 분석 리포트</title>
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <style>
     :root {
         --c-main: #4B2C20;
@@ -27,23 +27,14 @@
         --c-text-gray: #7f8c8d;
         --c-border: #e0e6ed;
     }
-
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
         background-color: var(--c-bg);
         color: var(--c-text);
         font-family: 'Noto Sans KR', sans-serif;
         padding: 2vw;
     }
-
-    .wrap {
-        max-width: 1400px;
-        margin: 0 auto;
-    }
+    .wrap { max-width: 1400px; margin: 0 auto; }
     .top-head {
         font-size: 2rem;
         font-weight: bold;
@@ -53,14 +44,12 @@
         padding-bottom: 1rem;
         border-bottom: 2px solid var(--c-main);
     }
-
     .grid-box {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 2vw;
         margin-bottom: 2vw;
     }
-
     .card {
         background: var(--c-card);
         border-radius: 0.8rem;
@@ -73,61 +62,15 @@
         margin-bottom: 1.5rem;
         color: var(--c-text);
     }
-
-    .chart-info {
-        text-align: center;
-        margin-top: 1.5rem;
-        font-size: 1.1rem;
-    }
-    .chart-info strong {
-        color: #43A047; 
-        font-size: 1.3rem;
-    }
-    .chart-desc {
-        font-size: 0.9rem;
-        color: var(--c-text-gray);
-        margin-top: 0.5rem;
-    }
-
-    .rank-list {
-        list-style: none;
-    }
-    .rank-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 1.2rem;
-    }
-    .rank-name {
-        width: 30%;
-        font-weight: 500;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .rank-bar-bg {
-        width: 50%;
-        height: 1.8rem;
-        background-color: var(--c-border);
-        border-radius: 0.3rem;
-        margin: 0 1rem;
-        overflow: hidden;
-    }
-    .rank-bar-fill {
-        height: 100%;
-        background-color: var(--c-sub); 
-        display: flex;
-        align-items: center;
-        padding-left: 0.5rem;
-        color: #fff;
-        font-size: 0.85rem;
-    }
-    .rank-val {
-        width: 20%;
-        text-align: right;
-        font-size: 0.95rem;
-        color: var(--c-text-gray);
-    }
-
+    .chart-info { text-align: center; margin-top: 1.5rem; font-size: 1.1rem; }
+    .chart-info strong { color: #43A047; font-size: 1.3rem; }
+    .chart-desc { font-size: 0.9rem; color: var(--c-text-gray); margin-top: 0.5rem; }
+    .rank-list { list-style: none; }
+    .rank-item { display: flex; align-items: center; margin-bottom: 1.2rem; }
+    .rank-name { width: 30%; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .rank-bar-bg { width: 50%; height: 1.8rem; background-color: var(--c-border); border-radius: 0.3rem; margin: 0 1rem; overflow: hidden; }
+    .rank-bar-fill { height: 100%; background-color: var(--c-sub); display: flex; align-items: center; padding-left: 0.5rem; color: #fff; font-size: 0.85rem; }
+    .rank-val { width: 20%; text-align: right; font-size: 0.95rem; color: var(--c-text-gray); }
     @media (max-width: 900px) {
         .grid-box { grid-template-columns: 100%; }
         .rank-name { width: 35%; }
@@ -141,7 +84,8 @@
 <%-- JSTL 연산 영역 --%>
 <c:set var="productTotalPrice" value="0" />
 <c:forEach var="i" items="${map.product }">
-    <c:set var="productTotalPrice" value="${productTotalPrice + i.mdmPrice }"/>
+    <%-- 총 매출액(totalSales)으로 합산 --%>
+    <c:set var="productTotalPrice" value="${productTotalPrice + i.totalSales }"/>
 </c:forEach>
 
 <c:set var="allPrice" value="${map.sal * 10000 }" />
@@ -157,7 +101,6 @@
 </c:forEach>
 
 <c:set var="totalM" value="${ (allPrice + assembleTotalPrice + materialTotalPrice)*1.25 }"/>
-
 
 <div class="wrap">
     <div class="top-head">경영 분석 리포트</div>
@@ -196,17 +139,27 @@
 </div>
 
 <script>
-    // 1. 제품 데이터를 배열에 따로 담기
-    const productArr = [];
+    // 1. 제품 데이터를 배열에 담기 전에 '같은 제품끼리 합산' (let 선언 오류 해결)
+    const productMap = {};
     <c:forEach var="item" items="${map.product}">
-        productArr.push({
-            mdmName: "${item.mdmName}",
-            mdmPrice: Number("${item.mdmPrice}")
-        });
+        if(productMap["${item.mdmName}"]) {
+            productMap["${item.mdmName}"] += Number("${item.totalSales}");
+        } else {
+            productMap["${item.mdmName}"] = Number("${item.totalSales}");
+        }
     </c:forEach>
 
-    // 2. price 높은 순으로 정렬
-    productArr.sort((a, b) => b.mdmPrice - a.mdmPrice);
+    // 맵(Map) 형태로 합산된 데이터를 다시 배열(Array)로 변환
+    const productArr = [];
+    for(let key in productMap) {
+        productArr.push({
+            mdmName: key,
+            totalSales: productMap[key]
+        });
+    }
+
+    // 2. 총 매출액(totalSales) 높은 순으로 정렬
+    productArr.sort((a, b) => b.totalSales - a.totalSales);
 
     // 3. 상위 3개 출력
     const totalPPrice = Number('${productTotalPrice}') || 1;
@@ -214,10 +167,9 @@
     let rankHtml = '';
 
     if (productArr.length > 0) {
-        // TOP 3만 추출
         const top3 = productArr.slice(0, 3);
         top3.forEach((item, index) => {
-            const percent = ((item.mdmPrice / totalPPrice) * 100).toFixed(1);
+            const percent = ((item.totalSales / totalPPrice) * 100).toFixed(1);
             rankHtml += `
                 <li class="rank-item">
                     <div class="rank-name">\${index + 1}위. \${item.mdmName}</div>
@@ -227,7 +179,7 @@
                         </div>
                     </div>
                     <div class="rank-val">
-                        \${item.mdmPrice.toLocaleString()} 원
+                        \${item.totalSales.toLocaleString()} 원
                     </div>
                 </li>`;
         });
@@ -236,7 +188,7 @@
         rankUl.innerHTML = '<p style="color:var(--c-text-gray);">판매 데이터가 없습니다.</p>';
     }
 
-    // --- 나머지 차트 로직 (매출추이 interaction 복구) ---
+    // --- 나머지 차트 로직 ---
     const salesTotal = Number('${productTotalPrice}'.replace(/,/g, '')) || 0;
     const expensesTotal = Number('${totalM}'.replace(/,/g, '')) || 0;
     const profitNet = Math.max(0, salesTotal - expensesTotal);
@@ -262,7 +214,7 @@
         profitNet
     ];
 
-    /* 매출 현황 선 그래프 - interaction 옵션 원복 */
+    /* 매출 현황 선 그래프 */
     const ctxSales = document.getElementById('salesLineChart').getContext('2d');
     new Chart(ctxSales, {
         type: 'line',
@@ -302,12 +254,10 @@
             responsive: true,
             maintainAspectRatio: false,
             interaction: {
-                mode: 'index',   // 마우스 근처 영역만 가도 정보 표시
-                intersect: false, // 정확히 포인트에 안 올라가도 표시
+                mode: 'index',
+                intersect: false,
             },
-            scales: { 
-                y: { beginAtZero: true } 
-            }
+            scales: { y: { beginAtZero: true } }
         }
     });
 
@@ -334,6 +284,5 @@
         }
     });
 </script>
-
 </body>
 </html>

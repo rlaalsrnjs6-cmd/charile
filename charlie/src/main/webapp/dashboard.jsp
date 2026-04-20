@@ -351,7 +351,7 @@ response.setContentType("text/html; charset=utf-8;");
 			</div>
 
 			<div class="personal-hygiene">
-				<span>금일 작업자 위생체크 <span class="worker-count">[총 ${fn:length(map.ph)}명]</span></span>
+				<span>금일 작업자 위생체크 <span class="worker-count">[총 ${fn:length(dashData.ph)}명]</span></span>
 				<table>
 					<tr>
 						<th>사원번호</th>
@@ -359,7 +359,7 @@ response.setContentType("text/html; charset=utf-8;");
 						<th>체온</th>
 						<th>위생체크</th>
 					</tr>
-					<c:forEach var="h" items="${map.ph}">
+					<c:forEach var="h" items="${dashData.ph}">
 						<tr>
 							<td>${h.empno}</td>
 							<td>${h.ename }</td>
