@@ -161,7 +161,7 @@ public abstract class ParentDAO4<T, C> {
 	}
 
 	// DB link
-	private Connection getConn() {
+	protected Connection getConn() {
 		Connection conn = null;
 		try {
 			Context ctx = new InitialContext();

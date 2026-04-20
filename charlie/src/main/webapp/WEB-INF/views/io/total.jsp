@@ -1,15 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
     
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*"%>
 <%@ page import="Mdm.MdmDTO"%> 
 <%@ page import="fileLibrary.CommonDTO"%> 
-    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>mdm list</title>
+<title>Insert title here</title>
+
 <style>
 	/* [1] 기본 초기화 */
 	* {
@@ -251,107 +252,46 @@
 </style>
 </head>
 <body>
+
 <%@ include file="/header.jsp" %>
 
 <div class="mdm-all">
-	<div class="ctrl-box">
-<!-- 		<form class="flt-fm" action="mdm?cmd=search" method="post" onsubmit="return validateSearch(this)"> -->
-			
-<!-- 			<div class="left-box"> -->
-<!-- 				<select class="c-sel" name="selectName"> -->
-<%-- 					<option value="" ${empty param.selectName ? 'selected' : ''}> --전체보기-- </option> --%>
-<%-- 					<c:forEach var="item" items="${ map.select1 }">  --%>
-<%-- 						<option value="${item.type}" ${param.selectName == item.type ? 'selected' : ''}> --%>
-<%-- 							<c:if test="${ item.type eq 'assemble' }">반제품</c:if> --%>
-<%-- 							<c:if test="${ item.type eq 'equip' }">장비</c:if> --%>
-<%-- 							<c:if test="${ item.type eq 'material' }">원재료</c:if> --%>
-<%-- 							<c:if test="${ item.type eq 'product' }">제품</c:if> --%>
-<!-- 						</option> -->
-<%-- 					</c:forEach> --%>
-<!-- 				</select> -->
-			
-<!-- 				<select class="c-sel" name="selectChk"> -->
-<%-- 					<option value="" ${empty param.selectChk ? 'selected' : ''}> --확인상태-- </option> --%>
-<%-- 					<c:forEach var="item" items="${ map.select2 }">   --%>
-<%-- 						<option value="${item.canUse}" ${param.selectChk == item.canUse ? 'selected' : ''}>${ item.canUse }</option> --%>
-<%-- 					</c:forEach> --%>
-<!-- 				</select> -->
-			
-<!-- 				<input class="btn-main" type="submit" value="분류검색"> -->
-<!-- 			</div> -->
-			
-<!-- 			<div class="right-box"> -->
-<!-- 				<select class="c-sel" name="search_select"> -->
-<%-- 					<option value="search_all" ${param.search_select == 'search_all' || empty param.search_select ? 'selected' : ''}>전체</option> --%>
-<%-- 					<option  value="code" ${param.search_select == 'code' ? 'selected' : ''}>코드</option> --%>
-<%-- 					<option value="name" ${param.search_select == 'name' ? 'selected' : ''}>명칭</option> --%>
-<%-- 					<option value="unit" ${param.search_select == 'unit' ? 'selected' : ''}>기준단위</option> --%>
-<%-- 					<option value="type" ${param.search_select == 'type' ? 'selected' : ''}>타입</option> --%>
-<!-- 				</select> -->
 
-<%-- 				<input class="c-in" name="search_content" placeholder="검색어를 입력하세요" value="${param.search_content}"> --%>
-<!-- 				<input class="btn-main" type="submit" value="상세검색"> -->
-<!-- 			</div> -->
-<!-- 		</form> -->
-	</div>
-	
-	<div class="tb-wrap">
-		<table class="mdm-tb">
-			<thead>
-				<tr>
-					<th>이름</th>
-					<th>관리번호</th>
-					<th>자재량</th>
-					<th>구분</th>
-					<th>저장위치</th>
-					<th>입/출고날짜</th>
-					<th>사용기한</th>
-				</tr>
-			</thead>
+    <h1 style="margin-bottom:2vh; color:#4B2C20;">자재관리</h1>
 
-			<tbody>
-			<c:forEach var="row" items="${ map.list }">
-				<tr>
-					<td data-label="관리번호">${ row.io_num }</td>
-					<td data-label="명칭">
-<%-- 						<a href="io?cmd=detail&io_num=${ row.mdm_num }"> --%>
-							 ${ row.code }: ${ row.name }
-<!-- 						</a> -->
-					</td>
-					<td data-label="자재량">${ row.quantity }${ row.unit }</td>
-					<td data-label="관리코드">
-						${ row.io_type eq 'IN' ? '입고' : '출고' }
-					</td>
-					<td data-label="관리코드">${ row.storage_sec }</td>
-					<td data-label="관리코드">${ row.io_date }</td>
-					<td data-label="관리코드">${ row.exp_date }</td>
-	
-					<td data-label="코드"></td>
-				</tr>
-			</c:forEach>
-			</tbody>
-		</table>
-	</div>
-			
-	<jsp:include page="/WEB-INF/views/paging.jsp" />
-		
-<%-- 	<c:if test="${sessionScope.level < 3 }"> --%>
-		<a class="btn-main btn-wr" href="${servletName}?cmd=insertPage">등록하기</a>
-<%-- 	</c:if> --%>
+    <div class="tb-wrap">
+        <table class="mdm-tb">
+            <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>자재총량</th>
+                    <th>총금액</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <c:forEach var="row" items="${list}">
+                    <tr>
+                        <td data-label="이름">
+                            ${row.name}
+                        </td>
+
+                        <td data-label="자재총량">
+                            ${row.total_quantity}${ unit }
+                        </td>
+
+                        <td data-label="총금액(원)">
+                            <fmt:formatNumber value="${row.total_price}" pattern="#,###"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </tbody>
+        </table>
+    </div>
+
 </div>
 
 <%@ include file="/footer.jsp" %>
 
-<script>
-	function validateSearch(form) {
-		const searchInput = form.search_content.value.trim();
-		if (form.search_select.value !== 'search_all' && searchInput === "") {
-			alert("검색어를 입력해주세요.");
-			form.search_content.focus();
-			return false;
-		}
-		return true;
-	}
-</script>
 </body>
 </html>
