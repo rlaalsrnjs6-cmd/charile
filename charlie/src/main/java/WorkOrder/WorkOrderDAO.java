@@ -531,10 +531,10 @@ public class WorkOrderDAO {
 			
 			ps = conn.prepareStatement(query);
 			
-			ps.setInt(1, wodto.lot_num());
-			ps.setInt(2, dto.getMdm_num());
-			ps.setInt(3, dto.getMdm_num());
-			ps.setInt(4, dto.getMdm_num());
+			ps.setInt(1, wodto.getDaily_target());
+			ps.setInt(2, wodto.getOrder_num());
+			ps.setString(3, dto.getQc_chk());
+			ps.setInt(4, wodto.getEmpno());
 			
 			result = ps.executeUpdate();
 			
