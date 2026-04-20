@@ -65,25 +65,26 @@ public class LotControll extends HttpServlet {
 			lotDelete(request, response);
 			return;
 		} else {
+			System.out.println("입장~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			WorkOrderService ordersv = new WorkOrderService();
 			MaterialService materialsv = new MaterialService();
 			WorkOrderDTO orderDTO = new WorkOrderDTO();
 			MaterialDTO materialDTO = new MaterialDTO();
 			List<LotDTO> lot = service.selectall(lotDTO);
-			List order = ordersv.selectall(orderDTO);
+			List order = ordersv.selectalll(orderDTO);
 			List material = materialsv.selectall(materialDTO);
 			request.setAttribute("order", order);
 			request.setAttribute("material", material);
 			request.setAttribute("lot", lot);
-			
-			if ("up".equals(mod)) {
-				request.getRequestDispatcher("WEB-INF/views/lot/lotUp.jsp").forward(request, response);
-				return;
-			} else if ("add".equals(mod)) {
-				
-				request.getRequestDispatcher("WEB-INF/views/lot/lotAdd.jsp").forward(request, response);
-				return;
-			}
+			System.out.println("lot에 order"+order);
+				if ("up".equals(mod)) {
+					request.getRequestDispatcher("WEB-INF/views/lot/lotUp.jsp").forward(request, response);
+					return;
+				} else if ("add".equals(mod)) {
+					System.out.println("lotadd");
+					request.getRequestDispatcher("WEB-INF/views/lot/lotAdd.jsp").forward(request, response);
+					return;
+				}
 		}
 		request.getRequestDispatcher("WEB-INF/views/lot/lotList.jsp").forward(request, response);
 	}
