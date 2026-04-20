@@ -3,11 +3,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import Bom.BomDTO;
 import Mdm.MdmDTO;
 import fileLibrary.CommonDTO;
 import fileLibrary.ParentDAO3;
@@ -87,7 +90,7 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 			dto.setCode(rs.getString("code"));
 			} catch (SQLException e) {
 			e.printStackTrace();
-				System.out.println("name 없음!");
+				System.out.println("name �뾾�쓬!");
 			}
 			
 		return dto;
@@ -102,7 +105,7 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
                 + " ON tableA.mdm_num = tableB.mdm_num ";
 	    			
 	    
-	    // 고정
+	    // 怨좎젙
 	    String where = commonDTO.getWhere();
 	    if(("".equals(commonDTO.getWhere()))) where = "WHERE 1 = 1";  
 
@@ -112,7 +115,7 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 	    }
 
 	    String groupBy = "";
-	    // 추가 조건 붙일 때
+	    // 異붽� 議곌굔 遺숈씪 �븣
 	    query += where 
 	    	  +  where2
 	    	  + groupBy;
@@ -127,7 +130,7 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 		    if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();  
 		    		
 		    
-		String query = // 고정 사용
+		String query = // 怨좎젙 �궗�슜
 					"SELECT * FROM ( "
                 + "  SELECT rownum AS rnum, subqry.* FROM ( "
 				+ 	 innerQuery(dto, commonDTO)
@@ -154,7 +157,7 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 		dto.setName(rs.getString("name"));
 		dto.setCode(rs.getString("code"));
 		
-		System.out.println("setJoinDTO 정상 작동");
+		System.out.println("setJoinDTO �젙�긽 �옉�룞");
 		System.out.println(dto.getName());
 		return dto;
 	}
@@ -167,15 +170,87 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 		ps.setInt(2, commonDTO.getEnd());
 		return ps;
 	}
+	
+	
+	
+	
+////////////////////////////////민권///////////////////////////////////////////////
+	public List<ProcessDTO> selectall(ProcessDTO dto) {
+		List<ProcessDTO> list = new ArrayList();
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			Context ctx = new InitialContext();
+
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+			conn = dataFactory.getConnection();
+			String query = " select * from process ";
+
+			ps = conn.prepareStatement(query);
+
+			rs = ps.executeQuery();
+
+			while (rs.next()) {
+				ProcessDTO DTO = new ProcessDTO();
+				int flow = rs.getInt("flow");
+				String process_content = rs.getString("process_content");
+				String img_url = rs.getString("img_url");
+
+				DTO.setFlow(flow);
+				DTO.setProcess_content(process_content);
+				DTO.setImg_url(img_url);
+				list.add(DTO);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	public int getTotalCount(ProcessDTO dto, CommonDTO commonDTO) {
 		
 		int total = 0;
 		
 		try {
-			//자원을 가지러 가기 위해 문을 열고
+			//�옄�썝�쓣 媛�吏��윭 媛�湲� �쐞�빐 臾몄쓣 �뿴怨�
 			Context ctx = new InitialContext();
-			//열어둔 문을 통해 어디로 갈지 경로를 정함
+			//�뿴�뼱�몦 臾몄쓣 �넻�빐 �뼱�뵒濡� 媛덉� 寃쎈줈瑜� �젙�븿
 	        DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 	        
 	        String query = "SELECT COUNT(*) FROM ( "
@@ -186,7 +261,7 @@ public class ProcessDAO extends ParentDAO3<ProcessDTO, CommonDTO>{
 	        	PreparedStatement ps = conn.prepareStatement(query);	
 	        		ResultSet rs = ps.executeQuery()){
 	        	
-	        	if(rs.next()) { // count 1줄 return
+	        	if(rs.next()) { // count 1以� return
 	        		total = rs.getInt(1);
 	        	}
 	        }

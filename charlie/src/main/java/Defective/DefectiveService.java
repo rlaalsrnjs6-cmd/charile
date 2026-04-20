@@ -52,8 +52,8 @@ public class DefectiveService {
         return map;
 	}
 		
-	public List<LotDTO> selectall(LotDTO dto){
-		LotDAO dao = new LotDAO();
+	public List<DefectiveDTO> selectall(DefectiveDTO dto){
+		DefectiveDAO dao = new DefectiveDAO();
 		List list = dao.selectall(dto);
 		return list;
 	}

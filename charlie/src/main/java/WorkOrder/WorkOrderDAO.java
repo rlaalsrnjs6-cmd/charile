@@ -28,13 +28,8 @@ public class WorkOrderDAO {
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 			conn = dataFactory.getConnection();
 			String query = "SELECT * from ( "
-							+ "SELECT rownum as rnum, subqry.* from ( "
-							+ 		"select * from work_order ";
-			
-							System.out.println("오전오후: "+dto.getTimefilter());
-			if(!("select".equals(dto.getMod())) && dto.getOrder_num() != -1) {
-				query += "where order_num = ? ";
-			}
+						+ "SELECT rownum as rnum, subqry.* from ( "
+						+ "SELECT * from work_order ";
 			
 			if("select".equals(dto.getMod()) && "am".equals(dto.getTimefilter())) {
 				System.out.println("셀렉트 오전");
@@ -55,16 +50,11 @@ public class WorkOrderDAO {
 				query+= "WHERE status = ? ";
 			}
 			
-			query +=" order by work_date asc "
-					+ " ) subqry) "
+			query += " ) subqry) "
 					+ " WHERE rnum >= ? AND rnum <= ? ";
 			//�닔�젙
 			ps = conn.prepareStatement(query);
 			int idx = 1;
-			if(!("select".equals(dto.getMod())) && dto.getOrder_num() != -1) {
-				
-				ps.setInt(idx++, dto.getOrder_num());
-			}
 			
 			if("select".equals(dto.getMod()) && ("Y".equals(dto.getStatustitle()) || "N".equals(dto.getStatustitle())) && !("total".equals(dto.getTimefilter()))) {
 				ps.setString(idx++, dto.getStatustitle());
@@ -85,14 +75,14 @@ public class WorkOrderDAO {
 				int empno = rs.getInt("empno");
 				String work_order_title = rs.getString("work_order_title");
 				String status = rs.getString("status");
-
+				
+				
 				DTO.setOrder_num(order_num);
 				DTO.setWork_date(work_date);
 				DTO.setProd_num(prod_num);
 				DTO.setDaily_target(daily_target);
 				DTO.setEmpno(empno);
 				DTO.setWork_order_title(work_order_title);
-				DTO.setStatus(status);
 				list.add(DTO);
 			}
 
@@ -124,6 +114,8 @@ public class WorkOrderDAO {
 		return list;
 	}
 	
+	
+	
 	public List<WorkOrderDTO> selectall(WorkOrderDTO dto) {
 		List<WorkOrderDTO> list = new ArrayList();
 		
@@ -136,28 +128,60 @@ public class WorkOrderDAO {
 			
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 			conn = dataFactory.getConnection();
-			String query = "SELECT * from work_order";
+			String query = "SELECT "
+						+ 		"wo.empno, "
+						+ 		"wo.status, "
+						+		"wo.order_num, "
+						+ 		"wo.work_date, "
+						+ 		"wo.work_order_title, "
+						+ 		"wo.daily_target, "
+						+ 		"m.code, "
+						+ 		"b.required_weight, "
+						+ 		"m.unit, "
+						+ 		"p.process_content, "
+						+ 		"p.flow, "
+						+ 		"p.img_url "
+						+ 	"FROM WORK_order wo "
+						+ 	"LEFT OUTER JOIN production_management pm ON (wo.prod_num = pm.prod_num) "
+						+ 	"LEFT OUTER JOIN mdm m ON (m.mdm_num = pm.mdm_num) "
+						+ 	"LEFT OUTER JOIN bom b ON (b.mdm_num = m.mdm_num) "
+						+ 	"LEFT OUTER JOIN process p ON (p.mdm_num = m.mdm_num) "
+						+ 	"LEFT OUTER JOIN emp e on(e.empno = wo.empno) " 
+						+ 	"where order_num = ? "
+						+ 	"ORDER BY p.flow ";
 			
 			ps = conn.prepareStatement(query);
-			rs = ps.executeQuery();
+	
+			ps.setInt(1, dto.getOrder_num());
 			
+			rs = ps.executeQuery();
 			while (rs.next()) {
 				WorkOrderDTO DTO = new WorkOrderDTO();
 				int order_num = rs.getInt("order_num");
-				Date work_date = rs.getDate("work_date");
-				int prod_num = rs.getInt("prod_num");
-				int daily_target = rs.getInt("daily_target");
 				int empno = rs.getInt("empno");
-				String work_order_title = rs.getString("work_order_title");
 				String status = rs.getString("status");
+				Date work_date = rs.getDate("work_date");
+				String work_order_title = rs.getString("work_order_title");
+				String code = rs.getString("code");
+				int required_weight = rs.getInt("required_weight");
+				int daily_target = rs.getInt("daily_target");
+				String unit = rs.getString("unit");
+				String process_content = rs.getString("process_content");
+				int flow = rs.getInt("flow");
+				String img_url = rs.getString("img_url");
 				
 				DTO.setOrder_num(order_num);
-				DTO.setWork_date(work_date);
-				DTO.setProd_num(prod_num);
-				DTO.setDaily_target(daily_target);
 				DTO.setEmpno(empno);
-				DTO.setWork_order_title(work_order_title);
 				DTO.setStatus(status);
+				DTO.setWork_date(work_date);
+				DTO.setWork_order_title(work_order_title);
+				DTO.setDaily_target(daily_target);
+				DTO.setCode(code);
+				DTO.setRequired_weight(required_weight);
+				DTO.setUnit(unit);
+				DTO.setProcess_content(process_content);
+				DTO.setFlow(flow);
+				DTO.setImg_url(img_url);
 				list.add(DTO);
 			}
 			
@@ -189,6 +213,9 @@ public class WorkOrderDAO {
 		return list;
 	}
 
+	
+	
+	
 	public int orderDAO(WorkOrderDTO dto) {
 
 		int result = -1;
