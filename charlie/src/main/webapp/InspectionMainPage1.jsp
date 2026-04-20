@@ -13,13 +13,13 @@
 
 상태:
 <input type="radio" name="status" value="전체"
-    ${param.status == '전체' || empty param.status ? 'checked' : ''}> 전체
+${param.status == '전체' || empty param.status ? 'checked' : ''}> 전체
 
 <input type="radio" name="status" value="완료"
-    ${param.status == '완료' ? 'checked' : ''}> 완료
+${param.status == '완료' ? 'checked' : ''}> 완료
 
 <input type="radio" name="status" value="미완료"
-    ${param.status == '미완료' ? 'checked' : ''}> 미완료
+${param.status == '미완료' ? 'checked' : ''}> 미완료
 
 <br><br>
 
@@ -35,29 +35,29 @@
 
 <table border="1">
 <tr>
-    <th>NO</th>
-    <th>검사 시간</th>
-    <th>이름</th>
-    <th>결과</th>
+    <th>EMPNO</th>
+    <th>REGIST_TIME</th>
+    <th>PH_NUM</th>
+    <th>WASHED</th>
 </tr>
 
 <c:choose>
 
 <c:when test="${empty list}">
 <tr>
-    <td colspan="4" style="color:red; text-align:center;">
-        ⚠ 검색 결과가 없습니다.
-    </td>
+<td colspan="4" style="color:red; text-align:center;">
+⚠ 검색 결과가 없습니다.
+</td>
 </tr>
 </c:when>
 
 <c:otherwise>
 <c:forEach var="dto" items="${list}">
 <tr>
-    <td>${dto.empno}</td>
-    <td>${dto.regist_time}</td>
-    <td>${dto.ph_num}</td>
-    <td>${dto.washed}</td>
+<td>${dto.EMPNO}</td>
+<td>${dto.REGIST_TIME}</td>
+<td>${dto.PH_NUM}</td>
+<td>${dto.WASHED}</td>
 </tr>
 </c:forEach>
 </c:otherwise>

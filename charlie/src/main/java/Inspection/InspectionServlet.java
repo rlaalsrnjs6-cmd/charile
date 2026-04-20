@@ -4,9 +4,16 @@ public class InspectionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        InspectionDAO dao = new InspectionDAO();
+        request.setCharacterEncoding("UTF-8");
 
-        List<Map<String, Object>> list = dao.getList();
+        String name = request.getParameter("name");
+        String status = request.getParameter("status");
+        String date = request.getParameter("date");
+
+        if (status == null) status = "전체";
+
+        InspectionService service = new InspectionService();
+        List<InspectionDTO> list = service.list(name, status, date);
 
         request.setAttribute("list", list);
 
