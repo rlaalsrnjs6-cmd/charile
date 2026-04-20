@@ -144,7 +144,11 @@
 			
 			<div class="reg-row">
 				<label class="reg-lb">LOT당 제품개수</label>
-				<input type="text" name="lot_count" class="reg-in" placeholder="숫자만 입력 가능합니다" inputmode="numeric">
+				<select name="order_num" class="reg-in">
+					<c:forEach var="o" items="${order}">
+						<option value="${o.daily_target}">${o.daily_target}</option>
+					</c:forEach>
+				</select>
 			</div>
 
 			<div class="reg-row">

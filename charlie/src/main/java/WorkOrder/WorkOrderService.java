@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Bom.BomDTO;
+import ProductionManagement.ProductionManagementDTO;
 import fileLibrary.CommonDTO;
 import io.IoDTO;
 
@@ -55,14 +57,36 @@ public class WorkOrderService {
 		List list = dao.selectall(dto);
 		return list;
 	}
-	
-	int orderService(WorkOrderDTO dto){
+	public List<WorkOrderDTO> selectalll(WorkOrderDTO dto){
 		WorkOrderDAO dao = new WorkOrderDAO();
-		int list = dao.orderDAO(dto);
+		List list = dao.selectalll(dto);
+		return list;
+	}
+	
+	WorkOrderDTO orderService(WorkOrderDTO dto){
+		ProductionManagementDTO pmDTO = new ProductionManagementDTO();
+		WorkOrderDAO dao = new WorkOrderDAO();
+		WorkOrderDTO list = dao.orderDAO(dto);
+		System.out.println("dljkdsalkjsdahlisaf"+dto.getProd_num());
+		ProductionManagementDTO pm = dao.selectMdm(dto);
+		System.out.println("pmpmpmpmpmpm:"+pm);
+		System.out.println("실행실행실행실행:::"+dto.getMod());
 		if ("add".equals(dto.getMod())) {
+			System.out.println("들어옴들어옴들어옴들어옴");
 			IoDTO ioDTO = new IoDTO();
-			ioDTO.setMdm_num()
-			dao.ioInsert(ioDTO);
+			ioDTO.setMdm_num(pm.getMdm_num()); // 제품 mdm_num
+			System.out.println("실행2실행2실행2");
+			List bomList = dao.selectBom(ioDTO); // bom mdm_num 필요량
+			System.out.println("실행3실행3실행3:"+bomList);
+			for( int i=0; i<bomList.size(); i++ ) {
+				System.out.println("실행4실4실행4");
+				System.out.println("인서트인서트인서트인서트인서트:::::"+bomList.get(i)); 
+				BomDTO bomDTO = (BomDTO)bomList.get(i);
+//				bomDTO.getMdm_num(); 재료
+//				bomDTO.getRequired_weight(); 필요량!
+				
+				dao.ioInsert(dto, bomDTO);
+			}
 		}
 		return list ;
 	}

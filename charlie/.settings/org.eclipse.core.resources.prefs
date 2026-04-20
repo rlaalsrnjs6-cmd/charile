@@ -21,6 +21,7 @@ encoding//src/main/java/PersonalHygiene/PersonalHygieneDAO.java=UTF-8
 encoding//src/main/java/Process/ProcessDAO.java=UTF-8
 encoding//src/main/java/Process/ProcessService.java=UTF-8
 encoding//src/main/java/ProductionManagement/ProductionManagementDAO.java=UTF-8
+encoding//src/main/java/ProductionManagement/ProductionManagementDTO.java=UTF-8
 encoding//src/main/java/ProductionManagement/ProductionManagementService.java=UTF-8
 encoding//src/main/java/QC/QCControll.java=UTF-8
 encoding//src/main/java/QC/QCDAO.java=UTF-8
