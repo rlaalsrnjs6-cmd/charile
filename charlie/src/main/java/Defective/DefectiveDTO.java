@@ -4,7 +4,7 @@ public class DefectiveDTO {
 	int defective_num = -1;
 	String category;
 	int count;
-	int lot_num;
+	int lot_num = -1;
 	String action;
 	int mdm_num;
 //	String status;

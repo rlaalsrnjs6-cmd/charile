@@ -2,7 +2,7 @@ package Process;
 
 public class ProcessDTO {
 	
-	int process_num;
+	int process_num = -1;
 	String process_content;
 	int flow;
 	String img_url;

@@ -31,10 +31,20 @@ public class LotDAO {
 			conn = dataFactory.getConnection();
 			String query = "SELECT * from ( "
 							+ "SELECT rownum as rnum, subqry.* from ( "
-							+ 		"select * from lot ";
+							+ 		"SELECT l.lot_num, "
+							+ "(l.lot_count - NVL(d.count, 0)) AS lot_count, "
+							+ "l.order_num, "
+							+ "l.qc_chk, "
+							+ "l.material_num "
+							+ "from lot l "
+							+ "LEFT JOIN ( "
+							+ "SELECT lot_num, SUM(count) AS count "
+							+ "from defective "
+							+ "group by lot_num "
+							+ ") d on l.lot_num = d. lot_num  ";
 
 			if(dto.getLot_num() != -1) {
-				query += "where lot_num = ?";
+				query += "where l.lot_num = ? ";
 			}
 			query +=") subqry) "
 					+ "WHERE rnum >= ? AND rnum <= ?";
@@ -106,9 +116,19 @@ public class LotDAO {
 			
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 			conn = dataFactory.getConnection();
-			String query = "SELECT * from lot ";
+			String query = "SELECT l.lot_num, "
+						+ "(l.lot_count - NVL(d.count, 0)) AS lot_count, "
+						+ "l.order_num, "
+						+ "l.qc_chk, "
+						+ "l.material_num "
+						+ "from lot l "
+						+ "LEFT JOIN ( "
+						+ "SELECT lot_num, SUM(count) AS count "
+						+ "from defective "
+						+ "group by lot_num "
+						+ ") d on l.lot_num = d. lot_num ";
 			if(dto.getLot_num()!=-1) {
-				query += "where lot_num = ?";
+				query += "where l.lot_num = ?";
 			}
 			ps = conn.prepareStatement(query);
 			

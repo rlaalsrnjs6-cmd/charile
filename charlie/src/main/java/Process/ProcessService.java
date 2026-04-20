@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import Bom.BomDAO;
+import Bom.BomDTO;
+import Lot.LotDAO;
 import Process.ProcessDTO;
 import fileLibrary.CommonDTO;
 import fileLibrary.ParentService2;
@@ -18,19 +21,19 @@ public class ProcessService extends ParentService2<ProcessDTO, CommonDTO> {
 
 		commonDTO.setTableName(processDAO.tableName());
 
-		// 페이지에서 보여줄 항목 몇개인지 개수 리턴
+		// �럹�씠吏��뿉�꽌 蹂댁뿬以� �빆紐� 紐뉕컻�씤吏� 媛쒖닔 由ы꽩
 		int totalCount = processDAO.getTotalCount(dto, commonDTO);
 
-		int size = commonDTO.getSize(); // 한 페이지에서 보여줄 개수
-		int page = commonDTO.getPage(); // 시작 페이지
+		int size = commonDTO.getSize(); // �븳 �럹�씠吏��뿉�꽌 蹂댁뿬以� 媛쒖닔
+		int page = commonDTO.getPage(); // �떆�옉 �럹�씠吏�
 
-		int section = commonDTO.getSection(); // N 페이지씩 하기
+		int section = commonDTO.getSection(); // N �럹�씠吏��뵫 �븯湲�
 
 		int start = 0, end = 0;
 
-		// 페이지에서 보여줄 마지막 번호
+		// �럹�씠吏��뿉�꽌 蹂댁뿬以� 留덉�留� 踰덊샇
 		end = size * page;
-		// 페이지에서 보여줄 시작 번호
+		// �럹�씠吏��뿉�꽌 蹂댁뿬以� �떆�옉 踰덊샇
 		start = end - (size - 1);
 
 		commonDTO.setEnd(end);
@@ -38,7 +41,7 @@ public class ProcessService extends ParentService2<ProcessDTO, CommonDTO> {
 		Map map = new HashMap();
 		
 		List list = processDAO.selectDB(dto, commonDTO);
-		System.out.println("서비스의 list: " + list);
+		System.out.println("�꽌鍮꾩뒪�쓽 list: " + list);
 
 		map.put("list", list); // list
 		map.put("totalCount", totalCount);
@@ -81,4 +84,12 @@ public class ProcessService extends ParentService2<ProcessDTO, CommonDTO> {
 		return processDAO.selectJoinInfo();
 	}
 
+	public List<ProcessDTO> selectall(ProcessDTO dto){
+		ProcessDAO dao = new ProcessDAO();
+		List list = dao.selectall(dto);
+		return list;
+	}
+	
+	
+	
 }

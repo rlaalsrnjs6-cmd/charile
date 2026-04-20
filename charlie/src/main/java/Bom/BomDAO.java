@@ -4,11 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import Lot.LotDTO;
 import Mdm.MdmDAO;
 import Mdm.MdmDTO;
 import fileLibrary.CommonDTO;
@@ -85,7 +88,7 @@ public class BomDAO extends ParentDAO3<BomDTO, CommonDTO>{
                 + " LEFT JOIN mdm tableC "
                 + " ON tableA.target_mdm_num = tableC.mdm_num ";
 	    			
-	    // 고정
+	    // 怨좎젙
 	    String where = commonDTO.getWhere();
 	    if(("".equals(where))) where = "where 1 = 1";  
 
@@ -96,7 +99,7 @@ public class BomDAO extends ParentDAO3<BomDTO, CommonDTO>{
 	    }
 	  
 	    String groupBy = "";
-	    // 추가 조건 붙일 때
+	    // 異붽� 議곌굔 遺숈씪 �븣
 	    query += where 
 	    	  +  where2
 	    	  + groupBy;
@@ -110,7 +113,7 @@ public class BomDAO extends ParentDAO3<BomDTO, CommonDTO>{
 		    if(("".equals(commonDTO.getOrderBy()))) orderBy = pk_Coulum_Name();
 		    
 		 
-			String query = // 고정 사용
+			String query = // 怨좎젙 �궗�슜
 						"SELECT * FROM ( "
 	                + "  SELECT rownum AS rnum, subqry.* FROM ( "
 	                + innerQuery(dto, commonDTO)
@@ -165,16 +168,89 @@ public class BomDAO extends ParentDAO3<BomDTO, CommonDTO>{
 		
 		return dto;
 	}
-
+////////////////////////////////민권///////////////////////////////////////////////
+	public List<BomDTO> selectall(BomDTO dto) {
+		List<BomDTO> list = new ArrayList();
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			Context ctx = new InitialContext();
+			
+			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+			conn = dataFactory.getConnection();
+			String query = " SELECT tableA.*, tableB.code, tableB.name, tableB.unit, tableB.type, tableC.name AS target_name, tableC.code AS target_code "
+						+" FROM bom tableA "
+						+ " LEFT OUTER JOIN mdm tableB "
+						+ " ON tableA.mdm_num = tableB.mdm_num "
+						+ " LEFT JOIN mdm tableC "
+						+ " ON tableA.target_mdm_num = tableC.mdm_num ";
+			
+			
+			
+			
+			ps = conn.prepareStatement(query);
+			
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				BomDTO DTO = new BomDTO();
+				int bom_num = rs.getInt("bom_num");
+				int required_weight = rs.getInt("required_weight");
+				String name = rs.getString("name");
+				String code = rs.getString("code");
+				String unit = rs.getString("unit");
+				
+				DTO.setBom_num(bom_num);
+				DTO.setRequired_weight(required_weight);
+				DTO.setName(name);
+				DTO.setCode(code);
+				DTO.setUnit(unit);
+				list.add(DTO);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
+	
+	
+	
+	
 	// Use paging 
 	public int getTotalCount(BomDTO dto, CommonDTO commonDTO) {
 		
 		int total = 0;
 		
 		try {
-			//자원을 가지러 가기 위해 문을 열고
+			//�옄�썝�쓣 媛�吏��윭 媛�湲� �쐞�빐 臾몄쓣 �뿴怨�
 			Context ctx = new InitialContext();
-			//열어둔 문을 통해 어디로 갈지 경로를 정함
+			//�뿴�뼱�몦 臾몄쓣 �넻�빐 �뼱�뵒濡� 媛덉� 寃쎈줈瑜� �젙�븿
 	        DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 	        
 	        String query = "SELECT COUNT(*) FROM ( "
@@ -185,7 +261,7 @@ public class BomDAO extends ParentDAO3<BomDTO, CommonDTO>{
 	        	PreparedStatement ps = conn.prepareStatement(query);	
 	        		ResultSet rs = ps.executeQuery()){
 	        	
-	        	if(rs.next()) { // count 1줄 return
+	        	if(rs.next()) { // count 1以� return
 	        		total = rs.getInt(1);
 	        	}
 	        }

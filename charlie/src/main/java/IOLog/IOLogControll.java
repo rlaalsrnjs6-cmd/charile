@@ -11,8 +11,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import Defective.DefectiveDTO;
+import Defective.DefectiveService;
 import Lot.LotDTO;
 import Lot.LotService;
+import Material.MaterialDTO;
+import Material.MaterialService;
 import fileLibrary.CommonDTO;
 
 @WebServlet("/log")
@@ -58,6 +62,14 @@ public class IOLogControll extends HttpServlet {
 			LotDTO LotDTO = new LotDTO();
 			LotService lotSV = new LotService();
 			List<LotDTO> lot = lotSV.selectall(LotDTO);
+			DefectiveDTO defectiveDTO = new DefectiveDTO();
+			DefectiveService defectiveSv = new DefectiveService();
+			List<DefectiveDTO> defective = defectiveSv.selectall(defectiveDTO);
+			MaterialDTO materialDTO = new MaterialDTO();
+			MaterialService materialSv = new MaterialService();
+			List<MaterialDTO> material = materialSv.selectall(materialDTO);
+			request.setAttribute("material", material);
+			request.setAttribute("defective", defective);
 			request.setAttribute("lot", lot);
 			if ("up".equals(mod)) {
 				request.getRequestDispatcher("WEB-INF/views/log/logUp.jsp").forward(request, response);

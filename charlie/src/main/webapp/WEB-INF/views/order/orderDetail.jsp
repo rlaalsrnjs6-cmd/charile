@@ -126,32 +126,67 @@
 
             <div class="dt-row">
                 <span class="dt-lb">작업지시번호</span>
-                <span class="dt-val">${map.list[0].order_num}</span>
+                <span class="dt-val">${order[0].order_num}</span>
             </div>
 
             <div class="dt-row">
                 <span class="dt-lb">제목</span>
-                <span class="dt-val">${map.list[0].work_order_title}</span>
+                <span class="dt-val">${order[0].work_order_title}</span>
+            </div>
+
+            <div class="dt-row">
+                <span class="dt-lb">코드</span>
+                <span class="dt-val">${order[0].code}</span>
+            </div>
+ 
+            <div class="dt-row">
+                <span class="dt-lb">단위</span>
+                <span class="dt-val">${order[0].unit}</span>
+            </div>
+ 
+            <div class="dt-row">
+                <span class="dt-lb">만들양</span>
+                <span class="dt-val">${order[0].required_weight}</span>
+            </div>
+          
+            <div class="dt-row">
+                <span class="dt-lb">과정</span>
+                <c:forEach var="o" items="${order}">
+                	<span class="dt-val">${o.flow}</span>
+                </c:forEach>
+            </div>
+          
+            <div class="dt-row">
+                <span class="dt-lb">공정내용</span>
+                <c:forEach var="o" items="${order}">
+                <span class="dt-val">${o.process_content}</span>
+                 <span class="dt-val">${order[0].img_url}</span>
+                </c:forEach>
+            </div>
+          
+            <div class="dt-row">
+                <span class="dt-lb">이미지</span>
+                <span class="dt-val">${order[0].img_url}</span>
             </div>
 
             <div class="dt-row">
                 <span class="dt-lb">작업실시날짜</span>
-                <span class="dt-val">${map.list[0].work_date}</span>
+                <span class="dt-val">${order[0].work_date}</span>
             </div>
 
             <div class="dt-row">
                 <span class="dt-lb">목표수량</span>
-                <span class="dt-val">${map.list[0].daily_target}</span>
+                <span class="dt-val">${order[0].daily_target}</span>
             </div>
 
             <div class="dt-row">
                 <span class="dt-lb">사원번호</span>
-                <span class="dt-val">${map.list[0].empno}</span>
+                <span class="dt-val">${order[0].empno}</span>
             </div>
 
             <div class="dt-row">
                 <span class="dt-lb">상태</span>
-                <span class="dt-val">${map.list[0].status}</span>
+                <span class="dt-val">${order[0].status}</span>
             </div>
 
             <%-- 버튼 영역 --%>

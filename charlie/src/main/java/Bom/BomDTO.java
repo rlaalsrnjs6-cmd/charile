@@ -3,13 +3,13 @@ package Bom;
 import Mdm.MdmDTO;
 
 public class BomDTO {
-	int bom_num;
-	int required_weight;
+	int bom_num = -1;
+	int required_weight;//¾ó¸¶³ª
 	int mdm_num;
 	
-	String name;
-	String code;
-	String unit;
+	String name;//¹¹°¡
+	String code;//¹¹°¡
+	String unit;//´ÜÀ§
 	String type;
 	
 	int target_mdm_num;
