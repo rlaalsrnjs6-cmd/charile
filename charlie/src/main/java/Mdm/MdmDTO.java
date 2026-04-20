@@ -13,7 +13,6 @@ public class MdmDTO {
 	Date exp_date;
 	
 	int price;
-	int quantity;
 	
 	String canUse;
 
@@ -24,12 +23,6 @@ public class MdmDTO {
 
 	public void setExp_date(Date exp_date) {
 		this.exp_date = exp_date;
-	}
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
 	}
 	public Date getReceived_date() {
 		return received_date;
@@ -84,6 +77,6 @@ public class MdmDTO {
 	public String toString() {
 		return "MdmDTO [mdm_num=" + mdm_num + ", code=" + code + ", name=" + name + ", unit=" + unit + ", type=" + type
 				+ ", received_date=" + received_date + ", exp_date=" + exp_date + ", price=" + price + ", quantity="
-				+ quantity + ", canUse=" + canUse + "]";
+			 + ", canUse=" + canUse + "]";
 	}
 }

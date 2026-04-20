@@ -99,8 +99,8 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 
 	@Override
 	protected String insertQuery() {
-		return "INSERT INTO mdm ( mdm_num, code, name, unit, type, quantity, price, canuse) " 
-				+ " VALUES ( mdm_seq.nextval, ?, ?, ?, ?, ?, ?, ?)";
+		return "INSERT INTO mdm ( mdm_num, code, name, unit, type, price, canuse) " 
+				+ " VALUES ( mdm_seq.nextval, ?, ?, ?, ?, ?, ?)";
 	}
 
 	@Override
@@ -110,10 +110,9 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 			ps.setString(2, dto.getName());
 			ps.setString(3, dto.getUnit());
 			ps.setString(4, dto.getType());
-			ps.setInt(5, dto.getQuantity());
-			ps.setInt(6, dto.getPrice());
-			ps.setString(7, dto.getCanUse());
-			if ("update".equals(selector)) { ps.setInt(8, dto.getMdm_num()); }
+			ps.setInt(5, dto.getPrice());
+			ps.setString(6, dto.getCanUse());
+			if ("update".equals(selector)) { ps.setInt(7, dto.getMdm_num()); }
 
 		return ps;
 	}
@@ -126,7 +125,6 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 				+ "	name = ?, "
 				+ "	unit = ?, "
 				+ "	type = ?, "
-				+ "	quantity = ?, "
 				+ " price = ?, "
 				+ " canuse = ? "
 				+ " where mdm_num = ? "
@@ -141,7 +139,6 @@ public class MdmDAO extends ParentDAO2<MdmDTO, CommonDTO> {
 			dto.setMdm_num(rs.getInt("mdm_num"));
 			dto.setCode(rs.getString("code"));
 			dto.setName(rs.getString("name"));
-			dto.setQuantity(rs.getInt("quantity"));
 			dto.setUnit(rs.getString("unit"));
 			dto.setType(rs.getString("type"));
 			dto.setPrice(rs.getInt("price"));

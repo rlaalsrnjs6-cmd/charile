@@ -238,7 +238,7 @@ public class MaterialControll extends HttpServlet {
 			
 			
 			
-			int size= 10, page= 1;
+			int size= 10, page= 1; 
 			
 			try {
 				size = Integer.parseInt(request.getParameter("size"));

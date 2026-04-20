@@ -255,44 +255,44 @@
 
 <div class="mdm-all">
 	<div class="ctrl-box">
-		<form class="flt-fm" action="mdm?cmd=search" method="post" onsubmit="return validateSearch(this)">
+<!-- 		<form class="flt-fm" action="mdm?cmd=search" method="post" onsubmit="return validateSearch(this)"> -->
 			
-			<div class="left-box">
-				<select class="c-sel" name="selectName">
-					<option value="" ${empty param.selectName ? 'selected' : ''}> --전체보기-- </option>
-					<c:forEach var="item" items="${ map.select1 }"> 
-						<option value="${item.type}" ${param.selectName == item.type ? 'selected' : ''}>
-							<c:if test="${ item.type eq 'assemble' }">반제품</c:if>
-							<c:if test="${ item.type eq 'equip' }">장비</c:if>
-							<c:if test="${ item.type eq 'material' }">원재료</c:if>
-							<c:if test="${ item.type eq 'product' }">제품</c:if>
-						</option>
-					</c:forEach>
-				</select>
+<!-- 			<div class="left-box"> -->
+<!-- 				<select class="c-sel" name="selectName"> -->
+<%-- 					<option value="" ${empty param.selectName ? 'selected' : ''}> --전체보기-- </option> --%>
+<%-- 					<c:forEach var="item" items="${ map.select1 }">  --%>
+<%-- 						<option value="${item.type}" ${param.selectName == item.type ? 'selected' : ''}> --%>
+<%-- 							<c:if test="${ item.type eq 'assemble' }">반제품</c:if> --%>
+<%-- 							<c:if test="${ item.type eq 'equip' }">장비</c:if> --%>
+<%-- 							<c:if test="${ item.type eq 'material' }">원재료</c:if> --%>
+<%-- 							<c:if test="${ item.type eq 'product' }">제품</c:if> --%>
+<!-- 						</option> -->
+<%-- 					</c:forEach> --%>
+<!-- 				</select> -->
 			
-				<select class="c-sel" name="selectChk">
-					<option value="" ${empty param.selectChk ? 'selected' : ''}> --확인상태-- </option>
-					<c:forEach var="item" items="${ map.select2 }">  
-						<option value="${item.canUse}" ${param.selectChk == item.canUse ? 'selected' : ''}>${ item.canUse }</option>
-					</c:forEach>
-				</select>
+<!-- 				<select class="c-sel" name="selectChk"> -->
+<%-- 					<option value="" ${empty param.selectChk ? 'selected' : ''}> --확인상태-- </option> --%>
+<%-- 					<c:forEach var="item" items="${ map.select2 }">   --%>
+<%-- 						<option value="${item.canUse}" ${param.selectChk == item.canUse ? 'selected' : ''}>${ item.canUse }</option> --%>
+<%-- 					</c:forEach> --%>
+<!-- 				</select> -->
 			
-				<input class="btn-main" type="submit" value="분류검색">
-			</div>
+<!-- 				<input class="btn-main" type="submit" value="분류검색"> -->
+<!-- 			</div> -->
 			
-			<div class="right-box">
-				<select class="c-sel" name="search_select">
-					<option value="search_all" ${param.search_select == 'search_all' || empty param.search_select ? 'selected' : ''}>전체</option>
-					<option  value="code" ${param.search_select == 'code' ? 'selected' : ''}>코드</option>
-					<option value="name" ${param.search_select == 'name' ? 'selected' : ''}>명칭</option>
-					<option value="unit" ${param.search_select == 'unit' ? 'selected' : ''}>기준단위</option>
-					<option value="type" ${param.search_select == 'type' ? 'selected' : ''}>타입</option>
-				</select>
+<!-- 			<div class="right-box"> -->
+<!-- 				<select class="c-sel" name="search_select"> -->
+<%-- 					<option value="search_all" ${param.search_select == 'search_all' || empty param.search_select ? 'selected' : ''}>전체</option> --%>
+<%-- 					<option  value="code" ${param.search_select == 'code' ? 'selected' : ''}>코드</option> --%>
+<%-- 					<option value="name" ${param.search_select == 'name' ? 'selected' : ''}>명칭</option> --%>
+<%-- 					<option value="unit" ${param.search_select == 'unit' ? 'selected' : ''}>기준단위</option> --%>
+<%-- 					<option value="type" ${param.search_select == 'type' ? 'selected' : ''}>타입</option> --%>
+<!-- 				</select> -->
 
-				<input class="c-in" name="search_content" placeholder="검색어를 입력하세요" value="${param.search_content}">
-				<input class="btn-main" type="submit" value="상세검색">
-			</div>
-		</form>
+<%-- 				<input class="c-in" name="search_content" placeholder="검색어를 입력하세요" value="${param.search_content}"> --%>
+<!-- 				<input class="btn-main" type="submit" value="상세검색"> -->
+<!-- 			</div> -->
+<!-- 		</form> -->
 	</div>
 	
 	<div class="tb-wrap">
@@ -300,30 +300,31 @@
 			<thead>
 				<tr>
 					<th>관리번호</th>
-					<th>기준코드</th>
-					<th>기준명칭</th>
-					<th>기준단위</th>
-					<th>타입</th>
-					<th>기준가격(원)</th>
-					<th>가용 여부</th>
+					<th>자재량</th>
+					<th>구분</th>
+					<th>저장위치</th>
+					<th>입/출고날짜</th>
+					<th>사용기한</th>
+					<th>이름</th>
+					<th>코드</th>
 				</tr>
 			</thead>
 
 			<tbody>
 			<c:forEach var="row" items="${ map.list }">
 				<tr>
-					<td data-label="관리번호">${ row.mdm_num }</td>
-					<td data-label="관리코드">${ row.code }</td>
+					<td data-label="관리번호">${ row.io_num }</td>
+					<td data-label="자재량">${ row.quantity } ${ row.unit }</td>
+					<td data-label="관리코드">${ row.io_type }</td>
+					<td data-label="관리코드">${ row.storage_sec }</td>
+					<td data-label="관리코드">${ row.io_date }</td>
+					<td data-label="관리코드">${ row.exp_date }</td>
 					<td data-label="명칭">
 						<a href="mdm?cmd=detail&mdm_num=${ row.mdm_num }">
-							<c:if test="${ empty row.name }"> Null </c:if>
-							<c:if test="${ not empty row.name }"> ${ row.name } </c:if>
+							 ${ row.name }
 						</a>
 					</td>
-					<td data-label="단위">${ row.unit }</td>
-					<td data-label="타입">${ row.type }</td>
-					<td data-label="가격">${ row.price }원</td>
-					<td data-label="가용 여부">${ row.canUse }</td>
+					<td data-label="코드">${ row.code }</td>
 				</tr>
 			</c:forEach>
 			</tbody>
@@ -332,9 +333,9 @@
 			
 	<jsp:include page="/WEB-INF/views/paging.jsp" />
 		
-	<c:if test="${sessionScope.level < 3 }">
+<%-- 	<c:if test="${sessionScope.level < 3 }"> --%>
 		<a class="btn-main btn-wr" href="${servletName}?cmd=insertPage">등록하기</a>
-	</c:if>
+<%-- 	</c:if> --%>
 </div>
 
 <%@ include file="/footer.jsp" %>

@@ -11,6 +11,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import Warehouse.WarehouseDTO;
 import fileLibrary.LoggableStatement;
 
 
@@ -30,6 +31,8 @@ public abstract class ParentDAO4<T, C> {
 	protected abstract String pk_Coulum_Name();
 	protected abstract int setDTONum(T dto);
 	// set Query / set DTO(rs)
+
+	protected abstract String innerQuery(T dto, C commonDTO);
 
 	protected abstract PreparedStatement selectPs(PreparedStatement ps, C commonDTO) throws SQLException; 
 	protected abstract String selectQuery(T dto, C commonDTO);
@@ -171,31 +174,35 @@ public abstract class ParentDAO4<T, C> {
 	}
 	
 	// Use paging 
-	public int getTotalCount() {
-		
-		int total = 0;
-		
-		try {
-			//자원을 가지러 가기 위해 문을 열고
-			Context ctx = new InitialContext();
-			//열어둔 문을 통해 어디로 갈지 경로를 정함
-	        DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
-	        
-	        String query ="select count(*) from " + tableName(); 
-	        
-	        try(Connection conn = dataFactory.getConnection();
-	        	PreparedStatement ps = conn.prepareStatement(query);	
-	        		ResultSet rs = ps.executeQuery()){
-	        	
-	        	if(rs.next()) { // count 1줄 return
-	        		total = rs.getInt(1);
-	        	}
-	        }
-		}catch (Exception e) {
-			e.printStackTrace();
+public int getTotalCount(T dto, C commonDTO) {
+			
+	int total = 0;
+			
+	try {
+		//자원을 가지러 가기 위해 문을 열고
+		Context ctx = new InitialContext();
+		//열어둔 문을 통해 어디로 갈지 경로를 정함
+		DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+		        
+		String query = "SELECT COUNT(*) FROM ( "
+		                 + innerQuery(dto, commonDTO)
+		                 + " )";
+		        
+		        try(Connection conn = dataFactory.getConnection();
+		        	PreparedStatement ps = conn.prepareStatement(query);	
+		        		ResultSet rs = ps.executeQuery()){
+		        	
+		        	if(rs.next()) { // count 1줄 return
+		        		total = rs.getInt(1);
+		        	}
+		        }
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+			return total;
 		}
-		return total;
-	}
+
+
 	
 	// SELECT QUERY 받아서 사용 
 		public List selectCustom() {
@@ -221,7 +228,7 @@ public abstract class ParentDAO4<T, C> {
 	public List selectJoinInfo() {
 			
 			List list = new ArrayList();
-			
+//			
 			try ( Connection conn = getConn(); ) {
 				
 				try (PreparedStatement ps = conn.prepareStatement(selectAllQuery()); // �삤�씪�겢�슜�쑝濡� 而댄뙆�씪

@@ -103,7 +103,7 @@ public class MachineryDAO extends ParentDAO4<MachineryDTO, CommonDTO>{
 			return dto;
 		}
 
-	String innerQuery(MachineryDTO dto, CommonDTO commonDTO) {
+	protected String innerQuery(MachineryDTO dto, CommonDTO commonDTO) {
 		String query =
 		           // join data
                  " SELECT tableA.*, tableB.name, tableB.code"
