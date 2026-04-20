@@ -138,7 +138,7 @@
 </head>
 <body>
 
-<%-- JSTL 연산 --%>
+<%-- JSTL 연산 영역 --%>
 <c:set var="productTotalPrice" value="0" />
 <c:forEach var="i" items="${map.product }">
     <c:set var="productTotalPrice" value="${productTotalPrice + i.mdmPrice }"/>
@@ -189,83 +189,69 @@
     </div>
 
     <div class="card">
-        <div class="card-tit">제품별 판매 점유율 (TOP 분석)</div>
-        <c:if test="${productTotalPrice > 0}">
-            <ul class="rank-list">
-                <c:forEach var="item" items="${map.product}" varStatus="status">
-                    <c:set var="percent" value="${(item.mdmPrice / productTotalPrice) * 100}" />
-                    <li class="rank-item">
-                        <div class="rank-name">${status.count}위. ${item.mdmName}</div>
-                        <div class="rank-bar-bg">
-                            <div class="rank-bar-fill" style="width: ${percent}%;">
-                                <fmt:formatNumber value="${percent}" pattern="0.0"/>%
-                            </div>
-                        </div>
-                        <div class="rank-val">
-                            <fmt:formatNumber value="${item.mdmPrice}" type="number"/> 원
-                        </div>
-                    </li>
-                </c:forEach>
+        <div class="card-tit">제품별 판매 점유율 (TOP3 분석)</div>
+        <ul class="rank-list" id="jsRankList">
             </ul>
-        </c:if>
-        <c:if test="${productTotalPrice == 0}">
-            <p style="color:var(--c-text-gray);">판매 데이터가 없습니다.</p>
-        </c:if>
     </div>
 </div>
 
-
-<div style="display: none;">
-    <h1>product</h1><br>
-    <c:forEach var="i" items="${map.product }">
-        <span>${i.mdmName }의 가격: </span><span>${i.mdmPrice }</span><br>
-    </c:forEach>
-    <span>product총 합계(총매출): </span><span>${productTotalPrice }</span><br>
-    <h1>사원급여</h1><br><span>${allPrice }</span><br>
-    <h1>assemble</h1><br>
-    <c:forEach var="i" items="${map.assemble }">
-        <span>${i.mdmName }의 가격: </span><span>${i.mdmPrice }</span><br>
-    </c:forEach>
-    <span>assemble총 합계: </span><span>${assembleTotalPrice }</span><br>
-    <h1>material</h1><br>
-    <c:forEach var="i" items="${map.material }">
-        <span>${i.mdmName }의 가격: </span><span>${i.mdmPrice }</span><br>
-    </c:forEach>
-    <span>material총 합계: </span><span>${materialTotalPrice }</span><br>
-    
-    <fmt:formatNumber var="totalMM" value="${totalM }" type="number"/>
-    <span>쓴 돈</span><span>${totalMM }</span>
-
-    <fmt:formatNumber var="totalMMM" value="${productTotalPrice - totalM}" type="number"/>
-    <span>순이익</span><span>${totalMMM}</span>   
-</div>
-
 <script>
+    // 1. 제품 데이터를 배열에 따로 담기
+    const productArr = [];
+    <c:forEach var="item" items="${map.product}">
+        productArr.push({
+            mdmName: "${item.mdmName}",
+            mdmPrice: Number("${item.mdmPrice}")
+        });
+    </c:forEach>
+
+    // 2. price 높은 순으로 정렬
+    productArr.sort((a, b) => b.mdmPrice - a.mdmPrice);
+
+    // 3. 상위 3개 출력
+    const totalPPrice = Number('${productTotalPrice}') || 1;
+    const rankUl = document.getElementById('jsRankList');
+    let rankHtml = '';
+
+    if (productArr.length > 0) {
+        // TOP 3만 추출
+        const top3 = productArr.slice(0, 3);
+        top3.forEach((item, index) => {
+            const percent = ((item.mdmPrice / totalPPrice) * 100).toFixed(1);
+            rankHtml += `
+                <li class="rank-item">
+                    <div class="rank-name">\${index + 1}위. \${item.mdmName}</div>
+                    <div class="rank-bar-bg">
+                        <div class="rank-bar-fill" style="width: \${percent}%;">
+                            \${percent}%
+                        </div>
+                    </div>
+                    <div class="rank-val">
+                        \${item.mdmPrice.toLocaleString()} 원
+                    </div>
+                </li>`;
+        });
+        rankUl.innerHTML = rankHtml;
+    } else {
+        rankUl.innerHTML = '<p style="color:var(--c-text-gray);">판매 데이터가 없습니다.</p>';
+    }
+
+    // --- 나머지 차트 로직 (매출추이 interaction 복구) ---
     const salesTotal = Number('${productTotalPrice}'.replace(/,/g, '')) || 0;
     const expensesTotal = Number('${totalM}'.replace(/,/g, '')) || 0;
     const profitNet = Math.max(0, salesTotal - expensesTotal);
 
-    // 생산 데이터 처리
     const targetQty = Number('${map.dto.target_quantity}'.replace(/,/g, '')) || 0;
     const currentQty = Number('${map.dto.currentCount}'.replace(/,/g, '')) || 0;
-    
-    // 불량 수량 (임의로 총 생산량의 2%로 계산)
     const defectQty = Math.floor(currentQty * 0.02); 
-    // 양품 수량 = 총 생산량 - 불량 수량
     const goodQty = currentQty - defectQty;
-
-    // 🔥 핵심 수정: 남은 목표량은 전체 생산량이 아닌 '양품'만을 기준으로 계산
     const remainingQty = (targetQty > goodQty) ? (targetQty - goodQty) : 0;
 
-    // 🔥 달성률 텍스트도 양품 기준으로 계산하여 화면에 반영
     const rateEl = document.getElementById('dynamicRate');
-    const goodEl = document.getElementById('dynamicGood');
-    const defectEl = document.getElementById('dynamicDefect');
-    
     if (rateEl && targetQty > 0) {
         rateEl.innerText = ((goodQty / targetQty) * 100).toFixed(2);
-        goodEl.innerText = goodQty.toLocaleString();
-        defectEl.innerText = defectQty.toLocaleString();
+        document.getElementById('dynamicGood').innerText = goodQty.toLocaleString();
+        document.getElementById('dynamicDefect').innerText = defectQty.toLocaleString();
     }
 
     const salesData = [salesTotal * 0.75, salesTotal * 0.88, salesTotal];
@@ -276,7 +262,7 @@
         profitNet
     ];
 
-    /* 1. 매출 현황 선 그래프 */
+    /* 매출 현황 선 그래프 - interaction 옵션 원복 */
     const ctxSales = document.getElementById('salesLineChart').getContext('2d');
     new Chart(ctxSales, {
         type: 'line',
@@ -316,8 +302,8 @@
             responsive: true,
             maintainAspectRatio: false,
             interaction: {
-                mode: 'index',
-                intersect: false, 
+                mode: 'index',   // 마우스 근처 영역만 가도 정보 표시
+                intersect: false, // 정확히 포인트에 안 올라가도 표시
             },
             scales: { 
                 y: { beginAtZero: true } 
@@ -325,20 +311,15 @@
         }
     });
 
-    /* 2. 생산 효율 도넛 차트 */
+    /* 생산 효율 도넛 차트 */
     const ctxDonut = document.getElementById('donutChart').getContext('2d');
-
     new Chart(ctxDonut, {
         type: 'doughnut',
         data: {
             labels: ['양품', '불량', '남은 목표량'],
             datasets: [{
                 data: [goodQty, defectQty, remainingQty],
-                backgroundColor: [
-                    '#43A047', // 양품 - 초록
-                    '#E53935', // 불량 - 빨강
-                    '#E0E0E0'  // 남은 목표 - 회색
-                ],
+                backgroundColor: ['#43A047', '#E53935', '#E0E0E0'],
                 borderWidth: 1,
                 borderColor: '#ffffff'
             }]
@@ -348,10 +329,7 @@
             maintainAspectRatio: false,
             cutout: '70%',
             plugins: {
-                legend: {
-                    position: 'right',
-                    labels: { boxWidth: 15 }
-                }
+                legend: { position: 'right', labels: { boxWidth: 15 } }
             }
         }
     });
