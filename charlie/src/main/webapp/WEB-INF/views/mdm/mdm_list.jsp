@@ -242,14 +242,19 @@
 	<div class="ctrl-box">
 		<form class="flt-fm" action="mdm?cmd=search" method="post">
 			<select class="c-sel" name="selectName">
-				<option value="" ${empty param.selectName ? 'selected' : ''}> 전체보기 </option>
+				<option value="" ${empty param.selectName ? 'selected' : ''}> --전체보기-- </option>
 				<c:forEach var="item" items="${ map.select1 }"> 
-					<option value="${item.type}" ${param.selectName == item.type ? 'selected' : ''}>${ item.type }</option>
+					<option value="${item.type}" ${param.selectName == item.type ? 'selected' : ''}>
+						<c:if test="${ item.type eq 'assemble' }">반제품</c:if>
+						<c:if test="${ item.type eq 'equip' }">장비</c:if>
+						<c:if test="${ item.type eq 'material' }">원재료</c:if>
+						<c:if test="${ item.type eq 'product' }">제품</c:if>
+					</option>
 				</c:forEach>
 			</select>
 			
 			<select class="c-sel" name="selectChk">
-				<option value="" ${empty param.selectChk ? 'selected' : ''}> 확인상태 </option>
+				<option value="" ${empty param.selectChk ? 'selected' : ''}> --확인상태-- </option>
 				<c:forEach var="item" items="${ map.select2 }">  
 					<option value="${item.canUse}" ${param.selectChk == item.canUse ? 'selected' : ''}>${ item.canUse }</option>
 				</c:forEach>
@@ -261,7 +266,7 @@
 		<form class="sch-fm" action="mdm?cmd=search" method="post" onsubmit="return validateSearch(this)">
 			<select class="c-sel" name="search_select">
 				<option value="search_all" ${param.search_select == 'search_all' || empty param.search_select ? 'selected' : ''}>전체</option>
-				<option value="code" ${param.search_select == 'code' ? 'selected' : ''}>코드</option>
+				<option  value="code" ${param.search_select == 'code' ? 'selected' : ''}>코드</option>
 				<option value="name" ${param.search_select == 'name' ? 'selected' : ''}>명칭</option>
 				<option value="unit" ${param.search_select == 'unit' ? 'selected' : ''}>단위</option>
 				<option value="type" ${param.search_select == 'type' ? 'selected' : ''}>타입</option>
@@ -311,7 +316,9 @@
 			
 	<jsp:include page="/WEB-INF/views/paging.jsp" />
 		
-	<a class="btn-main btn-wr" href="${servletName}?cmd=insertPage">등록하기</a>
+	<c:if test="${sessionScope.level < 3 }">
+		<a class="btn-main btn-wr" href="${servletName}?cmd=insertPage">등록하기</a>
+	</c:if>
 </div>
 
 <%@ include file="/footer.jsp" %>
