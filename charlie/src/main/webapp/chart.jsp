@@ -18,65 +18,99 @@
 <title>MES 경영 분석 리포트</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-    :root {
-        --c-main: #4B2C20;
-        --c-sub: #5C6BC0;
-        --c-bg: #f4f6f8;
-        --c-card: #ffffff;
-        --c-text: #2c3e50;
-        --c-text-gray: #7f8c8d;
-        --c-border: #e0e6ed;
+   :root {
+    --c-main: #4B2C20;
+    --c-sub: #5C6BC0;
+    --c-bg: #f4f6f8;
+    --c-card: #ffffff;
+    --c-text: #2c3e50;
+    --c-text-gray: #7f8c8d;
+    --c-border: #e0e6ed;
+}
+
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+}
+
+html, body {
+    /* 가로 스크롤 방지 핵심 */
+    max-width: 100%;
+    overflow-x: hidden; 
+}
+
+body {
+    background-color: var(--c-bg);
+    color: var(--c-text);
+    font-family: 'Noto Sans KR', sans-serif;
+    /* 고정 패딩 대신 반응형 패딩 사용 */
+    padding: 20px; 
+}
+
+.wrap { 
+    max-width: 1400px; 
+    margin: 0 auto; 
+    width: 100%; /* 너비 명시 */
+}
+
+.top-head {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--c-main);
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--c-main);
+}
+
+.grid-box {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px; /* vw 대신 고정 px 사용이 더 안정적임 */
+    margin-bottom: 20px;
+}
+
+.card {
+    background: var(--c-card);
+    border-radius: 0.8rem;
+    padding: 1.5rem; /* 패딩을 살짝 줄임 */
+    box-shadow: 0 0.4rem 1rem rgba(0,0,0,0.06);
+    /* 카드가 부모 너비를 넘지 않도록 설정 */
+    min-width: 0; 
+    overflow: hidden; 
+}
+
+.card-tit {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--c-text);
+}
+
+/* 차트 컨테이너 크기 최적화 */
+.chart-container {
+    position: relative;
+    width: 100%;
+    height: 350px; /* 고정 높이 혹은 vh 사용 */
+}
+
+/* 랭킹 리스트 가로 넘침 방지 */
+.rank-item { 
+    display: flex; 
+    align-items: center; 
+    margin-bottom: 1.2rem;
+    width: 100%; 
+}
+
+@media (max-width: 900px) {
+    .grid-box { 
+        grid-template-columns: 1fr; 
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-        background-color: var(--c-bg);
-        color: var(--c-text);
-        font-family: 'Noto Sans KR', sans-serif;
-        padding: 2vw;
-    }
-    .wrap { max-width: 1400px; margin: 0 auto; }
-    .top-head {
-        font-size: 2rem;
-        font-weight: bold;
-        color: var(--c-main);
-        text-align: center;
-        margin-bottom: 2rem;
-        padding-bottom: 1rem;
-        border-bottom: 2px solid var(--c-main);
-    }
-    .grid-box {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2vw;
-        margin-bottom: 2vw;
-    }
-    .card {
-        background: var(--c-card);
-        border-radius: 0.8rem;
-        padding: 2rem;
-        box-shadow: 0 0.4rem 1rem rgba(0,0,0,0.06);
-    }
-    .card-tit {
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 1.5rem;
-        color: var(--c-text);
-    }
-    .chart-info { text-align: center; margin-top: 1.5rem; font-size: 1.1rem; }
-    .chart-info strong { color: #43A047; font-size: 1.3rem; }
-    .chart-desc { font-size: 0.9rem; color: var(--c-text-gray); margin-top: 0.5rem; }
-    .rank-list { list-style: none; }
-    .rank-item { display: flex; align-items: center; margin-bottom: 1.2rem; }
-    .rank-name { width: 30%; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .rank-bar-bg { width: 50%; height: 1.8rem; background-color: var(--c-border); border-radius: 0.3rem; margin: 0 1rem; overflow: hidden; }
-    .rank-bar-fill { height: 100%; background-color: var(--c-sub); display: flex; align-items: center; padding-left: 0.5rem; color: #fff; font-size: 0.85rem; }
-    .rank-val { width: 20%; text-align: right; font-size: 0.95rem; color: var(--c-text-gray); }
-    @media (max-width: 900px) {
-        .grid-box { grid-template-columns: 100%; }
-        .rank-name { width: 35%; }
-        .rank-bar-bg { width: 40%; }
-        .rank-val { width: 25%; }
-    }
+    .rank-name { width: 30%; }
+    .rank-bar-bg { flex: 1; margin: 0 10px; } /* 유연하게 확장 */
+    .rank-val { width: auto; min-width: 80px; }
+}
 </style>
 </head>
 <body>
