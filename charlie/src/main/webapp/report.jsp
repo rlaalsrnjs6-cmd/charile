@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리포트 게시판</title>
+<title>보고서 게시판</title>
 
 <style>
 	/* 기본 초기화 */
@@ -173,7 +173,7 @@
 <%@ include file="header.jsp" %>
 
 <div class="rp-all">
-	
+	<h1 style="margin-bottom:2vh; color:#4B2C20;">보고서게시판</h1>
 	<form class="sch-fm" action="${pageContext.request.contextPath}/select.report" method="get">
 	    <input class="sch-in" type="text" name="selectTitle" placeholder="검색하실 제목을 입력하세요" value="${param.selectTitle}">
 	    <button class="btn-sch" type="submit">검색</button>

@@ -174,6 +174,7 @@
 	<%@ include file="/header.jsp" %>
 
 	<div class="mat-all">
+	<h1 style="margin-bottom:2vh; color:#4B2C20;">작업지시서</h1>
 		<div class="ctrl-box">
 			<form class="sch-fm" method="get" action="order">
 				<input type="hidden" name="mod" value="select">

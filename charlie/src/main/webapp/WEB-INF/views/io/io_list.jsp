@@ -139,8 +139,7 @@
 	.mdm-tb td {
 		font-weight: 700;
 		font-size: 0.95rem;
-			text-decoration: underline;
-	text-underline-offset: 5px;
+
 	}
 
 	.mdm-tb tbody tr:nth-child(even) { background-color: #fcfcfc; }
@@ -254,7 +253,8 @@
 <%@ include file="/header.jsp" %>
 
 <div class="mdm-all">
-	<div class="ctrl-box">
+<h1 style="margin-bottom:2vh; color:#4B2C20;">입출고이력</h1>
+<!-- 	<div class="ctrl-box"> -->
 <!-- 		<form class="flt-fm" action="mdm?cmd=search" method="post" onsubmit="return validateSearch(this)"> -->
 			
 <!-- 			<div class="left-box"> -->
@@ -293,7 +293,7 @@
 <!-- 				<input class="btn-main" type="submit" value="상세검색"> -->
 <!-- 			</div> -->
 <!-- 		</form> -->
-	</div>
+<!-- 	</div> -->
 	
 	<div class="tb-wrap">
 		<table class="mdm-tb">

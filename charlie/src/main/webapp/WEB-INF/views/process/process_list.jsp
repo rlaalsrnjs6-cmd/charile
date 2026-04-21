@@ -165,6 +165,7 @@
     <%@ include file="/header.jsp" %>
 
     <div class="proc-all">
+    <h1 style="margin-bottom:2vh; color:#4B2C20;">공정관리</h1>
         <div class="ctrl-box">
             <form class="flt-fm" action="process?cmd=search" method="post">
                 <select class="c-sel" name="selectName">

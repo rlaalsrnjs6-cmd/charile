@@ -176,6 +176,7 @@
 <%@ include file="header.jsp" %>
 
 <div class="pm-all">
+<h1 style="margin-bottom:2vh; color:#4B2C20;">생산관리</h1>
 	<form class="sch-fm" action="${pageContext.request.contextPath}/production/management" method="get">
 	    <input class="sch-in" type="text" name="selectTitle" placeholder="검색하실 제목을 입력하세요" value="${param.selectTitle}">
 	    <button class="btn-sch" type="submit">검색</button>

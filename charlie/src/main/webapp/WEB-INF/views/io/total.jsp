@@ -257,7 +257,7 @@
 
 <div class="mdm-all">
 
-    <h1 style="margin-bottom:2vh; color:#4B2C20;">자재관리</h1>
+    <h1 style="margin-bottom:2vh; color:#4B2C20;">자재목록</h1>
 
     <div class="tb-wrap">
         <table class="mdm-tb">
