@@ -12,8 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import Defective.DefectiveDTO;
 import Defective.DefectiveService;
-import Material.MaterialDTO;
-import Material.MaterialService;
 import WorkOrder.WorkOrderDTO;
 import WorkOrder.WorkOrderService;
 import fileLibrary.CommonDTO;
