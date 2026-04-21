@@ -33,7 +33,7 @@
 		width: 95vw;
 		max-width: 1400px;
 		margin: 3vh auto;
-		min-height: 75vh;
+		min-height: 78.2vh;
 	}
 
 	/* [3] 상단 컨트롤 영역 (필터 + 검색) */
@@ -140,8 +140,8 @@
 	.mdm-tb td {
 		font-weight: 700;
 		font-size: 0.95rem;
-			text-decoration: underline;
-	text-underline-offset: 5px;
+/* 			text-decoration: underline; */
+/* 	text-underline-offset: 5px; */
 	}
 
 	.mdm-tb tbody tr:nth-child(even) { background-color: #fcfcfc; }
