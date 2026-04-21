@@ -201,6 +201,7 @@
 	<%@ include file="/header.jsp" %>
 
 	<div class="bom-all">
+	<h1 style="margin-bottom:2vh; color:#4B2C20;">BOM관리</h1>
 		<div class="ctrl-box">
 			<form class="sch-fm" action="bom?cmd=search" method="post" id="schForm">
 				<select class="c-sel" name="selectName">

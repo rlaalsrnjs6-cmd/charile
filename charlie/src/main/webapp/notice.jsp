@@ -136,6 +136,7 @@ response.setContentType("text/html; charset=utf-8;"); %>
 <%@ include file="header.jsp" %>
 
 <div class="notice-all" >
+<h1 style="margin-bottom:2vh; color:#4B2C20;">공지사항</h1>
 <table class="nt-tb">
 	<tr>
 		<th>NO</th>

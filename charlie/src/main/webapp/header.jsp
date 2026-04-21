@@ -277,7 +277,7 @@ html, body {
 				<c:if test="${sessionScope.level < 3}">				
 				</c:if>
 				<li><a href="${pageContext.request.contextPath}/io">입출고이력</a></li>
-				<li><a href="${pageContext.request.contextPath}/io?cmd=total">자재관리</a></li>
+				<li><a href="${pageContext.request.contextPath}/io?cmd=total">자재목록</a></li>
 								<li><a href="${pageContext.request.contextPath}/mdm">기준관리</a></li>
 				<li><a href="${pageContext.request.contextPath}/order">작업지시서</a></li>
 				<li><a href="${pageContext.request.contextPath}/production/management">생산관리</a></li>

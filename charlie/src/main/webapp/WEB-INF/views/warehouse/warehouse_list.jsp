@@ -165,6 +165,7 @@
     <%@ include file="/header.jsp" %>
 
     <div class="wh-all">
+    <h1 style="margin-bottom:2vh; color:#4B2C20;">창고관리</h1>
         <div class="ctrl-box">
             <form class="flt-fm" action="warehouse?cmd=search" method="post">
                 <select class="c-sel" name="selectName">

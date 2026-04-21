@@ -137,9 +137,11 @@
 </head>
 <body>
 <div class="mat-all">
+
     <%@ include file="/header.jsp" %>
 
     <div class="lot-all">
+    <h1 style="margin-bottom:2vh; color:#4B2C20;">로트관리</h1>
         <div class="ctrl-box">
             <form class="sch-fm" action="lot?mod=search" method="post" onsubmit="return validateSearch(this)">
                 <select class="c-sel" name="search_select" id="searchSelect">

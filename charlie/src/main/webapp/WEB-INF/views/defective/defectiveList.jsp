@@ -159,9 +159,11 @@
 </head>
 <body>
 <div class="mat-all">
+
 	<%@ include file="/header.jsp"%>
 
 	<div class="def-all">
+	<h1 style="margin-bottom:2vh; color:#4B2C20;">불량품관리</h1>
 		<div class="ctrl-box">
 			<form class="flt-fm" method="get" action="defective" id="searchForm">
 				<select class="c-sel" id="select" name="category">
