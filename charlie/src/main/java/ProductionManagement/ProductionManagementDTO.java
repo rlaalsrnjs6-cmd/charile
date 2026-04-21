@@ -17,7 +17,7 @@ public class ProductionManagementDTO {
 		this.selectTitle = selectTitle;
 	}
 
-	int prod_num;
+	int prod_num = -1;
 	int target_quantity;
 	Date work_start;
 	Date work_end;
@@ -136,15 +136,17 @@ public class ProductionManagementDTO {
 	public void setRemainCount(int remainCount) {
 		this.remainCount = remainCount;
 	}
-	
 	@Override
 	public String toString() {
-		return "ProductionManagementDTO [currentCount=" + currentCount + ", remainCount=" + remainCount + ", mdmNum="
-				+ mdmNum + ", mdmName=" + mdmName + ", selectTitle=" + selectTitle + ", prod_num=" + prod_num
-				+ ", target_quantity=" + target_quantity + ", work_start=" + work_start + ", work_end=" + work_end
-				+ ", title=" + title + ", content=" + content + ", code=" + code + ", empno=" + empno + ", size=" + size
-				+ ", page=" + page + ", start=" + start + ", end=" + end + "]";
+		return "ProductionManagementDTO [currentCount=" + currentCount + ", remainCount=" + remainCount + ", mdmName="
+				+ mdmName + ", selectTitle=" + selectTitle + ", prod_num=" + prod_num + ", target_quantity="
+				+ target_quantity + ", work_start=" + work_start + ", work_end=" + work_end + ", title=" + title
+				+ ", content=" + content + ", code=" + code + ", empno=" + empno + ", mdm_num=" + mdm_num + ", size="
+				+ size + ", page=" + page + ", start=" + start + ", end=" + end + "]";
 	}
+
+	
+	
 	
 
 	

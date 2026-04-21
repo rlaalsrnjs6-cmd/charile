@@ -1,6 +1,6 @@
 =\=\=\=\=\=\=
 <<<<<<<=HEAD
->>>>>>>=ad569beedbe96bf466e6cf99ac666d4b34726bc2
+>>>>>>>=1bb6ffbd41e8aa075a6274d64cec33fffceb00f6
 eclipse.preferences.version=1
 encoding//src/main/java/Bom/BomDAO.java=UTF-8
 encoding//src/main/java/Bom/BomService.java=UTF-8
@@ -30,9 +30,7 @@ encoding//src/main/java/fileLibrary/ParentDAO.java=UTF-8
 encoding//src/main/java/fileLibrary/ParentDAO2.java=UTF-8
 encoding//src/main/java/fileLibrary/ParentDAO3.java=UTF-8
 encoding//src/main/java/fileLibrary/ParentDAO4.java=UTF-8
+encoding//src/main/java/io/IoDAO.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/emp/emp_signin.jsp=UTF-8
-<<<<<<< HEAD
 encoding//src/main/webapp/WEB-INF/views/io/total.jsp=UTF-8
-=======
 encoding//src/main/webapp/chart.jsp=UTF-8
->>>>>>> 1bb6ffbd41e8aa075a6274d64cec33fffceb00f6

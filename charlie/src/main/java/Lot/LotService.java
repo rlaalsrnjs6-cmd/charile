@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import Defective.DefectiveDAO;
-import Defective.DefectiveDTO;
-import WorkOrder.WorkOrderDAO;
+import ProductionManagement.ProductionManagementDAO;
+import ProductionManagement.ProductionManagementDTO;
 import WorkOrder.WorkOrderDTO;
 import fileLibrary.CommonDTO;
-import fileLibrary.ParentService;
+import io.IoService;
 
 public class LotService{
 
@@ -69,8 +68,27 @@ public class LotService{
 	
 	public int lotService(LotDTO dto){
 		LotDAO dao = new LotDAO();
+		ProductionManagementDAO pmDAO = new ProductionManagementDAO();
 		WorkOrderDTO order = dao.selectallll(dto);
+		int pmProd = order.getProd_num();
+		System.out.println(pmProd);
+		System.out.println(" 제품 개수 확인 " + dto.getLot_count());
+		ProductionManagementDTO pmDTO = new ProductionManagementDTO();
+		pmDTO.setProd_num(pmProd);
+		List pmlist = pmDAO.selectall(pmDTO);
+		ProductionManagementDTO mdmInPmDTO = (ProductionManagementDTO) pmlist.get(0);
+		// 이거 전달인자로 줘서 넘기자 insert 하면 끄탄ㅁ
+		
+		int mdm_num = mdmInPmDTO.getMdm_num();
+		System.out.println("qttqqtqtqtqtqtqtqtqtqtqt"+mdm_num);
 		int list = dao.lotDAO(dto, order);
+		System.out.println("로트생성");
+		System.out.println("로트생성");
+		System.out.println("로트생성");
+		System.out.println("로트생성");
+		System.out.println("로트생성");
+		System.out.println("로트생성");
+		dao.ioInsert(order, mdmInPmDTO);
 		return list ;
 	}
 	

@@ -21,7 +21,7 @@ import WorkOrder.WorkOrderDTO;
 public class ProductionManagementDAO {
 	private DataSource dataFactory; //캡슐화를 위해 private
 	
-	ProductionManagementDAO(){
+	public ProductionManagementDAO(){
 		try {
 			Context ctx = new InitialContext();
 			dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
@@ -145,7 +145,7 @@ public class ProductionManagementDAO {
 		}
 	
 	public List<ProductionManagementDTO> selectall(ProductionManagementDTO dto) {
-		List<ProductionManagementDTO> list = new ArrayList();
+		List<ProductionManagementDTO> list22 = new ArrayList();
 		
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -156,9 +156,16 @@ public class ProductionManagementDAO {
 			
 			DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
 			conn = dataFactory.getConnection();
-			String query = "SELECT * from production_management";
-			
+			String query = "SELECT * from production_management ";
+			if(dto.getProd_num() != -1) {
+				query += "where prod_num = ?";
+			}
 			ps = conn.prepareStatement(query);
+			System.out.println("급핵듭핵드비ㅏㅜㅁㅇㄷ읍ㅈ"+dto.getProd_num());
+			if(dto.getProd_num() != -1) {
+				ps.setInt(1, dto.getProd_num());
+			}
+			
 			rs = ps.executeQuery();
 			
 			while (rs.next()) {
@@ -170,7 +177,8 @@ public class ProductionManagementDAO {
 				int empno = rs.getInt("empno");
 				String title = rs.getString("title");
 				String content = rs.getString("content");
-				
+				int mdm_num = rs.getInt("mdm_num");
+				System.out.println("tl;qkglahdskj좆같네"+mdm_num);
 				DTO.setProd_num(prod_num);
 				DTO.setTarget_quantity(weekly_target);
 				DTO.setWork_start(work_start);
@@ -178,9 +186,14 @@ public class ProductionManagementDAO {
 				DTO.setEmpno(empno);
 				DTO.setTitle(title);
 				DTO.setContent(content);
-				list.add(DTO);
+				DTO.setMdm_num(mdm_num);
+				System.out.println("tlqfktlqkftlqkf"+DTO.getMdm_num());
+				
+				list22.add(DTO);
+				System.out.println("존나답답하네시이발"+list22.get(0).getMdm_num());
 			}
 			
+			System.out.println("tlqfktlqkftlqkf2222"+list22);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -206,7 +219,7 @@ public class ProductionManagementDAO {
 				}
 			}
 		}
-		return list;
+		return list22;
 	}
 	
 }///클래스 닫음

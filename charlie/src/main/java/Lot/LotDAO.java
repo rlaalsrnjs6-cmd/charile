@@ -11,6 +11,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import ProductionManagement.ProductionManagementDTO;
 import WorkOrder.WorkOrderDTO;
 import fileLibrary.CommonDTO;
 
@@ -265,10 +266,12 @@ public class LotDAO {
 				int order_num = rs.getInt("order_num");
 				int daily_target = rs.getInt("daily_target");
 				String work_order_title = rs.getString("work_order_title");
+				int prod_num = rs.getInt("prod_num");
 				
 				DTO.setOrder_num(order_num);
 				DTO.setDaily_target(daily_target);
 				DTO.setWork_order_title(work_order_title);
+				DTO.setProd_num(prod_num);
 				result = DTO;
 			}
 			
@@ -488,4 +491,65 @@ public int getTotalCount() {
 	}
 	return total;
 }
+
+public int ioInsert(WorkOrderDTO wo,ProductionManagementDTO pm ) {
+	int result = -1;
+	
+	Connection conn = null;
+	PreparedStatement ps = null;
+	ResultSet rs = null;
+	
+	try {
+		Context ctx = new InitialContext();
+		
+		DataSource dataFactory = (DataSource) ctx.lookup("java:/comp/env/jdbc/charlie");
+//		System.out.println("DAOMODselect:"+dto.getMod());
+		conn = dataFactory.getConnection();
+		String query = "insert into io "
+				+ "(io_num, io_type, storage_sec, exp_date, quantity, mdm_num) "
+				+ "values ( "
+				+ "io_seq.nextval, "
+				+ "'IN', "
+				+ "null, "
+				+ "null, "
+				+ "?, "
+				+ "?) ";
+			
+System.out.println("rjqlalsdjhkljlkjqwlkhasd"+wo.getDaily_target());
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, wo.getDaily_target());
+			ps.setInt(2, pm.getMdm_num());
+		
+		result = ps.executeUpdate();
+		
+		System.out.println("orderDAO:" + result);
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if (ps != null) {
+			try {
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if (conn != null) {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	return result;
+}
+
 }

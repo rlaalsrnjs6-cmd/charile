@@ -13,7 +13,7 @@ import fileLibrary.ParentDAO4;
 
 public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
 	
-	// set Table 정보 
+	// set Table �젙蹂� 
 	@Override
 	protected String tableName() {
 		return "io";
@@ -44,18 +44,18 @@ public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
 		 String where = commonDTO.getWhere();
 		 if(("".equals(commonDTO.getWhere()))) where = " WHERE 1 = 1 ";  
 		 
-		 // 가변 조건
+		 // 媛�蹂� 議곌굔
 		 if(commonDTO.getSearch() != null
 				 && !"".equals(commonDTO.getSearch())) {
 		
 		switch(commonDTO.getSelector()) {
 			
-		// 전체검색
+		// �쟾泥닿��깋
 		case "search_all": where += " AND code LIKE " 
 									+ "'%" + commonDTO.getSearch() + "%'"
 									+ " or name LIKE '%" + commonDTO.getSearch() + "%'" 
 									+ " or unit LIKE '%" + commonDTO.getSearch() + "%'"
-		/* 컬럼별 검색 */			    + " or type LIKE '%" + commonDTO.getSearch() + "%'"; break;	
+		/* 而щ읆蹂� 寃��깋 */			    + " or type LIKE '%" + commonDTO.getSearch() + "%'"; break;	
 		case "code" : where += " AND code LIKE '%" +  commonDTO.getSearch() + "%'"; break;
 		case "name" : where += " AND name LIKE '%" +  commonDTO.getSearch() + "%'"; break;
 		case "unit" : where += " AND unit LIKE '%" +  commonDTO.getSearch() + "%'"; break;
@@ -72,7 +72,7 @@ public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
    if (where3 == null || "".equals(where3)) {
    	where3 = "";
    }
-	// 추가 내용
+	// 異붽� �궡�슜
 	query += where
 		  +  where2
 	      +  where3;
@@ -91,7 +91,7 @@ public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
 		String query = " SELECT * FROM ( "
 					 + "	 SELECT rownum as rnum, subqry.* from ( "
 					 + innerQuery(dto, commonDTO)
-					 +" ORDER BY " + orderBy
+					 +" ORDER BY " + orderBy + " DESC "
 					 + " ) subqry )"
 		 	  +" WHERE rnum >= ? AND rnum <= ?" ;
 		return query;
@@ -150,7 +150,7 @@ public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
 		return dto;
 	}
 
-	@Override // 고정 사용 CONST
+	@Override // 怨좎젙 �궗�슜 CONST
 	protected PreparedStatement selectPs(PreparedStatement ps, CommonDTO commonDTO) throws SQLException {
 		
 		ps.setInt(1, commonDTO.getStart());
@@ -158,7 +158,7 @@ public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
 		return ps;
 	}
 	
-	// SELECT QUERY 받아서 사용 
+	// SELECT QUERY 諛쏆븘�꽌 �궗�슜 
 		public List selectCustom() {
 			
 			List list = new ArrayList();
