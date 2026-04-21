@@ -312,7 +312,7 @@ response.setContentType("text/html; charset=utf-8;");
 				<c:forEach var="i" items="${map.dn}">
 					<c:choose>
 						<c:when test="${i.dsStatus == 1 }">
-							<span>[${i.dsLine }]</span>
+							<span>${i.dsLine }</span>
 							<span>${i.dsDate }일 점검 예정</span>
 							<br>
 						</c:when>
