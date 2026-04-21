@@ -141,12 +141,12 @@
 			
 			<div class="log-row">
 				<span class="log-lb">아이디</span>
-				<input type="text" name="id" class="log-in" placeholder="id를 입력하세요" value="admin123">
+				<input type="text" name="id" class="log-in" placeholder="id를 입력하세요" value="">
 			</div>
 			
 			<div class="log-row">
 				<span class="log-lb">비밀번호</span>
-				<input type="password" name="pw" class="log-in" placeholder="pw를 입력하세요" value="Admin123@">
+				<input type="password" name="pw" class="log-in" placeholder="pw를 입력하세요" value="">
 			</div>
 			
 			<button type="submit" class="btn-log">로그인</button>

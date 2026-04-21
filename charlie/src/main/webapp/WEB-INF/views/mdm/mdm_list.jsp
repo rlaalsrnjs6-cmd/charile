@@ -19,10 +19,12 @@
 	}
 	
 	a {
-		text-decoration: none;
+/* 		text-decoration: none; */
 		color: inherit;
 	}
-
+	.abcd{
+		text-decoration: underline !important;
+	}
 	hr {
 		display: none;
 	}
@@ -139,7 +141,7 @@
 	.mdm-tb td {
 		font-weight: 700;
 		font-size: 0.95rem;
-			text-decoration: underline;
+/* 			text-decoration: underline; */
 	text-underline-offset: 5px;
 	}
 
@@ -305,6 +307,7 @@
 					<th>기준명칭</th>
 					<th>기준단위</th>
 					<th>타입</th>
+					
 					<th>기준가격(원)</th>
 					<th>가용 여부</th>
 				</tr>
@@ -315,8 +318,8 @@
 				<tr>
 					<td data-label="관리번호">${ row.mdm_num }</td>
 					<td data-label="관리코드">${ row.code }</td>
-					<td data-label="명칭">
-						<a href="mdm?cmd=detail&mdm_num=${ row.mdm_num }">
+					<td data-label="명칭" clss="abcd">
+						<a clss="abcd" href="mdm?cmd=detail&mdm_num=${ row.mdm_num }">
 							<c:if test="${ empty row.name }"> Null </c:if>
 							<c:if test="${ not empty row.name }"> ${ row.name } </c:if>
 						</a>
