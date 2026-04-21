@@ -68,14 +68,10 @@ public class LotControll extends HttpServlet {
 		} else {
 			System.out.println("입장~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 			WorkOrderService ordersv = new WorkOrderService();
-			MaterialService materialsv = new MaterialService();
 			WorkOrderDTO orderDTO = new WorkOrderDTO();
-			MaterialDTO materialDTO = new MaterialDTO();
 			List<LotDTO> lot = service.selectall(lotDTO);
 			List order = ordersv.selectalll(orderDTO);
-			List material = materialsv.selectall(materialDTO);
 			request.setAttribute("order", order);
-			request.setAttribute("material", material);
 			request.setAttribute("lot", lot);
 			System.out.println("lot에 order"+order);
 				if ("up".equals(mod)) {
@@ -113,18 +109,15 @@ public class LotControll extends HttpServlet {
 		String slot_count = request.getParameter("lot_count");
 		String sorder_num = request.getParameter("order_num");
 		String qc_chk = request.getParameter("qc_chk");
-		String smaterial_num = request.getParameter("material_num");
 		String mod = request.getParameter("mod");
 		int lot_num = Integer.parseInt(slot_num);
 		int lot_count = Integer.parseInt(slot_count);
 		int order_num = Integer.parseInt(sorder_num);
-		int material_num = Integer.parseInt(smaterial_num);
 		LotDTO lotDTO = new LotDTO();
 		lotDTO.setLot_num(lot_num);
 		lotDTO.setLot_count(lot_count);
 		lotDTO.setOrder_num(order_num);
 		lotDTO.setQc_chk(qc_chk);
-		lotDTO.setMaterial_num(material_num);
 		lotDTO.setMod(mod);
 		LotService service = new LotService();
 		service.lotService(lotDTO);
