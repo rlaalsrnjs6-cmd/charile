@@ -10,8 +10,8 @@ public class CommonDTO {
 	
 	// QUERY
 	String where="";
-	String where2="";
-	String where3="";
+//	String where2="";
+//	String where3="";
 	String groupBy="";
 	String orderBy=""; // set column Name
 	int paramCnt = 0; // ? 개수 세는 것
@@ -36,18 +36,18 @@ public class CommonDTO {
 	
 	
 	
-	public String getWhere2() {
-		return where2;
-	}
-	public void setWhere2(String where2) {
-		this.where2 = where2;
-	}
-	public String getWhere3() {
-		return where3;
-	}
-	public void setWhere3(String where3) {
-		this.where3 = where3;
-	}
+//	public String getWhere2() {
+//		return where2;
+//	}
+//	public void setWhere2(String where2) {
+//		this.where2 = where2;
+//	}
+//	public String getWhere3() {
+//		return where3;
+//	}
+//	public void setWhere3(String where3) {
+//		this.where3 = where3;
+//	}
 	public int getParamCnt() {
 		return paramCnt;
 	}

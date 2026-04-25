@@ -9,9 +9,9 @@ import java.util.List;
 
 import fileLibrary.CommonDTO;
 import fileLibrary.LoggableStatement;
-import fileLibrary.ParentDAO4;
+import fileLibrary.ParentDAO5;
 
-public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
+public class IoDAO extends ParentDAO5<IoDTO> {
 	
 	// set Table �젙蹂� 
 	@Override
@@ -40,11 +40,10 @@ public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
 				 + " JOIN mdm m "
 				 + " ON i.mdm_num = m.mdm_num ";
 			
-		 // SET WHERE
-		 String where = commonDTO.getWhere();
-		 if(("".equals(commonDTO.getWhere()))) where = " WHERE 1 = 1 ";  
+		
+		 String where = whereMain(commonDTO);
 		 
-		 // 媛�蹂� 議곌굔
+		 // SET SEARCH 검색어
 		 if(commonDTO.getSearch() != null
 				 && !"".equals(commonDTO.getSearch())) {
 		
@@ -64,6 +63,7 @@ public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
 		}
 	}
 	
+		 
 	String where2 = commonDTO.getWhere2();
    if (where2 == null || "".equals(where2)) {
        where2 = "";
@@ -81,22 +81,6 @@ public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
 		return query;
 	}
 	
-	@Override
-	protected String selectQuery(IoDTO dto, CommonDTO commonDTO) {
-		// SET ORDERBY
-		String orderBy = pk_Coulum_Name();
-		if ( commonDTO.getOrderBy() != null ) orderBy = commonDTO.getOrderBy();
-			
-		// SET QUERY
-		String query = " SELECT * FROM ( "
-					 + "	 SELECT rownum as rnum, subqry.* from ( "
-					 + innerQuery(dto, commonDTO)
-					 +" ORDER BY " + orderBy + " DESC "
-					 + " ) subqry )"
-		 	  +" WHERE rnum >= ? AND rnum <= ?" ;
-		return query;
-		
-	}
 	
 
 	@Override
@@ -197,41 +181,6 @@ public class IoDAO extends ParentDAO4<IoDTO, CommonDTO> {
 			System.out.println("/DAO select list : " + list);
 			return list;
 		}
-		
-//		public List selectCustom2() {
-//			
-//			List list = new ArrayList();
-//			
-//			try ( Connection conn = getConn();
-//					PreparedStatement ps = new LoggableStatement(conn, 
-//							"SELECT  "
-//							+ "    m.mdm_num, "
-//							+ "    m.name, "
-//							+ "    SUM(i.quantity) AS total_quantity, "
-//							+ "    SUM(i.quantity * m.price) AS total_price "
-//							+ "FROM mdm m "
-//							+ "JOIN io i  "
-//							+ "    ON m.mdm_num = i.mdm_num "
-//							+ "WHERE m.type IN ('assemble', 'material', 'product') "
-//							+ "GROUP BY m.mdm_num, m.name "
-//							); ) {
-//				try (  ResultSet rs = ps.executeQuery(); ) { // 
-//					
-//					while (rs.next()) {
-//						
-//						IoDTO dto = new IoDTO();
-////						dto.setCanUse(rs.getString("canuse"));
-//						
-//						list.add(dto);
-//					}
-//				}
-//				
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			System.out.println("/DAO select listSize : " + list.size());
-//			return list;
-//		}
 		
 	
 	// join 

@@ -267,15 +267,15 @@ public class IoController extends HttpServlet {
 			commonDTO.setSelector(request.getParameter("search_select"));
 			commonDTO.setSearch(request.getParameter("search_content"));
 
-			String where2 = request.getParameter("selectName");
-			if (where2!=null && !"".equals(where2)) { 
-				commonDTO.setWhere2("AND type = '" + where2 + "'") ; 
-				}
-			
-			String where3 = request.getParameter("selectChk");
-			if (where3!=null && !"".equals(where3)) { 
-				commonDTO.setWhere3("AND canUse = '" + where3 + "'") ; 
-			}
+//			String where2 = request.getParameter("selectName");
+//			if (where2!=null && !"".equals(where2)) { 
+//				commonDTO.setWhere2("AND type = '" + where2 + "'") ; 
+//				}
+//			
+//			String where3 = request.getParameter("selectChk");
+//			if (where3!=null && !"".equals(where3)) { 
+//				commonDTO.setWhere3("AND canUse = '" + where3 + "'") ; 
+//			}
 		}
 		
 		// orderBy [ column ]
